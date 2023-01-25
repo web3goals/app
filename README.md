@@ -1,7 +1,5 @@
 # Web3 Goals App
 
-🔗 Demo - ...
-
 ## Commands
 
 - Install dependencies - `npm install`
