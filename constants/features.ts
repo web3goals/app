@@ -1,0 +1,1 @@
+export const IS_LOCALHOST_ANALYTICS_DISABLED = true;
