@@ -104,7 +104,7 @@ export const goalContractAbi = [
           },
           {
             internalType: "uint256",
-            name: "authorFee",
+            name: "authorStake",
             type: "uint256",
           },
           {
@@ -358,7 +358,7 @@ export const goalContractAbi = [
           },
           {
             internalType: "uint256",
-            name: "authorFee",
+            name: "authorStake",
             type: "uint256",
           },
           {
@@ -603,7 +603,7 @@ export const goalContractAbi = [
       },
       {
         internalType: "uint256",
-        name: "fee",
+        name: "stake",
         type: "uint256",
       },
       {
