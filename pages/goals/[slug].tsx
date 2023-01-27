@@ -1,5 +1,6 @@
 import GoalActions from "components/goal/GoalActions";
 import GoalParams from "components/goal/GoalParams";
+import GoalWatchers from "components/goal/GoalWatchers";
 import Layout from "components/layout";
 import { CentralizedBox, FullWidthSkeleton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -92,6 +93,12 @@ export default function Goal() {
                 refetchGoalWatchers();
               }}
               sx={{ mt: 4 }}
+            />
+            <GoalWatchers
+              id={goalId}
+              authorAddress={goalParams.authorAddress}
+              watchers={goalWatchers}
+              sx={{ mt: 6 }}
             />
           </>
         ) : (
