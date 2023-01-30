@@ -13,8 +13,6 @@ export default function GoalWatchers(props: {
   watchers: readonly any[];
   sx?: SxProps;
 }) {
-  console.log(props.watchers);
-
   return (
     <Box sx={{ width: 1, ...props.sx }}>
       <ThickDivider sx={{ mb: 4 }} />
