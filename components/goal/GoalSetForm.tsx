@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import {
   dateToBigNumberTimestamp,
   numberToBigNumberEthers,
+  stringToAddress,
 } from "utils/converters";
 import { getContractsChain } from "utils/network";
 import {
@@ -64,7 +65,7 @@ export default function GoalSetForm(props: {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS,
+      address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
       abi: goalContractAbi,
       functionName: "set",
       args: [
@@ -115,7 +116,7 @@ export default function GoalSetForm(props: {
    * Listen contract events to get id of set goal.
    */
   useContractEvent({
-    address: process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS,
+    address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
     abi: goalContractAbi,
     eventName: "Transfer",
     listener(from, to, tokenId) {

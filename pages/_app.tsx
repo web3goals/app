@@ -23,7 +23,9 @@ import "../styles/globals.css";
 const { chains, provider } = configureChains(
   [getContractsChain()],
   [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID }),
+    ...(process.env.NEXT_PUBLIC_ALCHEMY_ID
+      ? [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID })]
+      : []),
     publicProvider(),
   ]
 );

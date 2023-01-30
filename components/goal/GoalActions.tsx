@@ -7,6 +7,7 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import { useContext, useEffect } from "react";
+import { stringToAddress } from "utils/converters";
 import { getContractsChain } from "utils/network";
 import {
   useContractWrite,
@@ -42,7 +43,7 @@ function GoalWatchButton(props: { id: string; onSuccess?: Function }) {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS,
+      address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
       abi: goalContractAbi,
       functionName: "watch",
       args: [BigNumber.from(props.id)],
