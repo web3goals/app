@@ -46,3 +46,15 @@ export function dateToBigNumberTimestamp(date?: string): BigNumber {
   }
   return BigNumber.from(new Date(date).getTime() / 1000);
 }
+
+/**
+ * Convert date like "1677628800" to string "3/1/2023".
+ */
+export function bigNumberTimestampToLocaleDateString(
+  bigNumberTimestamp?: BigNumber
+): string {
+  if (!bigNumberTimestamp) {
+    return "Unknown";
+  }
+  return new Date(bigNumberTimestamp.toNumber() * 1000).toLocaleDateString();
+}

@@ -6,7 +6,10 @@ import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useEffect, useState } from "react";
-import { addressToShortAddress } from "utils/converters";
+import {
+  addressToShortAddress,
+  bigNumberTimestampToLocaleDateString,
+} from "utils/converters";
 import { getContractsChain } from "utils/network";
 
 /**
@@ -53,9 +56,7 @@ export default function GoalParams(props: {
       {/* Created timestamp */}
       <WidgetBox title="On" color="#E97E27" sx={{ mb: 2 }}>
         <WidgetTypography>
-          {new Date(
-            props.createdTimestamp.toNumber() * 1000
-          ).toLocaleDateString()}
+          {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
         </WidgetTypography>
       </WidgetBox>
       {/* Author address */}
@@ -90,9 +91,7 @@ export default function GoalParams(props: {
       {/* Deadline timestamp */}
       <WidgetBox title="On" color="#410C92" sx={{ mb: 2 }}>
         <WidgetTypography>
-          {new Date(
-            props.deadlineTimestamp.toNumber() * 1000
-          ).toLocaleDateString()}
+          {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
         </WidgetTypography>
       </WidgetBox>
       {/* Text divider */}
