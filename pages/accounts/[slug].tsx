@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import AccountBio from "components/account/AccountBio";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ export default function Account() {
     <Layout>
       {slug && (
         <CentralizedBox>
-          <Typography textAlign="center">{slug}</Typography>
+          <AccountBio address={slug as string} />
         </CentralizedBox>
       )}
     </Layout>
