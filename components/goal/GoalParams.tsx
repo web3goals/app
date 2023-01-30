@@ -2,9 +2,10 @@ import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { WidgetLink, WidgetTypography } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
+import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
+import useGoal from "hooks/useGoal";
 import { useEffect, useState } from "react";
 import {
   addressToShortAddress,
@@ -27,12 +28,12 @@ export default function GoalParams(props: {
   sx?: SxProps;
 }) {
   const { handleError } = useError();
-  const { loadJsonFromIpfs } = useIpfs();
-  const [uriData, setUriData] = useState<any>();
+  const { loadGoalUriData } = useGoal();
+  const [uriData, setUriData] = useState<GoalUriDataEntity | undefined>();
 
   useEffect(() => {
     setUriData(undefined);
-    loadJsonFromIpfs(props.uri)
+    loadGoalUriData(props.uri)
       .then((data) => setUriData(data))
       .catch((error) => handleError(error, true));
   }, [props.uri]);

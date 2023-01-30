@@ -9,6 +9,7 @@ import {
 } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
 import { goalContractAbi } from "contracts/abi/goalContract";
+import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
@@ -98,7 +99,7 @@ export default function GoalSetForm(props: {
   async function uploadData(values: any) {
     try {
       setIsDataUploading(true);
-      const goalData = {
+      const goalData: GoalUriDataEntity = {
         description: values.description,
         deadline: values.deadline,
       };
