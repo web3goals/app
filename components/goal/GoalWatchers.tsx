@@ -26,14 +26,7 @@ export default function GoalWatchers(props: {
           ))}
         </Stack>
       ) : (
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          sx={{ bgcolor: "#FFFFFF", py: 2, px: 4, borderRadius: 3 }}
-        >
-          <Typography>no one yet</Typography>
-        </Stack>
+        <Typography textAlign="center">no one yet</Typography>
       )}
     </Box>
   );
