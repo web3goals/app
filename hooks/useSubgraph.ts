@@ -8,15 +8,32 @@ export default function useSubgraph() {
   const defaultFirst = 10;
   const defaultSkip = 0;
 
-  let findGoals = async function (
-    first = defaultFirst,
-    skip = defaultSkip
-  ): Promise<Array<GoalEntity>> {
+  let findGoals = async function (args: {
+    authorAddress?: string;
+    isClosed?: boolean;
+    isAchieved?: boolean;
+    watcherAddress?: string;
+    first?: number;
+    skip?: number;
+  }): Promise<Array<GoalEntity>> {
     // Prepare query
+    const authorAddressFilter = args.authorAddress
+      ? `authorAddress: "${args.authorAddress.toLowerCase()}"`
+      : "";
+    const isClosedFilter =
+      args.isClosed !== undefined ? `isClosed: ${args.isClosed}` : "";
+    const isAchievedFilter =
+      args.isAchieved !== undefined ? `isAchieved: ${args.isAchieved}` : "";
+    const watcherAddressFilter = args.watcherAddress
+      ? `watcherAddresses_contains: ["${args.watcherAddress.toLowerCase()}"]`
+      : "";
+    const filterParams = `where: {${authorAddressFilter}, ${isClosedFilter}, ${isAchievedFilter}, ${watcherAddressFilter}}`;
     const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
-    const paginationParams = `first: ${first}, skip: ${skip}`;
+    const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
+      args.skip || defaultSkip
+    }`;
     const query = `{
-      goals(${sortParams}, ${paginationParams}) {
+      goals(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
         uri
         createdTimestamp
