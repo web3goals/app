@@ -158,7 +158,6 @@ export default function GoalSetForm(props: {
               <WidgetInputTextField
                 id="description"
                 name="description"
-                type="string"
                 value={values.description}
                 onChange={handleChange}
                 error={touched.description && Boolean(errors.description)}
