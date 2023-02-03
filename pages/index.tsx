@@ -99,7 +99,7 @@ export default function Landing() {
               </LandingTimelineDot>
               <TimelineConnector sx={{ height: 12 }} />
             </TimelineSeparator>
-            <TimelineContent sx={{ py: "24px", px: 2 }}>
+            <TimelineContent sx={{ py: "32px", px: 2 }}>
               <Typography color={grey[600]} gutterBottom>
                 5 ethers
               </Typography>
@@ -126,7 +126,7 @@ export default function Landing() {
               </LandingTimelineDot>
               <TimelineConnector sx={{ height: 12 }} />
             </TimelineSeparator>
-            <TimelineContent sx={{ py: "36px", px: 2 }}>
+            <TimelineContent sx={{ py: "48px", px: 2 }}>
               <Typography color={grey[600]}>
                 friends, look, I did it!
               </Typography>
