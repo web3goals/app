@@ -158,8 +158,122 @@ export default function Landing() {
         <XxlLoadingButton variant="contained" href="/goals/set" sx={{ mt: 2 }}>
           Set Goal
         </XxlLoadingButton>
+        {/* Roadmap */}
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          sx={{ mt: 16, mb: 3 }}
+          textAlign="center"
+        >
+          A space that improves with you!
+        </Typography>
+        <Timeline
+          position="alternate"
+          onResize={undefined}
+          onResizeCapture={undefined}
+          sx={{ width: 1, mt: 2 }}
+        >
+          {/* Version one */}
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
+              <Typography variant="h6" fontWeight={700}>
+                Version 1.0
+              </Typography>
+              <Typography>Feb & Mar 2023</Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector sx={{ height: 12 }} />
+              <LandingTimelineDot
+                sx={{ borderColor: "#E97E27" }}
+                variant="outlined"
+              >
+                <Typography fontSize={32}>😀</Typography>
+              </LandingTimelineDot>
+              <TimelineConnector sx={{ height: 12 }} />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "24px", px: 2 }}>
+              <Typography color={grey[700]} gutterBottom>
+                goals with staking
+              </Typography>
+              <Typography color={grey[600]} gutterBottom>
+                watchers motivators
+              </Typography>
+              <Typography color={grey[500]} gutterBottom>
+                notifications
+              </Typography>
+              <Typography color={grey[400]}>
+                account page with history
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          {/* Version two */}
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
+              <Typography variant="h6" fontWeight={700}>
+                Version 2.0
+              </Typography>
+              <Typography>Apr & May 2023</Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector sx={{ height: 12 }} />
+              <LandingTimelineDot
+                sx={{ borderColor: "#2B6EFD" }}
+                variant="outlined"
+              >
+                <Typography fontSize={32}>🤩</Typography>
+              </LandingTimelineDot>
+              <TimelineConnector sx={{ height: 12 }} />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "24px", px: 2 }}>
+              <Typography color={grey[700]} gutterBottom>
+                validated goals
+              </Typography>
+              <Typography color={grey[600]} gutterBottom>
+                watchers super motivators
+              </Typography>
+              <Typography color={grey[500]} gutterBottom>
+                group marathons
+              </Typography>
+              <Typography color={grey[400]}>journal</Typography>
+            </TimelineContent>
+          </TimelineItem>
+          {/* Version three */}
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
+              <Typography variant="h6" fontWeight={700}>
+                Version 3.0
+              </Typography>
+              <Typography>Summer 2023</Typography>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector sx={{ height: 12 }} />
+              <LandingTimelineDot
+                sx={{ borderColor: "#1DB954" }}
+                variant="outlined"
+              >
+                <Typography fontSize={32}>🤯</Typography>
+              </LandingTimelineDot>
+              <TimelineConnector sx={{ height: 12 }} />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "24px", px: 2 }}>
+              <Typography color={grey[700]} gutterBottom>
+                private goals with friends
+              </Typography>
+              <Typography color={grey[600]} gutterBottom>
+                AI to motivate and visualise
+              </Typography>
+              <Typography color={grey[500]} gutterBottom>
+                dashboard and analysis
+              </Typography>
+              <Typography color={grey[400]}>and a lot more...</Typography>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+        <XxlLoadingButton variant="outlined" href="/feedback" sx={{ mt: 2 }}>
+          Suggest Improvement
+        </XxlLoadingButton>
         {/* Copyright */}
-        <ThickDivider sx={{ width: 1, mt: 6, mb: 6 }} />
+        <ThickDivider sx={{ width: 1, mt: 12, mb: 6 }} />
         <Typography
           color="text.secondary"
           variant="body2"

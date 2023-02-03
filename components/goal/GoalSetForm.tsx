@@ -144,7 +144,7 @@ export default function GoalSetForm(props: {
   return (
     <CentralizedBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
-        🤞 Dear Web3,
+        🤝 Dear Web3,
       </Typography>
       <Formik
         initialValues={formValues}
