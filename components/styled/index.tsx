@@ -1,4 +1,9 @@
-import { LoadingButton, LoadingButtonProps } from "@mui/lab";
+import {
+  LoadingButton,
+  LoadingButtonProps,
+  TimelineDot,
+  TimelineDotProps,
+} from "@mui/lab";
 import {
   Box,
   BoxProps,
@@ -110,3 +115,13 @@ export const WidgetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
     border: "4px solid #000000",
   },
 }));
+
+export const LandingTimelineDot = styled(TimelineDot)<TimelineDotProps>(
+  ({ theme }) => ({
+    width: "72px",
+    height: "72px",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: "4px",
+  })
+);
