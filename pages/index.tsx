@@ -13,6 +13,7 @@ import Layout from "components/layout";
 import {
   CentralizedBox,
   LandingTimelineDot,
+  ThickDivider,
   XxlLoadingButton,
 } from "components/styled";
 import Link from "next/link";
@@ -157,6 +158,15 @@ export default function Landing() {
         <XxlLoadingButton variant="contained" href="/goals/set" sx={{ mt: 2 }}>
           Set Goal
         </XxlLoadingButton>
+        {/* Copyright */}
+        <ThickDivider sx={{ width: 1, mt: 6, mb: 6 }} />
+        <Typography
+          color="text.secondary"
+          variant="body2"
+          sx={{ textAlign: "center" }}
+        >
+          Web3 Goals — A social space that motivates to achieve! © 2023
+        </Typography>
       </CentralizedBox>
     </Layout>
   );
