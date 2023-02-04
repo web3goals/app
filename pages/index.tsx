@@ -114,7 +114,33 @@ export default function Landing() {
               variant="h6"
               fontWeight={700}
             >
-              Achieve the goal
+              Accept watchers who motivate
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector sx={{ height: 12 }} />
+              <LandingTimelineDot
+                sx={{ borderColor: "purpleLight" }}
+                variant="outlined"
+              >
+                <Typography fontSize={32}>👀</Typography>
+              </LandingTimelineDot>
+              <TimelineConnector sx={{ height: 12 }} />
+            </TimelineSeparator>
+            <TimelineContent sx={{ py: "48px", px: 2 }}>
+              <Typography color={grey[600]} gutterBottom>
+                your goal is great, hope you can do it!
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          {/* Step four */}
+          <TimelineItem>
+            <TimelineOppositeContent
+              sx={{ m: "auto 0" }}
+              align="right"
+              variant="h6"
+              fontWeight={700}
+            >
+              Achieve the goal and attach the proof
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
@@ -132,7 +158,7 @@ export default function Landing() {
               </Typography>
             </TimelineContent>
           </TimelineItem>
-          {/* Step four */}
+          {/* Step five */}
           <TimelineItem>
             <TimelineOppositeContent
               sx={{ m: "auto 0" }}
