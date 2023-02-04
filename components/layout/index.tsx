@@ -9,8 +9,9 @@ import Navigation from "./Navigation";
  * Component with layout.
  */
 export default function Layout(props: {
-  maxWidth?: Breakpoint;
+  maxWidth?: Breakpoint | false;
   hideToolbar?: boolean;
+  disableGutters?: boolean;
   sx?: SxProps;
   children: any;
 }) {
@@ -23,7 +24,8 @@ export default function Layout(props: {
       </Head>
       <Navigation />
       <Container
-        maxWidth={props.maxWidth || "md"}
+        maxWidth={props.maxWidth !== undefined ? props.maxWidth : "md"}
+        disableGutters={props.disableGutters || false}
         sx={{
           display: "flex",
           flexDirection: "column",
