@@ -60,7 +60,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#2B6EFD" }}
+                sx={{ borderColor: "blue" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>🏔️</Typography>
@@ -92,7 +92,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#410C92" }}
+                sx={{ borderColor: "purpleDark" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>💰</Typography>
@@ -119,7 +119,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#1DB954" }}
+                sx={{ borderColor: "green" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>🎯</Typography>
@@ -145,7 +145,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#FF4400" }}
+                sx={{ borderColor: "red" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>💸</Typography>
@@ -184,7 +184,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#E97E27" }}
+                sx={{ borderColor: "orange" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>😀</Typography>
@@ -217,7 +217,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#2B6EFD" }}
+                sx={{ borderColor: "blue" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>🤩</Typography>
@@ -248,7 +248,7 @@ export default function Landing() {
             <TimelineSeparator>
               <TimelineConnector sx={{ height: 12 }} />
               <LandingTimelineDot
-                sx={{ borderColor: "#1DB954" }}
+                sx={{ borderColor: "green" }}
                 variant="outlined"
               >
                 <Typography fontSize={32}>🤯</Typography>

@@ -7,6 +7,7 @@ import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
 import { useEffect, useState } from "react";
+import { palette } from "theme/palette";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
@@ -55,19 +56,19 @@ export default function GoalParams(props: {
         Goal #{props.id}
       </Typography>
       {/* Created timestamp */}
-      <WidgetBox title="On" color="#E97E27" sx={{ mb: 2 }}>
+      <WidgetBox title="On" color={palette.orange} sx={{ mb: 2 }}>
         <WidgetTypography>
           {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
         </WidgetTypography>
       </WidgetBox>
       {/* Author address */}
-      <WidgetBox title="Account" color="#333333" sx={{ mb: 2 }}>
+      <WidgetBox title="Account" color={palette.greyDark} sx={{ mb: 2 }}>
         <WidgetLink href={`/accounts/${props.authorAddress.toString()}`}>
           🔗 {addressToShortAddress(props.authorAddress.toString())}
         </WidgetLink>
       </WidgetBox>
       {/* Description */}
-      <WidgetBox title="Set goal" color="#2B6EFD" sx={{ mb: 2 }}>
+      <WidgetBox title="Set goal" color={palette.blue} sx={{ mb: 2 }}>
         <WidgetTypography>{uriData?.description || "..."}</WidgetTypography>
       </WidgetBox>
       {/* Text divider */}
@@ -75,7 +76,7 @@ export default function GoalParams(props: {
         and
       </Typography>
       {/* Stake */}
-      <WidgetBox title="Staked" color="#FF4400" sx={{ mb: 2 }}>
+      <WidgetBox title="Staked" color={palette.red} sx={{ mb: 2 }}>
         <Stack direction="row" spacing={1}>
           <WidgetTypography>
             {ethers.utils.formatEther(props.authorStake)}
@@ -90,7 +91,7 @@ export default function GoalParams(props: {
         on achieving it
       </Typography>
       {/* Deadline timestamp */}
-      <WidgetBox title="On" color="#410C92" sx={{ mb: 2 }}>
+      <WidgetBox title="On" color={palette.purpleDark} sx={{ mb: 2 }}>
         <WidgetTypography>
           {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
         </WidgetTypography>

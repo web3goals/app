@@ -17,6 +17,7 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
+import { palette } from "theme/palette";
 import {
   dateToBigNumberTimestamp,
   numberToBigNumberEthers,
@@ -155,7 +156,7 @@ export default function GoalSetForm(props: {
           <Form style={{ width: "100%" }}>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Description input */}
-            <WidgetBox title="My goal is" color="#2B6EFD" sx={{ mb: 2 }}>
+            <WidgetBox title="My goal is" color={palette.blue} sx={{ mb: 2 }}>
               <WidgetInputTextField
                 id="description"
                 name="description"
@@ -174,7 +175,7 @@ export default function GoalSetForm(props: {
               and
             </Typography>
             {/* Stake input */}
-            <WidgetBox title="I stake" color="#FF4400" sx={{ mb: 2 }}>
+            <WidgetBox title="I stake" color={palette.red} sx={{ mb: 2 }}>
               <Stack direction="row" spacing={1} sx={{ width: 1 }}>
                 <WidgetInputTextField
                   id="stake"
@@ -206,7 +207,7 @@ export default function GoalSetForm(props: {
               on achieving it
             </Typography>
             {/* Deadline input */}
-            <WidgetBox title="On" color="#410C92" sx={{ mb: 3 }}>
+            <WidgetBox title="On" color={palette.purpleDark} sx={{ mb: 3 }}>
               <WidgetInputTextField
                 id="deadline"
                 name="deadline"

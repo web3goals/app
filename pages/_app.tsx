@@ -81,7 +81,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
             <DialogProvider>
-              <NextNProgress height={4} />
+              <NextNProgress height={4} color={theme.palette.primary.main} />
               {pageLoaded && (
                 <>
                   <AnalyticsHelper />
