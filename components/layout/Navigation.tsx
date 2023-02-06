@@ -14,6 +14,7 @@ import {
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { contact } from "constants/contact";
+import { Logo } from "graphics";
 import Link from "next/link";
 import packageJson from "package.json";
 import { useState } from "react";
@@ -54,21 +55,16 @@ export default function Navigation() {
             }}
           >
             <Link href="/" passHref legacyBehavior>
-              <Typography
-                variant="h6"
-                component="a"
-                sx={{
-                  mr: 1,
-                  fontWeight: 700,
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
-              >
-                Web3 Goals
-              </Typography>
+              <a style={{ display: "flex" }}>
+                <Logo width="153" height="25" />
+              </a>
             </Link>
-            <Typography color="text.secondary" variant="body2">
-              beta ({packageJson.version})
+            <Typography
+              color="text.secondary"
+              variant="body2"
+              sx={{ ml: { md: 1 } }}
+            >
+              {packageJson.version}-dev
             </Typography>
           </Box>
           {/* Set goal button */}
