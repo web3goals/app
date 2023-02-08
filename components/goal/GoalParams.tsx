@@ -8,11 +8,12 @@ import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
+import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
 } from "utils/converters";
-import { getContractsChain } from "utils/network";
+import { useNetwork } from "wagmi";
 
 /**
  * A component with goal parameters.
@@ -28,6 +29,7 @@ export default function GoalParams(props: {
   isAchieved: boolean;
   sx?: SxProps;
 }) {
+  const { chain } = useNetwork();
   const { handleError } = useError();
   const { loadGoalUriData } = useGoal();
   const [uriData, setUriData] = useState<GoalUriDataEntity | undefined>();
@@ -82,7 +84,7 @@ export default function GoalParams(props: {
             {ethers.utils.formatEther(props.authorStake)}
           </WidgetTypography>
           <WidgetTypography>
-            {getContractsChain().nativeCurrency?.symbol}
+            {getChainNativeCurrencySymbol(chain)}
           </WidgetTypography>
         </Stack>
       </WidgetBox>

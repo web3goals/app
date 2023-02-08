@@ -7,10 +7,10 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import { useContext, useEffect } from "react";
-import { stringToAddress } from "utils/converters";
-import { getContractsChain } from "utils/network";
+import { getChainId, getGoalContractAddress } from "utils/chains";
 import {
   useContractWrite,
+  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -38,16 +38,17 @@ export default function GoalActions(props: {
 }
 
 function GoalWatchButton(props: { id: string; onSuccess?: Function }) {
+  const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
 
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+      address: getGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "watch",
       args: [BigNumber.from(props.id)],
-      chainId: getContractsChain().id,
+      chainId: getChainId(chain),
     });
   const {
     data: contractWriteData,

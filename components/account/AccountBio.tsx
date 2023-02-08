@@ -14,21 +14,23 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { addressToShortAddress, stringToAddress } from "utils/converters";
-import { useAccount, useContractRead } from "wagmi";
+import { getBioContractAddress } from "utils/chains";
+import { addressToShortAddress } from "utils/converters";
+import { useAccount, useContractRead, useNetwork } from "wagmi";
 
 /**
  * A component with account bio.
  */
 export default function AccountBio(props: { address: string }) {
   const { handleError } = useError();
+  const { chain } = useNetwork();
   const { address } = useAccount();
   const { loadJsonFromIpfs, ipfsUriToHttpUri } = useIpfs();
   const [bioData, setBioData] = useState<any>();
 
   // Contract states
   const { status, error, data } = useContractRead({
-    address: stringToAddress(process.env.NEXT_PUBLIC_BIO_CONTRACT_ADDRESS),
+    address: getBioContractAddress(chain),
     abi: bioContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(props.address)],

@@ -5,6 +5,7 @@ import GoalEntity from "entities/GoalEntity";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
 import { useEffect, useState } from "react";
+import { useNetwork } from "wagmi";
 import GoalCard from "./GoalCard";
 
 /**
@@ -17,6 +18,7 @@ export default function GoalList(props: {
   watcherAddress?: string;
   sx?: SxProps;
 }) {
+  const { chain } = useNetwork();
   const { handleError } = useError();
   const { findGoals } = useSubgraph();
   const [goals, setGoals] = useState<Array<GoalEntity> | undefined>();
@@ -27,6 +29,7 @@ export default function GoalList(props: {
   async function loadMoreGoals(pageNumber: number) {
     try {
       const loadedGoals = await findGoals({
+        chain: chain,
         authorAddress: props.authorAddress,
         isClosed: props.isClosed,
         isAchieved: props.isAchieved,
@@ -48,7 +51,7 @@ export default function GoalList(props: {
     setGoals(undefined);
     setIsMoreGoalsExist(true);
     loadMoreGoals(0);
-  }, [props]);
+  }, [chain, props]);
 
   return (
     <Box sx={{ width: 1, ...props.sx }}>

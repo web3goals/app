@@ -7,8 +7,8 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { stringToAddress } from "utils/converters";
-import { useContractRead } from "wagmi";
+import { getGoalContractAddress } from "utils/chains";
+import { useContractRead, useNetwork } from "wagmi";
 
 /**
  * Page with a goal.
@@ -16,6 +16,7 @@ import { useContractRead } from "wagmi";
 export default function Goal() {
   const router = useRouter();
   const { slug } = router.query;
+  const { chain } = useNetwork();
   const [goalId, setGoalId] = useState<string | undefined>();
 
   // State of contract reading to get goal uri
@@ -24,7 +25,7 @@ export default function Goal() {
     refetch: refetchGoalUri,
     isFetching: isGoalUriFetching,
   } = useContractRead({
-    address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+    address: getGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "tokenURI",
     args: goalId ? [BigNumber.from(goalId)] : undefined,
@@ -37,7 +38,7 @@ export default function Goal() {
     refetch: refetchGoalParams,
     isFetching: isGoalParamsFetching,
   } = useContractRead({
-    address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+    address: getGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getParams",
     args: goalId ? [BigNumber.from(goalId)] : undefined,
@@ -50,7 +51,7 @@ export default function Goal() {
     refetch: refetchGoalWatchers,
     isFetching: isGoalWatchersFetching,
   } = useContractRead({
-    address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+    address: getGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getWatchers",
     args: goalId ? [BigNumber.from(goalId)] : undefined,

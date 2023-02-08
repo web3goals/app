@@ -10,11 +10,11 @@ import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
-import { stringToAddress } from "utils/converters";
-import { getContractsChain } from "utils/network";
+import { getBioContractAddress, getChainId } from "utils/chains";
 import {
   useAccount,
   useContractWrite,
+  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -28,6 +28,7 @@ export default function AccountEditBioForm(props: { bioData: any }) {
   const { uploadJsonToIpfs, uploadFileToIpfs, ipfsUriToHttpUri } = useIpfs();
   const { showToastSuccess } = useToasts();
   const router = useRouter();
+  const { chain } = useNetwork();
   const { address } = useAccount();
 
   // Form states
@@ -57,11 +58,11 @@ export default function AccountEditBioForm(props: { bioData: any }) {
 
   // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
-    address: stringToAddress(process.env.NEXT_PUBLIC_BIO_CONTRACT_ADDRESS),
+    address: getBioContractAddress(chain),
     abi: bioContractAbi,
     functionName: "setURI",
     args: [updatedBioDataUri],
-    chainId: getContractsChain().id,
+    chainId: getChainId(chain),
   });
   const {
     data: contractWriteData,

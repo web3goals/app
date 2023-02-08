@@ -11,16 +11,18 @@ import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
 import { useEffect, useState } from "react";
+import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
 } from "utils/converters";
-import { getContractsChain } from "utils/network";
+import { useNetwork } from "wagmi";
 
 /**
  * A component with a goal card.
  */
 export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
+  const { chain } = useNetwork();
   const { handleError } = useError();
   const { loadGoalUriData } = useGoal();
   const [uriData, setUriData] = useState<GoalUriDataEntity | undefined>();
@@ -90,7 +92,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
         <Typography fontWeight={700}>{props.goal.watchersNumber} 👥</Typography>
         <Typography fontWeight={700}>
           {ethers.utils.formatEther(BigNumber.from(props.goal.authorStake))}{" "}
-          {getContractsChain().nativeCurrency?.symbol}
+          {getChainNativeCurrencySymbol(chain)}
         </Typography>
         <Typography fontWeight={700}>
           {bigNumberTimestampToLocaleDateString(

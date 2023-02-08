@@ -6,13 +6,14 @@ import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useEffect, useState } from "react";
-import { stringToAddress } from "utils/converters";
-import { useAccount, useContractRead } from "wagmi";
+import { getBioContractAddress } from "utils/chains";
+import { useAccount, useContractRead, useNetwork } from "wagmi";
 /**
  * Page to edit account.
  */
 export default function EditAccount() {
   const { handleError } = useError();
+  const { chain } = useNetwork();
   const { address } = useAccount();
   const { loadJsonFromIpfs } = useIpfs();
   const [bioData, setBioData] = useState<any>();
@@ -23,7 +24,7 @@ export default function EditAccount() {
     error: contractReadError,
     data: contractReadData,
   } = useContractRead({
-    address: stringToAddress(process.env.NEXT_PUBLIC_BIO_CONTRACT_ADDRESS),
+    address: getBioContractAddress(chain),
     abi: bioContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(address || ethers.constants.AddressZero)],

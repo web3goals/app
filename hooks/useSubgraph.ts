@@ -1,5 +1,7 @@
 import axios from "axios";
 import GoalEntity from "entities/GoalEntity";
+import { getSubgraphApiUrl } from "utils/chains";
+import { Chain } from "wagmi";
 
 /**
  * Hook to work with subgraph.
@@ -9,6 +11,7 @@ export default function useSubgraph() {
   const defaultSkip = 0;
 
   let findGoals = async function (args: {
+    chain: Chain | undefined;
     authorAddress?: string;
     isClosed?: boolean;
     isAchieved?: boolean;
@@ -46,7 +49,7 @@ export default function useSubgraph() {
       }
     }`;
     // Make query and return result
-    const response = await makeSubgraphQuery(query);
+    const response = await makeSubgraphQuery(args.chain, query);
     const goals: Array<GoalEntity> = [];
     response.goals?.forEach((goal: any) => {
       goals.push({
@@ -69,23 +72,22 @@ export default function useSubgraph() {
   };
 }
 
-async function makeSubgraphQuery(query: string) {
+async function makeSubgraphQuery(chain: Chain | undefined, query: string) {
   try {
-    const response = await axios.post(
-      process.env.NEXT_PUBLIC_SUBGRAPH_API || "",
-      {
-        query: query,
-      }
-    );
+    const chainSubgraphApiUrl = getSubgraphApiUrl(chain);
+    if (!chainSubgraphApiUrl) {
+      throw new Error(`Chain does not support a subgraph`);
+    }
+    const response = await axios.post(chainSubgraphApiUrl, {
+      query: query,
+    });
     if (response.data.errors) {
-      throw new Error(
-        `error making subgraph query: ${JSON.stringify(response.data.errors)}`
-      );
+      throw new Error(JSON.stringify(response.data.errors));
     }
     return response.data.data;
   } catch (error: any) {
     throw new Error(
-      `could not query the subgraph: ${JSON.stringify(error.message)}`
+      `Could not query the subgraph: ${JSON.stringify(error.message)}`
     );
   }
 }

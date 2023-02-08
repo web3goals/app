@@ -19,15 +19,19 @@ import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import {
+  getChainId,
+  getChainNativeCurrencySymbol,
+  getGoalContractAddress,
+} from "utils/chains";
+import {
   dateToBigNumberTimestamp,
   numberToBigNumberEthers,
-  stringToAddress,
 } from "utils/converters";
-import { getContractsChain } from "utils/network";
 import {
   useAccount,
   useContractEvent,
   useContractWrite,
+  useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
@@ -39,6 +43,7 @@ import * as yup from "yup";
 export default function GoalSetForm(props: {
   onSuccessSet: (id: string) => void;
 }) {
+  const { chain } = useNetwork();
   const { address } = useAccount();
   const { handleError } = useError();
   const { showToastError } = useToasts();
@@ -66,7 +71,7 @@ export default function GoalSetForm(props: {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+      address: getGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "set",
       args: [
@@ -77,7 +82,7 @@ export default function GoalSetForm(props: {
       overrides: {
         value: numberToBigNumberEthers(debouncedFormValues.stake),
       },
-      chainId: getContractsChain().id,
+      chainId: getChainId(chain),
       onError(error: any) {
         showToastError(error);
       },
@@ -117,7 +122,7 @@ export default function GoalSetForm(props: {
    * Listen contract events to get id of set goal.
    */
   useContractEvent({
-    address: stringToAddress(process.env.NEXT_PUBLIC_GOAL_CONTRACT_ADDRESS),
+    address: getGoalContractAddress(chain),
     abi: goalContractAbi,
     eventName: "Transfer",
     listener(from, to, tokenId) {
@@ -197,7 +202,7 @@ export default function GoalSetForm(props: {
                   sx={{ flex: 1 }}
                 >
                   <MenuItem value="native">
-                    {getContractsChain().nativeCurrency?.symbol}
+                    {getChainNativeCurrencySymbol(chain)}
                   </MenuItem>
                 </WidgetInputSelect>
               </Stack>
