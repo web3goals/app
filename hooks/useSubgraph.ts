@@ -76,7 +76,7 @@ async function makeSubgraphQuery(chain: Chain | undefined, query: string) {
   try {
     const chainSubgraphApiUrl = getSubgraphApiUrl(chain);
     if (!chainSubgraphApiUrl) {
-      throw new Error(`Chain does not support a subgraph`);
+      throw new Error(`Chain '${chain?.name}' does not support a subgraph`);
     }
     const response = await axios.post(chainSubgraphApiUrl, {
       query: query,
