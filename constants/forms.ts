@@ -1,4 +1,4 @@
-export const form = {
+export const FORMS = {
   type: {
     feedback: "feedback",
   },

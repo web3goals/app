@@ -2,8 +2,8 @@ import { Box, Link as MuiLink, TextField, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
 import { CentralizedBox, XxlLoadingButton } from "components/styled";
-import { contact } from "constants/contact";
-import { form } from "constants/form";
+import { CONTACTS } from "constants/contacts";
+import { FORMS } from "constants/forms";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
@@ -38,7 +38,7 @@ export default function Feedback() {
   async function submit(values: any, actions: any) {
     try {
       setIsFormSubmitting(true);
-      await submitForm(form.type.feedback, values, address);
+      await submitForm(FORMS.type.feedback, values, address);
       showToastSuccess("Thanks for the feedback! We'll get back soon");
       actions?.resetForm();
     } catch (error: any) {
@@ -148,11 +148,11 @@ export default function Feedback() {
           📩 Or write to us
         </Typography>
         <MuiLink
-          href={`mailto:${contact.email}`}
+          href={`mailto:${CONTACTS.email}`}
           target="_blank"
           fontWeight={700}
         >
-          {contact.email}
+          {CONTACTS.email}
         </MuiLink>
       </CentralizedBox>
     </Layout>

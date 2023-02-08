@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { contact } from "constants/contact";
+import { CONTACTS } from "constants/contacts";
 import { Logo } from "graphics";
 import Link from "next/link";
 import packageJson from "package.json";
@@ -125,7 +125,7 @@ export default function Navigation() {
           {/* GitHub link */}
           <Box sx={{ display: { xs: "none", md: "block" }, flexGrow: 0 }}>
             <IconButton
-              href={contact.github}
+              href={CONTACTS.github}
               target="_blank"
               component="a"
               sx={{ color: "#000000" }}
@@ -136,7 +136,7 @@ export default function Navigation() {
           {/* Twitter link */}
           <Box sx={{ display: { xs: "none", md: "block" }, flexGrow: 0 }}>
             <IconButton
-              href={contact.twitter}
+              href={CONTACTS.twitter}
               target="_blank"
               component="a"
               sx={{ color: "#000000" }}
@@ -209,14 +209,14 @@ export default function Navigation() {
             </Link>
             <Divider />
             {/* GitHub link */}
-            <MenuItem href={contact.github} target="_blank" component="a">
+            <MenuItem href={CONTACTS.github} target="_blank" component="a">
               <ListItemIcon>
                 <GitHub fontSize="small" />
               </ListItemIcon>
               GitHub
             </MenuItem>
             {/* Twitter link */}
-            <MenuItem href={contact.twitter} target="_blank" component="a">
+            <MenuItem href={CONTACTS.twitter} target="_blank" component="a">
               <ListItemIcon>
                 <Twitter fontSize="small" />
               </ListItemIcon>

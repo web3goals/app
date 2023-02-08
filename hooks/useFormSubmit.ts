@@ -1,5 +1,5 @@
 import axios from "axios";
-import { contact } from "constants/contact";
+import { CONTACTS } from "constants/contacts";
 import qs from "qs";
 import useErrors from "./useError";
 
@@ -15,7 +15,7 @@ export default function useFormSubmit() {
     formAccountAddress: string | undefined
   ) {
     try {
-      const postUrl = `https://formsubmit.co/ajax/${contact.email}`;
+      const postUrl = `https://formsubmit.co/ajax/${CONTACTS.email}`;
       const postData = qs.stringify({
         type: formType,
         account: formAccountAddress || "undefined",
