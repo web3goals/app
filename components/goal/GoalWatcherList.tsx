@@ -9,6 +9,7 @@ export default function GoalWatcherList(props: {
   id: string;
   authorAddress: string;
   watchers: readonly any[] | undefined;
+  onUpdate?: Function;
   sx?: SxProps;
 }) {
   return (
@@ -25,6 +26,7 @@ export default function GoalWatcherList(props: {
               addedTimestamp={watcher.addedTimestamp}
               extraDataURI={watcher.extraDataURI}
               isAccepted={watcher.isAccepted}
+              onUpdate={props.onUpdate}
             />
           ))}
         </Stack>

@@ -25,6 +25,7 @@ import * as yup from "yup";
  */
 export default function GoalWatchDialog(props: {
   id: string;
+  onUpdate?: Function;
   isClose?: boolean;
   onClose?: Function;
 }) {
@@ -119,6 +120,7 @@ export default function GoalWatchDialog(props: {
       showToastSuccess(
         "Your motivating message sent to the author of the goal"
       );
+      props.onUpdate?.();
       close();
     }
   }, [isTransactionSuccess]);

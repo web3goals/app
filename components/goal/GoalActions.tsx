@@ -22,20 +22,26 @@ export default function GoalActions(props: {
       justifyContent="center"
       sx={{ ...props.sx }}
     >
-      <GoalWatchButton id={props.id} onSuccess={() => props.onUpdate?.()} />
+      <GoalWatchButton id={props.id} onUpdate={() => props.onUpdate?.()} />
       <GoalShareButton id={props.id} />
     </Stack>
   );
 }
 
-function GoalWatchButton(props: { id: string; onSuccess?: Function }) {
+function GoalWatchButton(props: { id: string; onUpdate?: Function }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
     <XlLoadingButton
-      variant="contained"
+      variant="outlined"
       onClick={() =>
-        showDialog?.(<GoalWatchDialog id={props.id} onClose={closeDialog} />)
+        showDialog?.(
+          <GoalWatchDialog
+            id={props.id}
+            onUpdate={props.onUpdate}
+            onClose={closeDialog}
+          />
+        )
       }
     >
       Watch

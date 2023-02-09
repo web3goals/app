@@ -10,6 +10,7 @@ export default function GoalWatcherTabs(props: {
   id: string;
   authorAddress: string;
   watchers: readonly any[];
+  onUpdate?: Function;
   sx?: SxProps;
 }) {
   const [tabValue, setTabValue] = useState("1");
@@ -63,6 +64,7 @@ export default function GoalWatcherTabs(props: {
             id={props.id}
             authorAddress={props.authorAddress}
             watchers={watchersAccepted}
+            onUpdate={props.onUpdate}
           />
         </TabPanel>
         <TabPanel value="2" sx={{ px: 0 }}>
@@ -70,6 +72,7 @@ export default function GoalWatcherTabs(props: {
             id={props.id}
             authorAddress={props.authorAddress}
             watchers={watchersPending}
+            onUpdate={props.onUpdate}
           />
         </TabPanel>
       </TabContext>

@@ -105,6 +105,11 @@ export default function Goal() {
               id={goalId}
               authorAddress={goalParams.authorAddress}
               watchers={goalWatchers}
+              onUpdate={() => {
+                refetchGoalUri();
+                refetchGoalParams();
+                refetchGoalWatchers();
+              }}
               sx={{ mt: 6 }}
             />
           </>

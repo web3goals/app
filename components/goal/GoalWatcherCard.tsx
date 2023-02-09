@@ -31,6 +31,7 @@ export default function GoalWatcherCard(props: {
   addedTimestamp: BigNumber;
   extraDataURI: string;
   isAccepted: boolean;
+  onUpdate?: Function;
   sx?: SxProps;
 }) {
   const { address } = useAccount();
@@ -79,6 +80,7 @@ export default function GoalWatcherCard(props: {
         <AcceptButton
           id={props.id}
           accountAddress={props.accountAddress}
+          onUpdate={props.onUpdate}
           sx={{ mt: 2 }}
         />
       )}
@@ -89,6 +91,7 @@ export default function GoalWatcherCard(props: {
 function AcceptButton(props: {
   id: string;
   accountAddress: string;
+  onUpdate?: Function;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
@@ -119,6 +122,7 @@ function AcceptButton(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Watcher is accepted!");
+      props.onUpdate?.();
     }
   }, [isTransactionSuccess]);
 
