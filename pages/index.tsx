@@ -13,7 +13,6 @@ import Layout from "components/layout";
 import {
   CentralizedBox,
   LandingTimelineDot,
-  ThickDivider,
   XxlLoadingButton,
 } from "components/styled";
 
@@ -35,7 +34,7 @@ export default function Landing() {
             backgroundImage: `url(/images/header.png)`,
             backgroundSize: "cover",
             height: "100vh",
-            width: "1",
+            width: 1,
           }}
         >
           {/* Header content */}
@@ -394,15 +393,6 @@ export default function Landing() {
           <XxlLoadingButton variant="outlined" href="/feedback" sx={{ mt: 2 }}>
             Suggest Improvement
           </XxlLoadingButton>
-          {/* Copyright */}
-          <ThickDivider sx={{ width: 1, mt: 12, mb: 6 }} />
-          <Typography
-            color="text.secondary"
-            variant="body2"
-            sx={{ textAlign: "center" }}
-          >
-            Web3 Goals — A social space that motivates to achieve! © 2023
-          </Typography>
         </Container>
       </CentralizedBox>
     </Layout>

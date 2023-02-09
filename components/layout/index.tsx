@@ -16,7 +16,7 @@ export default function Layout(props: {
   children: any;
 }) {
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+    <Box>
       <CssBaseline />
       <Head>
         <title>Web3 Goals - A social space that motivates to achieve!</title>
@@ -26,14 +26,8 @@ export default function Layout(props: {
       <Container
         maxWidth={props.maxWidth !== undefined ? props.maxWidth : "md"}
         disableGutters={props.disableGutters || false}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          minHeight: "100%",
-        }}
+        sx={{ minHeight: "100vh" }}
       >
-        {/* Box with content */}
         <Box sx={{ py: 4, ...props.sx }}>
           {!props.hideToolbar && <Toolbar />}
           {props.children}
