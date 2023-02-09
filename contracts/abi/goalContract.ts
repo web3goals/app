@@ -53,6 +53,32 @@ export const goalContractAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ClosedAsAchieved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ClosedAsFailed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: false,
         internalType: "uint8",
         name: "version",
@@ -121,6 +147,11 @@ export const goalContractAbi = [
             internalType: "bool",
             name: "isAchieved",
             type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "proofURI",
+            type: "string",
           },
         ],
         indexed: false,
@@ -311,8 +342,26 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
+      {
+        internalType: "string",
+        name: "proofURI",
+        type: "string",
+      },
     ],
-    name: "close",
+    name: "closeAsAchieved",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "closeAsFailed",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -403,6 +452,11 @@ export const goalContractAbi = [
             internalType: "bool",
             name: "isAchieved",
             type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "proofURI",
+            type: "string",
           },
         ],
         internalType: "struct DataTypes.GoalParams",
