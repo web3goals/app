@@ -3,7 +3,7 @@ import FormikHelper from "components/helper/FormikHelper";
 import { WidgetInputTextField, XxlLoadingButton } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import WatcherUriDataEntity from "entities/WatcherUriDataEntity";
+import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
 import { BigNumber } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
@@ -85,7 +85,7 @@ export default function GoalWatchDialog(props: {
   async function uploadData(values: any) {
     try {
       setIsDataUploading(true);
-      const watcherData: WatcherUriDataEntity = {
+      const watcherData: GoalWatcherUriDataEntity = {
         message: values.message,
       };
       const { uri: watcherDataUri } = await uploadJsonToIpfs(watcherData);
