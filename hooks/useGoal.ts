@@ -1,6 +1,7 @@
-import useIpfs from "./useIpfs";
-import useError from "./useError";
 import GoalUriDataEntity from "entities/GoalUriDataEntity";
+import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
+import useError from "./useError";
+import useIpfs from "./useIpfs";
 
 /**
  * Hook for work with goals.
@@ -21,7 +22,20 @@ export default function useGoal() {
     }
   };
 
+  let loadGoalWatcherUriData = async function (
+    uri: string
+  ): Promise<GoalWatcherUriDataEntity | undefined> {
+    try {
+      const data = await loadJsonFromIpfs(uri);
+      return { message: data.message };
+    } catch (error: any) {
+      handleError(error, false);
+      return undefined;
+    }
+  };
+
   return {
     loadGoalUriData,
+    loadGoalWatcherUriData,
   };
 }

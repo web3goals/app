@@ -1,8 +1,12 @@
 import GoalActions from "components/goal/GoalActions";
 import GoalParams from "components/goal/GoalParams";
-import GoalWatchers from "components/goal/GoalWatchers";
+import GoalWatcherTabs from "components/goal/GoalWatcherTabs";
 import Layout from "components/layout";
-import { CentralizedBox, FullWidthSkeleton } from "components/styled";
+import {
+  CentralizedBox,
+  FullWidthSkeleton,
+  ThickDivider,
+} from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
@@ -96,12 +100,8 @@ export default function Goal() {
               }}
               sx={{ mt: 4 }}
             />
-            <GoalWatchers
-              id={goalId}
-              authorAddress={goalParams.authorAddress}
-              watchers={goalWatchers}
-              sx={{ mt: 6 }}
-            />
+            <ThickDivider sx={{ mt: 6 }} />
+            <GoalWatcherTabs watchers={goalWatchers} sx={{ mt: 6 }} />
           </>
         ) : (
           <FullWidthSkeleton />
