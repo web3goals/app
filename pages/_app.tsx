@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { SnackbarProvider } from "notistack";
 import { useEffect, useState } from "react";
+import { CookiesProvider } from "react-cookie";
 import { theme } from "theme";
 import { handlePageViewEvent, initAnalytics } from "utils/analytics";
 import { getSupportedChains } from "utils/chains";
@@ -78,19 +79,21 @@ export default function App({ Component, pageProps }: AppProps) {
         chains={chains}
         theme={lightTheme({ accentColor: theme.palette.primary.main })}
       >
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={3}>
-            <DialogProvider>
-              <NextNProgress height={4} color={theme.palette.primary.main} />
-              {pageLoaded && (
-                <>
-                  <AnalyticsHelper />
-                  <Component {...pageProps} />
-                </>
-              )}
-            </DialogProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
+        <CookiesProvider>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider maxSnack={3}>
+              <DialogProvider>
+                <NextNProgress height={4} color={theme.palette.primary.main} />
+                {pageLoaded && (
+                  <>
+                    <AnalyticsHelper />
+                    <Component {...pageProps} />
+                  </>
+                )}
+              </DialogProvider>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </CookiesProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

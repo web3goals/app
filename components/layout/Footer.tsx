@@ -13,6 +13,7 @@ import { ThickDivider } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import Link from "next/link";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 /**
  * Component with a footer.
@@ -64,7 +65,12 @@ function FeedbackPostFab() {
 }
 
 function UnderDevelopmentBanner() {
-  const [open, setOpen] = useState(true);
+  const [cookies, setCookie] = useCookies([
+    "web3goals_hide_under_development_banner",
+  ]);
+  const [open, setOpen] = useState(
+    !cookies.web3goals_hide_under_development_banner
+  );
 
   return (
     <Snackbar
@@ -74,7 +80,12 @@ function UnderDevelopmentBanner() {
     >
       <Alert
         severity="warning"
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setCookie("web3goals_hide_under_development_banner", true, {
+            maxAge: 60 * 60,
+          });
+        }}
         sx={{ width: { xs: 1, md: 1 / 2 } }}
       >
         <AlertTitle>The app is under development</AlertTitle>
