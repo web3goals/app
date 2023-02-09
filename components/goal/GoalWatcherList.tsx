@@ -9,8 +9,6 @@ export default function GoalWatcherList(props: {
   watchers: readonly any[] | undefined;
   sx?: SxProps;
 }) {
-  console.log("watchers", props.watchers);
-
   return (
     <Box sx={{ width: 1, ...props.sx }}>
       {/* List with watchers */}

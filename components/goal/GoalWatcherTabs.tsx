@@ -19,7 +19,6 @@ export default function GoalWatcherTabs(props: {
   }
 
   useEffect(() => {
-    // console.log(props.watchers);
     const watchersPending = [];
     const watchersAccepted = [];
     for (let watcher of props.watchers) {
