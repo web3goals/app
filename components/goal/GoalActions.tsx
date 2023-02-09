@@ -1,19 +1,10 @@
 import { SxProps } from "@mui/material";
 import { Stack } from "@mui/system";
-import GoalShareDialog from "components/dialog/GoalShareDialog";
+import GoalShareDialog from "components/goal/GoalShareDialog";
 import { XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
-import { goalContractAbi } from "contracts/abi/goalContract";
-import { BigNumber } from "ethers";
-import useToasts from "hooks/useToast";
-import { useContext, useEffect } from "react";
-import { getChainId, getGoalContractAddress } from "utils/chains";
-import {
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useContext } from "react";
+import GoalWatchDialog from "./GoalWatchDialog";
 
 /**
  * A component with goal actions.
@@ -38,41 +29,14 @@ export default function GoalActions(props: {
 }
 
 function GoalWatchButton(props: { id: string; onSuccess?: Function }) {
-  const { chain } = useNetwork();
-  const { showToastSuccess } = useToasts();
-
-  // Contract states
-  const { config: contractPrepareConfig, isError: isContractPrepareError } =
-    usePrepareContractWrite({
-      address: getGoalContractAddress(chain),
-      abi: goalContractAbi,
-      functionName: "watch",
-      args: [BigNumber.from(props.id)],
-      chainId: getChainId(chain),
-    });
-  const {
-    data: contractWriteData,
-    isLoading: isContractWriteLoading,
-    write: contractWrite,
-  } = useContractWrite(contractPrepareConfig);
-  const { isLoading: isTransactionLoading, isSuccess: isTransactionSuccess } =
-    useWaitForTransaction({
-      hash: contractWriteData?.hash,
-    });
-
-  useEffect(() => {
-    if (isTransactionSuccess) {
-      showToastSuccess("👀 You are now a goal watcher!");
-      props.onSuccess?.();
-    }
-  }, [isTransactionSuccess]);
+  const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
     <XlLoadingButton
       variant="contained"
-      disabled={isContractPrepareError || !contractWrite}
-      loading={isContractWriteLoading || isTransactionLoading}
-      onClick={() => contractWrite?.()}
+      onClick={() =>
+        showDialog?.(<GoalWatchDialog id={props.id} onClose={closeDialog} />)
+      }
     >
       Watch
     </XlLoadingButton>
