@@ -229,6 +229,16 @@ export const goalContractAbi = [
             name: "accountAddress",
             type: "address",
           },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
         ],
         indexed: false,
         internalType: "struct DataTypes.GoalWatcher",
@@ -238,6 +248,24 @@ export const goalContractAbi = [
     ],
     name: "WatcherSet",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "watcherAddress",
+        type: "address",
+      },
+    ],
+    name: "acceptWatcher",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -419,6 +447,16 @@ export const goalContractAbi = [
             internalType: "address",
             name: "accountAddress",
             type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
           },
         ],
         internalType: "struct DataTypes.GoalWatcher[]",
@@ -767,6 +805,11 @@ export const goalContractAbi = [
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "extraDataURI",
+        type: "string",
       },
     ],
     name: "watch",
