@@ -7,6 +7,8 @@ import GoalWatcherList from "./GoalWatcherList";
  * A component with tabs with goal watchers.
  */
 export default function GoalWatcherTabs(props: {
+  id: string;
+  authorAddress: string;
   watchers: readonly any[];
   sx?: SxProps;
 }) {
@@ -57,10 +59,18 @@ export default function GoalWatcherTabs(props: {
           <Tab label="Pending" value="2" />
         </TabList>
         <TabPanel value="1" sx={{ px: 0 }}>
-          <GoalWatcherList watchers={watchersAccepted} />
+          <GoalWatcherList
+            id={props.id}
+            authorAddress={props.authorAddress}
+            watchers={watchersAccepted}
+          />
         </TabPanel>
         <TabPanel value="2" sx={{ px: 0 }}>
-          <GoalWatcherList watchers={watchersPending} />
+          <GoalWatcherList
+            id={props.id}
+            authorAddress={props.authorAddress}
+            watchers={watchersPending}
+          />
         </TabPanel>
       </TabContext>
     </Box>

@@ -6,6 +6,8 @@ import GoalWatcherCard from "./GoalWatcherCard";
  * A component with goal watcher list.
  */
 export default function GoalWatcherList(props: {
+  id: string;
+  authorAddress: string;
   watchers: readonly any[] | undefined;
   sx?: SxProps;
 }) {
@@ -17,9 +19,12 @@ export default function GoalWatcherList(props: {
           {props.watchers.map((watcher, index) => (
             <GoalWatcherCard
               key={index}
+              id={props.id}
+              authorAddress={props.authorAddress}
               accountAddress={watcher.accountAddress}
               addedTimestamp={watcher.addedTimestamp}
               extraDataURI={watcher.extraDataURI}
+              isAccepted={watcher.isAccepted}
             />
           ))}
         </Stack>

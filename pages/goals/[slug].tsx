@@ -101,7 +101,12 @@ export default function Goal() {
               sx={{ mt: 4 }}
             />
             <ThickDivider sx={{ mt: 6 }} />
-            <GoalWatcherTabs watchers={goalWatchers} sx={{ mt: 6 }} />
+            <GoalWatcherTabs
+              id={goalId}
+              authorAddress={goalParams.authorAddress}
+              watchers={goalWatchers}
+              sx={{ mt: 6 }}
+            />
           </>
         ) : (
           <FullWidthSkeleton />

@@ -1,23 +1,39 @@
-import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
+import { Box, Link as MuiLink, SxProps, Typography } from "@mui/material";
+import { XlLoadingButton } from "components/styled";
+import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
+import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
+import { getChainId, getGoalContractAddress } from "utils/chains";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
+  stringToAddress,
 } from "utils/converters";
+import {
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 /**
  * A component with a goal watcher card.
  */
 export default function GoalWatcherCard(props: {
+  id: string;
+  authorAddress: string;
   accountAddress: string;
   addedTimestamp: BigNumber;
   extraDataURI: string;
+  isAccepted: boolean;
   sx?: SxProps;
 }) {
+  const { address } = useAccount();
   const { handleError } = useError();
   const { loadGoalWatcherUriData } = useGoal();
   const [uriData, setUriData] = useState<
@@ -32,9 +48,7 @@ export default function GoalWatcherCard(props: {
   }, [props.extraDataURI]);
 
   return (
-    <Stack
-      direction="column"
-      spacing={1}
+    <Box
       sx={{
         border: "solid",
         borderColor: "divider",
@@ -46,11 +60,11 @@ export default function GoalWatcherCard(props: {
       }}
     >
       {/* Message */}
-      <Typography variant="h6" fontWeight={700}>
+      <Typography variant="h6" fontWeight={700} gutterBottom>
         {uriData?.message || "..."}
       </Typography>
       {/* Account */}
-      <Typography>
+      <Typography gutterBottom>
         👤{" "}
         <MuiLink href={`/accounts/${props.accountAddress}`} fontWeight={700}>
           {addressToShortAddress(props.accountAddress)}
@@ -60,6 +74,67 @@ export default function GoalWatcherCard(props: {
       <Typography>
         📅 {bigNumberTimestampToLocaleDateString(props.addedTimestamp)}
       </Typography>
-    </Stack>
+      {/* Accept button */}
+      {!props.isAccepted && address === props.authorAddress && (
+        <AcceptButton
+          id={props.id}
+          accountAddress={props.accountAddress}
+          sx={{ mt: 2 }}
+        />
+      )}
+    </Box>
   );
+}
+
+function AcceptButton(props: {
+  id: string;
+  accountAddress: string;
+  sx?: SxProps;
+}) {
+  const { chain } = useNetwork();
+  const { showToastSuccess } = useToasts();
+
+  // Contract states
+  const { config: contractPrepareConfig, isError: isContractPrepareError } =
+    usePrepareContractWrite({
+      address: getGoalContractAddress(chain),
+      abi: goalContractAbi,
+      functionName: "acceptWatcher",
+      args: [
+        BigNumber.from(props.id),
+        stringToAddress(props.accountAddress) || ethers.constants.AddressZero,
+      ],
+      chainId: getChainId(chain),
+    });
+  const {
+    data: contractWriteData,
+    isLoading: isContractWriteLoading,
+    write: contractWrite,
+  } = useContractWrite(contractPrepareConfig);
+  const { isLoading: isTransactionLoading, isSuccess: isTransactionSuccess } =
+    useWaitForTransaction({
+      hash: contractWriteData?.hash,
+    });
+
+  useEffect(() => {
+    if (isTransactionSuccess) {
+      showToastSuccess("Watcher is accepted!");
+    }
+  }, [isTransactionSuccess]);
+
+  if (!isTransactionSuccess) {
+    return (
+      <XlLoadingButton
+        variant="outlined"
+        disabled={isContractPrepareError || !contractWrite}
+        loading={isContractWriteLoading || isTransactionLoading}
+        onClick={() => contractWrite?.()}
+        sx={{ ...props.sx }}
+      >
+        Accept
+      </XlLoadingButton>
+    );
+  }
+
+  return <></>;
 }
