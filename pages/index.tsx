@@ -33,7 +33,7 @@ export default function Landing() {
           sx={{
             backgroundImage: `url(/images/header.png)`,
             backgroundSize: "cover",
-            height: "100vh",
+            minHeight: "100vh",
             width: 1,
           }}
         >
@@ -108,6 +108,7 @@ export default function Landing() {
                 background: "#FFFFFF",
                 ":hover": { background: "#FFFFFF" },
                 mt: 4,
+                mb: 12,
               }}
             >
               Start Achieve
