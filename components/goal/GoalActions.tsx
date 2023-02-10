@@ -4,7 +4,8 @@ import GoalShareDialog from "components/goal/GoalShareDialog";
 import { XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { useContext } from "react";
-import GoalWatchDialog from "./GoalWatchDialog";
+import GoalCloseAsAchievedDialog from "./GoalCloseAsAchievedDialog";
+import GoalCloseAsFailedDialog from "./GoalCloseAsFailedDialog";
 
 /**
  * A component with goal actions.
@@ -22,21 +23,28 @@ export default function GoalActions(props: {
       justifyContent="center"
       sx={{ ...props.sx }}
     >
-      <GoalWatchButton id={props.id} onUpdate={() => props.onUpdate?.()} />
+      <GoalCloseAsAchievedButton
+        id={props.id}
+        onUpdate={() => props.onUpdate?.()}
+      />
+      <GoalCloseAsFailedButton
+        id={props.id}
+        onUpdate={() => props.onUpdate?.()}
+      />
       <GoalShareButton id={props.id} />
     </Stack>
   );
 }
 
-function GoalWatchButton(props: { id: string; onUpdate?: Function }) {
+function GoalCloseAsAchievedButton(props: { id: string; onUpdate?: Function }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
     <XlLoadingButton
-      variant="outlined"
+      variant="contained"
       onClick={() =>
         showDialog?.(
-          <GoalWatchDialog
+          <GoalCloseAsAchievedDialog
             id={props.id}
             onUpdate={props.onUpdate}
             onClose={closeDialog}
@@ -44,7 +52,28 @@ function GoalWatchButton(props: { id: string; onUpdate?: Function }) {
         )
       }
     >
-      Watch
+      Close As Achieved
+    </XlLoadingButton>
+  );
+}
+
+function GoalCloseAsFailedButton(props: { id: string; onUpdate?: Function }) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
+
+  return (
+    <XlLoadingButton
+      variant="outlined"
+      onClick={() =>
+        showDialog?.(
+          <GoalCloseAsFailedDialog
+            id={props.id}
+            onUpdate={props.onUpdate}
+            onClose={closeDialog}
+          />
+        )
+      }
+    >
+      Close As Failed
     </XlLoadingButton>
   );
 }
