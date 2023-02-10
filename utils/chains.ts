@@ -17,6 +17,43 @@ const hyperspaceBioContractAddress =
 const hyperspaceSubgraphApiUrl =
   process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL;
 
+const mantleTestnetGoalContractAddress =
+  process.env.NEXT_PUBLIC_MANTLE_TESTNET_GOAL_CONTRACT_ADDRESS;
+const mantleTestnetBioContractAddress =
+  process.env.NEXT_PUBLIC_MANTLE_TESTNET_BIO_CONTRACT_ADDRESS;
+const mantleTestnetSubgraphApiUrl =
+  process.env.NEXT_PUBLIC_MANTLE_TESTNET_SUBGRAPH_API_URL;
+
+/**
+ * Get mantle testnet chain.
+ */
+export function getMantleTestnetChain(): Chain {
+  return {
+    id: 5001,
+    name: "Mantle Testnet",
+    network: "mantle-testnet",
+    nativeCurrency: {
+      decimals: 18,
+      name: "BIT",
+      symbol: "BIT",
+    },
+    rpcUrls: {
+      default: {
+        http: ["https://rpc.testnet.mantle.xyz"],
+      },
+      public: {
+        http: ["https://rpc.testnet.mantle.xyz"],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Mantle Network Explorer",
+        url: "https://explorer.testnet.mantle.xyz",
+      },
+    },
+  };
+}
+
 /**
  * Get the first chain from supported chains.
  */
@@ -39,6 +76,9 @@ export function getSupportedChains(): Array<Chain> {
   }
   if (hyperspaceGoalContractAddress && hyperspaceBioContractAddress) {
     chains.push(filecoinHyperspace);
+  }
+  if (mantleTestnetGoalContractAddress && mantleTestnetBioContractAddress) {
+    chains.push(getMantleTestnetChain());
   }
   if (chains.length === 0) {
     console.error("Not found supported chains");
@@ -83,6 +123,12 @@ export function getGoalContractAddress(
   if (chain?.id === filecoinHyperspace.id && hyperspaceGoalContractAddress) {
     return stringToAddress(hyperspaceGoalContractAddress);
   }
+  if (
+    chain?.id === getMantleTestnetChain().id &&
+    mantleTestnetGoalContractAddress
+  ) {
+    return stringToAddress(mantleTestnetGoalContractAddress);
+  }
   console.error(`Not found goal contract address for chain: ${chain?.name}`);
   return undefined;
 }
@@ -102,6 +148,9 @@ export function getBioContractAddress(
   if (chain?.id === filecoinHyperspace.id && hyperspaceBioContractAddress) {
     return stringToAddress(hyperspaceBioContractAddress);
   }
+  if (getMantleTestnetChain().id && mantleTestnetBioContractAddress) {
+    return stringToAddress(mantleTestnetBioContractAddress);
+  }
   console.error(`Not found bio contract address for chain: ${chain?.name}`);
   return undefined;
 }
@@ -118,6 +167,9 @@ export function getSubgraphApiUrl(chain: Chain | undefined) {
   }
   if (chain?.id === filecoinHyperspace.id && hyperspaceSubgraphApiUrl) {
     return hyperspaceSubgraphApiUrl;
+  }
+  if (getMantleTestnetChain().id && mantleTestnetSubgraphApiUrl) {
+    return mantleTestnetSubgraphApiUrl;
   }
   console.error(`Not found subgraph api url for chain: ${chain?.name}`);
   return undefined;
