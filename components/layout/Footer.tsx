@@ -75,7 +75,7 @@ function UnderDevelopmentBanner() {
   return (
     <Snackbar
       open={open}
-      sx={{ bottom: { xs: 90 } }}
+      sx={{ bottom: { xs: 90 }, width: { md: 1 / 3 } }}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     >
       <Alert
@@ -86,7 +86,6 @@ function UnderDevelopmentBanner() {
             maxAge: 60 * 60,
           });
         }}
-        sx={{ width: { xs: 1, md: 1 / 2 } }}
       >
         <AlertTitle>The app is under development</AlertTitle>
         Follow us on{" "}
