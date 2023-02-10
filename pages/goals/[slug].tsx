@@ -1,5 +1,6 @@
 import GoalActions from "components/goal/GoalActions";
 import GoalParams from "components/goal/GoalParams";
+import GoalResult from "components/goal/GoalResult";
 import GoalWatchers from "components/goal/GoalWatchers";
 import Layout from "components/layout";
 import {
@@ -90,6 +91,14 @@ export default function Goal() {
               isClosed={goalParams.isClosed}
               isAchieved={goalParams.isAchieved}
             />
+            <GoalResult
+              id={goalId}
+              authorStake={goalParams.authorStake}
+              isClosed={goalParams.isClosed}
+              isAchieved={goalParams.isAchieved}
+              proofUri={goalParams.proofURI}
+              sx={{ mt: 6 }}
+            />
             <GoalActions
               id={goalId}
               isClosed={goalParams.isClosed}
@@ -98,12 +107,13 @@ export default function Goal() {
                 refetchGoalParams();
                 refetchGoalWatchers();
               }}
-              sx={{ mt: 4 }}
+              sx={{ mt: 6 }}
             />
             <ThickDivider sx={{ mt: 6 }} />
             <GoalWatchers
               id={goalId}
               authorAddress={goalParams.authorAddress}
+              isClosed={goalParams.isClosed}
               watchers={goalWatchers}
               onUpdate={() => {
                 refetchGoalUri();

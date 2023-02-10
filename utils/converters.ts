@@ -14,6 +14,19 @@ export function addressToShortAddress(address: string): string {
 }
 
 /**
+ * Convert "ipfs://bafkreicly5njual3zhcvdvqdvsyme3kcxxjguokz2taagkkvnbicm2u6ym" to "ipfs://bafk...2u6ym".
+ */
+export function ipfsUriToShortUri(ipfsUri: string): string {
+  let shortIpfsUri = ipfsUri;
+  if (ipfsUri?.length > 16) {
+    shortIpfsUri = `${ipfsUri.substring(0, 11)}...${ipfsUri.substring(
+      ipfsUri.length - 4
+    )}`;
+  }
+  return shortIpfsUri?.toLowerCase();
+}
+
+/**
  * Convert error object to pretty string.
  */
 export function errorToString(error: any): string {

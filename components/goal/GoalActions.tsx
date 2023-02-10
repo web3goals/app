@@ -23,14 +23,18 @@ export default function GoalActions(props: {
       justifyContent="center"
       sx={{ ...props.sx }}
     >
-      <GoalCloseAsAchievedButton
-        id={props.id}
-        onUpdate={() => props.onUpdate?.()}
-      />
-      <GoalCloseAsFailedButton
-        id={props.id}
-        onUpdate={() => props.onUpdate?.()}
-      />
+      {!props.isClosed && (
+        <>
+          <GoalCloseAsAchievedButton
+            id={props.id}
+            onUpdate={() => props.onUpdate?.()}
+          />
+          <GoalCloseAsFailedButton
+            id={props.id}
+            onUpdate={() => props.onUpdate?.()}
+          />
+        </>
+      )}
       <GoalShareButton id={props.id} />
     </Stack>
   );

@@ -99,7 +99,7 @@ export default function GoalParams(props: {
         </WidgetTypography>
       </WidgetBox>
       {/* Text divider */}
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+      <Typography fontWeight={700} textAlign="center">
         otherwise the stake will be shared between watchers and application
       </Typography>
     </Box>

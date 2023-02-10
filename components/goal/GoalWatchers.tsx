@@ -12,6 +12,7 @@ import GoalWatcherList from "./GoalWatcherList";
 export default function GoalWatchers(props: {
   id: string;
   authorAddress: string;
+  isClosed: boolean;
   watchers: readonly any[];
   onUpdate?: Function;
   sx?: SxProps;
@@ -63,21 +64,23 @@ export default function GoalWatchers(props: {
         people who motivate to achieve the goal
       </Typography>
       {/* Button to become a watcher */}
-      <XlLoadingButton
-        variant="contained"
-        onClick={() =>
-          showDialog?.(
-            <GoalWatchDialog
-              id={props.id}
-              onUpdate={props.onUpdate}
-              onClose={closeDialog}
-            />
-          )
-        }
-        sx={{ mb: 3 }}
-      >
-        Watch
-      </XlLoadingButton>
+      {!props.isClosed && (
+        <XlLoadingButton
+          variant="contained"
+          onClick={() =>
+            showDialog?.(
+              <GoalWatchDialog
+                id={props.id}
+                onUpdate={props.onUpdate}
+                onClose={closeDialog}
+              />
+            )
+          }
+          sx={{ mb: 3 }}
+        >
+          Watch
+        </XlLoadingButton>
+      )}
       {/* Tabs */}
       <Box sx={{ width: 1 }}>
         <TabContext value={tabValue}>
