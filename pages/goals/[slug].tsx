@@ -1,6 +1,6 @@
 import GoalActions from "components/goal/GoalActions";
 import GoalParams from "components/goal/GoalParams";
-import GoalWatcherTabs from "components/goal/GoalWatcherTabs";
+import GoalWatchers from "components/goal/GoalWatchers";
 import Layout from "components/layout";
 import {
   CentralizedBox,
@@ -101,7 +101,7 @@ export default function Goal() {
               sx={{ mt: 4 }}
             />
             <ThickDivider sx={{ mt: 6 }} />
-            <GoalWatcherTabs
+            <GoalWatchers
               id={goalId}
               authorAddress={goalParams.authorAddress}
               watchers={goalWatchers}
