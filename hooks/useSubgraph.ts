@@ -1,4 +1,5 @@
 import axios from "axios";
+import AccountEntity from "entities/AccountEntity";
 import GoalEntity from "entities/GoalEntity";
 import { getSubgraphApiUrl } from "utils/chains";
 import { Chain } from "wagmi";
@@ -9,6 +10,40 @@ import { Chain } from "wagmi";
 export default function useSubgraph() {
   const defaultFirst = 10;
   const defaultSkip = 0;
+
+  let findAccounts = async function (args: {
+    chain: Chain | undefined;
+    id?: string;
+    first?: number;
+    skip?: number;
+  }): Promise<Array<AccountEntity>> {
+    // Prepare query
+    const idFilter = args.id ? `id: "${args.id.toLowerCase()}"` : "";
+    const filterParams = `where: {${idFilter}}`;
+    const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
+      args.skip || defaultSkip
+    }`;
+    const query = `{
+     accounts(${filterParams}, ${paginationParams}) {
+       id
+       achievedGoals
+       failedGoals
+       motivatedGoals
+     }
+   }`;
+    // Make query and return result
+    const response = await makeSubgraphQuery(args.chain, query);
+    const accounts: Array<AccountEntity> = [];
+    response.accounts?.forEach((account: any) => {
+      accounts.push({
+        id: account.id,
+        achievedGoals: account.achievedGoals,
+        failedGoals: account.failedGoals,
+        motivatedGoals: account.motivatedGoals,
+      });
+    });
+    return accounts;
+  };
 
   let findGoals = async function (args: {
     chain: Chain | undefined;
@@ -68,6 +103,7 @@ export default function useSubgraph() {
   };
 
   return {
+    findAccounts,
     findGoals,
   };
 }

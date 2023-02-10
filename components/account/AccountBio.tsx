@@ -9,11 +9,14 @@ import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { bioContractAbi } from "contracts/abi/bioContract";
+import AccountEntity from "entities/AccountEntity";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
+import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { palette } from "theme/palette";
 import { getBioContractAddress } from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
@@ -26,7 +29,9 @@ export default function AccountBio(props: { address: string }) {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { loadJsonFromIpfs, ipfsUriToHttpUri } = useIpfs();
+  const { findAccounts } = useSubgraph();
   const [bioData, setBioData] = useState<any>();
+  const [accountData, setAccountData] = useState<AccountEntity | undefined>();
 
   // Contract states
   const { status, error, data } = useContractRead({
@@ -36,6 +41,9 @@ export default function AccountBio(props: { address: string }) {
     args: [ethers.utils.getAddress(props.address)],
   });
 
+  /**
+   * Load bio data from ipfs when contract reading is successed.
+   */
   useEffect(() => {
     if (status === "success") {
       if (data) {
@@ -50,6 +58,18 @@ export default function AccountBio(props: { address: string }) {
       setBioData({});
     }
   }, [status, error, data]);
+
+  /**
+   * Load account data from subgraph.
+   */
+  useEffect(() => {
+    setAccountData(undefined);
+    findAccounts({ chain: chain, id: props.address })
+      .then((result) =>
+        setAccountData(result.length > 0 ? result[0] : undefined)
+      )
+      .catch((error) => handleError(error, true));
+  }, [props.address]);
 
   if (bioData) {
     return (
@@ -145,7 +165,7 @@ export default function AccountBio(props: { address: string }) {
               />
             )}
           </Stack>
-          {/* Address, successes, failures */}
+          {/* Address, goal counters */}
           <Stack
             direction="row"
             alignItems="center"
@@ -154,12 +174,27 @@ export default function AccountBio(props: { address: string }) {
             <Typography fontWeight={700} sx={{ mr: 1.5 }}>
               {addressToShortAddress(props.address)}
             </Typography>
-            <Typography fontWeight={700} color="success.main" sx={{ mr: 1.5 }}>
-              ✅ 0
-            </Typography>
-            <Typography fontWeight={700} color="error.main">
-              ❌ 0
-            </Typography>
+            {accountData && (
+              <>
+                <Typography
+                  fontWeight={700}
+                  color={palette.green}
+                  sx={{ mr: 1.5 }}
+                >
+                  ✅ {accountData.achievedGoals}
+                </Typography>
+                <Typography
+                  fontWeight={700}
+                  color={palette.red}
+                  sx={{ mr: 1.5 }}
+                >
+                  ❌ {accountData.failedGoals}
+                </Typography>
+                <Typography fontWeight={700} color={palette.orange}>
+                  🧡 {accountData.motivatedGoals}
+                </Typography>
+              </>
+            )}
           </Stack>
         </Stack>
         {/* Edit bio button */}
