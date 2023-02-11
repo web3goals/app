@@ -400,6 +400,32 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
+    name: "getEpnsChannelAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEpnsCommContractAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getHubAddress",
     outputs: [
       {
@@ -729,6 +755,32 @@ export const goalContractAbi = [
       },
     ],
     name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "epnsChannelAddress",
+        type: "address",
+      },
+    ],
+    name: "setEpnsChannelAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "epnsCommContractAddress",
+        type: "address",
+      },
+    ],
+    name: "setEpnsCommContractAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
