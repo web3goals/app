@@ -17,16 +17,36 @@ import { theme } from "theme";
 import { handlePageViewEvent, initAnalytics } from "utils/analytics";
 import { getSupportedChains } from "utils/chains";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { polygonMumbai } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 import "../styles/globals.css";
 
 const { chains, provider } = configureChains(
   [...getSupportedChains()],
   [
+    // Quick node provider
+    jsonRpcProvider({
+      rpc: (chain) => {
+        if (
+          chain === polygonMumbai &&
+          process.env.NEXT_PUBLIC_QUICK_NODE_MUMBAI_RPC_HTTP &&
+          process.env.NEXT_PUBLIC_QUICK_NODE_MUMBAI_RPC_WEB_SOCKET
+        ) {
+          return {
+            http: process.env.NEXT_PUBLIC_QUICK_NODE_MUMBAI_RPC_HTTP,
+            webSocket: process.env.NEXT_PUBLIC_QUICK_NODE_MUMBAI_RPC_WEB_SOCKET,
+          };
+        }
+        return null;
+      },
+    }),
+    // Alchemy provider
     ...(process.env.NEXT_PUBLIC_ALCHEMY_ID
       ? [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID })]
       : []),
+    // Public provider
     publicProvider(),
   ]
 );
