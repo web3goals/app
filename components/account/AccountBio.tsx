@@ -8,6 +8,7 @@ import {
 import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
+import { DialogContext } from "context/dialog";
 import { bioContractAbi } from "contracts/abi/bioContract";
 import AccountEntity from "entities/AccountEntity";
 import { ethers } from "ethers";
@@ -15,16 +16,19 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { getBioContractAddress } from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
+import { polygonMumbai } from "wagmi/chains";
+import AccountNotificationsDialog from "./AccountNotificationsDialog";
 
 /**
  * A component with account bio.
  */
 export default function AccountBio(props: { address: string }) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
   const { handleError } = useError();
   const { chain } = useNetwork();
   const { address } = useAccount();
@@ -197,13 +201,27 @@ export default function AccountBio(props: { address: string }) {
             )}
           </Stack>
         </Stack>
-        {/* Edit bio button */}
+        {/* Owner buttons */}
         {address === props.address && (
-          <Box sx={{ mt: 2 }}>
+          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+            {/* Edit bio button */}
             <Link href="/accounts/edit" legacyBehavior>
               <XlLoadingButton variant="contained">Edit</XlLoadingButton>
             </Link>
-          </Box>
+            {/* Notifications button */}
+            {chain?.id === polygonMumbai.id && (
+              <XlLoadingButton
+                variant="outlined"
+                onClick={() =>
+                  showDialog?.(
+                    <AccountNotificationsDialog onClose={closeDialog} />
+                  )
+                }
+              >
+                Notifications
+              </XlLoadingButton>
+            )}
+          </Stack>
         )}
       </>
     );

@@ -16,7 +16,7 @@ export default function Account() {
       {slug && (
         <CentralizedBox>
           <AccountBio address={slug as string} />
-          <AccountGoalTabs address={slug as string} sx={{ mt: 4 }} />
+          <AccountGoalTabs address={slug as string} sx={{ mt: 6 }} />
         </CentralizedBox>
       )}
     </Layout>

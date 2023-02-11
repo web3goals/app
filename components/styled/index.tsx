@@ -46,7 +46,7 @@ export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
       },
     }),
   })
-);
+) as typeof LoadingButton;
 
 export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({
@@ -60,7 +60,7 @@ export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
       },
     }),
   })
-);
+) as typeof LoadingButton;
 
 export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   display: "flex",
