@@ -18,10 +18,13 @@ import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { palette } from "theme/palette";
-import { getBioContractAddress } from "utils/chains";
+import {
+  getBioContractAddress,
+  getEpnsChannelAddress,
+  getEpnsCommContractAddress,
+} from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
-import { polygonMumbai } from "wagmi/chains";
 import AccountNotificationsDialog from "./AccountNotificationsDialog";
 
 /**
@@ -209,18 +212,22 @@ export default function AccountBio(props: { address: string }) {
               <XlLoadingButton variant="contained">Edit</XlLoadingButton>
             </Link>
             {/* Notifications button */}
-            {chain?.id === polygonMumbai.id && (
-              <XlLoadingButton
-                variant="outlined"
-                onClick={() =>
-                  showDialog?.(
-                    <AccountNotificationsDialog onClose={closeDialog} />
-                  )
-                }
-              >
-                Notifications
-              </XlLoadingButton>
-            )}
+            {getEpnsCommContractAddress(chain) &&
+              getEpnsChannelAddress(chain) && (
+                <XlLoadingButton
+                  variant="outlined"
+                  onClick={() =>
+                    showDialog?.(
+                      <AccountNotificationsDialog
+                        address={props.address}
+                        onClose={closeDialog}
+                      />
+                    )
+                  }
+                >
+                  Notifications
+                </XlLoadingButton>
+              )}
           </Stack>
         )}
       </>

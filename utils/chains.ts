@@ -8,6 +8,10 @@ const mumbaiGoalContractAddress =
   process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS;
 const mumbaiBioContractAddress =
   process.env.NEXT_PUBLIC_MUMBAI_BIO_CONTRACT_ADDRESS;
+const mumbaiEpnsCommContractAddress =
+  process.env.NEXT_PUBLIC_MUMBAI_EPNS_COMM_CONTRACT_ADDRESS;
+const mumbaiEpnsChannelAddress =
+  process.env.NEXT_PUBLIC_MUMBAI_EPNS_CHANNEL_ADDRESS;
 const mumbaiSubgraphApiUrl = process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL;
 
 const hyperspaceGoalContractAddress =
@@ -152,6 +156,40 @@ export function getBioContractAddress(
     return stringToAddress(mantleTestnetBioContractAddress);
   }
   console.error(`Not found bio contract address for chain: ${chain?.name}`);
+  return undefined;
+}
+
+/**
+ * Get address that defined in environment variables.
+ */
+export function getEpnsCommContractAddress(
+  chain: Chain | undefined
+): `0x${string}` | undefined {
+  if (chain === undefined) {
+    chain = getDefaultChain();
+  }
+  if (chain?.id === polygonMumbai.id && mumbaiEpnsCommContractAddress) {
+    return stringToAddress(mumbaiEpnsCommContractAddress);
+  }
+  console.error(
+    `Not found epns comm contract address for chain: ${chain?.name}`
+  );
+  return undefined;
+}
+
+/**
+ * Get address that defined in environment variables.
+ */
+export function getEpnsChannelAddress(
+  chain: Chain | undefined
+): `0x${string}` | undefined {
+  if (chain === undefined) {
+    chain = getDefaultChain();
+  }
+  if (chain?.id === polygonMumbai.id && mumbaiEpnsChannelAddress) {
+    return stringToAddress(mumbaiEpnsChannelAddress);
+  }
+  console.error(`Not found epns channel address for chain: ${chain?.name}`);
   return undefined;
 }
 
