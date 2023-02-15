@@ -28,10 +28,10 @@ export default async function handler(
     const githubData = githubResponse.data;
     // Check github data activity to define result
     // TODO: Implement checking
-    const result = true;
+    const isSuccess = true;
     // Add data to response
     response.status(200).json({
-      result: result,
+      isSuccess: isSuccess,
       username: username,
       days: days,
     });
