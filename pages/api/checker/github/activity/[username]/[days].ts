@@ -23,15 +23,14 @@ export default async function handler(
       throw new Error(JSON.stringify(githubResponse.data.errors));
     }
     const githubData = githubResponse.data;
-    // Check github data activity for defined days
-    // TODO: Implement
-    const result = false;
+    // Check github data activity to define result
+    // TODO: Implement checking
+    const result = true;
     // Add data to response
     response.status(200).json({
       result: result,
       username: username,
       days: days,
-      githubData: githubData,
     });
   } catch (error: any) {
     console.log(error);
