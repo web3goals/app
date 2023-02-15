@@ -2,6 +2,9 @@ import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { errorToString } from "utils/converters";
 
+/**
+ * Check if the github user has activity without spaces for the specified number of days.
+ */
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
