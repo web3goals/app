@@ -150,13 +150,13 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "proofURI",
+            name: "verificationRequirement",
             type: "string",
           },
         ],
         indexed: false,
         internalType: "struct DataTypes.GoalParams",
-        name: "params",
+        name: "",
         type: "tuple",
       },
     ],
@@ -301,6 +301,29 @@ export const goalContractAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataKeys",
+        type: "string[]",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataValues",
+        type: "string[]",
+      },
+    ],
+    name: "addVerificationDataAndVerify",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -342,26 +365,8 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
-      {
-        internalType: "string",
-        name: "proofURI",
-        type: "string",
-      },
     ],
-    name: "closeAsAchieved",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "closeAsFailed",
+    name: "close",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -481,7 +486,7 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "proofURI",
+            name: "verificationRequirement",
             type: "string",
           },
         ],
@@ -501,6 +506,54 @@ export const goalContractAbi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "key",
+        type: "string",
+      },
+    ],
+    name: "getVerificationData",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getVerificationStatus",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "isAchieved",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isFailed",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -729,6 +782,21 @@ export const goalContractAbi = [
         name: "deadlineTimestamp",
         type: "uint256",
       },
+      {
+        internalType: "string",
+        name: "verificationRequirement",
+        type: "string",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataKeys",
+        type: "string[]",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataValues",
+        type: "string[]",
+      },
     ],
     name: "set",
     outputs: [
@@ -901,6 +969,19 @@ export const goalContractAbi = [
   {
     inputs: [],
     name: "uppause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "verify",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
