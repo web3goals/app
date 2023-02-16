@@ -93,7 +93,7 @@ export default function GoalParams(props: {
         on achieving it
       </Typography>
       {/* Deadline timestamp */}
-      <WidgetBox title="On" color={palette.purpleDark} sx={{ mb: 2 }}>
+      <WidgetBox title="By" color={palette.purpleDark} sx={{ mb: 2 }}>
         <WidgetTypography>
           {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
         </WidgetTypography>

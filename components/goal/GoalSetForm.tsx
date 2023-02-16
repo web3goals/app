@@ -212,7 +212,7 @@ export default function GoalSetForm(props: {
               on achieving it
             </Typography>
             {/* Deadline input */}
-            <WidgetBox title="On" color={palette.purpleDark} sx={{ mb: 3 }}>
+            <WidgetBox title="By" color={palette.purpleDark} sx={{ mb: 3 }}>
               <WidgetInputTextField
                 id="deadline"
                 name="deadline"
