@@ -1,4 +1,4 @@
-import { Box, MenuItem, Typography } from "@mui/material";
+import { Autocomplete, Box, MenuItem, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
@@ -8,6 +8,10 @@ import {
   XxlLoadingButton,
 } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
+import {
+  VERIFICATION_DATA_KEYS,
+  VERIFICATION_REQUIREMENTS,
+} from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { ethers } from "ethers";
@@ -49,18 +53,40 @@ export default function GoalSetForm(props: {
   const { showToastError } = useToasts();
   const { uploadJsonToIpfs } = useIpfs();
 
+  const goalExamples = [
+    "Complete the challenge #14DaysOfCode",
+    "Reach 1,000 followers",
+    "Read 12 books",
+    "Train every week for 3 months",
+    "Go with the family to Spain",
+  ];
+
   // Form states
   const [formValues, setFormValues] = useState({
-    description: "Code everyday for 100 days",
+    description: "",
     stake: 0.01,
     stakeCurrency: "native",
     deadline: "2023-03-01",
+    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProofUri,
+    verificationGitHubUsername: "",
+    verificationGitHubActivityDays: "",
   });
   const formValidationSchema = yup.object({
     description: yup.string().required(),
     stake: yup.number().required(),
     stakeCurrency: yup.string().required(),
     deadline: yup.string().required(),
+    verificationRequirement: yup.string().required(),
+    verificationGitHubUsername:
+      formValues.verificationRequirement ===
+      VERIFICATION_REQUIREMENTS.gitHubActivity
+        ? yup.string().required()
+        : yup.string(),
+    verificationGitHubActivityDays:
+      formValues.verificationRequirement ===
+      VERIFICATION_REQUIREMENTS.gitHubActivity
+        ? yup.string().required()
+        : yup.string(),
   });
   const debouncedFormValues = useDebounce(formValues);
 
@@ -78,6 +104,25 @@ export default function GoalSetForm(props: {
         uploadedGoalDataUri,
         numberToBigNumberEthers(debouncedFormValues.stake),
         dateToBigNumberTimestamp(debouncedFormValues.deadline),
+        debouncedFormValues.verificationRequirement,
+        [
+          ...(debouncedFormValues.verificationGitHubUsername &&
+          debouncedFormValues.verificationGitHubActivityDays
+            ? [
+                VERIFICATION_DATA_KEYS.gitHubUsername,
+                VERIFICATION_DATA_KEYS.gitHubActivityDays,
+              ]
+            : []),
+        ],
+        [
+          ...(debouncedFormValues.verificationGitHubUsername &&
+          debouncedFormValues.verificationGitHubActivityDays
+            ? [
+                debouncedFormValues.verificationGitHubUsername,
+                debouncedFormValues.verificationGitHubActivityDays,
+              ]
+            : []),
+        ],
       ],
       overrides: {
         value: numberToBigNumberEthers(debouncedFormValues.stake),
@@ -102,6 +147,20 @@ export default function GoalSetForm(props: {
   const isFormDisabled = isFormLoading || isTransactionSuccess;
   const isFormSubmitButtonDisabled =
     isFormDisabled || isContractPrepareError || !contractWrite;
+
+  function getVerificationRequirements(description: string): string {
+    if (description === "Complete the challenge #14DaysOfCode") {
+      return VERIFICATION_REQUIREMENTS.gitHubActivity;
+    }
+    return VERIFICATION_REQUIREMENTS.anyProofUri;
+  }
+
+  function getVerificationGitHubActivityDays(description: string): string {
+    if (description === "Complete the challenge #14DaysOfCode") {
+      return "14";
+    }
+    return "";
+  }
 
   async function uploadData(values: any) {
     try {
@@ -157,24 +216,89 @@ export default function GoalSetForm(props: {
         validationSchema={formValidationSchema}
         onSubmit={uploadData}
       >
-        {({ values, errors, touched, handleChange }) => (
+        {({ values, errors, touched, handleChange, setValues }) => (
           <Form style={{ width: "100%" }}>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Description input */}
             <WidgetBox title="My goal is" color={palette.blue} sx={{ mb: 2 }}>
-              <WidgetInputTextField
-                id="description"
-                name="description"
-                value={values.description}
-                onChange={handleChange}
-                error={touched.description && Boolean(errors.description)}
-                helperText={touched.description && errors.description}
+              <Autocomplete
+                onChange={(_, value: string) => {
+                  setValues({
+                    description: value,
+                    stake: values.stake,
+                    stakeCurrency: values.stakeCurrency,
+                    deadline: values.deadline,
+                    verificationRequirement: getVerificationRequirements(value),
+                    verificationGitHubUsername: "",
+                    verificationGitHubActivityDays:
+                      getVerificationGitHubActivityDays(value),
+                  });
+                }}
+                inputValue={values.description}
+                onInputChange={(_, value) => {
+                  setValues({
+                    description: value,
+                    stake: values.stake,
+                    stakeCurrency: values.stakeCurrency,
+                    deadline: values.deadline,
+                    verificationRequirement: getVerificationRequirements(value),
+                    verificationGitHubUsername: "",
+                    verificationGitHubActivityDays:
+                      getVerificationGitHubActivityDays(value),
+                  });
+                }}
+                freeSolo
+                disableClearable
+                options={goalExamples.map((example) => example)}
                 disabled={isFormDisabled}
-                multiline
-                maxRows={4}
+                renderInput={(params) => (
+                  <WidgetInputTextField
+                    {...params}
+                    id="description"
+                    name="description"
+                    placeholder="Train every week..."
+                    error={touched.description && Boolean(errors.description)}
+                    helperText={touched.description && errors.description}
+                    multiline
+                    maxRows={4}
+                    sx={{ width: 1 }}
+                  />
+                )}
                 sx={{ width: 1 }}
               />
             </WidgetBox>
+            {/* GitHub username input */}
+            {values.verificationRequirement ===
+              VERIFICATION_REQUIREMENTS.gitHubActivity && (
+              <>
+                <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+                  which can be checked with my activity on
+                </Typography>
+                <WidgetBox
+                  title="GitHub"
+                  color={palette.purpleLight}
+                  sx={{ mb: 3 }}
+                >
+                  <WidgetInputTextField
+                    id="verificationGitHubUsername"
+                    name="verificationGitHubUsername"
+                    placeholder="username"
+                    value={values.verificationGitHubUsername}
+                    onChange={handleChange}
+                    error={
+                      touched.verificationGitHubUsername &&
+                      Boolean(errors.verificationGitHubUsername)
+                    }
+                    helperText={
+                      touched.verificationGitHubUsername &&
+                      errors.verificationGitHubUsername
+                    }
+                    disabled={isFormDisabled}
+                    sx={{ width: 1 }}
+                  />
+                </WidgetBox>
+              </>
+            )}
             {/* Text divider */}
             <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
               and
