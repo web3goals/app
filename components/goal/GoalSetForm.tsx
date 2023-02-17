@@ -59,6 +59,7 @@ export default function GoalSetForm(props: {
     "Read 12 books",
     "Train every week for 3 months",
     "Go with the family to Spain",
+    "Conquer the peak of Kilimanjaro",
   ];
 
   // Form states
