@@ -36,7 +36,7 @@ export default async function handler(
       days: days,
     });
   } catch (error: any) {
-    console.log(error);
+    console.error(error);
     response.status(500).json({ error: errorToString(error) });
   }
 }
