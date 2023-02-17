@@ -96,7 +96,7 @@ export default function Goal() {
               authorStake={goalParams.authorStake}
               isClosed={goalParams.isClosed}
               isAchieved={goalParams.isAchieved}
-              proofUri={goalParams.proofURI}
+              verificationRequirement={goalParams.verificationRequirement}
               sx={{ mt: 6 }}
             />
             <GoalActions

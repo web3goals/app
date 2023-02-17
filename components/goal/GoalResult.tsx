@@ -7,11 +7,19 @@ import {
 } from "@mui/material";
 import { ThickDivider, WidgetTypography } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
+import {
+  VERIFICATION_DATA_KEYS,
+  VERIFICATION_REQUIREMENTS,
+} from "constants/verifiers";
+import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import { palette } from "theme/palette";
-import { getChainNativeCurrencySymbol } from "utils/chains";
+import {
+  getChainNativeCurrencySymbol,
+  getGoalContractAddress,
+} from "utils/chains";
 import { ipfsUriToShortUri } from "utils/converters";
-import { useNetwork } from "wagmi";
+import { useContractRead, useNetwork } from "wagmi";
 
 /**
  * A component with goal result.
@@ -21,10 +29,23 @@ export default function GoalResult(props: {
   authorStake: BigNumber;
   isClosed: boolean;
   isAchieved: boolean;
-  proofUri: string;
+  verificationRequirement: string;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
+
+  // State of contract reading to get goal verification data
+  const { data: goalVerificationData } = useContractRead({
+    address: getGoalContractAddress(chain),
+    abi: goalContractAbi,
+    functionName: "getVerificationData",
+    args: [
+      BigNumber.from(props.id),
+      props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
+        ? VERIFICATION_DATA_KEYS.anyProofUri
+        : VERIFICATION_DATA_KEYS.gitHubUsername,
+    ],
+  });
 
   if (props.isClosed) {
     return (
@@ -49,9 +70,23 @@ export default function GoalResult(props: {
             {/* Proof */}
             <WidgetBox title="Proof" color={palette.green} sx={{ mt: 2 }}>
               <WidgetTypography>
-                <MuiLink href={props.proofUri} target="_blank">
-                  🔗 {ipfsUriToShortUri(props.proofUri)}
-                </MuiLink>
+                {goalVerificationData ? (
+                  props.verificationRequirement ===
+                  VERIFICATION_REQUIREMENTS.anyProofUri ? (
+                    <MuiLink href={goalVerificationData} target="_blank">
+                      🔗 {ipfsUriToShortUri(goalVerificationData)}
+                    </MuiLink>
+                  ) : (
+                    <MuiLink
+                      href={`https://github.com/${goalVerificationData}`}
+                      target="_blank"
+                    >
+                      🔗 {goalVerificationData}
+                    </MuiLink>
+                  )
+                ) : (
+                  <>...</>
+                )}
               </WidgetTypography>
             </WidgetBox>
           </>
