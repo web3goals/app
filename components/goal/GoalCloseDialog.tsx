@@ -1,3 +1,4 @@
+import { useCreateAsset } from "@livepeer/react";
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import { FullWidthSkeleton, XxlLoadingButton } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
@@ -10,7 +11,7 @@ import { BigNumber } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Dropzone from "react-dropzone";
 import { palette } from "theme/palette";
 import { getChainId, getGoalContractAddress } from "utils/chains";
@@ -117,7 +118,7 @@ function GoalVerifyForm(props: {
 
   // Form values
   const [formValues, setFormValues] = useState<{
-    proof?: { file: any; uri: any };
+    proof?: { file: any; uri: any; isVideo: boolean };
   }>();
 
   // Verification data states
@@ -155,6 +156,35 @@ function GoalVerifyForm(props: {
       hash: contractWriteData?.hash,
     });
 
+  // Livepeer create asset states
+  const {
+    mutate: createAsset,
+    data: asset,
+    status: createAssetStatus,
+    progress: createAssetProgress,
+  } = useCreateAsset(
+    formValues?.proof?.isVideo
+      ? {
+          sources: [
+            { name: formValues.proof.file.name, file: formValues.proof.file },
+          ] as const,
+        }
+      : null
+  );
+  const createAssetProgressFormatted = useMemo(
+    () =>
+      createAssetProgress?.[0].phase === "failed"
+        ? "failed to process video"
+        : createAssetProgress?.[0].phase === "waiting"
+        ? "waiting"
+        : createAssetProgress?.[0].phase === "uploading"
+        ? `uploading: ${Math.round(createAssetProgress?.[0]?.progress * 100)}%`
+        : createAssetProgress?.[0].phase === "processing"
+        ? `processing: ${Math.round(createAssetProgress?.[0].progress * 100)}%`
+        : null,
+    [createAssetProgress]
+  );
+
   // Form states
   const isFormLoading =
     isVerificationDataLoading ||
@@ -170,13 +200,6 @@ function GoalVerifyForm(props: {
       if (!file) {
         return;
       }
-      // Check file size
-      const isLessThan2Mb = file.size / 1024 / 1024 < 2;
-      if (!isLessThan2Mb) {
-        throw new Error(
-          "Only files with size smaller than 2MB are currently supported!"
-        );
-      }
       // Read and save file
       const fileReader = new FileReader();
       fileReader.onload = () => {
@@ -185,6 +208,7 @@ function GoalVerifyForm(props: {
             proof: {
               file: file,
               uri: fileReader.result,
+              isVideo: file.type === "video/mp4",
             },
           });
         }
@@ -205,19 +229,40 @@ function GoalVerifyForm(props: {
         if (!formValues?.proof) {
           throw new Error("Proof file is not attached!");
         }
-        const { uri } = await uploadFileToIpfs(formValues.proof.file);
-        setVerificationData({
-          keys: [VERIFICATION_DATA_KEYS.anyUri],
-          values: [uri],
-        });
+        // Upload to livepeer if file is video
+        if (formValues.proof.isVideo) {
+          createAsset?.();
+        }
+        // Upload to ipfs if file is not video
+        else {
+          const { uri } = await uploadFileToIpfs(formValues.proof.file);
+          setVerificationData({
+            keys: [VERIFICATION_DATA_KEYS.anyUri],
+            values: [uri],
+          });
+          setIsVerificationDataReady(true);
+          setIsVerificationDataLoading(false);
+        }
       }
-      setIsVerificationDataReady(true);
     } catch (error: any) {
       handleError(error, true);
-    } finally {
       setIsVerificationDataLoading(false);
     }
   }
+
+  /**
+   * Update veirifcation data when video uploaded to livepeer.
+   */
+  useEffect(() => {
+    if (createAssetStatus === "success" && asset) {
+      setVerificationData({
+        keys: [VERIFICATION_DATA_KEYS.anyLivepeerPlaybackId],
+        values: [asset[0].playbackId || ""],
+      });
+      setIsVerificationDataReady(true);
+      setIsVerificationDataLoading(false);
+    }
+  }, [createAssetStatus]);
 
   /**
    * Write data to contract if verification data and contract is ready.
@@ -268,7 +313,10 @@ function GoalVerifyForm(props: {
                     borderRadius: 3,
                   }}
                 >
-                  <Typography color="text.secondary">
+                  <Typography
+                    color="text.secondary"
+                    sx={{ lineBreak: "anywhere" }}
+                  >
                     {formValues?.proof?.file?.name ||
                       "Drag 'n' drop some files here, or click to select files"}
                   </Typography>
@@ -288,6 +336,11 @@ function GoalVerifyForm(props: {
       >
         Verify
       </XxlLoadingButton>
+      {createAssetProgressFormatted && (
+        <Typography fontWeight={700} textAlign="center" sx={{ mt: 3 }}>
+          {createAssetProgressFormatted}
+        </Typography>
+      )}
     </>
   );
 }

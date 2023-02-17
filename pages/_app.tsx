@@ -1,3 +1,8 @@
+import {
+  createReactClient,
+  studioProvider,
+  LivepeerConfig,
+} from "@livepeer/react";
 import { ThemeProvider } from "@mui/material";
 import {
   getDefaultWallets,
@@ -62,6 +67,12 @@ const wagmiClient = createClient({
   provider,
 });
 
+const livepeerClient = createReactClient({
+  provider: studioProvider({
+    apiKey: process.env.NEXT_PUBLIC_LIVEPEER_STUDIO_KEY || "",
+  }),
+});
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [pageLoaded, setPageLoaded] = useState(false);
@@ -99,21 +110,26 @@ export default function App({ Component, pageProps }: AppProps) {
         chains={chains}
         theme={lightTheme({ accentColor: theme.palette.primary.main })}
       >
-        <CookiesProvider>
-          <ThemeProvider theme={theme}>
-            <SnackbarProvider maxSnack={3}>
-              <DialogProvider>
-                <NextNProgress height={4} color={theme.palette.primary.main} />
-                {pageLoaded && (
-                  <>
-                    <AnalyticsHelper />
-                    <Component {...pageProps} />
-                  </>
-                )}
-              </DialogProvider>
-            </SnackbarProvider>
-          </ThemeProvider>
-        </CookiesProvider>
+        <LivepeerConfig client={livepeerClient}>
+          <CookiesProvider>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider maxSnack={3}>
+                <DialogProvider>
+                  <NextNProgress
+                    height={4}
+                    color={theme.palette.primary.main}
+                  />
+                  {pageLoaded && (
+                    <>
+                      <AnalyticsHelper />
+                      <Component {...pageProps} />
+                    </>
+                  )}
+                </DialogProvider>
+              </SnackbarProvider>
+            </ThemeProvider>
+          </CookiesProvider>
+        </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>
   );

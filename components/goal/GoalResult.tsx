@@ -1,3 +1,4 @@
+import { Player } from "@livepeer/react";
 import {
   Box,
   Link as MuiLink,
@@ -7,10 +8,7 @@ import {
 } from "@mui/material";
 import { ThickDivider, WidgetTypography } from "components/styled";
 import WidgetBox from "components/widget/WidgetBox";
-import {
-  VERIFICATION_DATA_KEYS,
-  VERIFICATION_REQUIREMENTS,
-} from "constants/verifiers";
+import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import { palette } from "theme/palette";
@@ -38,12 +36,14 @@ export default function GoalResult(props: {
   const { data: goalVerificationData } = useContractRead({
     address: getGoalContractAddress(chain),
     abi: goalContractAbi,
-    functionName: "getVerificationData",
+    functionName: "getVerificationDataList",
     args: [
       BigNumber.from(props.id),
-      props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof
-        ? VERIFICATION_DATA_KEYS.anyUri
-        : VERIFICATION_DATA_KEYS.gitHubUsername,
+      [
+        VERIFICATION_DATA_KEYS.anyUri,
+        VERIFICATION_DATA_KEYS.anyLivepeerPlaybackId,
+        VERIFICATION_DATA_KEYS.gitHubUsername,
+      ],
     ],
   });
 
@@ -69,25 +69,38 @@ export default function GoalResult(props: {
             </Typography>
             {/* Proof */}
             <WidgetBox title="Proof" color={palette.green} sx={{ mt: 2 }}>
-              <WidgetTypography>
-                {goalVerificationData ? (
-                  props.verificationRequirement ===
-                  VERIFICATION_REQUIREMENTS.anyProof ? (
-                    <MuiLink href={goalVerificationData} target="_blank">
-                      🔗 {ipfsUriToShortUri(goalVerificationData)}
+              {/* Any livepeer playback id */}
+              {goalVerificationData?.[1] ? (
+                <Box
+                  sx={{
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: "12px",
+                    padding: 1,
+                  }}
+                >
+                  <Player playbackId={goalVerificationData?.[1]} />
+                </Box>
+              ) : (
+                <WidgetTypography>
+                  {/* Any uri */}
+                  {goalVerificationData?.[0] && (
+                    <MuiLink href={goalVerificationData[0]} target="_blank">
+                      🔗 {ipfsUriToShortUri(goalVerificationData[0])}
                     </MuiLink>
-                  ) : (
+                  )}
+                  {/* Github username */}
+                  {goalVerificationData?.[2] && (
                     <MuiLink
-                      href={`https://github.com/${goalVerificationData}`}
+                      href={`https://github.com/${goalVerificationData[2]}`}
                       target="_blank"
                     >
-                      🔗 {goalVerificationData}
+                      🔗 {ipfsUriToShortUri(goalVerificationData[2])}
                     </MuiLink>
-                  )
-                ) : (
-                  <>...</>
-                )}
-              </WidgetTypography>
+                  )}
+                  {/* Loading */}
+                  {!goalVerificationData && <>...</>}
+                </WidgetTypography>
+              )}
             </WidgetBox>
           </>
         ) : (
