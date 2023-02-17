@@ -88,6 +88,7 @@ export default function GoalWatcherCard(props: {
   );
 }
 
+// TODO: Rename "onUpdate" to "onSuccess"
 function AcceptButton(props: {
   id: string;
   accountAddress: string;

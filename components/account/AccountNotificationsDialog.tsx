@@ -112,6 +112,7 @@ export default function AccountNotificationsDialog(props: {
   );
 }
 
+// TODO: Rename "onUpdate" to "onSuccess"
 function EnableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
@@ -157,6 +158,7 @@ function EnableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   );
 }
 
+// TODO: Rename "onUpdate" to "onSuccess"
 function DisableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();

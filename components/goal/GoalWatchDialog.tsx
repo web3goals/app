@@ -22,6 +22,8 @@ import * as yup from "yup";
 
 /**
  * Dialog to watch a goal.
+ *
+ * // TODO: Rename "onUpdate" to "onSuccess"
  */
 export default function GoalWatchDialog(props: {
   id: string;
