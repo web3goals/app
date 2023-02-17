@@ -51,9 +51,19 @@ export function numberToBigNumberEthers(number?: number): BigNumber {
 }
 
 /**
+ * Convert date object to big number "1677628800".
+ */
+export function dateToBigNumberTimestamp(date?: Date): BigNumber {
+  if (!date) {
+    return ethers.constants.Zero;
+  }
+  return BigNumber.from(date.getTime()).div(BigNumber.from(1000));
+}
+
+/**
  * Convert date like "2023-03-01" to big number "1677628800".
  */
-export function dateToBigNumberTimestamp(date?: string): BigNumber {
+export function dateStringToBigNumberTimestamp(date?: string): BigNumber {
   if (!date) {
     return ethers.constants.Zero;
   }

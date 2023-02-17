@@ -28,7 +28,7 @@ import {
   getGoalContractAddress,
 } from "utils/chains";
 import {
-  dateToBigNumberTimestamp,
+  dateStringToBigNumberTimestamp,
   numberToBigNumberEthers,
 } from "utils/converters";
 import {
@@ -103,7 +103,7 @@ export default function GoalSetForm(props: {
       args: [
         uploadedGoalDataUri,
         numberToBigNumberEthers(debouncedFormValues.stake),
-        dateToBigNumberTimestamp(debouncedFormValues.deadline),
+        dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
         debouncedFormValues.verificationRequirement,
         [
           ...(debouncedFormValues.verificationGitHubUsername &&

@@ -3,17 +3,19 @@ import { Stack } from "@mui/system";
 import GoalShareDialog from "components/goal/GoalShareDialog";
 import { XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
+import { BigNumber } from "ethers";
 import { useContext } from "react";
-import GoalCloseAsAchievedDialog from "./GoalCloseAsAchievedDialog";
-import GoalCloseAsFailedDialog from "./GoalCloseAsFailedDialog";
+import GoalCloseDialog from "./GoalCloseDialog";
 
 /**
  * A component with goal actions.
  */
 export default function GoalActions(props: {
   id: string;
+  deadlineTimestamp: BigNumber;
+  verificationRequirement: string;
   isClosed: boolean;
-  onUpdate: Function;
+  onSuccess: Function;
   sx?: SxProps;
 }) {
   return (
@@ -24,23 +26,24 @@ export default function GoalActions(props: {
       sx={{ ...props.sx }}
     >
       {!props.isClosed && (
-        <>
-          <GoalCloseAsAchievedButton
-            id={props.id}
-            onUpdate={() => props.onUpdate?.()}
-          />
-          <GoalCloseAsFailedButton
-            id={props.id}
-            onUpdate={() => props.onUpdate?.()}
-          />
-        </>
+        <GoalCloseButton
+          id={props.id}
+          deadlineTimestamp={props.deadlineTimestamp}
+          verificationRequirement={props.verificationRequirement}
+          onSuccess={() => props.onSuccess?.()}
+        />
       )}
       <GoalShareButton id={props.id} />
     </Stack>
   );
 }
 
-function GoalCloseAsAchievedButton(props: { id: string; onUpdate?: Function }) {
+function GoalCloseButton(props: {
+  id: string;
+  deadlineTimestamp: BigNumber;
+  verificationRequirement: string;
+  onSuccess?: Function;
+}) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
@@ -48,36 +51,17 @@ function GoalCloseAsAchievedButton(props: { id: string; onUpdate?: Function }) {
       variant="contained"
       onClick={() =>
         showDialog?.(
-          <GoalCloseAsAchievedDialog
+          <GoalCloseDialog
             id={props.id}
-            onUpdate={props.onUpdate}
+            deadlineTimestamp={props.deadlineTimestamp}
+            verificationRequirement={props.verificationRequirement}
+            onSuccess={props.onSuccess}
             onClose={closeDialog}
           />
         )
       }
     >
-      Close As Achieved
-    </XlLoadingButton>
-  );
-}
-
-function GoalCloseAsFailedButton(props: { id: string; onUpdate?: Function }) {
-  const { showDialog, closeDialog } = useContext(DialogContext);
-
-  return (
-    <XlLoadingButton
-      variant="outlined"
-      onClick={() =>
-        showDialog?.(
-          <GoalCloseAsFailedDialog
-            id={props.id}
-            onUpdate={props.onUpdate}
-            onClose={closeDialog}
-          />
-        )
-      }
-    >
-      Close As Failed
+      Close
     </XlLoadingButton>
   );
 }

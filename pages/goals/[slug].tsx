@@ -101,8 +101,10 @@ export default function Goal() {
             />
             <GoalActions
               id={goalId}
+              deadlineTimestamp={goalParams.deadlineTimestamp}
               isClosed={goalParams.isClosed}
-              onUpdate={() => {
+              verificationRequirement={goalParams.verificationRequirement}
+              onSuccess={() => {
                 refetchGoalUri();
                 refetchGoalParams();
                 refetchGoalWatchers();
