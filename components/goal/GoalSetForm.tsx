@@ -67,7 +67,7 @@ export default function GoalSetForm(props: {
     stake: 0.01,
     stakeCurrency: "native",
     deadline: "2023-03-01",
-    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProofUri,
+    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProof,
     verificationGitHubUsername: "",
     verificationGitHubActivityDays: "",
   });
@@ -152,7 +152,7 @@ export default function GoalSetForm(props: {
     if (description === "Complete the challenge #14DaysOfCode") {
       return VERIFICATION_REQUIREMENTS.gitHubActivity;
     }
-    return VERIFICATION_REQUIREMENTS.anyProofUri;
+    return VERIFICATION_REQUIREMENTS.anyProof;
   }
 
   function getVerificationGitHubActivityDays(description: string): string {

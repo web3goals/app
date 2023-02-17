@@ -41,8 +41,8 @@ export default function GoalResult(props: {
     functionName: "getVerificationData",
     args: [
       BigNumber.from(props.id),
-      props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
-        ? VERIFICATION_DATA_KEYS.anyProofUri
+      props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof
+        ? VERIFICATION_DATA_KEYS.anyUri
         : VERIFICATION_DATA_KEYS.gitHubUsername,
     ],
   });
@@ -72,7 +72,7 @@ export default function GoalResult(props: {
               <WidgetTypography>
                 {goalVerificationData ? (
                   props.verificationRequirement ===
-                  VERIFICATION_REQUIREMENTS.anyProofUri ? (
+                  VERIFICATION_REQUIREMENTS.anyProof ? (
                     <MuiLink href={goalVerificationData} target="_blank">
                       🔗 {ipfsUriToShortUri(goalVerificationData)}
                     </MuiLink>

@@ -200,14 +200,14 @@ function GoalVerifyForm(props: {
       setIsVerificationDataReady(false);
       setIsVerificationDataLoading(true);
       if (
-        props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
+        props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof
       ) {
         if (!formValues?.proof) {
           throw new Error("Proof file is not attached!");
         }
         const { uri } = await uploadFileToIpfs(formValues.proof.file);
         setVerificationData({
-          keys: [VERIFICATION_DATA_KEYS.anyProofUri],
+          keys: [VERIFICATION_DATA_KEYS.anyUri],
           values: [uri],
         });
       }
@@ -248,8 +248,7 @@ function GoalVerifyForm(props: {
         verify the achievement of the goal before closing it
       </Typography>
       {/* Proof file input */}
-      {props.verificationRequirement ===
-        VERIFICATION_REQUIREMENTS.anyProofUri && (
+      {props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof && (
         <WidgetBox title="Proof" color={palette.green} sx={{ width: 1, mb: 3 }}>
           {/* TODO: Move the dropzone to a separate component  */}
           <Dropzone
