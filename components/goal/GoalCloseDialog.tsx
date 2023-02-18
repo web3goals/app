@@ -223,6 +223,7 @@ function GoalVerifyForm(props: {
     try {
       setIsVerificationDataReady(false);
       setIsVerificationDataLoading(true);
+      // If any proof requirement
       if (
         props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof
       ) {
@@ -243,6 +244,15 @@ function GoalVerifyForm(props: {
           setIsVerificationDataReady(true);
           setIsVerificationDataLoading(false);
         }
+      }
+      // If github activity requirement
+      if (
+        props.verificationRequirement ===
+        VERIFICATION_REQUIREMENTS.gitHubActivity
+      ) {
+        setVerificationData({ keys: [], values: [] });
+        setIsVerificationDataReady(true);
+        setIsVerificationDataLoading(false);
       }
     } catch (error: any) {
       handleError(error, true);
