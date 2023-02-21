@@ -53,7 +53,7 @@ export default function Landing() {
               textAlign="center"
               sx={{ mt: 24, mb: 4 }}
             >
-              A social space that motivates to achieve to achieve your goals!
+              A social space that motivates to achieve your goals!
             </Typography>
             <Typography
               variant="h6"
@@ -299,9 +299,9 @@ export default function Landing() {
             <TimelineItem>
               <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
                 <Typography variant="h6" fontWeight={700}>
-                  Version 1.0
+                  First version
                 </Typography>
-                <Typography>Feb & Mar 2023</Typography>
+                <Typography>Mar 2023</Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
@@ -314,17 +314,23 @@ export default function Landing() {
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
               <TimelineContent sx={{ py: "24px", px: 2 }}>
+                <Typography color={grey[900]} gutterBottom>
+                  goals with a stake
+                </Typography>
+                <Typography color={grey[800]} gutterBottom>
+                  motivational watchers
+                </Typography>
                 <Typography color={grey[700]} gutterBottom>
-                  goals with staking
+                  proof of achievement
                 </Typography>
                 <Typography color={grey[600]} gutterBottom>
-                  watchers motivators
+                  goals as soulbound tokens
                 </Typography>
                 <Typography color={grey[500]} gutterBottom>
-                  notifications
+                  account page
                 </Typography>
-                <Typography color={grey[400]}>
-                  account page with history
+                <Typography color={grey[400]} gutterBottom>
+                  notifications
                 </Typography>
               </TimelineContent>
             </TimelineItem>
@@ -332,9 +338,9 @@ export default function Landing() {
             <TimelineItem>
               <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
                 <Typography variant="h6" fontWeight={700}>
-                  Version 2.0
+                  Second version
                 </Typography>
-                <Typography>Apr & May 2023</Typography>
+                <Typography>May 2023</Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
@@ -347,23 +353,25 @@ export default function Landing() {
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
               <TimelineContent sx={{ py: "24px", px: 2 }}>
+                <Typography color={grey[900]} gutterBottom>
+                  verified goals
+                </Typography>
+                <Typography color={grey[800]} gutterBottom>
+                  goal marathons
+                </Typography>
                 <Typography color={grey[700]} gutterBottom>
-                  validated goals
+                  journal
                 </Typography>
-                <Typography color={grey[600]} gutterBottom>
-                  watchers super motivators
+                <Typography color={grey[600]}>
+                  active motivational watchers
                 </Typography>
-                <Typography color={grey[500]} gutterBottom>
-                  group marathons
-                </Typography>
-                <Typography color={grey[400]}>journal</Typography>
               </TimelineContent>
             </TimelineItem>
             {/* Version three */}
             <TimelineItem>
               <TimelineOppositeContent sx={{ m: "auto 0" }} align="right">
                 <Typography variant="h6" fontWeight={700}>
-                  Version 3.0
+                  Third version
                 </Typography>
                 <Typography>Summer 2023</Typography>
               </TimelineOppositeContent>
@@ -378,14 +386,20 @@ export default function Landing() {
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
               <TimelineContent sx={{ py: "24px", px: 2 }}>
-                <Typography color={grey[700]} gutterBottom>
+                <Typography color={grey[900]} gutterBottom>
                   private goals with friends
                 </Typography>
+                <Typography color={grey[800]} gutterBottom>
+                  goals verified by others with high reputation
+                </Typography>
+                <Typography color={grey[700]} gutterBottom>
+                  dashboard for analyzing own progress
+                </Typography>
                 <Typography color={grey[600]} gutterBottom>
-                  AI to motivate and visualise
+                  AI that helps to set SMART goal and achieve it
                 </Typography>
                 <Typography color={grey[500]} gutterBottom>
-                  dashboard and analysis
+                  stake for charity
                 </Typography>
                 <Typography color={grey[400]}>and a lot more...</Typography>
               </TimelineContent>

@@ -14,9 +14,9 @@ export const typography = {
     "sans-serif",
   ].join(","),
   h1: {
-    fontSize: "5rem",
+    fontSize: "4.6rem",
     "@media (max-width:600px)": {
-      fontSize: "2.8rem",
+      fontSize: "2.6rem",
     },
   },
   h4: {
