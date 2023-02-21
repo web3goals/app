@@ -19,7 +19,9 @@ export default function Layout(props: {
     <Box>
       <CssBaseline />
       <Head>
-        <title>Web3 Goals - A social space that motivates to achieve!</title>
+        <title>
+          Web3 Goals - A social space that motivates to achieve your goals!
+        </title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Navigation />

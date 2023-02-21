@@ -39,7 +39,7 @@ function Copyright(props: { sx?: SxProps }) {
     <Container sx={{ maxWidth: "md", ...props.sx }}>
       <ThickDivider sx={{ mb: 4 }} />
       <Typography color="text.secondary" variant="body2" textAlign="center">
-        Web3 Goals — A social space that motivates to achieve! © 2023
+        Web3 Goals — A social space that motivates to achieve your goals! © 2023
       </Typography>
     </Container>
   );

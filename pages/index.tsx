@@ -53,7 +53,7 @@ export default function Landing() {
               textAlign="center"
               sx={{ mt: 24, mb: 4 }}
             >
-              A social space that motivates to achieve!
+              A social space that motivates to achieve to achieve your goals!
             </Typography>
             <Typography
               variant="h6"
