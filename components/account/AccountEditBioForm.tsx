@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XxlLoadingButton } from "components/styled";
 import { bioContractAbi } from "contracts/abi/bioContract";
+import BioUriDataEntity from "entities/BioUriDataEntity";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
@@ -24,7 +25,9 @@ import * as yup from "yup";
 /**
  * A component with form to edit account bio.
  */
-export default function AccountEditBioForm(props: { bioData: any }) {
+export default function AccountEditBioForm(props: {
+  bioData: BioUriDataEntity | null;
+}) {
   const { handleError } = useError();
   const { uploadJsonToIpfs, uploadFileToIpfs, ipfsUriToHttpUri } = useIpfs();
   const { showToastSuccess } = useToasts();
@@ -38,12 +41,12 @@ export default function AccountEditBioForm(props: { bioData: any }) {
     uri: any;
   }>();
   const [formValues, setFormValues] = useState({
-    name: props.bioData?.name as string,
-    about: props.bioData?.about as string,
-    email: props.bioData?.email as string,
-    twitter: props.bioData?.twitter as string,
-    telegram: props.bioData?.telegram as string,
-    instagram: props.bioData?.instagram as string,
+    name: props.bioData?.attributes?.[0]?.value || "",
+    about: props.bioData?.attributes?.[1]?.value || "",
+    email: props.bioData?.attributes?.[2]?.value || "",
+    twitter: props.bioData?.attributes?.[3]?.value || "",
+    telegram: props.bioData?.attributes?.[4]?.value || "",
+    instagram: props.bioData?.attributes?.[5]?.value || "",
   });
   const formValidationSchema = yup.object({
     name: yup.string(),
@@ -121,13 +124,20 @@ export default function AccountEditBioForm(props: { bioData: any }) {
         const { uri } = await uploadFileToIpfs(formImageValue.file);
         imageIpfsUri = uri;
       }
-      // Init updated bio data
-      const updatedBioData = {
-        image: imageIpfsUri || props.bioData.image,
-        ...values,
+      const bioUriData: BioUriDataEntity = {
+        name: "Web3 Goals Profile",
+        image: imageIpfsUri || props.bioData?.image || "",
+        attributes: [
+          { trait_type: "name", value: values.name },
+          { trait_type: "about", value: values.about },
+          { trait_type: "email", value: values.email },
+          { trait_type: "twitter", value: values.twitter },
+          { trait_type: "telegram", value: values.telegram },
+          { trait_type: "instagram", value: values.instagram },
+        ],
       };
       // Upload updated bio data to ipfs
-      const { uri } = await uploadJsonToIpfs(updatedBioData);
+      const { uri } = await uploadJsonToIpfs(bioUriData);
       setUpdatedBioDataUri(uri);
     } catch (error: any) {
       handleError(error, true);

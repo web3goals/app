@@ -11,6 +11,7 @@ import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { bioContractAbi } from "contracts/abi/bioContract";
 import AccountEntity from "entities/AccountEntity";
+import BioUriDataEntity from "entities/BioUriDataEntity";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
@@ -37,7 +38,7 @@ export default function AccountBio(props: { address: string }) {
   const { address } = useAccount();
   const { loadJsonFromIpfs, ipfsUriToHttpUri } = useIpfs();
   const { findAccounts } = useSubgraph();
-  const [bioData, setBioData] = useState<any>();
+  const [bioData, setBioData] = useState<BioUriDataEntity | null | undefined>();
   const [accountData, setAccountData] = useState<AccountEntity | undefined>();
 
   // Contract states
@@ -58,11 +59,11 @@ export default function AccountBio(props: { address: string }) {
           .then((result) => setBioData(result))
           .catch((error) => handleError(error, true));
       } else {
-        setBioData({});
+        setBioData(null);
       }
     }
     if (status === "error" && error) {
-      setBioData({});
+      setBioData(null);
     }
   }, [status, error, data]);
 
@@ -78,7 +79,7 @@ export default function AccountBio(props: { address: string }) {
       .catch((error) => handleError(error, true));
   }, [props.address]);
 
-  if (bioData) {
+  if (bioData !== undefined) {
     return (
       <>
         {/* Bio image */}
@@ -89,26 +90,26 @@ export default function AccountBio(props: { address: string }) {
               height: 164,
               borderRadius: 164,
             }}
-            src={bioData.image ? ipfsUriToHttpUri(bioData.image) : undefined}
+            src={bioData?.image ? ipfsUriToHttpUri(bioData.image) : undefined}
           >
             <Person sx={{ fontSize: 64 }} />
           </Avatar>
         </Box>
         {/* Bio name */}
-        {bioData?.name && (
+        {bioData?.attributes?.[0]?.value && (
           <Typography
             variant="h4"
             fontWeight={700}
             textAlign="center"
             sx={{ mb: 0.5 }}
           >
-            {bioData.name}
+            {bioData.attributes[0].value}
           </Typography>
         )}
         {/* Bio about */}
-        {bioData?.about && (
+        {bioData?.attributes?.[1]?.value && (
           <Typography textAlign="center" sx={{ maxWidth: 480, mb: 1.5 }}>
-            {bioData.about}
+            {bioData.attributes[1].value}
           </Typography>
         )}
         {/* Bio links and other data */}
@@ -118,9 +119,9 @@ export default function AccountBio(props: { address: string }) {
         >
           {/* Email and social links */}
           <Stack direction="row" alignItems="center">
-            {bioData.email && (
+            {bioData?.attributes?.[2]?.value && (
               <IconButton
-                href={`mailto:${bioData.email}`}
+                href={`mailto:${bioData.attributes[2].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -128,9 +129,9 @@ export default function AccountBio(props: { address: string }) {
                 <AlternateEmail />
               </IconButton>
             )}
-            {bioData.twitter && (
+            {bioData?.attributes?.[3]?.value && (
               <IconButton
-                href={`https://twitter.com/${bioData.twitter}`}
+                href={`https://twitter.com/${bioData.attributes[3].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -138,9 +139,9 @@ export default function AccountBio(props: { address: string }) {
                 <Twitter />
               </IconButton>
             )}
-            {bioData.telegram && (
+            {bioData?.attributes?.[4]?.value && (
               <IconButton
-                href={`https://t.me/${bioData.telegram}`}
+                href={`https://t.me/${bioData.attributes[4].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -148,9 +149,9 @@ export default function AccountBio(props: { address: string }) {
                 <Telegram />
               </IconButton>
             )}
-            {bioData.instagram && (
+            {bioData?.attributes?.[5]?.value && (
               <IconButton
-                href={`https://instagram.com/${bioData.instagram}`}
+                href={`https://instagram.com/${bioData.attributes[5].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -158,7 +159,10 @@ export default function AccountBio(props: { address: string }) {
                 <Instagram />
               </IconButton>
             )}
-            {(bioData.twitter || bioData.telegram || bioData.instagram) && (
+            {(bioData?.attributes?.[2]?.value ||
+              bioData?.attributes?.[3]?.value ||
+              bioData?.attributes?.[4]?.value ||
+              bioData?.attributes?.[5]?.value) && (
               <Divider
                 flexItem
                 orientation="vertical"
