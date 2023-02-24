@@ -311,7 +311,6 @@ function GoalVerifyForm(props: {
       {props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof && (
         <WidgetBox bgcolor={palette.green} mb={3} sx={{ width: 1 }}>
           <WidgetTitle>Proof</WidgetTitle>
-          {/* TODO: Move the dropzone to a separate component  */}
           <Dropzone
             multiple={false}
             disabled={isFormDisabled}
