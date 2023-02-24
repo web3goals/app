@@ -80,7 +80,7 @@ export default function GoalWatcherCard(props: {
         <AcceptButton
           id={props.id}
           accountAddress={props.accountAddress}
-          onUpdate={props.onUpdate}
+          onSuccess={props.onUpdate}
           sx={{ mt: 2 }}
         />
       )}
@@ -88,11 +88,10 @@ export default function GoalWatcherCard(props: {
   );
 }
 
-// TODO: Rename "onUpdate" to "onSuccess"
 function AcceptButton(props: {
   id: string;
   accountAddress: string;
-  onUpdate?: Function;
+  onSuccess?: Function;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
@@ -123,7 +122,7 @@ function AcceptButton(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Watcher is accepted!");
-      props.onUpdate?.();
+      props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
 

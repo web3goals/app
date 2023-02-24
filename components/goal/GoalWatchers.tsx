@@ -70,7 +70,7 @@ export default function GoalWatchers(props: {
             showDialog?.(
               <GoalWatchDialog
                 id={props.id}
-                onUpdate={props.onUpdate}
+                onSuccess={props.onUpdate}
                 onClose={closeDialog}
               />
             )

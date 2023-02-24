@@ -66,7 +66,7 @@ export default function AccountNotificationsDialog(props: {
               <WidgetSeparatorText mt={3} px={{ md: 12 }}>
                 enable notifications about new watchers of your goals
               </WidgetSeparatorText>
-              <EnableButton onUpdate={() => close()} sx={{ mt: 2 }} />
+              <EnableButton onSuccess={() => close()} sx={{ mt: 2 }} />
             </>
           </>
         )}
@@ -76,7 +76,7 @@ export default function AccountNotificationsDialog(props: {
             <WidgetSeparatorText mt={3} px={{ md: 12 }}>
               you enabled notifications about new watchers of your goals
             </WidgetSeparatorText>
-            <DisableButton onUpdate={() => close()} sx={{ mt: 2 }} />
+            <DisableButton onSuccess={() => close()} sx={{ mt: 2 }} />
           </>
         )}
         {/* Browser extension */}
@@ -100,8 +100,7 @@ export default function AccountNotificationsDialog(props: {
   );
 }
 
-// TODO: Rename "onUpdate" to "onSuccess"
-function EnableButton(props: { onUpdate?: Function; sx?: SxProps }) {
+function EnableButton(props: { onSuccess?: Function; sx?: SxProps }) {
   const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
 
@@ -127,7 +126,7 @@ function EnableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Notifications are enabled!");
-      props.onUpdate?.();
+      props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
 
@@ -146,8 +145,7 @@ function EnableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   );
 }
 
-// TODO: Rename "onUpdate" to "onSuccess"
-function DisableButton(props: { onUpdate?: Function; sx?: SxProps }) {
+function DisableButton(props: { onSuccess?: Function; sx?: SxProps }) {
   const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
 
@@ -173,7 +171,7 @@ function DisableButton(props: { onUpdate?: Function; sx?: SxProps }) {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Notifications are disabled!");
-      props.onUpdate?.();
+      props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
 
