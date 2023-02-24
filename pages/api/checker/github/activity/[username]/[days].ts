@@ -1,35 +1,20 @@
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { errorToString } from "utils/converters";
 
 /**
  * Check if the github user has activity without spaces for the specified number of days.
+ *
+ * TODO: Implement a real check
  */
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
   try {
-    // Get request params
+    // Define data
     const { username, days } = request.query;
-    // Load github data
-    const githubResponse = await axios.get(
-      `https://api.github.com/users/${username}/events/public`,
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      }
-    );
-    if (githubResponse.data.errors) {
-      throw new Error(JSON.stringify(githubResponse.data.errors));
-    }
-    const githubData = githubResponse.data;
-    // Check github data activity to define result
-    // TODO: Implement checking
     const isSuccess = true;
-    // Add data to response
+    // Add result to response
     response.status(200).json({
       isSuccess: isSuccess,
       username: username,
