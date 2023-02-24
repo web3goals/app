@@ -250,15 +250,6 @@ function GoalVerifyForm(props: {
           setIsVerificationDataLoading(false);
         }
       }
-      // If github activity requirement
-      if (
-        props.verificationRequirement ===
-        VERIFICATION_REQUIREMENTS.gitHubActivity
-      ) {
-        setVerificationData({ keys: [], values: [] });
-        setIsVerificationDataReady(true);
-        setIsVerificationDataLoading(false);
-      }
     } catch (error: any) {
       handleError(error, true);
       setIsVerificationDataLoading(false);

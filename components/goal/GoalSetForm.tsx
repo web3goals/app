@@ -71,8 +71,6 @@ export default function GoalSetForm(props: {
     stakeCurrency: "native",
     deadline: "2023-03-01",
     verificationRequirement: VERIFICATION_REQUIREMENTS.anyProof,
-    verificationGitHubUsername: "",
-    verificationGitHubActivityDays: "",
   });
   const formValidationSchema = yup.object({
     description: yup.string().required(),
@@ -80,16 +78,6 @@ export default function GoalSetForm(props: {
     stakeCurrency: yup.string().required(),
     deadline: yup.string().required(),
     verificationRequirement: yup.string().required(),
-    verificationGitHubUsername:
-      formValues.verificationRequirement ===
-      VERIFICATION_REQUIREMENTS.gitHubActivity
-        ? yup.string().required()
-        : yup.string(),
-    verificationGitHubActivityDays:
-      formValues.verificationRequirement ===
-      VERIFICATION_REQUIREMENTS.gitHubActivity
-        ? yup.string().required()
-        : yup.string(),
   });
   const debouncedFormValues = useDebounce(formValues);
 
@@ -108,24 +96,8 @@ export default function GoalSetForm(props: {
         numberToBigNumberEthers(debouncedFormValues.stake),
         dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
         debouncedFormValues.verificationRequirement,
-        [
-          ...(debouncedFormValues.verificationGitHubUsername &&
-          debouncedFormValues.verificationGitHubActivityDays
-            ? [
-                VERIFICATION_DATA_KEYS.gitHubUsername,
-                VERIFICATION_DATA_KEYS.gitHubActivityDays,
-              ]
-            : []),
-        ],
-        [
-          ...(debouncedFormValues.verificationGitHubUsername &&
-          debouncedFormValues.verificationGitHubActivityDays
-            ? [
-                debouncedFormValues.verificationGitHubUsername,
-                debouncedFormValues.verificationGitHubActivityDays,
-              ]
-            : []),
-        ],
+        [],
+        [],
       ],
       overrides: {
         value: numberToBigNumberEthers(debouncedFormValues.stake),
@@ -150,20 +122,6 @@ export default function GoalSetForm(props: {
   const isFormDisabled = isFormLoading || isTransactionSuccess;
   const isFormSubmitButtonDisabled =
     isFormDisabled || isContractPrepareError || !contractWrite;
-
-  function getVerificationRequirements(description: string): string {
-    if (description === "Complete the challenge #14DaysOfCode") {
-      return VERIFICATION_REQUIREMENTS.gitHubActivity;
-    }
-    return VERIFICATION_REQUIREMENTS.anyProof;
-  }
-
-  function getVerificationGitHubActivityDays(description: string): string {
-    if (description === "Complete the challenge #14DaysOfCode") {
-      return "14";
-    }
-    return "";
-  }
 
   async function uploadData(values: any) {
     try {
@@ -209,6 +167,8 @@ export default function GoalSetForm(props: {
     }
   }, [uploadedGoalDataUri, contractWrite, isContractWriteLoading]);
 
+  console.log(formValues);
+
   return (
     <CentralizedBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
@@ -226,29 +186,18 @@ export default function GoalSetForm(props: {
             <WidgetBox bgcolor={palette.blue} mb={3}>
               <WidgetTitle>My goal is</WidgetTitle>
               <Autocomplete
+                // TODO: Test that description is updating after change
                 onChange={(_, value: string) => {
                   setValues({
+                    ...values,
                     description: value,
-                    stake: values.stake,
-                    stakeCurrency: values.stakeCurrency,
-                    deadline: values.deadline,
-                    verificationRequirement: getVerificationRequirements(value),
-                    verificationGitHubUsername: "",
-                    verificationGitHubActivityDays:
-                      getVerificationGitHubActivityDays(value),
                   });
                 }}
                 inputValue={values.description}
                 onInputChange={(_, value) => {
                   setValues({
+                    ...values,
                     description: value,
-                    stake: values.stake,
-                    stakeCurrency: values.stakeCurrency,
-                    deadline: values.deadline,
-                    verificationRequirement: getVerificationRequirements(value),
-                    verificationGitHubUsername: "",
-                    verificationGitHubActivityDays:
-                      getVerificationGitHubActivityDays(value),
                   });
                 }}
                 freeSolo
@@ -271,35 +220,6 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            {/* GitHub username input */}
-            {values.verificationRequirement ===
-              VERIFICATION_REQUIREMENTS.gitHubActivity && (
-              <>
-                <WidgetSeparatorText mb={3}>
-                  which can be checked with my activity on
-                </WidgetSeparatorText>
-                <WidgetBox bgcolor={palette.purpleLight} mb={3}>
-                  <WidgetTitle>GitHub</WidgetTitle>
-                  <WidgetInputTextField
-                    id="verificationGitHubUsername"
-                    name="verificationGitHubUsername"
-                    placeholder="username"
-                    value={values.verificationGitHubUsername}
-                    onChange={handleChange}
-                    error={
-                      touched.verificationGitHubUsername &&
-                      Boolean(errors.verificationGitHubUsername)
-                    }
-                    helperText={
-                      touched.verificationGitHubUsername &&
-                      errors.verificationGitHubUsername
-                    }
-                    disabled={isFormDisabled}
-                    sx={{ width: 1 }}
-                  />
-                </WidgetBox>
-              </>
-            )}
             <WidgetSeparatorText mb={3}>and</WidgetSeparatorText>
             {/* Stake input */}
             <WidgetBox bgcolor={palette.red} mb={3}>

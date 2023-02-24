@@ -47,7 +47,6 @@ export default function GoalResult(props: {
       [
         VERIFICATION_DATA_KEYS.anyUri,
         VERIFICATION_DATA_KEYS.anyLivepeerPlaybackId,
-        VERIFICATION_DATA_KEYS.gitHubUsername,
       ],
     ],
   });
@@ -87,15 +86,6 @@ export default function GoalResult(props: {
                   {goalVerificationData?.[0] && (
                     <MuiLink href={goalVerificationData[0]} target="_blank">
                       🔗 {ipfsUriToShortUri(goalVerificationData[0])}
-                    </MuiLink>
-                  )}
-                  {/* Github username */}
-                  {goalVerificationData?.[2] && (
-                    <MuiLink
-                      href={`https://github.com/${goalVerificationData[2]}`}
-                      target="_blank"
-                    >
-                      🔗 {ipfsUriToShortUri(goalVerificationData[2])}
                     </MuiLink>
                   )}
                   {/* Loading */}
