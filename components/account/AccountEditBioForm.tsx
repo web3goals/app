@@ -9,7 +9,8 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import Dropzone from "react-dropzone";
 import { getBioContractAddress, getChainId } from "utils/chains";
 import {
   useAccount,
@@ -80,10 +81,10 @@ export default function AccountEditBioForm(props: { bioData: any }) {
     isTransactionLoading ||
     isTransactionSuccess;
 
-  async function onImageChange(event: ChangeEvent<HTMLInputElement>) {
+  async function onImageChange(files: Array<any>) {
     try {
       // Get file
-      const file = event.target.files?.[0];
+      const file = files?.[0];
       if (!file) {
         return;
       }
@@ -91,10 +92,10 @@ export default function AccountEditBioForm(props: { bioData: any }) {
       const isLessThan2Mb = file.size / 1024 / 1024 < 2;
       if (!isLessThan2Mb) {
         throw new Error(
-          "Only JPG/PNG/GIF files with size smaller than 2MB are currently supported!"
+          "Only files with size smaller than 2MB are currently supported!"
         );
       }
-      // Read file
+      // Read and save file
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (fileReader.readyState === 2) {
@@ -160,145 +161,124 @@ export default function AccountEditBioForm(props: { bioData: any }) {
         <Form style={{ width: "100%" }}>
           <FormikHelper onChange={(values: any) => setFormValues(values)} />
           {/* Image */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              mb: 4,
-            }}
+          <Dropzone
+            multiple={false}
+            disabled={isFormDisabled}
+            onDrop={(files) => onImageChange(files)}
+            accept={{ "image/*": [] }}
           >
-            <label
-              htmlFor="image"
-              style={{ display: "block", width: 164, height: 164 }}
-            >
-              <Avatar
-                sx={{
-                  cursor: !isFormDisabled ? "pointer" : undefined,
-                  width: 164,
-                  height: 164,
-                  borderRadius: 164,
-                }}
-                src={
-                  formImageValue?.uri ||
-                  (props.bioData?.image
-                    ? ipfsUriToHttpUri(props.bioData.image)
-                    : undefined)
-                }
-              >
-                <Person sx={{ fontSize: 64 }} />
-              </Avatar>
-              <input
-                hidden
-                id="image"
-                name="image"
-                type="file"
-                accept="image/*"
-                onChange={onImageChange}
-                disabled={isFormDisabled}
-              />
-            </label>
-          </Box>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Avatar
+                    sx={{
+                      cursor: !isFormDisabled ? "pointer" : undefined,
+                      width: 164,
+                      height: 164,
+                      borderRadius: 164,
+                    }}
+                    src={
+                      formImageValue?.uri ||
+                      (props.bioData?.image
+                        ? ipfsUriToHttpUri(props.bioData.image)
+                        : undefined)
+                    }
+                  >
+                    <Person sx={{ fontSize: 64 }} />
+                  </Avatar>
+                </Box>
+              </div>
+            )}
+          </Dropzone>
           {/* Name */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="name"
-              name="name"
-              label="Name"
-              placeholder="Alice"
-              value={values.name}
-              onChange={handleChange}
-              error={touched.name && Boolean(errors.name)}
-              helperText={touched.name && errors.name}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="name"
+            name="name"
+            label="Name"
+            placeholder="Alice"
+            value={values.name}
+            onChange={handleChange}
+            error={touched.name && Boolean(errors.name)}
+            helperText={touched.name && errors.name}
+            disabled={isFormDisabled}
+            sx={{ mt: 4 }}
+          />
           {/* About */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="about"
-              name="about"
-              label="About"
-              placeholder="crypto enthusiast..."
-              multiline={true}
-              rows={3}
-              value={values.about}
-              onChange={handleChange}
-              error={touched.about && Boolean(errors.about)}
-              helperText={touched.about && errors.about}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="about"
+            name="about"
+            label="About"
+            placeholder="crypto enthusiast..."
+            multiline={true}
+            rows={3}
+            value={values.about}
+            onChange={handleChange}
+            error={touched.about && Boolean(errors.about)}
+            helperText={touched.about && errors.about}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Email */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              placeholder="alice@web3goals.space"
-              value={values.email}
-              onChange={handleChange}
-              error={touched.email && Boolean(errors.email)}
-              helperText={touched.email && errors.email}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="email"
+            name="email"
+            label="Email"
+            placeholder="alice@web3goals.space"
+            value={values.email}
+            onChange={handleChange}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email && errors.email}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Twitter */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="twitter"
-              name="twitter"
-              label="Twitter"
-              placeholder="username"
-              value={values.twitter}
-              onChange={handleChange}
-              error={touched.twitter && Boolean(errors.twitter)}
-              helperText={touched.twitter && errors.twitter}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="twitter"
+            name="twitter"
+            label="Twitter"
+            placeholder="username"
+            value={values.twitter}
+            onChange={handleChange}
+            error={touched.twitter && Boolean(errors.twitter)}
+            helperText={touched.twitter && errors.twitter}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Telegram */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="telegram"
-              name="telegram"
-              label="Telegram"
-              placeholder="username"
-              value={values.telegram}
-              onChange={handleChange}
-              error={touched.telegram && Boolean(errors.telegram)}
-              helperText={touched.telegram && errors.telegram}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="telegram"
+            name="telegram"
+            label="Telegram"
+            placeholder="username"
+            value={values.telegram}
+            onChange={handleChange}
+            error={touched.telegram && Boolean(errors.telegram)}
+            helperText={touched.telegram && errors.telegram}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Instagram */}
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              fullWidth
-              id="instagram"
-              name="instagram"
-              label="Instagram"
-              placeholder="username"
-              value={values.instagram}
-              onChange={handleChange}
-              error={touched.instagram && Boolean(errors.instagram)}
-              helperText={touched.instagram && errors.instagram}
-              disabled={isFormDisabled}
-            />
-          </Box>
+          <TextField
+            fullWidth
+            id="instagram"
+            name="instagram"
+            label="Instagram"
+            placeholder="username"
+            value={values.instagram}
+            onChange={handleChange}
+            error={touched.instagram && Boolean(errors.instagram)}
+            helperText={touched.instagram && errors.instagram}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Submit button */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+          <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
             <XxlLoadingButton
               loading={
                 isFormSubmitting ||
