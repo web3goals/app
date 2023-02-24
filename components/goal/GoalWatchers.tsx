@@ -1,6 +1,6 @@
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, SxProps, Tab, Typography } from "@mui/material";
-import { XlLoadingButton } from "components/styled";
+import { WidgetSeparatorText, XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { useContext, useEffect, useState } from "react";
 import GoalWatchDialog from "./GoalWatchDialog";
@@ -59,10 +59,9 @@ export default function GoalWatchers(props: {
       >
         👀 Watchers
       </Typography>
-      {/* Description */}
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+      <WidgetSeparatorText mb={3}>
         people who motivate to achieve the goal
-      </Typography>
+      </WidgetSeparatorText>
       {/* Button to become a watcher */}
       {!props.isClosed && (
         <XlLoadingButton

@@ -1,7 +1,12 @@
 import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { WidgetLink, WidgetTypography } from "components/styled";
-import WidgetBox from "components/widget/WidgetBox";
+import {
+  WidgetBox,
+  WidgetLink,
+  WidgetTitle,
+  WidgetText,
+  WidgetSeparatorText,
+} from "components/styled";
 import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
@@ -58,50 +63,44 @@ export default function GoalParams(props: {
         Goal #{props.id}
       </Typography>
       {/* Created timestamp */}
-      <WidgetBox title="On" color={palette.orange} sx={{ mb: 2 }}>
-        <WidgetTypography>
+      <WidgetBox bgcolor={palette.orange} mb={2}>
+        <WidgetTitle>On</WidgetTitle>
+        <WidgetText>
           {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
-        </WidgetTypography>
+        </WidgetText>
       </WidgetBox>
       {/* Author address */}
-      <WidgetBox title="Account" color={palette.greyDark} sx={{ mb: 2 }}>
+      <WidgetBox bgcolor={palette.greyDark} mb={2}>
+        <WidgetTitle>Account</WidgetTitle>
         <WidgetLink href={`/accounts/${props.authorAddress.toString()}`}>
           🔗 {addressToShortAddress(props.authorAddress.toString())}
         </WidgetLink>
       </WidgetBox>
       {/* Description */}
-      <WidgetBox title="Set goal" color={palette.blue} sx={{ mb: 2 }}>
-        <WidgetTypography>{uriData?.description || "..."}</WidgetTypography>
+      <WidgetBox bgcolor={palette.blue} mb={2}>
+        <WidgetTitle>Set goal</WidgetTitle>
+        <WidgetText>{uriData?.description || "..."}</WidgetText>
       </WidgetBox>
-      {/* Text divider */}
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
-        and
-      </Typography>
+      <WidgetSeparatorText mb={2}>and</WidgetSeparatorText>
       {/* Stake */}
-      <WidgetBox title="Staked" color={palette.red} sx={{ mb: 2 }}>
+      <WidgetBox bgcolor={palette.red} mb={2}>
+        <WidgetTitle>Staked</WidgetTitle>
         <Stack direction="row" spacing={1}>
-          <WidgetTypography>
-            {ethers.utils.formatEther(props.authorStake)}
-          </WidgetTypography>
-          <WidgetTypography>
-            {getChainNativeCurrencySymbol(chain)}
-          </WidgetTypography>
+          <WidgetText>{ethers.utils.formatEther(props.authorStake)}</WidgetText>
+          <WidgetText>{getChainNativeCurrencySymbol(chain)}</WidgetText>
         </Stack>
       </WidgetBox>
-      {/* Text divider */}
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
-        on achieving it
-      </Typography>
+      <WidgetSeparatorText mb={2}>on achieving it</WidgetSeparatorText>
       {/* Deadline timestamp */}
-      <WidgetBox title="By" color={palette.purpleDark} sx={{ mb: 2 }}>
-        <WidgetTypography>
+      <WidgetBox bgcolor={palette.purpleDark} mb={2}>
+        <WidgetTitle>By</WidgetTitle>
+        <WidgetText>
           {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
-        </WidgetTypography>
+        </WidgetText>
       </WidgetBox>
-      {/* Text divider */}
-      <Typography fontWeight={700} textAlign="center">
+      <WidgetSeparatorText>
         otherwise the stake will be shared between watchers and application
-      </Typography>
+      </WidgetSeparatorText>
     </Box>
   );
 }

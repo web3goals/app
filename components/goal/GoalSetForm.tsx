@@ -3,11 +3,13 @@ import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
   CentralizedBox,
+  WidgetBox,
   WidgetInputSelect,
   WidgetInputTextField,
+  WidgetSeparatorText,
+  WidgetTitle,
   XxlLoadingButton,
 } from "components/styled";
-import WidgetBox from "components/widget/WidgetBox";
 import {
   VERIFICATION_DATA_KEYS,
   VERIFICATION_REQUIREMENTS,
@@ -221,7 +223,8 @@ export default function GoalSetForm(props: {
           <Form style={{ width: "100%" }}>
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Description input */}
-            <WidgetBox title="My goal is" color={palette.blue} sx={{ mb: 2 }}>
+            <WidgetBox bgcolor={palette.blue} mb={3}>
+              <WidgetTitle>My goal is</WidgetTitle>
               <Autocomplete
                 onChange={(_, value: string) => {
                   setValues({
@@ -272,14 +275,11 @@ export default function GoalSetForm(props: {
             {values.verificationRequirement ===
               VERIFICATION_REQUIREMENTS.gitHubActivity && (
               <>
-                <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+                <WidgetSeparatorText mb={3}>
                   which can be checked with my activity on
-                </Typography>
-                <WidgetBox
-                  title="GitHub"
-                  color={palette.purpleLight}
-                  sx={{ mb: 3 }}
-                >
+                </WidgetSeparatorText>
+                <WidgetBox bgcolor={palette.purpleLight} mb={3}>
+                  <WidgetTitle>GitHub</WidgetTitle>
                   <WidgetInputTextField
                     id="verificationGitHubUsername"
                     name="verificationGitHubUsername"
@@ -300,12 +300,10 @@ export default function GoalSetForm(props: {
                 </WidgetBox>
               </>
             )}
-            {/* Text divider */}
-            <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
-              and
-            </Typography>
+            <WidgetSeparatorText mb={3}>and</WidgetSeparatorText>
             {/* Stake input */}
-            <WidgetBox title="I stake" color={palette.red} sx={{ mb: 2 }}>
+            <WidgetBox bgcolor={palette.red} mb={3}>
+              <WidgetTitle>I stake</WidgetTitle>
               <Stack direction="row" spacing={1} sx={{ width: 1 }}>
                 <WidgetInputTextField
                   id="stake"
@@ -332,12 +330,10 @@ export default function GoalSetForm(props: {
                 </WidgetInputSelect>
               </Stack>
             </WidgetBox>
-            {/* Text divider */}
-            <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
-              on achieving it
-            </Typography>
+            <WidgetSeparatorText mb={3}>on achieving it</WidgetSeparatorText>
             {/* Deadline input */}
-            <WidgetBox title="By" color={palette.purpleDark} sx={{ mb: 3 }}>
+            <WidgetBox bgcolor={palette.purpleDark} mb={3}>
+              <WidgetTitle>By</WidgetTitle>
               <WidgetInputTextField
                 id="deadline"
                 name="deadline"
@@ -350,11 +346,10 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            {/* Text divider */}
-            <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+            <WidgetSeparatorText mb={3}>
               otherwise the stake will be shared between watchers and
               application
-            </Typography>
+            </WidgetSeparatorText>
             {/* Submit button */}
             <Box
               sx={{

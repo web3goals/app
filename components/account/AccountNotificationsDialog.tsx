@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, SxProps, Typography } from "@mui/material";
-import { XlLoadingButton } from "components/styled";
+import { WidgetSeparatorText, XlLoadingButton } from "components/styled";
 import { epnsCommContractAbi } from "contracts/abi/epnsCommAddress";
 import { ethers } from "ethers";
 import useToasts from "hooks/useToast";
@@ -63,13 +63,9 @@ export default function AccountNotificationsDialog(props: {
         {isUserSubscribedFetched && !isUserSubscribed && (
           <>
             <>
-              <Typography
-                fontWeight={700}
-                textAlign="center"
-                sx={{ px: { xs: 0, md: 12 }, mt: 3 }}
-              >
+              <WidgetSeparatorText mt={3} px={{ md: 12 }}>
                 enable notifications about new watchers of your goals
-              </Typography>
+              </WidgetSeparatorText>
               <EnableButton onUpdate={() => close()} sx={{ mt: 2 }} />
             </>
           </>
@@ -77,24 +73,16 @@ export default function AccountNotificationsDialog(props: {
         {/* Disable button */}
         {isUserSubscribedFetched && isUserSubscribed && (
           <>
-            <Typography
-              fontWeight={700}
-              textAlign="center"
-              sx={{ px: { xs: 0, md: 12 }, mt: 3 }}
-            >
+            <WidgetSeparatorText mt={3} px={{ md: 12 }}>
               you enabled notifications about new watchers of your goals
-            </Typography>
+            </WidgetSeparatorText>
             <DisableButton onUpdate={() => close()} sx={{ mt: 2 }} />
           </>
         )}
         {/* Browser extension */}
-        <Typography
-          fontWeight={700}
-          textAlign="center"
-          sx={{ px: { xs: 0, md: 12 }, mt: 6 }}
-        >
+        <WidgetSeparatorText mt={6} px={{ md: 12 }}>
           to receive notifications your should install an browser extension
-        </Typography>
+        </WidgetSeparatorText>
         <XlLoadingButton
           href="https://chrome.google.com/webstore/detail/push-staging-protocol-alp/bjiennpmhdcandkpigcploafccldlakj"
           target="_blank"

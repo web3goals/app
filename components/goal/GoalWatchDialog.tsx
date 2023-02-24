@@ -1,7 +1,12 @@
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
-import { WidgetInputTextField, XxlLoadingButton } from "components/styled";
-import WidgetBox from "components/widget/WidgetBox";
+import {
+  WidgetBox,
+  WidgetInputTextField,
+  WidgetSeparatorText,
+  WidgetTitle,
+  XxlLoadingButton,
+} from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
 import { BigNumber } from "ethers";
@@ -146,16 +151,12 @@ export default function GoalWatchDialog(props: {
           {({ values, errors, touched, handleChange }) => (
             <Form style={{ width: "100%" }}>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              {/* Text divider */}
-              <Typography
-                fontWeight={700}
-                textAlign="center"
-                sx={{ px: { xs: 0, md: 12 }, mb: 3 }}
-              >
+              <WidgetSeparatorText mb={3} px={{ md: 12 }}>
                 you should post a message that motivates the author of the goal
-              </Typography>
+              </WidgetSeparatorText>
               {/* Message input */}
-              <WidgetBox title="Message" color={palette.blue} sx={{ mb: 2 }}>
+              <WidgetBox bgcolor={palette.blue} mb={2}>
+                <WidgetTitle>Message</WidgetTitle>
                 <WidgetInputTextField
                   id="message"
                   name="message"
@@ -187,14 +188,9 @@ export default function GoalWatchDialog(props: {
                   Post
                 </XxlLoadingButton>
               </Box>
-              {/* Text divider */}
-              <Typography
-                fontWeight={700}
-                textAlign="center"
-                sx={{ px: { xs: 0, md: 12 } }}
-              >
+              <WidgetSeparatorText px={{ md: 12 }}>
                 once published, the author will be able to accept your candidacy
-              </Typography>
+              </WidgetSeparatorText>
             </Form>
           )}
         </Formik>

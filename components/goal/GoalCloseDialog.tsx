@@ -1,7 +1,12 @@
 import { useCreateAsset } from "@livepeer/react";
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
-import { FullWidthSkeleton, XxlLoadingButton } from "components/styled";
-import WidgetBox from "components/widget/WidgetBox";
+import {
+  FullWidthSkeleton,
+  WidgetBox,
+  WidgetSeparatorText,
+  WidgetTitle,
+  XxlLoadingButton,
+} from "components/styled";
 import {
   VERIFICATION_DATA_KEYS,
   VERIFICATION_REQUIREMENTS,
@@ -299,12 +304,13 @@ function GoalVerifyForm(props: {
 
   return (
     <>
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 2 }}>
+      <WidgetSeparatorText mb={2}>
         verify the achievement of the goal before closing it
-      </Typography>
+      </WidgetSeparatorText>
       {/* Proof file input */}
       {props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProof && (
-        <WidgetBox title="Proof" color={palette.green} sx={{ width: 1, mb: 3 }}>
+        <WidgetBox bgcolor={palette.green} mb={3} sx={{ width: 1 }}>
+          <WidgetTitle>Proof</WidgetTitle>
           {/* TODO: Move the dropzone to a separate component  */}
           <Dropzone
             multiple={false}
@@ -347,9 +353,9 @@ function GoalVerifyForm(props: {
         Verify
       </XxlLoadingButton>
       {createAssetProgressFormatted && (
-        <Typography fontWeight={700} textAlign="center" sx={{ mt: 3 }}>
+        <WidgetSeparatorText mt={3}>
           {createAssetProgressFormatted}
-        </Typography>
+        </WidgetSeparatorText>
       )}
     </>
   );
@@ -394,11 +400,11 @@ function GoalCloseForm(props: {
 
   return (
     <>
-      <Typography fontWeight={700} textAlign="center" sx={{ mb: 3 }}>
+      <WidgetSeparatorText mb={3}>
         {props.isVerificationStatusAchieved
           ? "the goal is verified as achieved, now it can be closed"
           : "the goal is not achieved by the deadline, so it can only be closed as a failed"}
-      </Typography>
+      </WidgetSeparatorText>
       <XxlLoadingButton
         variant="contained"
         type="submit"
@@ -409,11 +415,11 @@ function GoalCloseForm(props: {
       >
         Close
       </XxlLoadingButton>
-      <Typography fontWeight={700} textAlign="center">
+      <WidgetSeparatorText>
         {props.isVerificationStatusAchieved
           ? "the stake will be returned after closing"
           : "the stake will be shared between watchers and application after closing"}
-      </Typography>
+      </WidgetSeparatorText>
     </>
   );
 }

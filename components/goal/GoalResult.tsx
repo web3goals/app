@@ -6,8 +6,13 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
-import { ThickDivider, WidgetTypography } from "components/styled";
-import WidgetBox from "components/widget/WidgetBox";
+import {
+  ThickDivider,
+  WidgetBox,
+  WidgetTitle,
+  WidgetText,
+  WidgetSeparatorText,
+} from "components/styled";
 import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
@@ -51,24 +56,20 @@ export default function GoalResult(props: {
     return (
       <Box sx={{ width: 1, ...props.sx }}>
         <ThickDivider />
-        {/* Text */}
-        <Typography fontWeight={700} textAlign="center" sx={{ mt: 6 }}>
-          eventually
-        </Typography>
+        <WidgetSeparatorText mt={6}>eventually</WidgetSeparatorText>
         {/* Result */}
-        <WidgetBox title="Goal is" color={palette.blue} sx={{ mt: 2 }}>
-          <WidgetTypography>
+        <WidgetBox bgcolor={palette.blue} mt={2}>
+          <WidgetTitle>Goal is</WidgetTitle>
+          <WidgetText>
             {props.isAchieved ? "✅ achieved" : "❌ failed"}
-          </WidgetTypography>
+          </WidgetText>
         </WidgetBox>
         {props.isAchieved ? (
           <>
-            {/* Text */}
-            <Typography fontWeight={700} textAlign="center" sx={{ mt: 2 }}>
-              and this is
-            </Typography>
+            <WidgetSeparatorText mt={2}>and this is</WidgetSeparatorText>
             {/* Proof */}
-            <WidgetBox title="Proof" color={palette.green} sx={{ mt: 2 }}>
+            <WidgetBox bgcolor={palette.green} mt={2}>
+              <WidgetTitle>Proof</WidgetTitle>
               {/* Any livepeer playback id */}
               {goalVerificationData?.[1] ? (
                 <Box
@@ -81,7 +82,7 @@ export default function GoalResult(props: {
                   <Player playbackId={goalVerificationData?.[1]} />
                 </Box>
               ) : (
-                <WidgetTypography>
+                <WidgetText>
                   {/* Any uri */}
                   {goalVerificationData?.[0] && (
                     <MuiLink href={goalVerificationData[0]} target="_blank">
@@ -99,25 +100,23 @@ export default function GoalResult(props: {
                   )}
                   {/* Loading */}
                   {!goalVerificationData && <>...</>}
-                </WidgetTypography>
+                </WidgetText>
               )}
             </WidgetBox>
           </>
         ) : (
           <>
-            {/* Text */}
-            <Typography fontWeight={700} textAlign="center" sx={{ mt: 2 }}>
+            <WidgetSeparatorText mt={2}>
               and watchers and application shared
-            </Typography>
+            </WidgetSeparatorText>
             {/* Stake */}
-            <WidgetBox title="Stake" color={palette.red} sx={{ mt: 2 }}>
+            <WidgetBox bgcolor={palette.red} mt={2}>
+              <WidgetTitle>Stake</WidgetTitle>
               <Stack direction="row" spacing={1}>
-                <WidgetTypography>
+                <WidgetText>
                   {ethers.utils.formatEther(props.authorStake)}
-                </WidgetTypography>
-                <WidgetTypography>
-                  {getChainNativeCurrencySymbol(chain)}
-                </WidgetTypography>
+                </WidgetText>
+                <WidgetText>{getChainNativeCurrencySymbol(chain)}</WidgetText>
               </Stack>
             </WidgetBox>
           </>

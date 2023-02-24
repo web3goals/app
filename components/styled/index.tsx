@@ -70,19 +70,43 @@ export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   marginBottom: "24px",
 }));
 
+export const WidgetBox = styled(Box)<BoxProps>(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "16px 32px",
+  borderRadius: "12px",
+  [theme.breakpoints.up("md")]: {
+    flexDirection: "row",
+  },
+}));
+
+export const WidgetTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
+  color: "#FFFFFF",
+  fontSize: "1.8rem",
+  fontWeight: 700,
+  minWidth: "0px",
+  marginRight: "0px",
+  marginBottom: "8px",
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.125rem",
+    minWidth: "180px",
+    marginRight: "24px",
+    marginBottom: "0px",
+  },
+}));
+
 export const WidgetLink = styled(Link)<LinkProps>(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   borderRadius: "12px",
   padding: "14px 20px",
 }));
 
-export const WidgetTypography = styled(Typography)<TypographyProps>(
-  ({ theme }) => ({
-    backgroundColor: "#FFFFFF",
-    borderRadius: "12px",
-    padding: "14px 20px",
-  })
-);
+export const WidgetText = styled(Typography)<TypographyProps>(({ theme }) => ({
+  backgroundColor: "#FFFFFF",
+  borderRadius: "12px",
+  padding: "14px 20px",
+}));
 
 export const WidgetInputTextField = styled(TextField)<TextFieldProps>(
   ({ theme }) => ({
@@ -115,6 +139,13 @@ export const WidgetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
     border: "4px solid #000000",
   },
 }));
+
+export const WidgetSeparatorText = styled(Typography)<TypographyProps>(
+  ({ theme }) => ({
+    fontWeight: 700,
+    textAlign: "center",
+  })
+);
 
 export const LandingTimelineDot = styled(TimelineDot)<TimelineDotProps>(
   ({ theme }) => ({
