@@ -15,7 +15,10 @@ export default function SetGoal() {
         <GoalSetMessage id={setGoalId} />
       ) : (
         <GoalSetForm
-          onSuccessSet={(createdGoalId) => setSetGoalId(createdGoalId)}
+          onSuccessSet={(createdGoalId) => {
+            setSetGoalId(createdGoalId);
+            window.scrollTo(0, 0);
+          }}
         />
       )}
     </Layout>
