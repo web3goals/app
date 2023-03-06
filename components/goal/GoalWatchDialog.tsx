@@ -63,7 +63,7 @@ export default function GoalWatchDialog(props: {
       args: [BigNumber.from(props.id), uploadedWatcherDataUri],
       chainId: getChainId(chain),
       onError(error: any) {
-        showToastError(error);
+        showToastError(error, goalContractAbi);
       },
     });
   const {

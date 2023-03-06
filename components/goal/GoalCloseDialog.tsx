@@ -147,7 +147,7 @@ function GoalVerifyForm(props: {
     ],
     chainId: getChainId(chain),
     onError(error: any) {
-      showToastError(error);
+      showToastError(error, goalContractAbi);
     },
     enabled: isVerificationDataReady,
   });

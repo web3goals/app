@@ -29,13 +29,18 @@ export function ipfsUriToShortUri(ipfsUri: string): string {
 /**
  * Convert error object to pretty string.
  */
-export function errorToString(error: any): string {
+export function errorToString(error: any, errorContractAbi?: any): string {
   let errorString = JSON.stringify(error);
   if (error?.message) {
     errorString = error.message;
   }
   if (error?.error?.data?.message) {
     errorString = error.error.data.message.replace("execution reverted: ", "");
+  }
+  if (errorContractAbi && error?.error?.data?.data) {
+    errorString = new ethers.utils.Interface(errorContractAbi).parseError(
+      error.error.data.data
+    ).signature;
   }
   return errorString;
 }
