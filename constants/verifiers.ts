@@ -1,8 +1,8 @@
 export const VERIFICATION_REQUIREMENTS = {
-  anyProof: "ANY_PROOF",
+  anyProofUri: "ANY_PROOF_URI",
 };
 
 export const VERIFICATION_DATA_KEYS = {
-  anyUri: "ANY_URI",
+  anyProofUri: "ANY_PROOF_URI",
   anyLivepeerPlaybackId: "ANY_LIVEPEER_PLAYBACK_ID",
 };

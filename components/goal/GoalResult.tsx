@@ -45,7 +45,7 @@ export default function GoalResult(props: {
     args: [
       BigNumber.from(props.id),
       [
-        VERIFICATION_DATA_KEYS.anyUri,
+        VERIFICATION_DATA_KEYS.anyProofUri,
         VERIFICATION_DATA_KEYS.anyLivepeerPlaybackId,
       ],
     ],

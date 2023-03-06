@@ -76,7 +76,7 @@ export default function GoalSetForm(props: {
     stake: 0.01,
     stakeCurrency: "native",
     deadline: "2023-06-01",
-    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProof,
+    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProofUri,
   });
   const formValidationSchema = yup.object({
     description: yup.string().required(),
