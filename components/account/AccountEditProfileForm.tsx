@@ -44,14 +44,16 @@ export default function AccountEditProfileForm(props: {
     name: props.profileData?.attributes?.[0]?.value || "",
     about: props.profileData?.attributes?.[1]?.value || "",
     email: props.profileData?.attributes?.[2]?.value || "",
-    twitter: props.profileData?.attributes?.[3]?.value || "",
-    telegram: props.profileData?.attributes?.[4]?.value || "",
-    instagram: props.profileData?.attributes?.[5]?.value || "",
+    website: props.profileData?.attributes?.[3]?.value || "",
+    twitter: props.profileData?.attributes?.[4]?.value || "",
+    telegram: props.profileData?.attributes?.[5]?.value || "",
+    instagram: props.profileData?.attributes?.[6]?.value || "",
   });
   const formValidationSchema = yup.object({
     name: yup.string(),
     about: yup.string(),
     email: yup.string(),
+    website: yup.string(),
     twitter: yup.string(),
     telegram: yup.string(),
     instagram: yup.string(),
@@ -131,6 +133,7 @@ export default function AccountEditProfileForm(props: {
           { trait_type: "name", value: values.name },
           { trait_type: "about", value: values.about },
           { trait_type: "email", value: values.email },
+          { trait_type: "website", value: values.website },
           { trait_type: "twitter", value: values.twitter },
           { trait_type: "telegram", value: values.telegram },
           { trait_type: "instagram", value: values.instagram },
@@ -249,13 +252,27 @@ export default function AccountEditProfileForm(props: {
             disabled={isFormDisabled}
             sx={{ mt: 2 }}
           />
+          {/* Website */}
+          <TextField
+            fullWidth
+            id="website"
+            name="website"
+            label="Website"
+            placeholder="https://web3goals.space"
+            value={values.website}
+            onChange={handleChange}
+            error={touched.website && Boolean(errors.website)}
+            helperText={touched.website && errors.website}
+            disabled={isFormDisabled}
+            sx={{ mt: 2 }}
+          />
           {/* Twitter */}
           <TextField
             fullWidth
             id="twitter"
             name="twitter"
             label="Twitter"
-            placeholder="username"
+            placeholder="alice"
             value={values.twitter}
             onChange={handleChange}
             error={touched.twitter && Boolean(errors.twitter)}
@@ -269,7 +286,7 @@ export default function AccountEditProfileForm(props: {
             id="telegram"
             name="telegram"
             label="Telegram"
-            placeholder="username"
+            placeholder="alice"
             value={values.telegram}
             onChange={handleChange}
             error={touched.telegram && Boolean(errors.telegram)}
@@ -283,7 +300,7 @@ export default function AccountEditProfileForm(props: {
             id="instagram"
             name="instagram"
             label="Instagram"
-            placeholder="username"
+            placeholder="alice"
             value={values.instagram}
             onChange={handleChange}
             error={touched.instagram && Boolean(errors.instagram)}

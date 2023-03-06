@@ -1,6 +1,7 @@
 import {
   AlternateEmail,
   Instagram,
+  Language,
   Person,
   Telegram,
   Twitter,
@@ -123,7 +124,7 @@ export default function AccountProfile(props: { address: string }) {
           direction={{ xs: "column-reverse", md: "row" }}
           alignItems="center"
         >
-          {/* Email and social links */}
+          {/* Email and links */}
           <Stack direction="row" alignItems="center">
             {profileData?.attributes?.[2]?.value && (
               <IconButton
@@ -137,7 +138,17 @@ export default function AccountProfile(props: { address: string }) {
             )}
             {profileData?.attributes?.[3]?.value && (
               <IconButton
-                href={`https://twitter.com/${profileData.attributes[3].value}`}
+                href={profileData.attributes[3].value}
+                target="_blank"
+                component="a"
+                color="primary"
+              >
+                <Language />
+              </IconButton>
+            )}
+            {profileData?.attributes?.[4]?.value && (
+              <IconButton
+                href={`https://twitter.com/${profileData.attributes[4].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -145,9 +156,9 @@ export default function AccountProfile(props: { address: string }) {
                 <Twitter />
               </IconButton>
             )}
-            {profileData?.attributes?.[4]?.value && (
+            {profileData?.attributes?.[5]?.value && (
               <IconButton
-                href={`https://t.me/${profileData.attributes[4].value}`}
+                href={`https://t.me/${profileData.attributes[5].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -155,9 +166,9 @@ export default function AccountProfile(props: { address: string }) {
                 <Telegram />
               </IconButton>
             )}
-            {profileData?.attributes?.[5]?.value && (
+            {profileData?.attributes?.[6]?.value && (
               <IconButton
-                href={`https://instagram.com/${profileData.attributes[5].value}`}
+                href={`https://instagram.com/${profileData.attributes[6].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -168,7 +179,8 @@ export default function AccountProfile(props: { address: string }) {
             {(profileData?.attributes?.[2]?.value ||
               profileData?.attributes?.[3]?.value ||
               profileData?.attributes?.[4]?.value ||
-              profileData?.attributes?.[5]?.value) && (
+              profileData?.attributes?.[5]?.value ||
+              profileData?.attributes?.[6]?.value) && (
               <Divider
                 flexItem
                 orientation="vertical"
