@@ -6,8 +6,8 @@ import { stringToAddress } from "./converters";
  */
 const mumbaiGoalContractAddress =
   process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS;
-const mumbaiBioContractAddress =
-  process.env.NEXT_PUBLIC_MUMBAI_BIO_CONTRACT_ADDRESS;
+const mumbaiProfileContractAddress =
+  process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS;
 const mumbaiEpnsCommContractAddress =
   process.env.NEXT_PUBLIC_MUMBAI_EPNS_COMM_CONTRACT_ADDRESS;
 const mumbaiEpnsChannelAddress =
@@ -16,8 +16,8 @@ const mumbaiSubgraphApiUrl = process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL;
 
 const hyperspaceGoalContractAddress =
   process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS;
-const hyperspaceBioContractAddress =
-  process.env.NEXT_PUBLIC_HYPERSPACE_BIO_CONTRACT_ADDRESS;
+const hyperspaceProfileContractAddress =
+  process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS;
 const hyperspaceSubgraphApiUrl =
   process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL;
 
@@ -38,10 +38,10 @@ export function getDefaultChain(): Chain | undefined {
  */
 export function getSupportedChains(): Array<Chain> {
   const chains: Array<Chain> = [];
-  if (mumbaiGoalContractAddress && mumbaiBioContractAddress) {
+  if (mumbaiGoalContractAddress && mumbaiProfileContractAddress) {
     chains.push(polygonMumbai);
   }
-  if (hyperspaceGoalContractAddress && hyperspaceBioContractAddress) {
+  if (hyperspaceGoalContractAddress && hyperspaceProfileContractAddress) {
     chains.push(filecoinHyperspace);
   }
   if (chains.length === 0) {
@@ -94,19 +94,19 @@ export function getGoalContractAddress(
 /**
  * Get address that defined in environment variables.
  */
-export function getBioContractAddress(
+export function getProfileContractAddress(
   chain: Chain | undefined
 ): `0x${string}` | undefined {
   if (chain === undefined) {
     chain = getDefaultChain();
   }
-  if (chain?.id === polygonMumbai.id && mumbaiBioContractAddress) {
-    return stringToAddress(mumbaiBioContractAddress);
+  if (chain?.id === polygonMumbai.id && mumbaiProfileContractAddress) {
+    return stringToAddress(mumbaiProfileContractAddress);
   }
-  if (chain?.id === filecoinHyperspace.id && hyperspaceBioContractAddress) {
-    return stringToAddress(hyperspaceBioContractAddress);
+  if (chain?.id === filecoinHyperspace.id && hyperspaceProfileContractAddress) {
+    return stringToAddress(hyperspaceProfileContractAddress);
   }
-  console.error(`Not found bio contract address for chain: ${chain?.name}`);
+  console.error(`Not found profile contract address for chain: ${chain?.name}`);
   return undefined;
 }
 

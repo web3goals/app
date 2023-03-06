@@ -3,8 +3,8 @@ import { Avatar, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XxlLoadingButton } from "components/styled";
-import { bioContractAbi } from "contracts/abi/bioContract";
-import BioUriDataEntity from "entities/BioUriDataEntity";
+import { profileContractAbi } from "contracts/abi/profileContract";
+import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
@@ -12,7 +12,7 @@ import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
-import { getBioContractAddress, getChainId } from "utils/chains";
+import { getProfileContractAddress, getChainId } from "utils/chains";
 import {
   useAccount,
   useContractWrite,
@@ -23,10 +23,10 @@ import {
 import * as yup from "yup";
 
 /**
- * A component with form to edit account bio.
+ * A component with form to edit account profile.
  */
-export default function AccountEditBioForm(props: {
-  bioData: BioUriDataEntity | null;
+export default function AccountEditProfileForm(props: {
+  profileData: ProfileUriDataEntity | null;
 }) {
   const { handleError } = useError();
   const { uploadJsonToIpfs, uploadFileToIpfs, ipfsUriToHttpUri } = useIpfs();
@@ -41,12 +41,12 @@ export default function AccountEditBioForm(props: {
     uri: any;
   }>();
   const [formValues, setFormValues] = useState({
-    name: props.bioData?.attributes?.[0]?.value || "",
-    about: props.bioData?.attributes?.[1]?.value || "",
-    email: props.bioData?.attributes?.[2]?.value || "",
-    twitter: props.bioData?.attributes?.[3]?.value || "",
-    telegram: props.bioData?.attributes?.[4]?.value || "",
-    instagram: props.bioData?.attributes?.[5]?.value || "",
+    name: props.profileData?.attributes?.[0]?.value || "",
+    about: props.profileData?.attributes?.[1]?.value || "",
+    email: props.profileData?.attributes?.[2]?.value || "",
+    twitter: props.profileData?.attributes?.[3]?.value || "",
+    telegram: props.profileData?.attributes?.[4]?.value || "",
+    instagram: props.profileData?.attributes?.[5]?.value || "",
   });
   const formValidationSchema = yup.object({
     name: yup.string(),
@@ -58,14 +58,14 @@ export default function AccountEditBioForm(props: {
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
-  const [updatedBioDataUri, setUpdatedBioDataUri] = useState("");
+  const [updatedProfileDataUri, setUpdatedProfileDataUri] = useState("");
 
   // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
-    address: getBioContractAddress(chain),
-    abi: bioContractAbi,
+    address: getProfileContractAddress(chain),
+    abi: profileContractAbi,
     functionName: "setURI",
-    args: [updatedBioDataUri],
+    args: [updatedProfileDataUri],
     chainId: getChainId(chain),
   });
   const {
@@ -124,9 +124,9 @@ export default function AccountEditBioForm(props: {
         const { uri } = await uploadFileToIpfs(formImageValue.file);
         imageIpfsUri = uri;
       }
-      const bioUriData: BioUriDataEntity = {
+      const profileUriData: ProfileUriDataEntity = {
         name: "Web3 Goals Profile",
-        image: imageIpfsUri || props.bioData?.image || "",
+        image: imageIpfsUri || props.profileData?.image || "",
         attributes: [
           { trait_type: "name", value: values.name },
           { trait_type: "about", value: values.about },
@@ -136,9 +136,9 @@ export default function AccountEditBioForm(props: {
           { trait_type: "instagram", value: values.instagram },
         ],
       };
-      // Upload updated bio data to ipfs
-      const { uri } = await uploadJsonToIpfs(bioUriData);
-      setUpdatedBioDataUri(uri);
+      // Upload updated profile data to ipfs
+      const { uri } = await uploadJsonToIpfs(profileUriData);
+      setUpdatedProfileDataUri(uri);
     } catch (error: any) {
       handleError(error, true);
       setIsFormSubmitting(false);
@@ -147,12 +147,16 @@ export default function AccountEditBioForm(props: {
 
   useEffect(() => {
     // Write data to contract if form was submitted
-    if (updatedBioDataUri !== "" && contractWrite && !isContractWriteLoading) {
-      setUpdatedBioDataUri("");
+    if (
+      updatedProfileDataUri !== "" &&
+      contractWrite &&
+      !isContractWriteLoading
+    ) {
+      setUpdatedProfileDataUri("");
       contractWrite?.();
       setIsFormSubmitting(false);
     }
-  }, [updatedBioDataUri, contractWrite, isContractWriteLoading]);
+  }, [updatedProfileDataUri, contractWrite, isContractWriteLoading]);
 
   useEffect(() => {
     if (isTransactionSuccess) {
@@ -190,8 +194,8 @@ export default function AccountEditBioForm(props: {
                     }}
                     src={
                       formImageValue?.uri ||
-                      (props.bioData?.image
-                        ? ipfsUriToHttpUri(props.bioData.image)
+                      (props.profileData?.image
+                        ? ipfsUriToHttpUri(props.profileData.image)
                         : undefined)
                     }
                   >

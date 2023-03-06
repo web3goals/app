@@ -1,4 +1,4 @@
-import AccountBio from "components/account/AccountBio";
+import AccountProfile from "components/account/AccountProfile";
 import AccountGoalTabs from "components/account/AccountGoalTabs";
 import Layout from "components/layout";
 import { CentralizedBox } from "components/styled";
@@ -15,7 +15,7 @@ export default function Account() {
     <Layout>
       {slug && (
         <CentralizedBox>
-          <AccountBio address={slug as string} />
+          <AccountProfile address={slug as string} />
           <AccountGoalTabs address={slug as string} sx={{ mt: 6 }} />
         </CentralizedBox>
       )}

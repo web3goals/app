@@ -1,4 +1,4 @@
-export const bioContractAbi = [
+export const profileContractAbi = [
   {
     inputs: [],
     name: "TokenNotTransferable",

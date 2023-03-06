@@ -9,9 +9,9 @@ import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
-import { bioContractAbi } from "contracts/abi/bioContract";
+import { profileContractAbi } from "contracts/abi/profileContract";
 import AccountEntity from "entities/AccountEntity";
-import BioUriDataEntity from "entities/BioUriDataEntity";
+import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
@@ -20,7 +20,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import {
-  getBioContractAddress,
+  getProfileContractAddress,
   getEpnsChannelAddress,
   getEpnsCommContractAddress,
 } from "utils/chains";
@@ -29,41 +29,43 @@ import { useAccount, useContractRead, useNetwork } from "wagmi";
 import AccountNotificationsDialog from "./AccountNotificationsDialog";
 
 /**
- * A component with account bio.
+ * A component with account profile.
  */
-export default function AccountBio(props: { address: string }) {
+export default function AccountProfile(props: { address: string }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
   const { handleError } = useError();
   const { chain } = useNetwork();
   const { address } = useAccount();
   const { loadJsonFromIpfs, ipfsUriToHttpUri } = useIpfs();
   const { findAccounts } = useSubgraph();
-  const [bioData, setBioData] = useState<BioUriDataEntity | null | undefined>();
+  const [profileData, setProfileData] = useState<
+    ProfileUriDataEntity | null | undefined
+  >();
   const [accountData, setAccountData] = useState<AccountEntity | undefined>();
 
   // Contract states
   const { status, error, data } = useContractRead({
-    address: getBioContractAddress(chain),
-    abi: bioContractAbi,
+    address: getProfileContractAddress(chain),
+    abi: profileContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(props.address)],
   });
 
   /**
-   * Load bio data from ipfs when contract reading is successed.
+   * Load profile data from ipfs when contract reading is successed.
    */
   useEffect(() => {
     if (status === "success") {
       if (data) {
         loadJsonFromIpfs(data)
-          .then((result) => setBioData(result))
+          .then((result) => setProfileData(result))
           .catch((error) => handleError(error, true));
       } else {
-        setBioData(null);
+        setProfileData(null);
       }
     }
     if (status === "error" && error) {
-      setBioData(null);
+      setProfileData(null);
     }
   }, [status, error, data]);
 
@@ -79,10 +81,10 @@ export default function AccountBio(props: { address: string }) {
       .catch((error) => handleError(error, true));
   }, [props.address]);
 
-  if (bioData !== undefined) {
+  if (profileData !== undefined) {
     return (
       <>
-        {/* Bio image */}
+        {/* Image */}
         <Box sx={{ mb: 3 }}>
           <Avatar
             sx={{
@@ -90,38 +92,42 @@ export default function AccountBio(props: { address: string }) {
               height: 164,
               borderRadius: 164,
             }}
-            src={bioData?.image ? ipfsUriToHttpUri(bioData.image) : undefined}
+            src={
+              profileData?.image
+                ? ipfsUriToHttpUri(profileData.image)
+                : undefined
+            }
           >
             <Person sx={{ fontSize: 64 }} />
           </Avatar>
         </Box>
-        {/* Bio name */}
-        {bioData?.attributes?.[0]?.value && (
+        {/* Name */}
+        {profileData?.attributes?.[0]?.value && (
           <Typography
             variant="h4"
             fontWeight={700}
             textAlign="center"
             sx={{ mb: 0.5 }}
           >
-            {bioData.attributes[0].value}
+            {profileData.attributes[0].value}
           </Typography>
         )}
-        {/* Bio about */}
-        {bioData?.attributes?.[1]?.value && (
+        {/* About */}
+        {profileData?.attributes?.[1]?.value && (
           <Typography textAlign="center" sx={{ maxWidth: 480, mb: 1.5 }}>
-            {bioData.attributes[1].value}
+            {profileData.attributes[1].value}
           </Typography>
         )}
-        {/* Bio links and other data */}
+        {/* Links and other data */}
         <Stack
           direction={{ xs: "column-reverse", md: "row" }}
           alignItems="center"
         >
           {/* Email and social links */}
           <Stack direction="row" alignItems="center">
-            {bioData?.attributes?.[2]?.value && (
+            {profileData?.attributes?.[2]?.value && (
               <IconButton
-                href={`mailto:${bioData.attributes[2].value}`}
+                href={`mailto:${profileData.attributes[2].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -129,9 +135,9 @@ export default function AccountBio(props: { address: string }) {
                 <AlternateEmail />
               </IconButton>
             )}
-            {bioData?.attributes?.[3]?.value && (
+            {profileData?.attributes?.[3]?.value && (
               <IconButton
-                href={`https://twitter.com/${bioData.attributes[3].value}`}
+                href={`https://twitter.com/${profileData.attributes[3].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -139,9 +145,9 @@ export default function AccountBio(props: { address: string }) {
                 <Twitter />
               </IconButton>
             )}
-            {bioData?.attributes?.[4]?.value && (
+            {profileData?.attributes?.[4]?.value && (
               <IconButton
-                href={`https://t.me/${bioData.attributes[4].value}`}
+                href={`https://t.me/${profileData.attributes[4].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -149,9 +155,9 @@ export default function AccountBio(props: { address: string }) {
                 <Telegram />
               </IconButton>
             )}
-            {bioData?.attributes?.[5]?.value && (
+            {profileData?.attributes?.[5]?.value && (
               <IconButton
-                href={`https://instagram.com/${bioData.attributes[5].value}`}
+                href={`https://instagram.com/${profileData.attributes[5].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -159,10 +165,10 @@ export default function AccountBio(props: { address: string }) {
                 <Instagram />
               </IconButton>
             )}
-            {(bioData?.attributes?.[2]?.value ||
-              bioData?.attributes?.[3]?.value ||
-              bioData?.attributes?.[4]?.value ||
-              bioData?.attributes?.[5]?.value) && (
+            {(profileData?.attributes?.[2]?.value ||
+              profileData?.attributes?.[3]?.value ||
+              profileData?.attributes?.[4]?.value ||
+              profileData?.attributes?.[5]?.value) && (
               <Divider
                 flexItem
                 orientation="vertical"
@@ -211,7 +217,7 @@ export default function AccountBio(props: { address: string }) {
         {/* Owner buttons */}
         {address === props.address && (
           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-            {/* Edit bio button */}
+            {/* Edit button */}
             <Link href="/accounts/edit" legacyBehavior>
               <XlLoadingButton variant="contained">Edit</XlLoadingButton>
             </Link>

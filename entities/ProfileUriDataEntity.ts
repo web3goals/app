@@ -1,4 +1,4 @@
-export default interface BioUriDataEntity {
+export default interface ProfileUriDataEntity {
   readonly name: string;
   readonly image: string;
   readonly attributes: [
