@@ -1,5 +1,10 @@
 export const bioContractAbi = [
   {
+    inputs: [],
+    name: "TokenNotTransferable",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {

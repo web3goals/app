@@ -1,5 +1,161 @@
 export const goalContractAbi = [
   {
+    inputs: [],
+    name: "AlreadyAccepted",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AlreadyWatcher",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ArraysLengthInvalid",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AuthorCannotBeWatcher",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DeadlineMustBeAtLeast24HoursLater",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "GoalClosed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MessageValueMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotAchieved",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotAuthor",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProfileAddressNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProfileNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SendingStakeToAuthorFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SendingStakeToKeeperFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "SendingStakeToWatcherFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "StakeInvalid",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TokenDoesNotExist",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TokenNotTransferable",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "VerifierAddressNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WatcherNotFound",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "achievedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "failedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "motivatedGoals",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.AccountReputation",
+        name: "accountReputation",
+        type: "tuple",
+      },
+    ],
+    name: "AccountReputationSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "key",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "value",
+        type: "string",
+      },
+    ],
+    name: "AddedVerificationData",
+    type: "event",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -124,6 +280,11 @@ export const goalContractAbi = [
             type: "uint256",
           },
           {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
             internalType: "address",
             name: "authorAddress",
             type: "address",
@@ -156,7 +317,7 @@ export const goalContractAbi = [
         ],
         indexed: false,
         internalType: "struct DataTypes.GoalParams",
-        name: "",
+        name: "params",
         type: "tuple",
       },
     ],
@@ -174,6 +335,19 @@ export const goalContractAbi = [
       },
     ],
     name: "Paused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "SentToVerifier",
     type: "event",
   },
   {
@@ -199,25 +373,6 @@ export const goalContractAbi = [
       },
     ],
     name: "Transfer",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "tokenURI",
-        type: "string",
-      },
-    ],
-    name: "URISet",
     type: "event",
   },
   {
@@ -374,6 +529,42 @@ export const goalContractAbi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    name: "getAccountReputation",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "achievedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "failedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "motivatedGoals",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypes.AccountReputation",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
@@ -405,38 +596,25 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "getEpnsChannelAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getEpnsCommContractAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "getHubAddress",
     outputs: [
       {
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getImageSVG",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -458,6 +636,11 @@ export const goalContractAbi = [
             internalType: "uint256",
             name: "createdTimestamp",
             type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
           },
           {
             internalType: "address",
@@ -793,7 +976,7 @@ export const goalContractAbi = [
     inputs: [
       {
         internalType: "string",
-        name: "uri",
+        name: "description",
         type: "string",
       },
       {
@@ -855,37 +1038,24 @@ export const goalContractAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "epnsChannelAddress",
-        type: "address",
-      },
-    ],
-    name: "setEpnsChannelAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "epnsCommContractAddress",
-        type: "address",
-      },
-    ],
-    name: "setEpnsCommContractAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "hubAddress",
         type: "address",
       },
     ],
     name: "setHubAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "imageSVG",
+        type: "string",
+      },
+    ],
+    name: "setImageSVG",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -992,7 +1162,7 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "uppause",
+    name: "unpause",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
