@@ -6,7 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import GoalEntity from "entities/GoalEntity";
-import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
@@ -23,16 +22,6 @@ import { useNetwork } from "wagmi";
  */
 export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
   const { chain } = useNetwork();
-  const { handleError } = useError();
-  const { loadGoalUriData } = useGoal();
-  const [uriData, setUriData] = useState<GoalUriDataEntity | undefined>();
-
-  useEffect(() => {
-    setUriData(undefined);
-    loadGoalUriData(props.goal.uri)
-      .then((data) => setUriData(data))
-      .catch((error) => handleError(error, true));
-  }, [props.goal]);
 
   return (
     <Box
@@ -76,8 +65,12 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           my: { xs: 2, md: 0 },
         }}
       >
-        <Typography variant="h6" fontWeight={700}>
-          {uriData?.description || "..."}
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ lineBreak: "anywhere" }}
+        >
+          {props.goal.description}
         </Typography>
       </Stack>
       {/* Watchers, stake, deadline */}

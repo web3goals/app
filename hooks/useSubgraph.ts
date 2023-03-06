@@ -73,8 +73,8 @@ export default function useSubgraph() {
     const query = `{
       goals(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
-        uri
         createdTimestamp
+        description
         authorAddress
         authorStake
         deadlineTimestamp
@@ -89,8 +89,8 @@ export default function useSubgraph() {
     response.goals?.forEach((goal: any) => {
       goals.push({
         id: goal.id,
-        uri: goal.uri,
         createdTimestamp: goal.createdTimestamp,
+        description: goal.description,
         authorAddress: goal.authorAddress,
         authorStake: goal.authorStake,
         deadlineTimestamp: goal.deadlineTimestamp,

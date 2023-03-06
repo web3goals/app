@@ -24,19 +24,6 @@ export default function Goal() {
   const { chain } = useNetwork();
   const [goalId, setGoalId] = useState<string | undefined>();
 
-  // State of contract reading to get goal uri
-  const {
-    data: goalUri,
-    refetch: refetchGoalUri,
-    isFetching: isGoalUriFetching,
-  } = useContractRead({
-    address: getGoalContractAddress(chain),
-    abi: goalContractAbi,
-    functionName: "tokenURI",
-    args: goalId ? [BigNumber.from(goalId)] : undefined,
-    enabled: goalId !== undefined,
-  });
-
   // State of contract reading to get goal params
   const {
     data: goalParams,
@@ -69,10 +56,8 @@ export default function Goal() {
 
   const isDataReady =
     goalId &&
-    goalUri &&
     goalParams &&
     goalWatchers &&
-    !isGoalUriFetching &&
     !isGoalParamsFetching &&
     !isGoalWatchersFetching;
 
@@ -83,8 +68,8 @@ export default function Goal() {
           <>
             <GoalParams
               id={goalId}
-              uri={goalUri}
               createdTimestamp={goalParams.createdTimestamp}
+              description={goalParams.description}
               authorAddress={goalParams.authorAddress}
               authorStake={goalParams.authorStake}
               deadlineTimestamp={goalParams.deadlineTimestamp}
@@ -105,7 +90,6 @@ export default function Goal() {
               isClosed={goalParams.isClosed}
               verificationRequirement={goalParams.verificationRequirement}
               onSuccess={() => {
-                refetchGoalUri();
                 refetchGoalParams();
                 refetchGoalWatchers();
               }}
@@ -118,7 +102,6 @@ export default function Goal() {
               isClosed={goalParams.isClosed}
               watchers={goalWatchers}
               onUpdate={() => {
-                refetchGoalUri();
                 refetchGoalParams();
                 refetchGoalWatchers();
               }}

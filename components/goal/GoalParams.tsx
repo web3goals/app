@@ -3,15 +3,11 @@ import { Box } from "@mui/system";
 import {
   WidgetBox,
   WidgetLink,
-  WidgetTitle,
-  WidgetText,
   WidgetSeparatorText,
+  WidgetText,
+  WidgetTitle,
 } from "components/styled";
-import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { BigNumber, ethers } from "ethers";
-import useError from "hooks/useError";
-import useGoal from "hooks/useGoal";
-import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
@@ -25,8 +21,8 @@ import { useNetwork } from "wagmi";
  */
 export default function GoalParams(props: {
   id: string;
-  uri: string;
   createdTimestamp: BigNumber;
+  description: string;
   authorAddress: string;
   authorStake: BigNumber;
   deadlineTimestamp: BigNumber;
@@ -35,16 +31,6 @@ export default function GoalParams(props: {
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
-  const { handleError } = useError();
-  const { loadGoalUriData } = useGoal();
-  const [uriData, setUriData] = useState<GoalUriDataEntity | undefined>();
-
-  useEffect(() => {
-    setUriData(undefined);
-    loadGoalUriData(props.uri)
-      .then((data) => setUriData(data))
-      .catch((error) => handleError(error, true));
-  }, [props.uri]);
 
   return (
     <Box sx={{ width: 1, ...props.sx }}>
@@ -79,7 +65,9 @@ export default function GoalParams(props: {
       {/* Description */}
       <WidgetBox bgcolor={palette.blue} mb={2}>
         <WidgetTitle>Set goal</WidgetTitle>
-        <WidgetText>{uriData?.description || "..."}</WidgetText>
+        <WidgetText sx={{ lineBreak: "anywhere" }}>
+          {props.description}
+        </WidgetText>
       </WidgetBox>
       <WidgetSeparatorText mb={2}>and</WidgetSeparatorText>
       {/* Stake */}

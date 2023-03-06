@@ -12,12 +12,9 @@ import {
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
-import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
@@ -48,9 +45,7 @@ export default function GoalSetForm(props: {
 }) {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { handleError } = useError();
   const { showToastError } = useToasts();
-  const { uploadJsonToIpfs } = useIpfs();
 
   const goalExamples = [
     "⌨️ Code every day for 14 days…",
@@ -87,10 +82,6 @@ export default function GoalSetForm(props: {
   });
   const debouncedFormValues = useDebounce(formValues);
 
-  // Uploaded data states
-  const [uploadedGoalDataUri, setUploadedGoalDataUri] = useState("");
-  const [isDataUploading, setIsDataUploading] = useState(false);
-
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
@@ -98,7 +89,7 @@ export default function GoalSetForm(props: {
       abi: goalContractAbi,
       functionName: "set",
       args: [
-        uploadedGoalDataUri,
+        debouncedFormValues.description,
         numberToBigNumberEthers(debouncedFormValues.stake),
         dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
         debouncedFormValues.verificationRequirement,
@@ -123,26 +114,10 @@ export default function GoalSetForm(props: {
       hash: contractWriteData?.hash,
     });
 
-  const isFormLoading =
-    isDataUploading || isContractWriteLoading || isTransactionLoading;
+  const isFormLoading = isContractWriteLoading || isTransactionLoading;
   const isFormDisabled = isFormLoading || isTransactionSuccess;
   const isFormSubmitButtonDisabled =
     isFormDisabled || isContractPrepareError || !contractWrite;
-
-  async function uploadData(values: any) {
-    try {
-      setIsDataUploading(true);
-      const goalData: GoalUriDataEntity = {
-        description: values.description,
-        deadline: values.deadline,
-      };
-      const { uri: goalDataUri } = await uploadJsonToIpfs(goalData);
-      setUploadedGoalDataUri(goalDataUri);
-    } catch (error: any) {
-      handleError(error, true);
-      setIsDataUploading(false);
-    }
-  }
 
   /**
    * Listen contract events to get id of set goal.
@@ -158,21 +133,6 @@ export default function GoalSetForm(props: {
     },
   });
 
-  /**
-   * Write data to contract if data is uploaded and contract is ready.
-   */
-  useEffect(() => {
-    if (
-      uploadedGoalDataUri !== "" &&
-      contractWrite &&
-      !isContractWriteLoading
-    ) {
-      setUploadedGoalDataUri("");
-      contractWrite?.();
-      setIsDataUploading(false);
-    }
-  }, [uploadedGoalDataUri, contractWrite, isContractWriteLoading]);
-
   return (
     <CentralizedBox>
       <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
@@ -181,7 +141,7 @@ export default function GoalSetForm(props: {
       <Formik
         initialValues={formValues}
         validationSchema={formValidationSchema}
-        onSubmit={uploadData}
+        onSubmit={() => contractWrite?.()}
       >
         {({ values, errors, touched, handleChange, setValues }) => (
           <Form style={{ width: "100%" }}>

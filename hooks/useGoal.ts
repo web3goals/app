@@ -1,4 +1,3 @@
-import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
 import useError from "./useError";
 import useIpfs from "./useIpfs";
@@ -9,18 +8,6 @@ import useIpfs from "./useIpfs";
 export default function useGoal() {
   const { handleError } = useError();
   const { loadJsonFromIpfs } = useIpfs();
-
-  let loadGoalUriData = async function (
-    uri: string
-  ): Promise<GoalUriDataEntity | undefined> {
-    try {
-      const data = await loadJsonFromIpfs(uri);
-      return { description: data.description, deadline: data.deadline };
-    } catch (error: any) {
-      handleError(error, false);
-      return undefined;
-    }
-  };
 
   let loadGoalWatcherUriData = async function (
     uri: string
@@ -35,7 +22,6 @@ export default function useGoal() {
   };
 
   return {
-    loadGoalUriData,
     loadGoalWatcherUriData,
   };
 }
