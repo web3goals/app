@@ -20,14 +20,9 @@ import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { palette } from "theme/palette";
-import {
-  getProfileContractAddress,
-  getEpnsChannelAddress,
-  getEpnsCommContractAddress,
-} from "utils/chains";
+import { getProfileContractAddress } from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
-import AccountNotificationsDialog from "./AccountNotificationsDialog";
 
 /**
  * A component with account profile.
@@ -233,23 +228,6 @@ export default function AccountProfile(props: { address: string }) {
             <Link href="/accounts/edit" legacyBehavior>
               <XlLoadingButton variant="contained">Edit</XlLoadingButton>
             </Link>
-            {/* Notifications button */}
-            {getEpnsCommContractAddress(chain) &&
-              getEpnsChannelAddress(chain) && (
-                <XlLoadingButton
-                  variant="outlined"
-                  onClick={() =>
-                    showDialog?.(
-                      <AccountNotificationsDialog
-                        address={props.address}
-                        onClose={closeDialog}
-                      />
-                    )
-                  }
-                >
-                  Notifications
-                </XlLoadingButton>
-              )}
           </Stack>
         )}
       </>

@@ -20,6 +20,8 @@ import {
 
 /**
  * Dialog to control notifications.
+ *
+ * TODO: Delete component or use it
  */
 export default function AccountNotificationsDialog(props: {
   address: string;

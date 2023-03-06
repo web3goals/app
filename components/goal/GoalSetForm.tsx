@@ -190,7 +190,6 @@ export default function GoalSetForm(props: {
             <WidgetBox bgcolor={palette.blue} mb={3}>
               <WidgetTitle>My goal is</WidgetTitle>
               <Autocomplete
-                // TODO: Test that description is updating after change
                 onChange={(_, value: string) => {
                   setValues({
                     ...values,
