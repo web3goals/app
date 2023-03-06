@@ -10,10 +10,7 @@ import {
   WidgetTitle,
   XxlLoadingButton,
 } from "components/styled";
-import {
-  VERIFICATION_DATA_KEYS,
-  VERIFICATION_REQUIREMENTS,
-} from "constants/verifiers";
+import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalUriDataEntity from "entities/GoalUriDataEntity";
 import { ethers } from "ethers";
@@ -56,12 +53,21 @@ export default function GoalSetForm(props: {
   const { uploadJsonToIpfs } = useIpfs();
 
   const goalExamples = [
-    "Complete the challenge #14DaysOfCode",
-    "Reach 1,000 followers",
-    "Read 12 books",
-    "Train every week for 3 months",
-    "Go with the family to Spain",
-    "Conquer the peak of Kilimanjaro",
+    "⌨️ Code every day for 14 days…",
+    "✈️ Go to Spain with family...",
+    "✨ Reach 1,000 followers on…",
+    "🎸 Go to the festival…",
+    "🏆 Win the championship",
+    "🏔️ Conquer the peak of…",
+    "👟 Run a half marathon…",
+    "👨‍💼 Find a job as…",
+    "💪 Go to the gym every week for 3 months…",
+    "💰 Save $10,000 for…",
+    "📖 Read 12 books…",
+    "🔁 Publish posts every day on…",
+    "🚀 Release a product…",
+    "🧑‍🎓 Complete a course…",
+    "🧘 Meditate for 30 days…",
   ];
 
   // Form states
@@ -69,7 +75,7 @@ export default function GoalSetForm(props: {
     description: "",
     stake: 0.01,
     stakeCurrency: "native",
-    deadline: "2023-03-01",
+    deadline: "2023-06-01",
     verificationRequirement: VERIFICATION_REQUIREMENTS.anyProof,
   });
   const formValidationSchema = yup.object({
@@ -166,8 +172,6 @@ export default function GoalSetForm(props: {
       setIsDataUploading(false);
     }
   }, [uploadedGoalDataUri, contractWrite, isContractWriteLoading]);
-
-  console.log(formValues);
 
   return (
     <CentralizedBox>
