@@ -51,9 +51,10 @@ export default function Landing() {
               variant="h1"
               fontWeight={700}
               textAlign="center"
-              sx={{ mt: 24, mb: 4 }}
+              sx={{ mt: 22, mb: 4 }}
             >
-              A social space that motivates to achieve your goals!
+              A social space that helps any person or community to achieve their
+              goals!
             </Typography>
             <Typography
               variant="h6"
@@ -80,7 +81,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 0.7);"
               gutterBottom
             >
-              💰 Become a better entrepreneur
+              👟 Become a better athlete
             </Typography>
             <Typography
               variant="h6"
@@ -89,16 +90,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 0.55);"
               gutterBottom
             >
-              👟 Become a better athlete
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={300}
-              textAlign="center"
-              color="rgba(255, 255, 255, 0.4);"
-              gutterBottom
-            >
-              ❤️ Become a better person
+              ❤️ Become a better community
             </Typography>
             <XxlLoadingButton
               variant="contained"
