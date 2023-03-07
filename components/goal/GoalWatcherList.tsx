@@ -1,5 +1,5 @@
 import { Box, Stack, SxProps, Typography } from "@mui/material";
-import { FullWidthSkeleton } from "components/styled";
+import { CardBox, FullWidthSkeleton } from "components/styled";
 import GoalWatcherCard from "./GoalWatcherCard";
 
 /**
@@ -33,7 +33,9 @@ export default function GoalWatcherList(props: {
       )}
       {/* Empty list */}
       {props.watchers && props.watchers.length === 0 && (
-        <Typography textAlign="center">no watchers</Typography>
+        <CardBox>
+          <Typography textAlign="center">😐 no watchers</Typography>
+        </CardBox>
       )}
       {/* Loading list */}
       {!props.watchers && <FullWidthSkeleton />}

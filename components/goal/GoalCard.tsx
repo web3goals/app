@@ -1,10 +1,5 @@
-import {
-  Box,
-  Link as MuiLink,
-  Stack,
-  SxProps,
-  Typography,
-} from "@mui/material";
+import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
+import { CardBox } from "components/styled";
 import GoalEntity from "entities/GoalEntity";
 import { BigNumber, ethers } from "ethers";
 import { getChainNativeCurrencySymbol } from "utils/chains";
@@ -21,20 +16,15 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
   const { chain } = useNetwork();
 
   return (
-    <Box
+    <CardBox
       sx={{
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
-        border: "solid",
         borderColor: !props.goal.isClosed
           ? "divider"
           : props.goal.isAchieved
           ? "success.main"
           : "error.main",
-        borderWidth: 6,
-        borderRadius: 2,
-        py: 2,
-        px: 4,
         ...props.sx,
       }}
     >
@@ -90,6 +80,6 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           )}
         </Typography>
       </Stack>
-    </Box>
+    </CardBox>
   );
 }

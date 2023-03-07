@@ -41,9 +41,9 @@ export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
     borderRadius: "78px",
     padding: "24px 78px",
     ...(variant === "outlined" && {
-      border: "4px solid",
+      border: "5px solid",
       "&:hover": {
-        border: "4px solid",
+        border: "5px solid",
       },
     }),
   })
@@ -70,6 +70,14 @@ export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   alignItems: "center",
   marginTop: "24px",
   marginBottom: "24px",
+}));
+
+export const CardBox = styled(Box)<BoxProps>(({ theme }) => ({
+  border: "solid",
+  borderColor: theme.palette.divider,
+  borderWidth: "5px",
+  borderRadius: "10px",
+  padding: "18px 24px",
 }));
 
 export const WidgetBox = styled(Box)<BoxProps>(({ theme }) => ({

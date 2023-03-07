@@ -1,5 +1,5 @@
 import { Box, Link as MuiLink, SxProps, Typography } from "@mui/material";
-import { XlLoadingButton } from "components/styled";
+import { CardBox, XlLoadingButton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
 import { BigNumber, ethers } from "ethers";
@@ -49,17 +49,7 @@ export default function GoalWatcherCard(props: {
   }, [props.extraDataURI]);
 
   return (
-    <Box
-      sx={{
-        border: "solid",
-        borderColor: "divider",
-        borderWidth: 6,
-        borderRadius: 2,
-        py: 2,
-        px: 4,
-        ...props.sx,
-      }}
-    >
+    <CardBox sx={{ ...props.sx }}>
       {/* Message */}
       <Typography variant="h6" fontWeight={700} gutterBottom>
         {uriData?.message || "..."}
@@ -84,7 +74,7 @@ export default function GoalWatcherCard(props: {
           sx={{ mt: 2 }}
         />
       )}
-    </Box>
+    </CardBox>
   );
 }
 

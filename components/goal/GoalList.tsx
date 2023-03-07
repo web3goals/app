@@ -1,6 +1,10 @@
 import { SxProps, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import { FullWidthSkeleton, XxlLoadingButton } from "components/styled";
+import {
+  CardBox,
+  FullWidthSkeleton,
+  XxlLoadingButton,
+} from "components/styled";
 import GoalEntity from "entities/GoalEntity";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
@@ -83,7 +87,9 @@ export default function GoalList(props: {
       )}
       {/* Empty list */}
       {goals && goals.length === 0 && (
-        <Typography textAlign="center">no goals</Typography>
+        <CardBox>
+          <Typography textAlign="center">😐 no goals</Typography>
+        </CardBox>
       )}
       {/* Loading list */}
       {!goals && <FullWidthSkeleton />}
