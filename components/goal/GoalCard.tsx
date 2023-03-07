@@ -7,9 +7,6 @@ import {
 } from "@mui/material";
 import GoalEntity from "entities/GoalEntity";
 import { BigNumber, ethers } from "ethers";
-import useError from "hooks/useError";
-import useGoal from "hooks/useGoal";
-import { useEffect, useState } from "react";
 import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
@@ -44,7 +41,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
       {/* Link, author */}
       <Stack sx={{ justifyContent: "center" }}>
         <Typography>
-          {!props.goal.isClosed ? "⌛" : props.goal.isAchieved ? "✅" : "❌"}{" "}
+          {!props.goal.isClosed ? "🔥" : props.goal.isAchieved ? "✅" : "❌"}{" "}
           <MuiLink href={`/goals/${props.goal.id}`}>
             <strong>#{props.goal.id}</strong>
           </MuiLink>

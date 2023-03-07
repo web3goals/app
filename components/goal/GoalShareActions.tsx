@@ -81,7 +81,7 @@ export default function GoalShareActions(props: { id: string; sx?: SxProps }) {
                 mb: { xs: 2, md: 0 },
               }}
             >
-              🔗 {goalLink}
+              {goalLink}
             </MuiLink>
           </Link>
           <XlLoadingButton

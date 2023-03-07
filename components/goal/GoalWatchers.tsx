@@ -52,6 +52,7 @@ export default function GoalWatchers(props: {
     >
       {/* Title */}
       <Typography
+        id="watchers"
         variant="h4"
         fontWeight={700}
         textAlign="center"

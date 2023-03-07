@@ -1,7 +1,7 @@
 import { SxProps } from "@mui/material";
 import { Stack } from "@mui/system";
 import GoalShareDialog from "components/goal/GoalShareDialog";
-import { XlLoadingButton } from "components/styled";
+import { XlLoadingButton, XxlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber } from "ethers";
 import { useContext } from "react";
@@ -47,7 +47,7 @@ function GoalCloseButton(props: {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
-    <XlLoadingButton
+    <XxlLoadingButton
       variant="contained"
       onClick={() =>
         showDialog?.(
@@ -62,7 +62,7 @@ function GoalCloseButton(props: {
       }
     >
       Close
-    </XlLoadingButton>
+    </XxlLoadingButton>
   );
 }
 

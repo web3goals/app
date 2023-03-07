@@ -76,14 +76,6 @@ export default function Goal() {
               isClosed={goalParams.isClosed}
               isAchieved={goalParams.isAchieved}
             />
-            <GoalResult
-              id={goalId}
-              authorStake={goalParams.authorStake}
-              isClosed={goalParams.isClosed}
-              isAchieved={goalParams.isAchieved}
-              verificationRequirement={goalParams.verificationRequirement}
-              sx={{ mt: 6 }}
-            />
             <GoalActions
               id={goalId}
               deadlineTimestamp={goalParams.deadlineTimestamp}
@@ -93,9 +85,9 @@ export default function Goal() {
                 refetchGoalParams();
                 refetchGoalWatchers();
               }}
-              sx={{ mt: 6 }}
+              sx={{ mt: 4 }}
             />
-            <ThickDivider sx={{ mt: 6 }} />
+            <ThickDivider sx={{ mt: 8 }} />
             <GoalWatchers
               id={goalId}
               authorAddress={goalParams.authorAddress}
@@ -105,7 +97,7 @@ export default function Goal() {
                 refetchGoalParams();
                 refetchGoalWatchers();
               }}
-              sx={{ mt: 6 }}
+              sx={{ mt: 8 }}
             />
           </>
         ) : (

@@ -26,6 +26,8 @@ import { useContractRead, useNetwork } from "wagmi";
 
 /**
  * A component with goal result.
+ *
+ * TODO: Rename to "GoalProofs"
  */
 export default function GoalResult(props: {
   id: string;
@@ -85,7 +87,7 @@ export default function GoalResult(props: {
                   {/* Any uri */}
                   {goalVerificationData?.[0] && (
                     <MuiLink href={goalVerificationData[0]} target="_blank">
-                      🔗 {ipfsUriToShortUri(goalVerificationData[0])}
+                      {ipfsUriToShortUri(goalVerificationData[0])}
                     </MuiLink>
                   )}
                   {/* Loading */}
