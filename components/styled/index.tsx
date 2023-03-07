@@ -37,8 +37,9 @@ export const FullWidthSkeleton = styled(Skeleton)<SkeletonProps>(
 export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({
     fontSize: "24px",
+    fontWeight: 700,
     borderRadius: "78px",
-    padding: "24px 48px",
+    padding: "24px 78px",
     ...(variant === "outlined" && {
       border: "4px solid",
       "&:hover": {
@@ -51,8 +52,9 @@ export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
 export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({
     fontSize: "18px",
+    fontWeight: 700,
     borderRadius: "78px",
-    padding: "14px 28px",
+    padding: "14px 48px",
     ...(variant === "outlined" && {
       border: "4px solid",
       "&:hover": {
