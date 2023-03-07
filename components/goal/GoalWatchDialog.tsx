@@ -1,4 +1,5 @@
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import FormikHelper from "components/helper/FormikHelper";
 import {
   WidgetBox,
@@ -186,7 +187,7 @@ export default function GoalWatchDialog(props: {
                   Post
                 </XxlLoadingButton>
               </Box>
-              <WidgetSeparatorText px={{ md: 12 }}>
+              <WidgetSeparatorText px={{ md: 12 }} color={grey[600]}>
                 once published, the author will be able to accept your candidacy
               </WidgetSeparatorText>
             </Form>

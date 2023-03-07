@@ -1,5 +1,6 @@
 import { useCreateAsset } from "@livepeer/react";
 import { Box, Dialog, DialogContent, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import {
   FullWidthSkeleton,
   WidgetBox,
@@ -406,7 +407,7 @@ function GoalCloseForm(props: {
       >
         Close
       </XxlLoadingButton>
-      <WidgetSeparatorText>
+      <WidgetSeparatorText color={grey[600]}>
         {props.isVerificationStatusAchieved
           ? "the stake will be returned after closing"
           : "the stake will be shared between watchers and application after closing"}
