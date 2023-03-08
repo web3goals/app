@@ -471,6 +471,29 @@ export const goalContractAbi = [
         type: "string[]",
       },
     ],
+    name: "addVerificationData",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataKeys",
+        type: "string[]",
+      },
+      {
+        internalType: "string[]",
+        name: "verificationDataValues",
+        type: "string[]",
+      },
+    ],
     name: "addVerificationDataAndVerify",
     outputs: [],
     stateMutability: "nonpayable",
