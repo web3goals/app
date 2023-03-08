@@ -9,7 +9,6 @@ import {
 import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
-import { DialogContext } from "context/dialog";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import AccountEntity from "entities/AccountEntity";
 import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
@@ -18,21 +17,20 @@ import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { getProfileContractAddress } from "utils/chains";
-import { addressToShortAddress } from "utils/converters";
+import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 
 /**
  * A component with account profile.
  */
 export default function AccountProfile(props: { address: string }) {
-  const { showDialog, closeDialog } = useContext(DialogContext);
   const { handleError } = useError();
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { loadJsonFromIpfs, ipfsUriToHttpUri } = useIpfs();
+  const { loadJsonFromIpfs } = useIpfs();
   const { findAccounts } = useSubgraph();
   const [profileData, setProfileData] = useState<
     ProfileUriDataEntity | null | undefined

@@ -14,6 +14,16 @@ export function addressToShortAddress(address: string): string {
 }
 
 /**
+ * Convert "ipfs://..." to "http://...".
+ */
+export function ipfsUriToHttpUri(ipfsUri: string): string {
+  if (!ipfsUri || !ipfsUri.startsWith("ipfs://")) {
+    throw new Error(`Fail to converting IPFS URI to HTTP URI: ${ipfsUri}`);
+  }
+  return ipfsUri.replace("ipfs://", "https://w3s.link/ipfs/");
+}
+
+/**
  * Convert "ipfs://bafkreicly5njual3zhcvdvqdvsyme3kcxxjguokz2taagkkvnbicm2u6ym" to "ipfs://bafk...2u6ym".
  */
 export function ipfsUriToShortUri(ipfsUri: string): string {

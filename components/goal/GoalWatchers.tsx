@@ -3,6 +3,7 @@ import { Box, SxProps, Tab, Typography } from "@mui/material";
 import { WidgetSeparatorText, XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { useContext, useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 import GoalWatchDialog from "./GoalWatchDialog";
 import GoalWatcherList from "./GoalWatcherList";
 
@@ -18,6 +19,7 @@ export default function GoalWatchers(props: {
   sx?: SxProps;
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
+  const { address } = useAccount();
   const [tabValue, setTabValue] = useState("1");
   const [watchersAccepted, setWatchersAccepted] = useState<any[] | undefined>();
   const [watchersPending, setWatchersPending] = useState<any[] | undefined>();
@@ -56,15 +58,14 @@ export default function GoalWatchers(props: {
         variant="h4"
         fontWeight={700}
         textAlign="center"
-        sx={{ mb: 2 }}
       >
         👀 Watchers
       </Typography>
-      <WidgetSeparatorText mb={3}>
+      <WidgetSeparatorText mt={2}>
         people who motivate to achieve the goal
       </WidgetSeparatorText>
       {/* Button to become a watcher */}
-      {!props.isClosed && (
+      {!props.isClosed && address !== props.authorAddress && (
         <XlLoadingButton
           variant="contained"
           onClick={() =>
@@ -76,13 +77,13 @@ export default function GoalWatchers(props: {
               />
             )
           }
-          sx={{ mb: 3 }}
+          sx={{ mt: 4 }}
         >
           Watch
         </XlLoadingButton>
       )}
       {/* Tabs */}
-      <Box sx={{ width: 1 }}>
+      <Box sx={{ width: 1, mt: 4 }}>
         <TabContext value={tabValue}>
           <TabList
             centered

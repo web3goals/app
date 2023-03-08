@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { getProfileContractAddress, getChainId } from "utils/chains";
+import { ipfsUriToHttpUri } from "utils/converters";
 import {
   useAccount,
   useContractWrite,
@@ -29,7 +30,7 @@ export default function AccountEditProfileForm(props: {
   profileData: ProfileUriDataEntity | null;
 }) {
   const { handleError } = useError();
-  const { uploadJsonToIpfs, uploadFileToIpfs, ipfsUriToHttpUri } = useIpfs();
+  const { uploadJsonToIpfs, uploadFileToIpfs } = useIpfs();
   const { showToastSuccess } = useToasts();
   const router = useRouter();
   const { chain } = useNetwork();
@@ -60,6 +61,7 @@ export default function AccountEditProfileForm(props: {
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
+  // Uri states
   const [updatedProfileDataUri, setUpdatedProfileDataUri] = useState("");
 
   // Contract states
@@ -104,7 +106,6 @@ export default function AccountEditProfileForm(props: {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (fileReader.readyState === 2) {
-          // Save states
           setFormImageValue({
             file: file,
             uri: fileReader.result,
@@ -155,8 +156,8 @@ export default function AccountEditProfileForm(props: {
       contractWrite &&
       !isContractWriteLoading
     ) {
-      setUpdatedProfileDataUri("");
       contractWrite?.();
+      setUpdatedProfileDataUri("");
       setIsFormSubmitting(false);
     }
   }, [updatedProfileDataUri, contractWrite, isContractWriteLoading]);

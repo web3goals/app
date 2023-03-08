@@ -1,5 +1,6 @@
-import { Web3Storage } from "web3.storage";
 import axios from "axios";
+import { ipfsUriToHttpUri } from "utils/converters";
+import { Web3Storage } from "web3.storage";
 
 /**
  * Hook for work with IPFS.
@@ -36,17 +37,9 @@ export default function useIpfs() {
     return response.data;
   };
 
-  let ipfsUriToHttpUri = function (ipfsUri: string): string {
-    if (!ipfsUri || !ipfsUri.startsWith(ipfsUriPrefix)) {
-      throw new Error(`Fail to converting IPFS URI to HTTP URI: ${ipfsUri}`);
-    }
-    return ipfsUri.replace("ipfs://", "https://w3s.link/ipfs/");
-  };
-
   return {
     uploadFileToIpfs,
     uploadJsonToIpfs,
     loadJsonFromIpfs,
-    ipfsUriToHttpUri,
   };
 }

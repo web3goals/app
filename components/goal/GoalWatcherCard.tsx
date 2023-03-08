@@ -1,4 +1,4 @@
-import { Box, Link as MuiLink, SxProps, Typography } from "@mui/material";
+import { Link as MuiLink, SxProps, Typography } from "@mui/material";
 import { CardBox, XlLoadingButton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
