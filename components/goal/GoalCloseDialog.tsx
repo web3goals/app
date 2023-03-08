@@ -1,25 +1,15 @@
-import { useCreateAsset } from "@livepeer/react";
-import { Box, Dialog, DialogContent, Typography } from "@mui/material";
+import { Dialog, DialogContent, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import {
   FullWidthSkeleton,
-  WidgetBox,
   WidgetSeparatorText,
-  WidgetTitle,
   XxlLoadingButton,
 } from "components/styled";
-import {
-  VERIFICATION_DATA_KEYS,
-  VERIFICATION_REQUIREMENTS,
-} from "constants/verifiers";
+import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
-import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
-import { useEffect, useMemo, useState } from "react";
-import Dropzone from "react-dropzone";
-import { palette } from "theme/palette";
+import { useEffect, useState } from "react";
 import { getChainId, getGoalContractAddress } from "utils/chains";
 import { dateToBigNumberTimestamp } from "utils/converters";
 import {
@@ -118,40 +108,20 @@ function GoalVerifyForm(props: {
   onSuccess?: Function;
 }) {
   const { chain } = useNetwork();
-  const { handleError } = useError();
   const { showToastSuccess, showToastError } = useToasts();
-  const { uploadFileToIpfs } = useIpfs();
-
-  // Form values
-  const [formValues, setFormValues] = useState<{
-    proof?: { file: any; uri: any; isVideo: boolean };
-  }>();
-
-  // Verification data states
-  const [isVerificationDataLoading, setIsVerificationDataLoading] =
-    useState(false);
-  const [isVerificationDataReady, setIsVerificationDataReady] = useState(false);
-  const [verificationData, setVerificationData] = useState<{
-    keys: Array<string>;
-    values: Array<string>;
-  }>({ keys: [], values: [] });
 
   // Contract states
-  const { config: contractPrepareConfig } = usePrepareContractWrite({
-    address: getGoalContractAddress(chain),
-    abi: goalContractAbi,
-    functionName: "addVerificationDataAndVerify",
-    args: [
-      BigNumber.from(props.id),
-      verificationData.keys,
-      verificationData.values,
-    ],
-    chainId: getChainId(chain),
-    onError(error: any) {
-      showToastError(error, goalContractAbi);
-    },
-    enabled: isVerificationDataReady,
-  });
+  const { config: contractPrepareConfig, isError: isContractPrepareError } =
+    usePrepareContractWrite({
+      address: getGoalContractAddress(chain),
+      abi: goalContractAbi,
+      functionName: "verify",
+      args: [BigNumber.from(props.id)],
+      chainId: getChainId(chain),
+      onError(error: any) {
+        showToastError(error, goalContractAbi);
+      },
+    });
   const {
     data: contractWriteData,
     isLoading: isContractWriteLoading,
@@ -161,126 +131,6 @@ function GoalVerifyForm(props: {
     useWaitForTransaction({
       hash: contractWriteData?.hash,
     });
-
-  // Livepeer create asset states
-  const {
-    mutate: createAsset,
-    data: asset,
-    status: createAssetStatus,
-    progress: createAssetProgress,
-  } = useCreateAsset(
-    formValues?.proof?.isVideo
-      ? {
-          sources: [
-            { name: formValues.proof.file.name, file: formValues.proof.file },
-          ] as const,
-        }
-      : null
-  );
-  const createAssetProgressFormatted = useMemo(
-    () =>
-      createAssetProgress?.[0].phase === "failed"
-        ? "failed to process video"
-        : createAssetProgress?.[0].phase === "waiting"
-        ? "waiting"
-        : createAssetProgress?.[0].phase === "uploading"
-        ? `uploading: ${Math.round(createAssetProgress?.[0]?.progress * 100)}%`
-        : createAssetProgress?.[0].phase === "processing"
-        ? `processing: ${Math.round(createAssetProgress?.[0].progress * 100)}%`
-        : null,
-    [createAssetProgress]
-  );
-
-  // Form states
-  const isFormLoading =
-    isVerificationDataLoading ||
-    isVerificationDataReady ||
-    isContractWriteLoading ||
-    isTransactionLoading;
-  const isFormDisabled = isFormLoading || isTransactionSuccess;
-
-  async function onProofChange(files: Array<any>) {
-    try {
-      // Get file
-      const file = files?.[0];
-      if (!file) {
-        return;
-      }
-      // Read and save file
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        if (fileReader.readyState === 2) {
-          setFormValues({
-            proof: {
-              file: file,
-              uri: fileReader.result,
-              isVideo: file.type === "video/mp4",
-            },
-          });
-        }
-      };
-      fileReader.readAsDataURL(file);
-    } catch (error: any) {
-      handleError(error, true);
-    }
-  }
-
-  async function prepareVerificationData() {
-    try {
-      setIsVerificationDataReady(false);
-      setIsVerificationDataLoading(true);
-      // If any proof requirement
-      if (
-        props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
-      ) {
-        if (!formValues?.proof) {
-          throw new Error("Proof file is not attached!");
-        }
-        // Upload to livepeer if file is video
-        if (formValues.proof.isVideo) {
-          createAsset?.();
-        }
-        // Upload to ipfs if file is not video
-        else {
-          const { uri } = await uploadFileToIpfs(formValues.proof.file);
-          setVerificationData({
-            keys: [VERIFICATION_DATA_KEYS.anyProofUri],
-            values: [uri],
-          });
-          setIsVerificationDataReady(true);
-          setIsVerificationDataLoading(false);
-        }
-      }
-    } catch (error: any) {
-      handleError(error, true);
-      setIsVerificationDataLoading(false);
-    }
-  }
-
-  /**
-   * Update veirifcation data when video uploaded to livepeer.
-   */
-  useEffect(() => {
-    if (createAssetStatus === "success" && asset) {
-      setVerificationData({
-        keys: [VERIFICATION_DATA_KEYS.anyLivepeerPlaybackId],
-        values: [asset[0].playbackId || ""],
-      });
-      setIsVerificationDataReady(true);
-      setIsVerificationDataLoading(false);
-    }
-  }, [createAssetStatus]);
-
-  /**
-   * Write data to contract if verification data and contract is ready.
-   */
-  useEffect(() => {
-    if (isVerificationDataReady && contractWrite && !isContractWriteLoading) {
-      contractWrite?.();
-      setIsVerificationDataReady(false);
-      setVerificationData({ keys: [], values: [] });
-    }
-  }, [isVerificationDataReady, contractWrite, isContractWriteLoading]);
 
   /**
    * Handle transaction success to show success message.
@@ -296,57 +146,24 @@ function GoalVerifyForm(props: {
 
   return (
     <>
-      <WidgetSeparatorText mb={2}>
-        verify the achievement of the goal before closing it
+      <WidgetSeparatorText mb={3}>
+        verify the achievement to close the goal
       </WidgetSeparatorText>
-      {/* Proof file input */}
-      {props.verificationRequirement ===
-        VERIFICATION_REQUIREMENTS.anyProofUri && (
-        <WidgetBox bgcolor={palette.green} mb={3} sx={{ width: 1 }}>
-          <WidgetTitle>Proof</WidgetTitle>
-          <Dropzone
-            multiple={false}
-            disabled={isFormDisabled}
-            onDrop={(files) => onProofChange(files)}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <Box
-                  sx={{
-                    cursor: !isFormDisabled ? "pointer" : undefined,
-                    bgcolor: "#FFFFFF",
-                    py: 2,
-                    px: 4,
-                    borderRadius: 3,
-                  }}
-                >
-                  <Typography
-                    color="text.secondary"
-                    sx={{ lineBreak: "anywhere" }}
-                  >
-                    {formValues?.proof?.file?.name ||
-                      "Drag 'n' drop some files here, or click to select files"}
-                  </Typography>
-                </Box>
-              </div>
-            )}
-          </Dropzone>
-        </WidgetBox>
-      )}
-      {/* Button */}
       <XxlLoadingButton
-        loading={isFormLoading}
         variant="contained"
         type="submit"
-        disabled={isFormDisabled}
-        onClick={() => prepareVerificationData()}
+        disabled={isContractPrepareError || !contractWrite}
+        loading={isContractWriteLoading || isTransactionLoading}
+        onClick={() => contractWrite?.()}
+        sx={{ mb: 3 }}
       >
         Verify
       </XxlLoadingButton>
-      {createAssetProgressFormatted && (
-        <WidgetSeparatorText mt={3}>
-          {createAssetProgressFormatted}
+      {/* Proof file input */}
+      {props.verificationRequirement ===
+        VERIFICATION_REQUIREMENTS.anyProofUri && (
+        <WidgetSeparatorText color={grey[600]}>
+          don't forget to add proofs before verification
         </WidgetSeparatorText>
       )}
     </>
@@ -359,7 +176,7 @@ function GoalCloseForm(props: {
   onSuccess?: Function;
 }) {
   const { chain } = useNetwork();
-  const { showToastSuccess } = useToasts();
+  const { showToastSuccess, showToastError } = useToasts();
 
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
@@ -369,6 +186,9 @@ function GoalCloseForm(props: {
       functionName: "close",
       args: [BigNumber.from(props.id)],
       chainId: getChainId(chain),
+      onError(error: any) {
+        showToastError(error, goalContractAbi);
+      },
     });
   const {
     data: contractWriteData,
