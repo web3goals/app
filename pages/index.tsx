@@ -63,7 +63,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 1.0);"
               gutterBottom
             >
-              💻 Become a better developer
+              💻 Become a more skilled developer
             </Typography>
             <Typography
               variant="h6"
@@ -72,7 +72,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 0.85);"
               gutterBottom
             >
-              🎨 Become a better artist
+              🎨 Become a greater artist
             </Typography>
             <Typography
               variant="h6"
@@ -81,7 +81,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 0.7);"
               gutterBottom
             >
-              👟 Become a better athlete
+              👟 Become a stronger athlete
             </Typography>
             <Typography
               variant="h6"
@@ -90,7 +90,7 @@ export default function Landing() {
               color="rgba(255, 255, 255, 0.55);"
               gutterBottom
             >
-              ❤️ Become a better community
+              ❤️ Become a more beloved community
             </Typography>
             <XxlLoadingButton
               variant="contained"
