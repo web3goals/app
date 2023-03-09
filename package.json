@@ -1,6 +1,6 @@
 {
   "name": "web3goals-app",
-  "version": "0.8",
+  "version": "0.9",
   "private": true,
   "scripts": {
     "dev": "next dev",
