@@ -59,9 +59,7 @@ export default function GoalParams(props: {
       {/* Description */}
       <WidgetBox bgcolor={palette.blue} mt={3}>
         <WidgetTitle>Description</WidgetTitle>
-        <WidgetText sx={{ lineBreak: "anywhere" }}>
-          {props.description}
-        </WidgetText>
+        <WidgetText>{props.description}</WidgetText>
       </WidgetBox>
       <WidgetSeparatorText mt={3}>
         {props.isClosed

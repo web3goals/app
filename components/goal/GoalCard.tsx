@@ -52,11 +52,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           my: { xs: 2, md: 0 },
         }}
       >
-        <Typography
-          variant="h6"
-          fontWeight={700}
-          sx={{ lineBreak: "anywhere" }}
-        >
+        <Typography variant="h6" fontWeight={700}>
           {props.goal.description}
         </Typography>
       </Stack>
