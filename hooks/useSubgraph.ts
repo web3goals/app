@@ -63,7 +63,7 @@ export default function useSubgraph() {
     const isAchievedFilter =
       args.isAchieved !== undefined ? `isAchieved: ${args.isAchieved}` : "";
     const watcherAddressFilter = args.watcherAddress
-      ? `watcherAddresses_contains: ["${args.watcherAddress.toLowerCase()}"]`
+      ? `motivatorAddresses_contains: ["${args.watcherAddress.toLowerCase()}"]`
       : "";
     const filterParams = `where: {${authorAddressFilter}, ${isClosedFilter}, ${isAchievedFilter}, ${watcherAddressFilter}}`;
     const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
@@ -80,7 +80,7 @@ export default function useSubgraph() {
         deadlineTimestamp
         isClosed
         isAchieved
-        watchersNumber
+        motivatorsNumber
       }
     }`;
     // Make query and return result
@@ -96,7 +96,7 @@ export default function useSubgraph() {
         deadlineTimestamp: goal.deadlineTimestamp,
         isClosed: goal.isClosed,
         isAchieved: goal.isAchieved,
-        watchersNumber: goal.watchersNumber,
+        watchersNumber: goal.motivatorsNumber,
       });
     });
     return goals;
