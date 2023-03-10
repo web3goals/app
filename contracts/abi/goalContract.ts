@@ -6,7 +6,7 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "AlreadyWatcher",
+    name: "AlreadyMotivator",
     type: "error",
   },
   {
@@ -16,7 +16,7 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "AuthorCannotBeWatcher",
+    name: "AuthorCannotBeMotivator",
     type: "error",
   },
   {
@@ -32,6 +32,11 @@ export const goalContractAbi = [
   {
     inputs: [],
     name: "MessageValueMismatch",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MotivatorNotFound",
     type: "error",
   },
   {
@@ -66,7 +71,7 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "SendingStakeToWatcherFailed",
+    name: "SendingStakeToMotivatorFailed",
     type: "error",
   },
   {
@@ -87,11 +92,6 @@ export const goalContractAbi = [
   {
     inputs: [],
     name: "VerifierAddressNotExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "WatcherNotFound",
     type: "error",
   },
   {
@@ -118,6 +118,11 @@ export const goalContractAbi = [
           {
             internalType: "uint256",
             name: "motivatedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "notMotivatedGoals",
             type: "uint256",
           },
         ],
@@ -242,6 +247,53 @@ export const goalContractAbi = [
       },
     ],
     name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "motivatorAccountAddress",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.GoalMotivator",
+        name: "motivator",
+        type: "tuple",
+      },
+    ],
+    name: "MotivatorSet",
     type: "event",
   },
   {
@@ -389,53 +441,6 @@ export const goalContractAbi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "watcherAccountAddress",
-        type: "address",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "addedTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "accountAddress",
-            type: "address",
-          },
-          {
-            internalType: "bool",
-            name: "isAccepted",
-            type: "bool",
-          },
-          {
-            internalType: "string",
-            name: "extraDataURI",
-            type: "string",
-          },
-        ],
-        indexed: false,
-        internalType: "struct DataTypes.GoalWatcher",
-        name: "watcher",
-        type: "tuple",
-      },
-    ],
-    name: "WatcherSet",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -444,11 +449,11 @@ export const goalContractAbi = [
       },
       {
         internalType: "address",
-        name: "watcherAddress",
+        name: "motivatorAddress",
         type: "address",
       },
     ],
-    name: "acceptWatcher",
+    name: "acceptMotivator",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -543,6 +548,24 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
+      {
+        internalType: "string",
+        name: "extraDataURI",
+        type: "string",
+      },
+    ],
+    name: "becomeMotivator",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
     ],
     name: "close",
     outputs: [],
@@ -574,6 +597,11 @@ export const goalContractAbi = [
           {
             internalType: "uint256",
             name: "motivatedGoals",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "notMotivatedGoals",
             type: "uint256",
           },
         ],
@@ -638,6 +666,47 @@ export const goalContractAbi = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getMotivators",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        internalType: "struct DataTypes.GoalMotivator[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -784,47 +853,6 @@ export const goalContractAbi = [
         internalType: "bool",
         name: "isFailed",
         type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "getWatchers",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "addedTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "accountAddress",
-            type: "address",
-          },
-          {
-            internalType: "bool",
-            name: "isAccepted",
-            type: "bool",
-          },
-          {
-            internalType: "string",
-            name: "extraDataURI",
-            type: "string",
-          },
-        ],
-        internalType: "struct DataTypes.GoalWatcher[]",
-        name: "",
-        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -1199,24 +1227,6 @@ export const goalContractAbi = [
       },
     ],
     name: "verify",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "extraDataURI",
-        type: "string",
-      },
-    ],
-    name: "watch",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
