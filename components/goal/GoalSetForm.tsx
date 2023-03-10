@@ -101,7 +101,7 @@ export default function GoalSetForm(props: {
       },
       chainId: getChainId(chain),
       onError(error: any) {
-        showToastError(error, goalContractAbi);
+        showToastError(error);
       },
     });
   const {

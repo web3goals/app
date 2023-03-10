@@ -119,7 +119,7 @@ function GoalVerifyForm(props: {
       args: [BigNumber.from(props.id)],
       chainId: getChainId(chain),
       onError(error: any) {
-        showToastError(error, goalContractAbi);
+        showToastError(error);
       },
     });
   const {
@@ -187,7 +187,7 @@ function GoalCloseForm(props: {
       args: [BigNumber.from(props.id)],
       chainId: getChainId(chain),
       onError(error: any) {
-        showToastError(error, goalContractAbi);
+        showToastError(error);
       },
     });
   const {

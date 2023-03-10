@@ -14,13 +14,10 @@ export default function useToasts() {
     });
   };
 
-  let showToastError = function (error: any, errorContractAbi?: any) {
-    const message = truncate(
-      `Error: ${errorToString(error, errorContractAbi)}`,
-      {
-        length: 256,
-      }
-    );
+  let showToastError = function (error: any) {
+    const message = truncate(`Error: ${errorToString(error)}`, {
+      length: 256,
+    });
     enqueueSnackbar(message, {
       variant: "error",
     });
