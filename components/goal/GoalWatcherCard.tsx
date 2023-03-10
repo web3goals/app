@@ -92,7 +92,7 @@ function AcceptButton(props: {
     usePrepareContractWrite({
       address: getGoalContractAddress(chain),
       abi: goalContractAbi,
-      functionName: "acceptWatcher",
+      functionName: "acceptMotivator",
       args: [
         BigNumber.from(props.id),
         stringToAddress(props.accountAddress) || ethers.constants.AddressZero,

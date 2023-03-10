@@ -45,7 +45,7 @@ export default function Goal() {
   } = useContractRead({
     address: getGoalContractAddress(chain),
     abi: goalContractAbi,
-    functionName: "getWatchers",
+    functionName: "getMotivators",
     args: goalId ? [BigNumber.from(goalId)] : undefined,
     enabled: goalId !== undefined,
   });

@@ -60,7 +60,7 @@ export default function GoalWatchDialog(props: {
     usePrepareContractWrite({
       address: getGoalContractAddress(chain),
       abi: goalContractAbi,
-      functionName: "watch",
+      functionName: "becomeMotivator",
       args: [BigNumber.from(props.id), uploadedWatcherDataUri],
       chainId: getChainId(chain),
       onError(error: any) {
