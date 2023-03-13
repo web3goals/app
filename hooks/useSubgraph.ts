@@ -29,6 +29,7 @@ export default function useSubgraph() {
        achievedGoals
        failedGoals
        motivatedGoals
+       notMotivatedGoals
      }
    }`;
     // Make query and return result
@@ -40,6 +41,7 @@ export default function useSubgraph() {
         achievedGoals: account.achievedGoals,
         failedGoals: account.failedGoals,
         motivatedGoals: account.motivatedGoals,
+        notMotivatedGoals: account.notMotivatedGoals,
       });
     });
     return accounts;

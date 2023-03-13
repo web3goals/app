@@ -1,6 +1,7 @@
 export default interface AccountEntity {
   readonly id: string;
-  achievedGoals: number;
-  failedGoals: number;
-  motivatedGoals: number;
+  readonly achievedGoals: number;
+  readonly failedGoals: number;
+  readonly motivatedGoals: number;
+  readonly notMotivatedGoals: number;
 }

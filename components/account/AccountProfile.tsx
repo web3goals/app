@@ -6,7 +6,14 @@ import {
   Telegram,
   Twitter,
 } from "@mui/icons-material";
-import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
@@ -97,18 +104,13 @@ export default function AccountProfile(props: { address: string }) {
         </Box>
         {/* Name */}
         {profileData?.attributes?.[0]?.value && (
-          <Typography
-            variant="h4"
-            fontWeight={700}
-            textAlign="center"
-            sx={{ mb: 0.5 }}
-          >
+          <Typography variant="h4" fontWeight={700} textAlign="center">
             {profileData.attributes[0].value}
           </Typography>
         )}
         {/* About */}
         {profileData?.attributes?.[1]?.value && (
-          <Typography textAlign="center" sx={{ maxWidth: 480, mb: 1.5 }}>
+          <Typography textAlign="center" sx={{ maxWidth: 480, mt: 1 }}>
             {profileData.attributes[1].value}
           </Typography>
         )}
@@ -116,6 +118,7 @@ export default function AccountProfile(props: { address: string }) {
         <Stack
           direction={{ xs: "column-reverse", md: "row" }}
           alignItems="center"
+          mt={1.5}
         >
           {/* Email and links */}
           <Stack direction="row" alignItems="center">
@@ -198,23 +201,38 @@ export default function AccountProfile(props: { address: string }) {
             </Typography>
             {accountData && (
               <>
-                <Typography
-                  fontWeight={700}
-                  color={palette.green}
-                  sx={{ mr: 1.5 }}
-                >
-                  ✅ {accountData.achievedGoals}
-                </Typography>
-                <Typography
-                  fontWeight={700}
-                  color={palette.red}
-                  sx={{ mr: 1.5 }}
-                >
-                  ❌ {accountData.failedGoals}
-                </Typography>
-                <Typography fontWeight={700} color={palette.orange}>
-                  🧡 {accountData.motivatedGoals}
-                </Typography>
+                <Tooltip title="Achieved goals">
+                  <Typography
+                    fontWeight={700}
+                    color={palette.green}
+                    sx={{ mr: 1.5 }}
+                  >
+                    ✅ {accountData.achievedGoals}
+                  </Typography>
+                </Tooltip>
+                <Tooltip title="Failed goals">
+                  <Typography
+                    fontWeight={700}
+                    color={palette.red}
+                    sx={{ mr: 1.5 }}
+                  >
+                    ❌ {accountData.failedGoals}
+                  </Typography>
+                </Tooltip>
+                <Tooltip title="Goals motivated by the account">
+                  <Typography
+                    fontWeight={700}
+                    color={palette.yellow}
+                    sx={{ mr: 1.5 }}
+                  >
+                    ✨ {accountData.motivatedGoals}
+                  </Typography>
+                </Tooltip>
+                <Tooltip title="Goals motivated by the account unsuccessfully">
+                  <Typography fontWeight={700} color={palette.red}>
+                    💔 {accountData.notMotivatedGoals}
+                  </Typography>
+                </Tooltip>
               </>
             )}
           </Stack>
