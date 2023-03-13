@@ -19,7 +19,7 @@ export default function GoalList(props: {
   authorAddress?: string;
   isClosed?: boolean;
   isAchieved?: boolean;
-  watcherAddress?: string;
+  motivatorAddress?: string;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
@@ -37,7 +37,7 @@ export default function GoalList(props: {
         authorAddress: props.authorAddress,
         isClosed: props.isClosed,
         isAchieved: props.isAchieved,
-        watcherAddress: props.watcherAddress,
+        motivatorAddress: props.motivatorAddress,
         first: pageSize,
         skip: pageNumber * pageSize,
       });

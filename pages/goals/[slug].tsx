@@ -1,7 +1,7 @@
 import GoalActions from "components/goal/GoalActions";
 import GoalParams from "components/goal/GoalParams";
 import GoalProofs from "components/goal/GoalProofs";
-import GoalWatchers from "components/goal/GoalWatchers";
+import GoalMotivators from "components/goal/GoalMotivators";
 import Layout from "components/layout";
 import {
   CentralizedBox,
@@ -37,11 +37,11 @@ export default function Goal() {
     enabled: goalId !== undefined,
   });
 
-  // State of contract reading to get goal watchers
+  // State of contract reading to get goal motivators
   const {
-    data: goalWatchers,
-    refetch: refetchGoalWatchers,
-    isFetching: isGoalWatchersFetching,
+    data: goalMotivators,
+    refetch: refetchGoalMotivators,
+    isFetching: isGoalMotivatorsFetching,
   } = useContractRead({
     address: getGoalContractAddress(chain),
     abi: goalContractAbi,
@@ -57,9 +57,9 @@ export default function Goal() {
   const isDataReady =
     goalId &&
     goalParams &&
-    goalWatchers &&
+    goalMotivators &&
     !isGoalParamsFetching &&
-    !isGoalWatchersFetching;
+    !isGoalMotivatorsFetching;
 
   return (
     <Layout maxWidth="sm">
@@ -83,7 +83,7 @@ export default function Goal() {
               verificationRequirement={goalParams.verificationRequirement}
               onSuccess={() => {
                 refetchGoalParams();
-                refetchGoalWatchers();
+                refetchGoalMotivators();
               }}
               sx={{ mt: 4 }}
             />
@@ -95,19 +95,19 @@ export default function Goal() {
               verificationRequirement={goalParams.verificationRequirement}
               onUpdate={() => {
                 refetchGoalParams();
-                refetchGoalWatchers();
+                refetchGoalMotivators();
               }}
               sx={{ mt: 8 }}
             />
             <ThickDivider sx={{ mt: 8 }} />
-            <GoalWatchers
+            <GoalMotivators
               id={goalId}
               authorAddress={goalParams.authorAddress}
               isClosed={goalParams.isClosed}
-              watchers={goalWatchers}
+              motivators={goalMotivators}
               onUpdate={() => {
                 refetchGoalParams();
-                refetchGoalWatchers();
+                refetchGoalMotivators();
               }}
               sx={{ mt: 8 }}
             />

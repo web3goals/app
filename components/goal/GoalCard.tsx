@@ -56,7 +56,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           {props.goal.description}
         </Typography>
       </Stack>
-      {/* Watchers, stake, deadline */}
+      {/* Motivators, stake, deadline */}
       <Stack
         sx={{
           alignItems: { md: "flex-end" },
@@ -65,7 +65,9 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           minWidth: { md: 120 },
         }}
       >
-        <Typography fontWeight={700}>{props.goal.watchersNumber} 👥</Typography>
+        <Typography fontWeight={700}>
+          {props.goal.motivatorsNumber} 👥
+        </Typography>
         <Typography fontWeight={700}>
           {ethers.utils.formatEther(BigNumber.from(props.goal.authorStake))}{" "}
           {getChainNativeCurrencySymbol(chain)}

@@ -1,4 +1,4 @@
-import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
 import useError from "./useError";
 import useIpfs from "./useIpfs";
 
@@ -9,9 +9,9 @@ export default function useGoal() {
   const { handleError } = useError();
   const { loadJsonFromIpfs } = useIpfs();
 
-  let loadGoalWatcherUriData = async function (
+  let loadGoalMotivatorUriData = async function (
     uri: string
-  ): Promise<GoalWatcherUriDataEntity | undefined> {
+  ): Promise<GoalMotivatorUriDataEntity | undefined> {
     try {
       const data = await loadJsonFromIpfs(uri);
       return { message: data.message };
@@ -22,6 +22,6 @@ export default function useGoal() {
   };
 
   return {
-    loadGoalWatcherUriData,
+    loadGoalMotivatorUriData,
   };
 }

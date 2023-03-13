@@ -230,7 +230,7 @@ export default function GoalSetForm(props: {
               />
             </WidgetBox>
             <WidgetSeparatorText mb={3}>
-              otherwise the stake will be shared between watchers and
+              otherwise the stake will be shared between motivators and
               application
             </WidgetSeparatorText>
             {/* Submit button */}

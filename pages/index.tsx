@@ -198,7 +198,7 @@ export default function Landing() {
                 variant="h6"
                 fontWeight={700}
               >
-                Accept watchers who motivate
+                Accept motivators who motivate
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
@@ -206,7 +206,7 @@ export default function Landing() {
                   sx={{ borderColor: "purpleLight" }}
                   variant="outlined"
                 >
-                  <Typography fontSize={32}>👀</Typography>
+                  <Typography fontSize={32}>✨</Typography>
                 </LandingTimelineDot>
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
@@ -250,7 +250,7 @@ export default function Landing() {
                 variant="h6"
                 fontWeight={700}
               >
-                Or your stake will be shared between watchers
+                Or your stake will be shared between motivators
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />

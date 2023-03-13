@@ -50,7 +50,7 @@ export default function useSubgraph() {
     authorAddress?: string;
     isClosed?: boolean;
     isAchieved?: boolean;
-    watcherAddress?: string;
+    motivatorAddress?: string;
     first?: number;
     skip?: number;
   }): Promise<Array<GoalEntity>> {
@@ -62,10 +62,10 @@ export default function useSubgraph() {
       args.isClosed !== undefined ? `isClosed: ${args.isClosed}` : "";
     const isAchievedFilter =
       args.isAchieved !== undefined ? `isAchieved: ${args.isAchieved}` : "";
-    const watcherAddressFilter = args.watcherAddress
-      ? `motivatorAddresses_contains: ["${args.watcherAddress.toLowerCase()}"]`
+    const motivatorAddressFilter = args.motivatorAddress
+      ? `motivatorAddresses_contains: ["${args.motivatorAddress.toLowerCase()}"]`
       : "";
-    const filterParams = `where: {${authorAddressFilter}, ${isClosedFilter}, ${isAchievedFilter}, ${watcherAddressFilter}}`;
+    const filterParams = `where: {${authorAddressFilter}, ${isClosedFilter}, ${isAchievedFilter}, ${motivatorAddressFilter}}`;
     const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
     const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
       args.skip || defaultSkip
@@ -96,7 +96,7 @@ export default function useSubgraph() {
         deadlineTimestamp: goal.deadlineTimestamp,
         isClosed: goal.isClosed,
         isAchieved: goal.isAchieved,
-        watchersNumber: goal.motivatorsNumber,
+        motivatorsNumber: goal.motivatorsNumber,
       });
     });
     return goals;

@@ -66,7 +66,7 @@ export default function AccountNotificationsDialog(props: {
           <>
             <>
               <WidgetSeparatorText mt={3} px={{ md: 12 }}>
-                enable notifications about new watchers of your goals
+                enable notifications about new motivators of your goals
               </WidgetSeparatorText>
               <EnableButton onSuccess={() => close()} sx={{ mt: 2 }} />
             </>
@@ -76,7 +76,7 @@ export default function AccountNotificationsDialog(props: {
         {isUserSubscribedFetched && isUserSubscribed && (
           <>
             <WidgetSeparatorText mt={3} px={{ md: 12 }}>
-              you enabled notifications about new watchers of your goals
+              you enabled notifications about new motivators of your goals
             </WidgetSeparatorText>
             <DisableButton onSuccess={() => close()} sx={{ mt: 2 }} />
           </>

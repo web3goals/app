@@ -95,8 +95,8 @@ export default function GoalParams(props: {
           ) : (
             <>
               will be shared between accepted{" "}
-              <Link href="#watchers" legacyBehavior passHref>
-                <MuiLink>watchers</MuiLink>
+              <Link href="#motivators" legacyBehavior passHref>
+                <MuiLink>motivators</MuiLink>
               </Link>{" "}
               and this application
             </>
@@ -104,8 +104,8 @@ export default function GoalParams(props: {
         ) : (
           <>
             will be shared between accepted{" "}
-            <Link href="#watchers" legacyBehavior passHref>
-              <MuiLink>watchers</MuiLink>
+            <Link href="#motivators" legacyBehavior passHref>
+              <MuiLink>motivators</MuiLink>
             </Link>{" "}
             and this application
           </>

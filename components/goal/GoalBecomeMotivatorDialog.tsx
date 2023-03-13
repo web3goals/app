@@ -9,7 +9,7 @@ import {
   XxlLoadingButton,
 } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
 import { BigNumber } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
@@ -27,9 +27,9 @@ import {
 import * as yup from "yup";
 
 /**
- * Dialog to watch a goal.
+ * Dialog to become a motivator of a goal.
  */
-export default function GoalWatchDialog(props: {
+export default function GoalBecomeMotivatorDialog(props: {
   id: string;
   onSuccess?: Function;
   isClose?: boolean;
@@ -52,7 +52,7 @@ export default function GoalWatchDialog(props: {
   });
 
   // Uploaded data states
-  const [uploadedWatcherDataUri, setUploadedWatcherDataUri] = useState("");
+  const [uploadedMotivatorDataUri, setUploadedMotivatorDataUri] = useState("");
   const [isDataUploading, setIsDataUploading] = useState(false);
 
   // Contract states
@@ -61,7 +61,7 @@ export default function GoalWatchDialog(props: {
       address: getGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "becomeMotivator",
-      args: [BigNumber.from(props.id), uploadedWatcherDataUri],
+      args: [BigNumber.from(props.id), uploadedMotivatorDataUri],
       chainId: getChainId(chain),
       onError(error: any) {
         showToastError(error);
@@ -92,11 +92,11 @@ export default function GoalWatchDialog(props: {
   async function uploadData(values: any) {
     try {
       setIsDataUploading(true);
-      const watcherData: GoalWatcherUriDataEntity = {
+      const motivatorData: GoalMotivatorUriDataEntity = {
         message: values.message,
       };
-      const { uri: watcherDataUri } = await uploadJsonToIpfs(watcherData);
-      setUploadedWatcherDataUri(watcherDataUri);
+      const { uri: motivatorDataUri } = await uploadJsonToIpfs(motivatorData);
+      setUploadedMotivatorDataUri(motivatorDataUri);
     } catch (error: any) {
       handleError(error, true);
       setIsDataUploading(false);
@@ -108,15 +108,15 @@ export default function GoalWatchDialog(props: {
    */
   useEffect(() => {
     if (
-      uploadedWatcherDataUri !== "" &&
+      uploadedMotivatorDataUri !== "" &&
       contractWrite &&
       !isContractWriteLoading
     ) {
-      setUploadedWatcherDataUri("");
+      setUploadedMotivatorDataUri("");
       contractWrite?.();
       setIsDataUploading(false);
     }
-  }, [uploadedWatcherDataUri, contractWrite, isContractWriteLoading]);
+  }, [uploadedMotivatorDataUri, contractWrite, isContractWriteLoading]);
 
   /**
    * Handle transaction success to show success message.
@@ -140,7 +140,7 @@ export default function GoalWatchDialog(props: {
           textAlign="center"
           sx={{ mb: 2 }}
         >
-          👀 To become a watcher
+          ✨ To become a motivator
         </Typography>
         <Formik
           initialValues={formValues}

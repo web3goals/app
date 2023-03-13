@@ -1,7 +1,7 @@
 import { Link as MuiLink, SxProps, Typography } from "@mui/material";
 import { CardBox, XlLoadingButton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import GoalWatcherUriDataEntity from "entities/GoalWatcherUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
@@ -22,9 +22,9 @@ import {
 } from "wagmi";
 
 /**
- * A component with a goal watcher card.
+ * A component with a goal motivator card.
  */
-export default function GoalWatcherCard(props: {
+export default function GoalMotivatorCard(props: {
   id: string;
   authorAddress: string;
   accountAddress: string;
@@ -36,14 +36,14 @@ export default function GoalWatcherCard(props: {
 }) {
   const { address } = useAccount();
   const { handleError } = useError();
-  const { loadGoalWatcherUriData } = useGoal();
+  const { loadGoalMotivatorUriData } = useGoal();
   const [uriData, setUriData] = useState<
-    GoalWatcherUriDataEntity | undefined
+    GoalMotivatorUriDataEntity | undefined
   >();
 
   useEffect(() => {
     setUriData(undefined);
-    loadGoalWatcherUriData(props.extraDataURI)
+    loadGoalMotivatorUriData(props.extraDataURI)
       .then((data) => setUriData(data))
       .catch((error) => handleError(error, true));
   }, [props.extraDataURI]);
@@ -111,7 +111,7 @@ function AcceptButton(props: {
 
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Watcher is accepted!");
+      showToastSuccess("Motivator is accepted!");
       props.onSuccess?.();
     }
   }, [isTransactionSuccess]);

@@ -230,7 +230,7 @@ function GoalCloseForm(props: {
       <WidgetSeparatorText color={grey[600]}>
         {props.isVerificationStatusAchieved
           ? "the stake will be returned after closing"
-          : "the stake will be shared between watchers and application after closing"}
+          : "the stake will be shared between motivators and application after closing"}
       </WidgetSeparatorText>
     </>
   );

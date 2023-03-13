@@ -4,43 +4,47 @@ import { WidgetSeparatorText, XlLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import GoalWatchDialog from "./GoalWatchDialog";
-import GoalWatcherList from "./GoalWatcherList";
+import GoalBecomeMotivatorDialog from "./GoalBecomeMotivatorDialog";
+import GoalMotivatorList from "./GoalMotivatorList";
 
 /**
- * A component with goal watchers.
+ * A component with goal motivators.
  */
-export default function GoalWatchers(props: {
+export default function GoalMotivators(props: {
   id: string;
   authorAddress: string;
   isClosed: boolean;
-  watchers: readonly any[];
+  motivators: readonly any[];
   onUpdate?: Function;
   sx?: SxProps;
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
   const { address } = useAccount();
   const [tabValue, setTabValue] = useState("1");
-  const [watchersAccepted, setWatchersAccepted] = useState<any[] | undefined>();
-  const [watchersPending, setWatchersPending] = useState<any[] | undefined>();
+  const [motivatorsAccepted, setMotivatorsAccepted] = useState<
+    any[] | undefined
+  >();
+  const [motivatorsPending, setMotivatorsPending] = useState<
+    any[] | undefined
+  >();
 
   function handleChange(_: any, newTabValue: any) {
     setTabValue(newTabValue);
   }
 
   useEffect(() => {
-    const watchersPending = [];
-    const watchersAccepted = [];
-    for (let watcher of props.watchers) {
-      if (watcher.isAccepted) {
-        watchersAccepted.push(watcher);
+    const motivatorsPending = [];
+    const motivatorsAccepted = [];
+    for (let motivator of props.motivators) {
+      if (motivator.isAccepted) {
+        motivatorsAccepted.push(motivator);
       } else {
-        watchersPending.push(watcher);
+        motivatorsPending.push(motivator);
       }
     }
-    setWatchersPending(watchersPending);
-    setWatchersAccepted(watchersAccepted);
-  }, [props.watchers]);
+    setMotivatorsPending(motivatorsPending);
+    setMotivatorsAccepted(motivatorsAccepted);
+  }, [props.motivators]);
 
   return (
     <Box
@@ -54,23 +58,23 @@ export default function GoalWatchers(props: {
     >
       {/* Title */}
       <Typography
-        id="watchers"
+        id="motivators"
         variant="h4"
         fontWeight={700}
         textAlign="center"
       >
-        👀 Watchers
+        ✨ Motivators
       </Typography>
       <WidgetSeparatorText mt={2}>
         people who motivate to achieve the goal
       </WidgetSeparatorText>
-      {/* Button to become a watcher */}
+      {/* Button to become a motivator */}
       {!props.isClosed && address !== props.authorAddress && (
         <XlLoadingButton
           variant="contained"
           onClick={() =>
             showDialog?.(
-              <GoalWatchDialog
+              <GoalBecomeMotivatorDialog
                 id={props.id}
                 onSuccess={props.onUpdate}
                 onClose={closeDialog}
@@ -79,7 +83,7 @@ export default function GoalWatchers(props: {
           }
           sx={{ mt: 4 }}
         >
-          Watch
+          Become Motivator
         </XlLoadingButton>
       )}
       {/* Tabs */}
@@ -98,18 +102,18 @@ export default function GoalWatchers(props: {
             <Tab label="Pending" value="2" />
           </TabList>
           <TabPanel value="1" sx={{ px: 0 }}>
-            <GoalWatcherList
+            <GoalMotivatorList
               id={props.id}
               authorAddress={props.authorAddress}
-              watchers={watchersAccepted}
+              motivators={motivatorsAccepted}
               onUpdate={props.onUpdate}
             />
           </TabPanel>
           <TabPanel value="2" sx={{ px: 0 }}>
-            <GoalWatcherList
+            <GoalMotivatorList
               id={props.id}
               authorAddress={props.authorAddress}
-              watchers={watchersPending}
+              motivators={motivatorsPending}
               onUpdate={props.onUpdate}
             />
           </TabPanel>

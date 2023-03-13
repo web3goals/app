@@ -32,7 +32,7 @@ export default function AccountGoalTabs(props: {
           <Tab label="Active" value="1" />
           <Tab label="Achieved" value="2" />
           <Tab label="Failed" value="3" />
-          <Tab label="Watching" value="4" />
+          <Tab label="Motivating" value="4" />
         </TabList>
         <TabPanel value="1" sx={{ px: 0 }}>
           <GoalList authorAddress={props.address} />
@@ -52,7 +52,7 @@ export default function AccountGoalTabs(props: {
           />
         </TabPanel>
         <TabPanel value="4" sx={{ px: 0 }}>
-          <GoalList watcherAddress={props.address} />
+          <GoalList motivatorAddress={props.address} />
         </TabPanel>
       </TabContext>
     </Box>
