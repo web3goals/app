@@ -17,6 +17,7 @@ import { useAccount, useContractRead, useNetwork } from "wagmi";
 import GoalAddProofDocumentDialog from "./GoalAddProofDocumentDialog";
 import GoalBecomeMotivatorDialog from "./GoalBecomeMotivatorDialog";
 import GoalCloseDialog from "./GoalCloseDialog";
+import GoalPostMessageDialog from "./GoalPostMessageDialog";
 
 /**
  * A component with goal actions.
@@ -43,7 +44,7 @@ export default function GoalActions(props: {
       justifyContent="center"
       sx={{ ...props.sx }}
     >
-      <MessagePostButton />
+      <MessagePostButton id={props.id} onSuccess={() => props.onSuccess?.()} />
       {address !== props.authorAddress && (
         <MotivatorBecomeButton
           id={props.id}
@@ -67,10 +68,22 @@ export default function GoalActions(props: {
   );
 }
 
-// TODO: Implement
-function MessagePostButton(props: {}) {
+function MessagePostButton(props: { id: string; onSuccess?: Function }) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
+
   return (
-    <XlLoadingButton variant="contained" onClick={() => {}}>
+    <XlLoadingButton
+      variant="contained"
+      onClick={() =>
+        showDialog?.(
+          <GoalPostMessageDialog
+            id={props.id}
+            onSuccess={props.onSuccess}
+            onClose={closeDialog}
+          />
+        )
+      }
+    >
       Post Message
     </XlLoadingButton>
   );
