@@ -36,6 +36,11 @@ export const errorsLibraryAbi = [
   },
   {
     inputs: [],
+    name: "GoalAlreadyVerified",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "GoalClosed",
     type: "error",
   },
@@ -57,6 +62,11 @@ export const errorsLibraryAbi = [
   {
     inputs: [],
     name: "NotAuthor",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotAuthorNotAcceptedMotivator",
     type: "error",
   },
   {

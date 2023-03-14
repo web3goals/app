@@ -51,6 +51,11 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
+    name: "NotAuthorNotAcceptedMotivator",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "ProfileAddressNotExists",
     type: "error",
   },
@@ -127,37 +132,12 @@ export const goalContractAbi = [
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.AccountReputation",
+        internalType: "struct DataTypes.GoalAccountReputation",
         name: "accountReputation",
         type: "tuple",
       },
     ],
     name: "AccountReputationSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "key",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "value",
-        type: "string",
-      },
-    ],
-    name: "AddedVerificationData",
     type: "event",
   },
   {
@@ -219,100 +199,56 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
-    ],
-    name: "ClosedAsAchieved",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "ClosedAsFailed",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint8",
-        name: "version",
-        type: "uint8",
-      },
-    ],
-    name: "Initialized",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "motivatorAccountAddress",
-        type: "address",
-      },
       {
         components: [
           {
             internalType: "uint256",
-            name: "addedTimestamp",
+            name: "createdTimestamp",
             type: "uint256",
           },
           {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
             internalType: "address",
-            name: "accountAddress",
+            name: "authorAddress",
             type: "address",
           },
           {
+            internalType: "uint256",
+            name: "authorStake",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadlineTimestamp",
+            type: "uint256",
+          },
+          {
             internalType: "bool",
-            name: "isAccepted",
+            name: "isClosed",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isAchieved",
             type: "bool",
           },
           {
             internalType: "string",
-            name: "extraDataURI",
+            name: "verificationRequirement",
             type: "string",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalMotivator",
-        name: "motivator",
+        internalType: "struct DataTypes.GoalParams",
+        name: "params",
         type: "tuple",
       },
     ],
-    name: "MotivatorSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
+    name: "ClosedAsAchieved",
     type: "event",
   },
   {
@@ -373,7 +309,169 @@ export const goalContractAbi = [
         type: "tuple",
       },
     ],
-    name: "ParamsSet",
+    name: "ClosedAsFailed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "authorAddress",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.GoalMessage",
+        name: "message",
+        type: "tuple",
+      },
+    ],
+    name: "MessagePosted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "motivatorAccountAddress",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.GoalMotivator",
+        name: "motivator",
+        type: "tuple",
+      },
+    ],
+    name: "MotivatorAccepted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "motivatorAccountAddress",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isAccepted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.GoalMotivator",
+        name: "motivator",
+        type: "tuple",
+      },
+    ],
+    name: "MotivatorAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
     type: "event",
   },
   {
@@ -400,6 +498,67 @@ export const goalContractAbi = [
       },
     ],
     name: "SentToVerifier",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "createdTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "address",
+            name: "authorAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "authorStake",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadlineTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isClosed",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isAchieved",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "verificationRequirement",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.GoalParams",
+        name: "params",
+        type: "tuple",
+      },
+    ],
+    name: "Set",
     type: "event",
   },
   {
@@ -438,6 +597,31 @@ export const goalContractAbi = [
       },
     ],
     name: "Unpaused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "key",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "value",
+        type: "string",
+      },
+    ],
+    name: "VerificationDataSet",
     type: "event",
   },
   {
@@ -605,7 +789,7 @@ export const goalContractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DataTypes.AccountReputation",
+        internalType: "struct DataTypes.GoalAccountReputation",
         name: "",
         type: "tuple",
       },
@@ -963,6 +1147,24 @@ export const goalContractAbi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "extraDataURI",
+        type: "string",
+      },
+    ],
+    name: "postMessage",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
