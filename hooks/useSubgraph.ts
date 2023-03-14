@@ -1,6 +1,7 @@
 import axios from "axios";
 import AccountEntity from "entities/subgraph/AccountEntity";
 import GoalEntity from "entities/subgraph/GoalEntity";
+import GoalStepEntity from "entities/subgraph/GoalStepEntity";
 import { getSubgraphApiUrl } from "utils/chains";
 import { Chain } from "wagmi";
 
@@ -104,9 +105,47 @@ export default function useSubgraph() {
     return goals;
   };
 
+  let findGoalSteps = async function (args: {
+    chain: Chain | undefined;
+    goal: string;
+    first?: number;
+    skip?: number;
+  }): Promise<Array<GoalStepEntity>> {
+    // Prepare query
+    const goalFilter = args.goal ? `goal: "${args.goal}"` : "";
+    const filterParams = `where: {${goalFilter}}`;
+    const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
+    const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
+      args.skip || defaultSkip
+    }`;
+    const query = `{
+      goalSteps(${filterParams}, ${sortParams}, ${paginationParams}) {
+        id
+        createdTimestamp
+        authorAddress
+        type
+        extraDataUri
+      }
+    }`;
+    // Make query and return result
+    const response = await makeSubgraphQuery(args.chain, query);
+    const goalSteps: Array<GoalStepEntity> = [];
+    response.goalSteps?.forEach((goalStep: any) => {
+      goalSteps.push({
+        id: goalStep.id,
+        createdTimestamp: goalStep.createdTimestamp,
+        authorAddress: goalStep.authorAddress,
+        type: goalStep.type,
+        extraDataUri: goalStep.extraDataUri,
+      });
+    });
+    return goalSteps;
+  };
+
   return {
     findAccounts,
     findGoals,
+    findGoalSteps,
   };
 }
 

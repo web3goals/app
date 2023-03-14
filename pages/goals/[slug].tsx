@@ -1,7 +1,8 @@
 import GoalActions from "components/goal/GoalActions";
+import GoalMotivators from "components/goal/GoalMotivators";
 import GoalParams from "components/goal/GoalParams";
 import GoalProofs from "components/goal/GoalProofs";
-import GoalMotivators from "components/goal/GoalMotivators";
+import GoalSteps from "components/goal/GoalSteps";
 import Layout from "components/layout";
 import {
   CentralizedBox,
@@ -111,6 +112,8 @@ export default function Goal() {
               }}
               sx={{ mt: 8 }}
             />
+            <ThickDivider sx={{ mt: 8 }} />
+            <GoalSteps id={goalId} sx={{ mt: 8 }} />
           </>
         ) : (
           <FullWidthSkeleton />
