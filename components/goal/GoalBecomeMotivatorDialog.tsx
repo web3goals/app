@@ -9,7 +9,7 @@ import {
   XxlLoadingButton,
 } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
 import { BigNumber } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";

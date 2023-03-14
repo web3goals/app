@@ -1,6 +1,6 @@
 import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
 import { CardBox } from "components/styled";
-import GoalEntity from "entities/GoalEntity";
+import GoalEntity from "entities/subgraph/GoalEntity";
 import { BigNumber, ethers } from "ethers";
 import { getChainNativeCurrencySymbol } from "utils/chains";
 import {

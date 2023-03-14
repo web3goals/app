@@ -17,8 +17,8 @@ import {
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
-import AccountEntity from "entities/AccountEntity";
-import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
+import AccountEntity from "entities/subgraph/AccountEntity";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";

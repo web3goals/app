@@ -1,6 +1,6 @@
 import axios from "axios";
-import AccountEntity from "entities/AccountEntity";
-import GoalEntity from "entities/GoalEntity";
+import AccountEntity from "entities/subgraph/AccountEntity";
+import GoalEntity from "entities/subgraph/GoalEntity";
 import { getSubgraphApiUrl } from "utils/chains";
 import { Chain } from "wagmi";
 

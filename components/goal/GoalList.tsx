@@ -5,7 +5,7 @@ import {
   FullWidthSkeleton,
   XxlLoadingButton,
 } from "components/styled";
-import GoalEntity from "entities/GoalEntity";
+import GoalEntity from "entities/subgraph/GoalEntity";
 import useError from "hooks/useError";
 import useSubgraph from "hooks/useSubgraph";
 import { useEffect, useState } from "react";

@@ -12,7 +12,7 @@ import {
   VERIFICATION_REQUIREMENTS,
 } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import ProofDocumentsUriDataEntity from "entities/ProofDocumentsUriDataEntity";
+import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
 import { BigNumber } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";

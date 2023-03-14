@@ -1,6 +1,6 @@
 import { Box, Stack, SxProps, Typography } from "@mui/material";
 import { CardBox, FullWidthSkeleton } from "components/styled";
-import ProofDocumentsUriDataEntity from "entities/ProofDocumentsUriDataEntity";
+import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
 import GoalProofDocumentCard from "./GoalProofDocumentCard";
 
 /**

@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XxlLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
-import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";

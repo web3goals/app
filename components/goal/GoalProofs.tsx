@@ -10,7 +10,7 @@ import {
 } from "constants/verifiers";
 import { DialogContext } from "context/dialog";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import ProofDocumentsUriDataEntity from "entities/ProofDocumentsUriDataEntity";
+import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
 import { BigNumber } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";

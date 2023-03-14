@@ -2,7 +2,7 @@ import AccountEditProfileForm from "components/account/AccountEditProfileForm";
 import Layout from "components/layout";
 import { CentralizedBox, FullWidthSkeleton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
-import ProfileUriDataEntity from "entities/ProfileUriDataEntity";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";

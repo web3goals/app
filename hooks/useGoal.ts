@@ -1,4 +1,4 @@
-import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
 import useError from "./useError";
 import useIpfs from "./useIpfs";
 

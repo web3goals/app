@@ -1,7 +1,7 @@
 import { Link as MuiLink, SxProps, Typography } from "@mui/material";
 import { CardBox, XlLoadingButton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import GoalMotivatorUriDataEntity from "entities/GoalMotivatorUriDataEntity";
+import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useError from "hooks/useError";
 import useGoal from "hooks/useGoal";
