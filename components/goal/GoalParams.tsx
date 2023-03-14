@@ -6,9 +6,12 @@ import {
   WidgetSeparatorText,
   WidgetText,
   WidgetTitle,
+  XlLoadingButton,
 } from "components/styled";
+import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
 import Link from "next/link";
+import { useContext } from "react";
 import { palette } from "theme/palette";
 import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
@@ -16,6 +19,7 @@ import {
   bigNumberTimestampToLocaleDateString,
 } from "utils/converters";
 import { useNetwork } from "wagmi";
+import GoalShareDialog from "./GoalShareDialog";
 
 /**
  * A component with goal parameters.
@@ -32,6 +36,7 @@ export default function GoalParams(props: {
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
+  const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
     <Box sx={{ width: 1, ...props.sx }}>
@@ -111,6 +116,19 @@ export default function GoalParams(props: {
           </>
         )}
       </WidgetSeparatorText>
+      {/* Share button */}
+      <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+        <XlLoadingButton
+          variant="outlined"
+          onClick={() =>
+            showDialog?.(
+              <GoalShareDialog id={props.id} onClose={closeDialog} />
+            )
+          }
+        >
+          Share
+        </XlLoadingButton>
+      </Box>
     </Box>
   );
 }

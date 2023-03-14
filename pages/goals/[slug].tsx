@@ -77,17 +77,6 @@ export default function Goal() {
               isClosed={goalParams.isClosed}
               isAchieved={goalParams.isAchieved}
             />
-            <GoalActions
-              id={goalId}
-              deadlineTimestamp={goalParams.deadlineTimestamp}
-              isClosed={goalParams.isClosed}
-              verificationRequirement={goalParams.verificationRequirement}
-              onSuccess={() => {
-                refetchGoalParams();
-                refetchGoalMotivators();
-              }}
-              sx={{ mt: 4 }}
-            />
             <ThickDivider sx={{ mt: 8 }} />
             <GoalProofs
               id={goalId}
@@ -113,7 +102,18 @@ export default function Goal() {
               sx={{ mt: 8 }}
             />
             <ThickDivider sx={{ mt: 8 }} />
-            <GoalSteps id={goalId} sx={{ mt: 8 }} />
+            <GoalSteps
+              id={goalId}
+              authorAddress={goalParams.authorAddress}
+              deadlineTimestamp={goalParams.deadlineTimestamp}
+              isClosed={goalParams.isClosed}
+              verificationRequirement={goalParams.verificationRequirement}
+              onUpdate={() => {
+                refetchGoalParams();
+                refetchGoalMotivators();
+              }}
+              sx={{ mt: 8 }}
+            />
           </>
         ) : (
           <FullWidthSkeleton />
