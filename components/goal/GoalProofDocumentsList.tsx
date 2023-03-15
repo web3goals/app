@@ -5,6 +5,8 @@ import GoalProofDocumentCard from "./GoalProofDocumentCard";
 
 /**
  * A component with goal proof documents list.
+ *
+ * TODO: Delete component
  */
 export default function GoalProofDocumentsList(props: {
   proofDocuments: ProofDocumentsUriDataEntity | undefined;

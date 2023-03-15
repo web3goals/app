@@ -23,6 +23,8 @@ import {
 
 /**
  * A component with a goal motivator card.
+ *
+ * TODO: Delete component
  */
 export default function GoalMotivatorCard(props: {
   id: string;

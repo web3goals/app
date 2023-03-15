@@ -5,6 +5,8 @@ import { ipfsUriToHttpUri } from "utils/converters";
 
 /**
  * A component with card for goal proof document.
+ *
+ * TODO: Delete component
  */
 export default function GoalProofDocumentCard(props: {
   proofDocuments: ProofDocumentsUriDataEntity;

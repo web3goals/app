@@ -9,6 +9,8 @@ import GoalMotivatorList from "./GoalMotivatorList";
 
 /**
  * A component with goal motivators.
+ *
+ * TODO: Delete component
  */
 export default function GoalMotivators(props: {
   id: string;

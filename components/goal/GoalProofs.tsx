@@ -22,6 +22,8 @@ import GoalProofDocumentsList from "./GoalProofDocumentsList";
 
 /**
  * A component with goal proofs.
+ *
+ * TODO: Delete component
  */
 export default function GoalProofs(props: {
   id: string;
