@@ -99,6 +99,18 @@ export function bigNumberTimestampToLocaleDateString(
 }
 
 /**
+ * Convert date like "1677628800" to string "3/14/2023, 5:33:26 PM".
+ */
+export function bigNumberTimestampToLocaleString(
+  bigNumberTimestamp?: BigNumber
+): string {
+  if (!bigNumberTimestamp) {
+    return "Unknown";
+  }
+  return new Date(bigNumberTimestamp.toNumber() * 1000).toLocaleString();
+}
+
+/**
  * Convert string like "0x44EAe6f0C8E0714B8d8676eA803Dec04B492Ba16" to ethers address type.
  */
 export function stringToAddress(string?: string): `0x${string}` | undefined {

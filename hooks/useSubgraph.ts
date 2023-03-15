@@ -121,6 +121,9 @@ export default function useSubgraph() {
     const query = `{
       goalSteps(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
+        goal {
+          id
+        }
         createdTimestamp
         authorAddress
         type
@@ -134,6 +137,9 @@ export default function useSubgraph() {
     response.goalSteps?.forEach((goalStep: any) => {
       goalSteps.push({
         id: goalStep.id,
+        goal: {
+          id: goalStep.goal.id,
+        },
         createdTimestamp: goalStep.createdTimestamp,
         authorAddress: goalStep.authorAddress,
         type: goalStep.type,

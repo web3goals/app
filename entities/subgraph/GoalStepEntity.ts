@@ -1,5 +1,8 @@
 export default interface GoalStepEntity {
   readonly id: string;
+  readonly goal: {
+    id: string;
+  };
   readonly createdTimestamp: string;
   readonly authorAddress: string;
   readonly type: string;

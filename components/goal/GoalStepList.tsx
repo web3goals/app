@@ -56,7 +56,13 @@ export default function GoalStepList(props: { id: string; sx?: SxProps }) {
       {goalSteps && goalSteps.length > 0 && (
         <Stack spacing={2}>
           {goalSteps.map((goalStep, index) => (
-            <GoalStepCard key={index} goalStep={goalStep} />
+            <GoalStepCard
+              key={index}
+              goalStep={goalStep}
+              onUpdate={() => {
+                // TODO: Update subgraph data
+              }}
+            />
           ))}
           {/* Actions */}
           <Stack
