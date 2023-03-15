@@ -124,6 +124,7 @@ export default function useSubgraph() {
         createdTimestamp
         authorAddress
         type
+        extraData
         extraDataUri
       }
     }`;
@@ -136,6 +137,7 @@ export default function useSubgraph() {
         createdTimestamp: goalStep.createdTimestamp,
         authorAddress: goalStep.authorAddress,
         type: goalStep.type,
+        extraData: goalStep.extraData,
         extraDataUri: goalStep.extraDataUri,
       });
     });

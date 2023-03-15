@@ -3,5 +3,6 @@ export default interface GoalStepEntity {
   readonly createdTimestamp: string;
   readonly authorAddress: string;
   readonly type: string;
+  readonly extraData: string;
   readonly extraDataUri: string;
 }
