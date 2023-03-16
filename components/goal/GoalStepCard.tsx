@@ -1,4 +1,12 @@
-import { Link as MuiLink, Typography } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import { CardBox, XlLoadingButton } from "components/styled";
@@ -8,7 +16,7 @@ import { DialogContext } from "context/dialog";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
-import { BigNumber } from "ethers";
+import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
@@ -16,7 +24,9 @@ import { theme } from "theme";
 import { palette } from "theme/palette";
 import {
   addressToShortAddress,
-  bigNumberTimestampToLocaleString,
+  ipfsUriToHttpUri,
+  stringTimestampToLocaleString,
+  timestampToLocaleString,
 } from "utils/converters";
 import { useAccount } from "wagmi";
 import GoalAcceptMotivatorDialog from "./GoalAcceptMotivatorDialog";
@@ -190,24 +200,81 @@ function GoalStepCardMessagePosted(props: { goalStep: GoalStepEntity }) {
   );
 }
 
-// TODO: Display proof documents from any proof uri
 function GoalStepCardVerificationDataSet(props: { goalStep: GoalStepEntity }) {
-  const verificationDataKey = props.goalStep.extraData.split("=")[0];
+  const verificationData = props.goalStep.extraData.split("=");
+  const verificationDataKey = verificationData[0];
+  const verificationDataValue = verificationData[1];
 
   return (
     <CardBox sx={{ borderColor: palette.blue }}>
       <GoalStepCardHeader goalStep={props.goalStep} text="Updated proofs:" />
-      {verificationDataKey === VERIFICATION_DATA_KEYS.anyProofUri && (
-        <Typography mt={1}>
-          <pre>{JSON.stringify(props.goalStep, null, 2)}</pre>
-        </Typography>
-      )}
-      {verificationDataKey !== VERIFICATION_DATA_KEYS.anyProofUri && (
+      {verificationDataKey === VERIFICATION_DATA_KEYS.anyProofUri &&
+      verificationDataValue ? (
+        <GoalStepCardVerificationDataSetAnyProofUri
+          anyProofUriData={verificationDataValue}
+        />
+      ) : (
         <Typography mt={1}>
           There is a problem with the display of proofs, try again later
         </Typography>
       )}
     </CardBox>
+  );
+}
+
+function GoalStepCardVerificationDataSetAnyProofUri(props: {
+  anyProofUriData: string;
+}) {
+  const { handleError } = useError();
+  const { loadJsonFromIpfs } = useIpfs();
+  const [proofDocuments, setProofDocuments] = useState<
+    ProofDocumentsUriDataEntity | undefined
+  >();
+
+  useEffect(() => {
+    loadJsonFromIpfs(props.anyProofUriData)
+      .then((result) =>
+        setProofDocuments({ documents: result.documents || [] })
+      )
+      .catch((error) => handleError(error, true));
+  }, []);
+
+  if (!proofDocuments) {
+    return <Typography sx={{ mt: 1 }}>Loading...</Typography>;
+  }
+
+  return (
+    <Box mt={2}>
+      {proofDocuments.documents.map((document, index) => (
+        <Accordion key={index} disableGutters elevation={0}>
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Stack spacing={0.5}>
+              <Typography variant="body2" fontWeight={700}>
+                📄 {document.description}
+              </Typography>
+              {document.addedData && (
+                <Typography variant="body2" color={grey[600]}>
+                  {timestampToLocaleString(document.addedData, true)}
+                </Typography>
+              )}
+            </Stack>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Stack>
+              <MuiLink
+                href={ipfsUriToHttpUri(document.uri || "")}
+                target="_blank"
+              >
+                Link #1 (HTTP)
+              </MuiLink>
+              <MuiLink href={document.uri || ""} target="_blank" mt={1}>
+                Link #2 (IPFS)
+              </MuiLink>
+            </Stack>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Box>
   );
 }
 
@@ -301,10 +368,7 @@ function GoalStepCardHeader(props: {
         color={props.isDarkBackground ? grey[300] : grey[600]}
         variant="body2"
       >
-        📅{" "}
-        {bigNumberTimestampToLocaleString(
-          BigNumber.from(props.goalStep.createdTimestamp)
-        )}
+        📅 {stringTimestampToLocaleString(props.goalStep.createdTimestamp)}
       </Typography>
       {/* Text */}
       {props.text && (

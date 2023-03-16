@@ -87,27 +87,44 @@ export function dateStringToBigNumberTimestamp(date?: string): BigNumber {
 }
 
 /**
- * Convert date like "1677628800" to string "3/1/2023".
+ * Convert big number like "1677628800" to string "3/1/2023".
  */
 export function bigNumberTimestampToLocaleDateString(
-  bigNumberTimestamp?: BigNumber
+  timestamp?: BigNumber
 ): string {
-  if (!bigNumberTimestamp) {
+  if (!timestamp) {
     return "Unknown";
   }
-  return new Date(bigNumberTimestamp.toNumber() * 1000).toLocaleDateString();
+  return new Date(timestamp.toNumber() * 1000).toLocaleDateString();
 }
 
 /**
- * Convert date like "1677628800" to string "3/14/2023, 5:33:26 PM".
+ * Convert string like "1677628800" to string "3/14/2023, 5:33:26 PM".
  */
-export function bigNumberTimestampToLocaleString(
-  bigNumberTimestamp?: BigNumber
+export function stringTimestampToLocaleString(
+  timestamp?: string,
+  disableMsMultiplicator = false
 ): string {
-  if (!bigNumberTimestamp) {
+  if (!timestamp) {
     return "Unknown";
   }
-  return new Date(bigNumberTimestamp.toNumber() * 1000).toLocaleString();
+  return timestampToLocaleString(Number(timestamp), disableMsMultiplicator);
+}
+
+/**
+ * Convert number like "1677628800" to string "3/14/2023, 5:33:26 PM".
+ */
+export function timestampToLocaleString(
+  timestamp?: number,
+  disableMsMultiplicator = false
+): string {
+  if (!timestamp) {
+    return "Unknown";
+  }
+  if (disableMsMultiplicator) {
+    return new Date(timestamp).toLocaleString();
+  }
+  return new Date(timestamp * 1000).toLocaleString();
 }
 
 /**

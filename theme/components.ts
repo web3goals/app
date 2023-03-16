@@ -47,4 +47,21 @@ export const components: Components = {
       },
     },
   },
+  MuiAccordion: {
+    styleOverrides: {
+      root: {
+        border: "1px solid #DDDDDD",
+        "&:not(:last-child)": {
+          borderBottom: 0,
+        },
+      },
+    },
+  },
+  MuiAccordionDetails: {
+    styleOverrides: {
+      root: {
+        background: "#EEEEEE",
+      },
+    },
+  },
 };
