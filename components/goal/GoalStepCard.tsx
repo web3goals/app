@@ -44,6 +44,8 @@ interface CardParams {
  * A component with a goal step card.
  */
 export default function GoalStepCard(props: {
+  authorAddress: string;
+  isClosed: boolean;
   step: GoalStepEntity;
   onUpdate: Function;
 }) {
@@ -60,7 +62,12 @@ export default function GoalStepCard(props: {
       borderColor: palette.purpleLight,
       contentHeader: "Sent a motivational message:",
       contentComponent: (
-        <ContentMotivatorAdded step={props.step} onUpdate={props.onUpdate} />
+        <ContentMotivatorAdded
+          authorAddress={props.authorAddress}
+          isClosed={props.isClosed}
+          step={props.step}
+          onUpdate={props.onUpdate}
+        />
       ),
     },
     [GOAL_STEPS.motivatorAccepted]: {
@@ -189,10 +196,13 @@ export default function GoalStepCard(props: {
 }
 
 function ContentMotivatorAdded(props: {
+  authorAddress: string;
+  isClosed: boolean;
   step: GoalStepEntity;
   onUpdate: Function;
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
+  const { address } = useAccount();
   const { loadJsonFromIpfs } = useIpfs();
   const { handleError } = useError();
   const [motivatorUriData, setMotivatorUriData] = useState<
@@ -210,23 +220,24 @@ function ContentMotivatorAdded(props: {
       <Typography variant="body2" mt={1}>
         {motivatorUriData?.message || "..."}
       </Typography>
-      {/* TODO: Hide button if goal is closed and not goal author */}
-      <LLoadingButton
-        variant="outlined"
-        onClick={() =>
-          showDialog?.(
-            <GoalAcceptMotivatorDialog
-              id={props.step.goal.id}
-              motivatorAccountAddress={props.step.authorAddress}
-              onSuccess={props.onUpdate}
-              onClose={closeDialog}
-            />
-          )
-        }
-        sx={{ mt: 2 }}
-      >
-        Accept
-      </LLoadingButton>
+      {!props.isClosed && address === props.authorAddress && (
+        <LLoadingButton
+          variant="outlined"
+          onClick={() =>
+            showDialog?.(
+              <GoalAcceptMotivatorDialog
+                id={props.step.goal.id}
+                motivatorAccountAddress={props.step.authorAddress}
+                onSuccess={props.onUpdate}
+                onClose={closeDialog}
+              />
+            )
+          }
+          sx={{ mt: 2 }}
+        >
+          Accept
+        </LLoadingButton>
+      )}
     </Box>
   );
 }

@@ -44,7 +44,12 @@ export default function GoalSteps(props: {
         sx={{ mt: 4 }}
       />
       {/* List */}
-      <GoalStepList id={props.id} sx={{ mt: 4 }} />
+      <GoalStepList
+        id={props.id}
+        authorAddress={props.authorAddress}
+        isClosed={props.isClosed}
+        sx={{ mt: 4 }}
+      />
     </Box>
   );
 }

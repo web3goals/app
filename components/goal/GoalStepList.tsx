@@ -15,7 +15,12 @@ import GoalStepCard from "./GoalStepCard";
 /**
  * A component with goal step list.
  */
-export default function GoalStepList(props: { id: string; sx?: SxProps }) {
+export default function GoalStepList(props: {
+  id: string;
+  authorAddress: string;
+  isClosed: boolean;
+  sx?: SxProps;
+}) {
   const { chain } = useNetwork();
   const { handleError } = useError();
   const { findGoalSteps } = useSubgraph();
@@ -58,6 +63,8 @@ export default function GoalStepList(props: { id: string; sx?: SxProps }) {
           {goalSteps.map((goalStep, index) => (
             <GoalStepCard
               key={index}
+              authorAddress={props.authorAddress}
+              isClosed={props.isClosed}
               step={goalStep}
               onUpdate={() => {
                 // TODO: Update subgraph data
