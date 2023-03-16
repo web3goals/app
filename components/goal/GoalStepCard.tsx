@@ -1,15 +1,16 @@
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandMore, Person } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Avatar,
   Box,
   Link as MuiLink,
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
-import { CardBox, XlLoadingButton } from "components/styled";
+import { CardBox, LLoadingButton } from "components/styled";
 import { GOAL_STEPS } from "constants/goalSteps";
 import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
 import { DialogContext } from "context/dialog";
@@ -31,76 +32,164 @@ import {
 import { useAccount } from "wagmi";
 import GoalAcceptMotivatorDialog from "./GoalAcceptMotivatorDialog";
 
+interface CardParams {
+  readonly backgoundColor?: string;
+  readonly borderColor?: string;
+  readonly isBackgroundDark?: boolean;
+  readonly contentHeader?: string;
+  readonly contentComponent?: any;
+}
+
 /**
  * A component with a goal step card.
  */
 export default function GoalStepCard(props: {
-  goalStep: GoalStepEntity;
+  step: GoalStepEntity;
   onUpdate: Function;
 }) {
   const { address } = useAccount();
 
-  if (props.goalStep.type === GOAL_STEPS.goalSet) {
-    return <GoalStepCardGoalSet goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.motivatorAdded) {
-    return (
-      <GoalStepCardMotivatorAdded
-        goalStep={props.goalStep}
-        onUpdate={props.onUpdate}
-      />
-    );
-  }
-  if (props.goalStep.type === GOAL_STEPS.motivatorAccepted) {
-    return <GoalStepCardMotivatorAccepted goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.messagePosted) {
-    return <GoalStepCardMessagePosted goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.verificationDataSet) {
-    return <GoalStepCardVerificationDataSet goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.goalVerifiedAsAchieved) {
-    return <GoalStepCardGoalVerifiedAsAchieved goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.goalVerifiedAsFailed) {
-    return <GoalStepCardGoalVerifiedAsFailed goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.goalClosedAsAchieved) {
-    return <GoalStepCardGoalClosedAsAchieved goalStep={props.goalStep} />;
-  }
-  if (props.goalStep.type === GOAL_STEPS.goalClosedAsFailed) {
-    return <GoalStepCardGoalClosedAsFailed goalStep={props.goalStep} />;
-  }
+  const availableCardParams: { [key: string]: CardParams } = {
+    [GOAL_STEPS.goalSet]: {
+      backgoundColor: palette.blue,
+      borderColor: palette.blue,
+      isBackgroundDark: true,
+      contentHeader: "Set the goal 🔥",
+    },
+    [GOAL_STEPS.motivatorAdded]: {
+      borderColor: palette.purpleLight,
+      contentHeader: "Sent a motivational message:",
+      contentComponent: (
+        <ContentMotivatorAdded step={props.step} onUpdate={props.onUpdate} />
+      ),
+    },
+    [GOAL_STEPS.motivatorAccepted]: {
+      backgoundColor: palette.purpleLight,
+      borderColor: palette.purpleLight,
+      isBackgroundDark: true,
+      contentHeader: "Accepted a motivator:",
+      contentComponent: <ContentMotivatorAccepted step={props.step} />,
+    },
+    [GOAL_STEPS.messagePosted]: {
+      contentComponent: <ContentMessagePosted step={props.step} />,
+    },
+    [GOAL_STEPS.verificationDataSet]: {
+      contentHeader: "Updated proofs:",
+      contentComponent: <ContentCardVerificationDataSet step={props.step} />,
+    },
+    [GOAL_STEPS.goalVerifiedAsAchieved]: {
+      borderColor: palette.green,
+      contentHeader: "Verified the goal as achieved 👍",
+    },
+    [GOAL_STEPS.goalVerifiedAsFailed]: {
+      borderColor: palette.green,
+      contentHeader: "Verified the goal as failed 👎",
+    },
+    [GOAL_STEPS.goalClosedAsAchieved]: {
+      backgoundColor: palette.green,
+      borderColor: palette.green,
+      isBackgroundDark: true,
+      contentHeader: "Closed the goal as achieved 💪",
+    },
+    [GOAL_STEPS.goalClosedAsFailed]: {
+      backgoundColor: palette.red,
+      borderColor: palette.red,
+      isBackgroundDark: true,
+      contentHeader: "Closed the goal as failed 😥",
+    },
+  };
 
-  return <GoalStepCardUndefined goalStep={props.goalStep} />;
-}
+  const cardParams: CardParams = {
+    backgoundColor:
+      availableCardParams[props.step.type]?.backgoundColor ||
+      theme.palette.background.default,
+    borderColor:
+      availableCardParams[props.step.type]?.borderColor ||
+      theme.palette.divider,
+    isBackgroundDark: availableCardParams[props.step.type]?.isBackgroundDark,
+    contentHeader: availableCardParams[props.step.type]
+      ? availableCardParams[props.step.type]?.contentHeader
+      : "Took an unusual step 😲",
+    contentComponent: availableCardParams[props.step.type]?.contentComponent,
+  };
 
-function GoalStepCardUndefined(props: { goalStep: GoalStepEntity }) {
   return (
-    <CardBox>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Made undefined step"
-      />
+    <CardBox
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        background: cardParams.backgoundColor,
+        borderColor: cardParams.borderColor,
+      }}
+    >
+      <Box>
+        {/* Avatar */}
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
+            borderRadius: 36,
+          }}
+        >
+          <Person sx={{ fontSize: 24 }} />
+        </Avatar>
+      </Box>
+      <Box width={1} ml={1.5}>
+        {/* Account */}
+        <Stack direction="row" spacing={1} alignItems="center">
+          <MuiLink
+            href={`/accounts/${props.step.authorAddress}`}
+            color={
+              cardParams.isBackgroundDark
+                ? theme.palette.primary.contrastText
+                : theme.palette.primary.main
+            }
+            fontWeight={700}
+            variant="body2"
+          >
+            {addressToShortAddress(props.step.authorAddress)}
+          </MuiLink>
+          {address?.toLowerCase() ===
+            props.step.authorAddress.toLowerCase() && (
+            <Typography
+              color={cardParams.isBackgroundDark ? grey[300] : grey[600]}
+              fontWeight={700}
+              variant="body2"
+            >
+              (you)
+            </Typography>
+          )}
+        </Stack>
+        {/* Date */}
+        <Typography
+          color={cardParams.isBackgroundDark ? grey[300] : grey[600]}
+          variant="body2"
+        >
+          {stringTimestampToLocaleString(props.step.createdTimestamp)}
+        </Typography>
+        {/* Content header */}
+        {cardParams.contentHeader && (
+          <Typography
+            color={
+              cardParams.isBackgroundDark
+                ? theme.palette.primary.contrastText
+                : theme.palette.text.primary
+            }
+            fontWeight={700}
+            mt={1}
+          >
+            {cardParams.contentHeader}
+          </Typography>
+        )}
+        {/* Content component */}
+        {cardParams.contentComponent}
+      </Box>
     </CardBox>
   );
 }
 
-function GoalStepCardGoalSet(props: { goalStep: GoalStepEntity }) {
-  return (
-    <CardBox sx={{ background: palette.blue, borderColor: palette.blue }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Set the goal 🔥"
-        isDarkBackground={true}
-      />
-    </CardBox>
-  );
-}
-
-function GoalStepCardMotivatorAdded(props: {
-  goalStep: GoalStepEntity;
+function ContentMotivatorAdded(props: {
+  step: GoalStepEntity;
   onUpdate: Function;
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
@@ -111,25 +200,24 @@ function GoalStepCardMotivatorAdded(props: {
   >();
 
   useEffect(() => {
-    loadJsonFromIpfs(props.goalStep.extraDataUri)
+    loadJsonFromIpfs(props.step.extraDataUri)
       .then((result) => setMotivatorUriData(result))
       .catch((error) => handleError(error, true));
   }, []);
 
   return (
-    <CardBox sx={{ borderColor: palette.purpleLight }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Sent a motivational message:"
-      />
-      <Typography mt={1}>{motivatorUriData?.message || "..."}</Typography>
-      <XlLoadingButton
+    <Box>
+      <Typography variant="body2" mt={1}>
+        {motivatorUriData?.message || "..."}
+      </Typography>
+      {/* TODO: Hide button if goal is closed and not goal author */}
+      <LLoadingButton
         variant="outlined"
         onClick={() =>
           showDialog?.(
             <GoalAcceptMotivatorDialog
-              id={props.goalStep.goal.id}
-              motivatorAccountAddress={props.goalStep.authorAddress}
+              id={props.step.goal.id}
+              motivatorAccountAddress={props.step.authorAddress}
               onSuccess={props.onUpdate}
               onClose={closeDialog}
             />
@@ -138,48 +226,45 @@ function GoalStepCardMotivatorAdded(props: {
         sx={{ mt: 2 }}
       >
         Accept
-      </XlLoadingButton>
-    </CardBox>
+      </LLoadingButton>
+    </Box>
   );
 }
 
-function GoalStepCardMotivatorAccepted(props: { goalStep: GoalStepEntity }) {
+function ContentMotivatorAccepted(props: { step: GoalStepEntity }) {
   const { address } = useAccount();
 
-  const motivatorAccountAddress = props.goalStep.extraData.split("=")[1];
+  const motivatorAccountAddress = props.step.extraData.split("=")[1];
 
   return (
-    <CardBox
-      sx={{ background: palette.purpleLight, borderColor: palette.purpleLight }}
-    >
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Accepted a motivator:"
-        isDarkBackground={true}
-      />
-      <Stack direction="row" spacing={1} alignItems="center" ml={3} mt={1}>
-        <Typography>
-          👤{" "}
-          <MuiLink
-            href={`/accounts/${motivatorAccountAddress}`}
-            color={theme.palette.primary.contrastText}
-            fontWeight={700}
-            variant="body2"
-          >
-            {addressToShortAddress(motivatorAccountAddress)}
-          </MuiLink>
+    <Stack direction="row" spacing={1} alignItems="center" mt={1}>
+      <Avatar
+        sx={{
+          width: 24,
+          height: 24,
+          borderRadius: 24,
+        }}
+      >
+        <Person sx={{ fontSize: 18 }} />
+      </Avatar>
+      <MuiLink
+        href={`/accounts/${motivatorAccountAddress}`}
+        color={theme.palette.primary.contrastText}
+        fontWeight={700}
+        variant="body2"
+      >
+        {addressToShortAddress(motivatorAccountAddress)}
+      </MuiLink>
+      {address?.toLowerCase() === motivatorAccountAddress.toLowerCase() && (
+        <Typography color={grey[300]} fontWeight={700} variant="body2">
+          (you)
         </Typography>
-        {address?.toLowerCase() === motivatorAccountAddress.toLowerCase() && (
-          <Typography color={grey[300]} fontWeight={700} variant="body2">
-            (you)
-          </Typography>
-        )}
-      </Stack>
-    </CardBox>
+      )}
+    </Stack>
   );
 }
 
-function GoalStepCardMessagePosted(props: { goalStep: GoalStepEntity }) {
+function ContentMessagePosted(props: { step: GoalStepEntity }) {
   const { loadJsonFromIpfs } = useIpfs();
   const { handleError } = useError();
   const [messageUriData, setMessageUriData] = useState<
@@ -187,42 +272,40 @@ function GoalStepCardMessagePosted(props: { goalStep: GoalStepEntity }) {
   >();
 
   useEffect(() => {
-    loadJsonFromIpfs(props.goalStep.extraDataUri)
+    loadJsonFromIpfs(props.step.extraDataUri)
       .then((result) => setMessageUriData(result))
       .catch((error) => handleError(error, true));
   }, []);
 
   return (
-    <CardBox>
-      <GoalStepCardHeader goalStep={props.goalStep} />
-      <Typography mt={1}>{messageUriData?.message || "..."}</Typography>
-    </CardBox>
+    <Typography variant="body2" mt={1}>
+      {messageUriData?.message || "..."}
+    </Typography>
   );
 }
 
-function GoalStepCardVerificationDataSet(props: { goalStep: GoalStepEntity }) {
-  const verificationData = props.goalStep.extraData.split("=");
+function ContentCardVerificationDataSet(props: { step: GoalStepEntity }) {
+  const verificationData = props.step.extraData.split("=");
   const verificationDataKey = verificationData[0];
   const verificationDataValue = verificationData[1];
 
   return (
-    <CardBox sx={{ borderColor: palette.blue }}>
-      <GoalStepCardHeader goalStep={props.goalStep} text="Updated proofs:" />
+    <Box mt={1}>
       {verificationDataKey === VERIFICATION_DATA_KEYS.anyProofUri &&
       verificationDataValue ? (
-        <GoalStepCardVerificationDataSetAnyProofUri
+        <ContentVerificationDataSetAnyProofUri
           anyProofUriData={verificationDataValue}
         />
       ) : (
-        <Typography mt={1}>
+        <Typography variant="body2">
           There is a problem with the display of proofs, try again later
         </Typography>
       )}
-    </CardBox>
+    </Box>
   );
 }
 
-function GoalStepCardVerificationDataSetAnyProofUri(props: {
+function ContentVerificationDataSetAnyProofUri(props: {
   anyProofUriData: string;
 }) {
   const { handleError } = useError();
@@ -240,18 +323,16 @@ function GoalStepCardVerificationDataSetAnyProofUri(props: {
   }, []);
 
   if (!proofDocuments) {
-    return <Typography sx={{ mt: 1 }}>Loading...</Typography>;
+    return <Typography>Loading...</Typography>;
   }
 
   return (
-    <Box mt={2}>
+    <Box>
       {proofDocuments.documents.map((document, index) => (
         <Accordion key={index} disableGutters elevation={0}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Stack spacing={0.5}>
-              <Typography variant="body2" fontWeight={700}>
-                📄 {document.description}
-              </Typography>
+              <Typography variant="body2">📃 {document.description}</Typography>
               {document.addedData && (
                 <Typography variant="body2" color={grey[600]}>
                   {timestampToLocaleString(document.addedData, true)}
@@ -275,115 +356,5 @@ function GoalStepCardVerificationDataSetAnyProofUri(props: {
         </Accordion>
       ))}
     </Box>
-  );
-}
-
-function GoalStepCardGoalVerifiedAsAchieved(props: {
-  goalStep: GoalStepEntity;
-}) {
-  return (
-    <CardBox sx={{ borderColor: palette.green }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Verified the goal as achieved 👍"
-      />
-    </CardBox>
-  );
-}
-
-function GoalStepCardGoalVerifiedAsFailed(props: { goalStep: GoalStepEntity }) {
-  return (
-    <CardBox sx={{ borderColor: palette.red }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Verified the goal as failed 👎"
-      />
-    </CardBox>
-  );
-}
-
-function GoalStepCardGoalClosedAsAchieved(props: { goalStep: GoalStepEntity }) {
-  return (
-    <CardBox sx={{ background: palette.green, borderColor: palette.green }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Closed the goal as achieved 💪"
-        isDarkBackground={true}
-      />
-    </CardBox>
-  );
-}
-
-function GoalStepCardGoalClosedAsFailed(props: { goalStep: GoalStepEntity }) {
-  return (
-    <CardBox sx={{ background: palette.red, borderColor: palette.red }}>
-      <GoalStepCardHeader
-        goalStep={props.goalStep}
-        text="Closed the goal as failed 😥"
-        isDarkBackground={true}
-      />
-    </CardBox>
-  );
-}
-
-function GoalStepCardHeader(props: {
-  goalStep: GoalStepEntity;
-  text?: string;
-  isDarkBackground?: boolean;
-}) {
-  const { address } = useAccount();
-
-  return (
-    <>
-      {/* Account */}
-      <Stack direction="row" spacing={1} alignItems="center">
-        <Typography>
-          👤{" "}
-          <MuiLink
-            href={`/accounts/${props.goalStep.authorAddress}`}
-            color={
-              props.isDarkBackground
-                ? theme.palette.primary.contrastText
-                : undefined
-            }
-            fontWeight={700}
-            variant="body2"
-          >
-            {addressToShortAddress(props.goalStep.authorAddress)}
-          </MuiLink>
-        </Typography>
-        {address?.toLowerCase() ===
-          props.goalStep.authorAddress.toLowerCase() && (
-          <Typography
-            color={props.isDarkBackground ? grey[300] : grey[600]}
-            fontWeight={700}
-            variant="body2"
-          >
-            (you)
-          </Typography>
-        )}
-      </Stack>
-      {/* Date */}
-      <Typography
-        color={props.isDarkBackground ? grey[300] : grey[600]}
-        variant="body2"
-      >
-        📅 {stringTimestampToLocaleString(props.goalStep.createdTimestamp)}
-      </Typography>
-      {/* Text */}
-      {props.text && (
-        <Typography
-          color={
-            props.isDarkBackground
-              ? theme.palette.primary.contrastText
-              : undefined
-          }
-          fontWeight={700}
-          mt={1}
-        >
-          {props.text}
-        </Typography>
-      )}
-    </>
   );
 }

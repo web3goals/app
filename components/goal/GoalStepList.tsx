@@ -58,7 +58,7 @@ export default function GoalStepList(props: { id: string; sx?: SxProps }) {
           {goalSteps.map((goalStep, index) => (
             <GoalStepCard
               key={index}
-              goalStep={goalStep}
+              step={goalStep}
               onUpdate={() => {
                 // TODO: Update subgraph data
               }}

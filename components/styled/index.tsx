@@ -64,6 +64,21 @@ export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 ) as typeof LoadingButton;
 
+export const LLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
+  ({ theme, variant }) => ({
+    fontSize: "14px",
+    fontWeight: 700,
+    borderRadius: "24px",
+    padding: "8px 18px",
+    ...(variant === "outlined" && {
+      border: "4px solid",
+      "&:hover": {
+        border: "4px solid",
+      },
+    }),
+  })
+) as typeof LoadingButton;
+
 export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
