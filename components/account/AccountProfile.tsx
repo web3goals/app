@@ -26,6 +26,7 @@ import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
+import { emojiAvatarForAddress } from "utils/avatars";
 import { getProfileContractAddress } from "utils/chains";
 import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
@@ -92,6 +93,7 @@ export default function AccountProfile(props: { address: string }) {
               width: 164,
               height: 164,
               borderRadius: 164,
+              background: emojiAvatarForAddress(props.address).color,
             }}
             src={
               profileData?.image
@@ -99,7 +101,9 @@ export default function AccountProfile(props: { address: string }) {
                 : undefined
             }
           >
-            <Person sx={{ fontSize: 64 }} />
+            <Typography fontSize={64}>
+              {emojiAvatarForAddress(props.address).emoji}
+            </Typography>
           </Avatar>
         </Box>
         {/* Name */}

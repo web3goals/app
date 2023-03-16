@@ -23,6 +23,7 @@ import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
 import { theme } from "theme";
 import { palette } from "theme/palette";
+import { emojiAvatarForAddress } from "utils/avatars";
 import {
   addressToShortAddress,
   ipfsUriToHttpUri,
@@ -136,9 +137,12 @@ export default function GoalStepCard(props: {
             width: 36,
             height: 36,
             borderRadius: 36,
+            background: emojiAvatarForAddress(props.step.authorAddress).color,
           }}
         >
-          <Person sx={{ fontSize: 24 }} />
+          <Typography>
+            {emojiAvatarForAddress(props.step.authorAddress).emoji}
+          </Typography>
         </Avatar>
       </Box>
       <Box width={1} ml={1.5}>
@@ -254,9 +258,12 @@ function ContentMotivatorAccepted(props: { step: GoalStepEntity }) {
           width: 24,
           height: 24,
           borderRadius: 24,
+          background: emojiAvatarForAddress(motivatorAccountAddress).color,
         }}
       >
-        <Person sx={{ fontSize: 18 }} />
+        <Typography>
+          {emojiAvatarForAddress(motivatorAccountAddress).emoji}
+        </Typography>
       </Avatar>
       <MuiLink
         href={`/accounts/${motivatorAccountAddress}`}

@@ -1,10 +1,11 @@
 import { Person } from "@mui/icons-material";
-import { Avatar, TextField } from "@mui/material";
+import { Avatar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XxlLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
+import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
@@ -12,6 +13,7 @@ import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
+import { emojiAvatarForAddress } from "utils/avatars";
 import { getProfileContractAddress, getChainId } from "utils/chains";
 import { ipfsUriToHttpUri } from "utils/converters";
 import {
@@ -195,6 +197,9 @@ export default function AccountEditProfileForm(props: {
                       width: 164,
                       height: 164,
                       borderRadius: 164,
+                      background: emojiAvatarForAddress(
+                        address || ethers.constants.AddressZero
+                      ).color,
                     }}
                     src={
                       formImageValue?.uri ||
@@ -203,7 +208,13 @@ export default function AccountEditProfileForm(props: {
                         : undefined)
                     }
                   >
-                    <Person sx={{ fontSize: 64 }} />
+                    <Typography fontSize={64}>
+                      {
+                        emojiAvatarForAddress(
+                          address || ethers.constants.AddressZero
+                        ).emoji
+                      }
+                    </Typography>
                   </Avatar>
                 </Box>
               </div>
