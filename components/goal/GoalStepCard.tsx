@@ -363,6 +363,7 @@ function ContentVerificationDataSetAnyProofUri(props: {
               <MuiLink
                 href={ipfsUriToHttpUri(document.uri || "")}
                 target="_blank"
+                mt={1}
               >
                 Link #1 (HTTP)
               </MuiLink>
