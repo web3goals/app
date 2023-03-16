@@ -122,7 +122,7 @@ export default function GoalPostMessageDialog(props: {
    */
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Your message posted");
+      showToastSuccess("Message is posted and will appear soon");
       props.onSuccess?.();
       close();
     }

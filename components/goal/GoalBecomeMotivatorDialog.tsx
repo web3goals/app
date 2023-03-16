@@ -123,9 +123,7 @@ export default function GoalBecomeMotivatorDialog(props: {
    */
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess(
-        "Your motivating message sent to the author of the goal"
-      );
+      showToastSuccess("Your message is posted and will appear soon");
       props.onSuccess?.();
       close();
     }

@@ -65,7 +65,7 @@ export default function GoalAcceptMotivatorDialog(props: {
    */
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Motivator is accepted!");
+      showToastSuccess("Motivator is accepted");
       close();
       props.onSuccess?.();
     }

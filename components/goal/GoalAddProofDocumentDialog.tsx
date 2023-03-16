@@ -189,7 +189,7 @@ export default function GoalAddProofDocumentDialog(props: {
    */
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Proof is added");
+      showToastSuccess("Proof is added and will appear soon");
       props.onSuccess?.();
       close();
     }
