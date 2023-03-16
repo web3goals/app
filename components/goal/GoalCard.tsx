@@ -1,7 +1,14 @@
-import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
+import {
+  Avatar,
+  Link as MuiLink,
+  Stack,
+  SxProps,
+  Typography,
+} from "@mui/material";
 import { CardBox } from "components/styled";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import { BigNumber, ethers } from "ethers";
+import { emojiAvatarForAddress } from "utils/avatars";
 import { getChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
@@ -36,12 +43,26 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
             <strong>#{props.goal.id}</strong>
           </MuiLink>
         </Typography>
-        <Typography>
-          👤{" "}
-          <MuiLink href={`/accounts/${props.goal.authorAddress}`}>
-            <strong>{addressToShortAddress(props.goal.authorAddress)}</strong>
+        <Stack direction="row" spacing={1} alignItems="center" mt={1}>
+          <Avatar
+            sx={{
+              width: 24,
+              height: 24,
+              borderRadius: 24,
+              background: emojiAvatarForAddress(props.goal.authorAddress).color,
+            }}
+          >
+            <Typography>
+              {emojiAvatarForAddress(props.goal.authorAddress).emoji}
+            </Typography>
+          </Avatar>
+          <MuiLink
+            href={`/accounts/${props.goal.authorAddress}`}
+            fontWeight={700}
+          >
+            {addressToShortAddress(props.goal.authorAddress)}
           </MuiLink>
-        </Typography>
+        </Stack>
       </Stack>
       {/* Description */}
       <Stack
