@@ -24,7 +24,7 @@ export default function GoalStepList(props: { id: string; sx?: SxProps }) {
   >();
   const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
-  const pageSize = 3;
+  const pageSize = 5;
 
   async function loadMoreGoals(pageNumber: number) {
     try {
