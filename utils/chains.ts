@@ -1,4 +1,9 @@
-import { Chain, filecoinHyperspace, polygonMumbai } from "wagmi/chains";
+import {
+  Chain,
+  filecoin,
+  filecoinHyperspace,
+  polygonMumbai,
+} from "wagmi/chains";
 import { stringToAddress } from "./converters";
 
 /**
@@ -20,6 +25,13 @@ const hyperspaceProfileContractAddress =
   process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS;
 const hyperspaceSubgraphApiUrl =
   process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL;
+
+const filecoinGoalContractAddress =
+  process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS;
+const filecoinProfileContractAddress =
+  process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS;
+const filecoinSubgraphApiUrl =
+  process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL;
 
 /**
  * Get the first chain from supported chains.
@@ -43,6 +55,9 @@ export function getSupportedChains(): Array<Chain> {
   }
   if (hyperspaceGoalContractAddress && hyperspaceProfileContractAddress) {
     chains.push(filecoinHyperspace);
+  }
+  if (filecoinGoalContractAddress && filecoinProfileContractAddress) {
+    chains.push(filecoin);
   }
   if (chains.length === 0) {
     console.error("Not found supported chains");
@@ -87,6 +102,9 @@ export function getGoalContractAddress(
   if (chain?.id === filecoinHyperspace.id && hyperspaceGoalContractAddress) {
     return stringToAddress(hyperspaceGoalContractAddress);
   }
+  if (chain?.id === filecoin.id && filecoinGoalContractAddress) {
+    return stringToAddress(filecoinGoalContractAddress);
+  }
   console.error(`Not found goal contract address for chain: ${chain?.name}`);
   return undefined;
 }
@@ -105,6 +123,9 @@ export function getProfileContractAddress(
   }
   if (chain?.id === filecoinHyperspace.id && hyperspaceProfileContractAddress) {
     return stringToAddress(hyperspaceProfileContractAddress);
+  }
+  if (chain?.id === filecoin.id && filecoinProfileContractAddress) {
+    return stringToAddress(filecoinProfileContractAddress);
   }
   console.error(`Not found profile contract address for chain: ${chain?.name}`);
   return undefined;
@@ -156,6 +177,9 @@ export function getSubgraphApiUrl(chain: Chain | undefined) {
   }
   if (chain?.id === filecoinHyperspace.id && hyperspaceSubgraphApiUrl) {
     return hyperspaceSubgraphApiUrl;
+  }
+  if (chain?.id === filecoin.id && filecoinSubgraphApiUrl) {
+    return filecoinSubgraphApiUrl;
   }
   console.error(`Not found subgraph api url for chain: ${chain?.name}`);
   return undefined;
