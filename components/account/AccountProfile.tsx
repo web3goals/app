@@ -2,7 +2,6 @@ import {
   AlternateEmail,
   Instagram,
   Language,
-  Person,
   Telegram,
   Twitter,
 } from "@mui/icons-material";
@@ -246,7 +245,9 @@ export default function AccountProfile(props: { address: string }) {
           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
             {/* Edit button */}
             <Link href="/accounts/edit" legacyBehavior>
-              <XlLoadingButton variant="contained">Edit</XlLoadingButton>
+              <XlLoadingButton variant="contained">
+                {profileData ? "Edit Profile" : "Create Profile"}
+              </XlLoadingButton>
             </Link>
           </Stack>
         )}

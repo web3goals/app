@@ -1,4 +1,11 @@
-import { Autocomplete, Box, MenuItem, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Link as MuiLink,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
@@ -16,7 +23,7 @@ import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
 import useToasts from "hooks/useToast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { palette } from "theme/palette";
 import {
   getChainId,
@@ -229,7 +236,7 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            <WidgetSeparatorText mb={3}>
+            <WidgetSeparatorText mb={4}>
               otherwise the stake will be shared between motivators and
               application
             </WidgetSeparatorText>
@@ -239,6 +246,7 @@ export default function GoalSetForm(props: {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                mb: 4,
               }}
             >
               <XxlLoadingButton
@@ -250,6 +258,11 @@ export default function GoalSetForm(props: {
                 Set Goal
               </XxlLoadingButton>
             </Box>
+            <WidgetSeparatorText color={grey[600]}>
+              you need to have a{" "}
+              <MuiLink href={`/accounts/${address}`}>profile</MuiLink> to set a
+              goal
+            </WidgetSeparatorText>
           </Form>
         )}
       </Formik>
