@@ -38,22 +38,61 @@ export function ipfsUriToShortUri(ipfsUri: string): string {
 }
 
 /**
- * Convert error object to pretty string.
+ * Convert error object to pretty object with error message and severity.
  */
-export function errorToString(error: any): string {
-  let errorString = JSON.stringify(error);
+export function errorToPrettyError(error: any): {
+  message: string;
+  severity: "info" | "error" | undefined;
+} {
+  let message = JSON.stringify(error);
+  let severity: "info" | "error" | undefined = undefined;
   if (error?.message) {
-    errorString = error.message;
+    message = error.message;
+  }
+  if (error?.data?.message) {
+    message = error.data.message.replace("execution reverted: ", "");
   }
   if (error?.error?.data?.message) {
-    errorString = error.error.data.message.replace("execution reverted: ", "");
+    message = error.error.data.message.replace("execution reverted: ", "");
   }
   if (error?.error?.data?.data) {
-    errorString = new ethers.utils.Interface(errorsLibraryAbi).parseError(
+    message = new ethers.utils.Interface(errorsLibraryAbi).parseError(
       error.error.data.data
     ).signature;
   }
-  return errorString;
+  if (message.includes("insufficient funds for gas * price + value")) {
+    message = "Insufficient funds to execute the transaction";
+  }
+  if (message === "AlreadyAccepted()") {
+    message = "The motivator is already accepted";
+    severity = "info";
+  }
+  if (message === "AlreadyMotivator()") {
+    message = "You are already a motivator";
+    severity = "info";
+  }
+  if (message === "AnyProofURINotExists()") {
+    message = "You need to attach proofs before closing the goal";
+  }
+  if (message === "DeadlineMustBeAtLeast24HoursLater()") {
+    message = "The deadline must not be less than 24 hours";
+  }
+  if (message === "NotAuthor()") {
+    message = "You are not the goal's author";
+  }
+  if (message === "NotAuthorNotAcceptedMotivator()") {
+    message = "You are not the goal's author or a motivator";
+  }
+  if (message === "ProfileNotExists()") {
+    message = "You need to have a profile to set a goal";
+  }
+  if (message === "StakeInvalid()") {
+    message = "Stake is invalid";
+  }
+  return {
+    message: message,
+    severity: severity,
+  };
 }
 
 /**

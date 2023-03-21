@@ -1,6 +1,6 @@
 import { truncate } from "lodash";
 import { useSnackbar } from "notistack";
-import { errorToString } from "utils/converters";
+import { errorToPrettyError } from "utils/converters";
 
 /**
  * Hook for work with toasts.
@@ -15,11 +15,9 @@ export default function useToasts() {
   };
 
   let showToastError = function (error: any) {
-    const message = truncate(`Error: ${errorToString(error)}`, {
-      length: 256,
-    });
-    enqueueSnackbar(message, {
-      variant: "error",
+    const prettyError = errorToPrettyError(error);
+    enqueueSnackbar(truncate(prettyError.message, { length: 256 }), {
+      variant: prettyError.severity === "info" ? "info" : "error",
     });
   };
 
