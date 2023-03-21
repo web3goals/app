@@ -98,22 +98,10 @@ export default function GoalParams(props: {
           props.isAchieved ? (
             "was be returned to the author of this goal"
           ) : (
-            <>
-              will be shared between accepted{" "}
-              <Link href="#motivators" legacyBehavior passHref>
-                <MuiLink>motivators</MuiLink>
-              </Link>{" "}
-              and this application
-            </>
+            <>will be shared between accepted motivators and this application</>
           )
         ) : (
-          <>
-            will be shared between accepted{" "}
-            <Link href="#motivators" legacyBehavior passHref>
-              <MuiLink>motivators</MuiLink>
-            </Link>{" "}
-            and this application
-          </>
+          <>will be shared between accepted motivators and this application</>
         )}
       </WidgetSeparatorText>
       {/* Share button */}
