@@ -10,6 +10,11 @@ import { Stack } from "@mui/system";
 import { XlLoadingButton } from "components/styled";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
+import {
+  handleClickedShareGoalToSocialEvent,
+  handleCopiedGoalLinkEvent,
+} from "utils/analytics";
+import { useNetwork } from "wagmi";
 
 /**
  * A component with buttons to share a goal.
@@ -19,8 +24,11 @@ export default function GoalShareActions(props: {
   text?: string;
   sx?: SxProps;
 }) {
+  const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
   const goalLink = `${global.window.location.origin}/goals/${props.id}`;
+  const twitterLink = `https://twitter.com/intent/tweet?url=${goalLink}`;
+  const telegramLink = `https://t.me/share/url?url=${goalLink}`;
 
   if (goalLink) {
     return (
@@ -44,18 +52,32 @@ export default function GoalShareActions(props: {
           sx={{ mt: 4 }}
         >
           <IconButton
-            href={`https://twitter.com/intent/tweet?url=${goalLink}`}
+            href={twitterLink}
             target="_blank"
             color="primary"
             sx={{ border: 4, p: 3 }}
+            onClick={() =>
+              handleClickedShareGoalToSocialEvent(
+                props.id,
+                twitterLink,
+                chain?.id
+              )
+            }
           >
             <Twitter sx={{ fontSize: 36 }} />
           </IconButton>
           <IconButton
-            href={`https://t.me/share/url?url=${goalLink}`}
+            href={telegramLink}
             target="_blank"
             color="primary"
             sx={{ border: 4, p: 3 }}
+            onClick={() =>
+              handleClickedShareGoalToSocialEvent(
+                props.id,
+                telegramLink,
+                chain?.id
+              )
+            }
           >
             <Telegram sx={{ fontSize: 36 }} />
           </IconButton>
@@ -93,6 +115,7 @@ export default function GoalShareActions(props: {
             onClick={() => {
               navigator.clipboard.writeText(goalLink);
               showToastSuccess("Link copied");
+              handleCopiedGoalLinkEvent(props.id, chain?.id);
             }}
           >
             Copy
