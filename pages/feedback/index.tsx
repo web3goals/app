@@ -24,12 +24,12 @@ export default function Feedback() {
   // Form states
   const [formValues, setFormValues] = useState({
     name: "",
-    email: "",
+    contact: "",
     message: "",
   });
   const formValidationSchema = yup.object({
     name: yup.string(),
-    email: yup.string().required(),
+    contact: yup.string().required(),
     message: yup.string().required(),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
@@ -39,7 +39,7 @@ export default function Feedback() {
     try {
       setIsFormSubmitting(true);
       await submitForm(FORMS.type.feedback, values, address);
-      showToastSuccess("Thanks for the feedback! We'll get back soon");
+      showToastSuccess("Thanks for feedback! We'll get back soon");
       actions?.resetForm();
     } catch (error: any) {
       handleError(error, true);
@@ -61,8 +61,8 @@ export default function Feedback() {
           ✍️ Feedback
         </Typography>
         {/* Description */}
-        <Typography textAlign="center" sx={{ mb: 2 }}>
-          Do you have a question or suggestion?
+        <Typography textAlign="center">
+          Do you have a question or suggestion? Fill the form
         </Typography>
         {/* Form */}
         <Formik
@@ -74,7 +74,7 @@ export default function Feedback() {
             <Form style={{ width: "100%" }}>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
               {/* Name */}
-              <Box sx={{ mb: 2 }}>
+              <Box mt={4}>
                 <TextField
                   fullWidth
                   id="name"
@@ -89,24 +89,24 @@ export default function Feedback() {
                   disabled={isFormDisabled}
                 />
               </Box>
-              {/* Email */}
-              <Box sx={{ mb: 2 }}>
+              {/* Contact */}
+              <Box mt={2}>
                 <TextField
                   fullWidth
-                  id="email"
-                  name="email"
-                  label="Your email *"
+                  id="contact"
+                  name="contact"
+                  label="Your email, twitter, lens, telegram *"
                   placeholder="alice@web3goals.space"
                   type="string"
-                  value={values.email}
+                  value={values.contact}
                   onChange={handleChange}
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
+                  error={touched.contact && Boolean(errors.contact)}
+                  helperText={touched.contact && errors.contact}
                   disabled={isFormDisabled}
                 />
               </Box>
               {/* Message */}
-              <Box sx={{ mb: 2 }}>
+              <Box mt={2}>
                 <TextField
                   fullWidth
                   id="message"
@@ -125,11 +125,10 @@ export default function Feedback() {
               </Box>
               {/* Submit button */}
               <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                mt={2}
               >
                 <XxlLoadingButton
                   loading={isFormSubmitting}
@@ -144,13 +143,14 @@ export default function Feedback() {
           )}
         </Formik>
         {/* Message with email */}
-        <Typography textAlign="center" sx={{ mt: 6, mb: 2 }}>
+        <Typography textAlign="center" mt={6}>
           📩 Or write to us
         </Typography>
         <MuiLink
           href={`mailto:${CONTACTS.email}`}
           target="_blank"
           fontWeight={700}
+          mt={2}
         >
           {CONTACTS.email}
         </MuiLink>
