@@ -198,7 +198,7 @@ export default function Landing() {
                 variant="h6"
                 fontWeight={700}
               >
-                Accept motivators who motivate
+                Share the link
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
@@ -206,13 +206,13 @@ export default function Landing() {
                   sx={{ borderColor: "purpleLight" }}
                   variant="outlined"
                 >
-                  <Typography fontSize={32}>✨</Typography>
+                  <Typography fontSize={32}>🔗</Typography>
                 </LandingTimelineDot>
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
               <TimelineContent sx={{ py: "48px", px: 2 }}>
                 <Typography color={grey[600]} gutterBottom>
-                  your goal is great, hope you can do it!
+                  friends, who wants to be my motivator?
                 </Typography>
               </TimelineContent>
             </TimelineItem>
@@ -224,7 +224,33 @@ export default function Landing() {
                 variant="h6"
                 fontWeight={700}
               >
-                Achieve the goal and attach the proof
+                Accept motivators who inspire
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineConnector sx={{ height: 12 }} />
+                <LandingTimelineDot
+                  sx={{ borderColor: "yellow" }}
+                  variant="outlined"
+                >
+                  <Typography fontSize={32}>✨</Typography>
+                </LandingTimelineDot>
+                <TimelineConnector sx={{ height: 12 }} />
+              </TimelineSeparator>
+              <TimelineContent sx={{ py: "48px", px: 2 }}>
+                <Typography color={grey[600]} gutterBottom>
+                  alice, your goal is great, hope you can do it!
+                </Typography>
+              </TimelineContent>
+            </TimelineItem>
+            {/* Step five */}
+            <TimelineItem>
+              <TimelineOppositeContent
+                sx={{ m: "auto 0" }}
+                align="right"
+                variant="h6"
+                fontWeight={700}
+              >
+                Achieve the goal, attach a proof, earn a reputation
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
@@ -237,12 +263,12 @@ export default function Landing() {
                 <TimelineConnector sx={{ height: 12 }} />
               </TimelineSeparator>
               <TimelineContent sx={{ py: "48px", px: 2 }}>
-                <Typography color={grey[600]}>
-                  friends, look, I did it!
-                </Typography>
+                <Typography color={grey[600]}>photo</Typography>
+                <Typography color={grey[500]}>document</Typography>
+                <Typography color={grey[400]}>video</Typography>
               </TimelineContent>
             </TimelineItem>
-            {/* Step five */}
+            {/* Step six */}
             <TimelineItem>
               <TimelineOppositeContent
                 sx={{ m: "auto 0" }}
@@ -250,7 +276,8 @@ export default function Landing() {
                 variant="h6"
                 fontWeight={700}
               >
-                Or your stake will be shared between motivators
+                Or your stake will be shared between motivators and reputation
+                will be lost
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineConnector sx={{ height: 12 }} />
