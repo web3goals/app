@@ -257,7 +257,6 @@ export default function GoalSetForm(props: {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                mb: 4,
               }}
             >
               <XxlLoadingButton
@@ -269,11 +268,13 @@ export default function GoalSetForm(props: {
                 Set Goal
               </XxlLoadingButton>
             </Box>
-            <WidgetSeparatorText color={grey[600]}>
-              you need to have a{" "}
-              <MuiLink href={`/accounts/${address}`}>profile</MuiLink> to set a
-              goal
-            </WidgetSeparatorText>
+            {address && (
+              <WidgetSeparatorText color={grey[600]} mt={4}>
+                🔮 you need to have a{" "}
+                <MuiLink href={`/accounts/${address}`}>profile</MuiLink> to set
+                a goal
+              </WidgetSeparatorText>
+            )}
           </Form>
         )}
       </Formik>
