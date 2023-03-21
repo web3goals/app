@@ -17,6 +17,7 @@ import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
+import { Analytics } from "utils/analytics";
 import { getChainId, getGoalContractAddress } from "utils/chains";
 import {
   useContractWrite,
@@ -124,6 +125,7 @@ export default function GoalBecomeMotivatorDialog(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Your message is posted and will appear soon");
+      Analytics.postedMotivationalMessage(props.id, chain?.id);
       props.onSuccess?.();
       close();
     }

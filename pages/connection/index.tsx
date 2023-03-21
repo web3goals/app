@@ -9,6 +9,7 @@ import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
 import useToasts from "hooks/useToast";
 import { useState } from "react";
+import { Analytics } from "utils/analytics";
 import { useAccount } from "wagmi";
 import * as yup from "yup";
 
@@ -38,6 +39,7 @@ export default function Connection() {
       setIsFormSubmitting(true);
       await submitForm(FORMS.type.connection, values, address);
       showToastSuccess("Thanks for connection!");
+      Analytics.postedContacts();
       actions?.resetForm();
     } catch (error: any) {
       handleError(error, true);

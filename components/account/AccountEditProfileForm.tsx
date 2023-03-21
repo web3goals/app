@@ -13,6 +13,7 @@ import useToasts from "hooks/useToast";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
+import { Analytics } from "utils/analytics";
 import { emojiAvatarForAddress } from "utils/avatars";
 import { getProfileContractAddress, getChainId } from "utils/chains";
 import { ipfsUriToHttpUri } from "utils/converters";
@@ -167,6 +168,11 @@ export default function AccountEditProfileForm(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Changes saved, account will be updated soon");
+      if (props.profileData) {
+        Analytics.editedProfile(chain?.id);
+      } else {
+        Analytics.createdProfile(chain?.id);
+      }
       router.push(`/accounts/${address}`);
     }
   }, [isTransactionSuccess]);

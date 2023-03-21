@@ -4,7 +4,8 @@ export const POST_HOG_EVENT = {
   connectedAccount: "connected account",
   setGoal: "set goal",
   copiedGoalLink: "copied goal link",
-  clickedShareGoalToSocial: "clicked share goal to social",
+  clickedShareGoalToTwitter: "clicked share goal to twitter",
+  clickedShareGoalToTelegram: "clicked share goal to telegram",
   postedMessage: "posted message",
   addedProof: "added proof",
   postedMotivationalMessage: "posted motivational message",
@@ -24,5 +25,5 @@ export const POST_HOG_PROPERTY = {
   chain: "chain",
   account: "account",
   goal: "goal",
-  link: "link",
+  isGoalAchieved: "is goal achieved",
 };

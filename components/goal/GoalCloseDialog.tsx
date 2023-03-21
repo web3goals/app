@@ -10,6 +10,7 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
+import { Analytics } from "utils/analytics";
 import { getChainId, getGoalContractAddress } from "utils/chains";
 import { dateToBigNumberTimestamp } from "utils/converters";
 import {
@@ -140,6 +141,7 @@ function GoalVerifyForm(props: {
       showToastSuccess(
         "The verification will be completed soon, try to close the goal later"
       );
+      Analytics.verifiedGoal(props.id, chain?.id);
       props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
@@ -206,6 +208,11 @@ function GoalCloseForm(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Goal is closed!");
+      Analytics.closedGoal(
+        props.id,
+        props.isVerificationStatusAchieved,
+        chain?.id
+      );
       props.onSuccess?.();
     }
   }, [isTransactionSuccess]);

@@ -54,11 +54,7 @@ export default function GoalShareActions(props: {
             color="primary"
             sx={{ border: 4, p: 3 }}
             onClick={() =>
-              Analytics.clickedShareGoalToSocial(
-                props.id,
-                twitterLink,
-                chain?.id
-              )
+              Analytics.clickedShareGoalToTwitter(props.id, chain?.id)
             }
           >
             <Twitter sx={{ fontSize: 36 }} />
@@ -69,11 +65,7 @@ export default function GoalShareActions(props: {
             color="primary"
             sx={{ border: 4, p: 3 }}
             onClick={() =>
-              Analytics.clickedShareGoalToSocial(
-                props.id,
-                telegramLink,
-                chain?.id
-              )
+              Analytics.clickedShareGoalToTelegram(props.id, chain?.id)
             }
           >
             <Telegram sx={{ fontSize: 36 }} />

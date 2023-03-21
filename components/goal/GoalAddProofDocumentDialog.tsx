@@ -21,6 +21,7 @@ import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { palette } from "theme/palette";
+import { Analytics } from "utils/analytics";
 import { getChainId, getGoalContractAddress } from "utils/chains";
 import {
   useContractWrite,
@@ -190,6 +191,7 @@ export default function GoalAddProofDocumentDialog(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Proof is added and will appear soon");
+      Analytics.addedProof(props.id, chain?.id);
       props.onSuccess?.();
       close();
     }

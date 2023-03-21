@@ -4,6 +4,7 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
+import { Analytics } from "utils/analytics";
 import { getChainId, getGoalContractAddress } from "utils/chains";
 import { stringToAddress } from "utils/converters";
 import {
@@ -66,6 +67,7 @@ export default function GoalAcceptMotivatorDialog(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Motivator is accepted");
+      Analytics.acceptedMotivator(props.id, chain?.id);
       close();
       props.onSuccess?.();
     }

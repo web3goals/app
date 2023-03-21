@@ -16,6 +16,7 @@ import { CONTACTS } from "constants/contacts";
 import { DialogContext } from "context/dialog";
 import { useContext, useState } from "react";
 import { useCookies } from "react-cookie";
+import { Analytics } from "utils/analytics";
 
 /**
  * Component with a footer.
@@ -63,6 +64,7 @@ function FloatingActionButton() {
       }}
       onClick={() => {
         showDialog?.(<EarlyAdoptersClubDialog onClose={closeDialog} />);
+        Analytics.openedEarlyAdoptersClub();
       }}
     >
       🧑‍🚀 Early Adopters Club

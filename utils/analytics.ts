@@ -69,17 +69,110 @@ export namespace Analytics {
     }
   }
 
-  export function clickedShareGoalToSocial(
-    goalId: any,
-    link: any,
-    chainId: any
-  ) {
+  export function clickedShareGoalToTwitter(goalId: any, chainId: any) {
     if (isEnabled()) {
-      posthog.capture(POST_HOG_EVENT.clickedShareGoalToSocial, {
+      posthog.capture(POST_HOG_EVENT.clickedShareGoalToTwitter, {
         [POST_HOG_PROPERTY.goal]: goalId,
-        [POST_HOG_PROPERTY.link]: link,
         [POST_HOG_PROPERTY.chain]: chainId,
       });
+    }
+  }
+
+  export function clickedShareGoalToTelegram(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.clickedShareGoalToTelegram, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function postedMessage(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.postedMessage, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function addedProof(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.addedProof, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function postedMotivationalMessage(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.postedMotivationalMessage, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function acceptedMotivator(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.acceptedMotivator, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function verifiedGoal(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.verifiedGoal, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function closedGoal(goalId: any, isGoalAchieved: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.closedGoal, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.isGoalAchieved]: isGoalAchieved,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function createdProfile(chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.createdProfile, {
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function editedProfile(chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.editedProfile, {
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
+  export function postedFeedback() {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.postedFeedback, {});
+    }
+  }
+
+  export function postedContacts() {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.postedContacts, {});
+    }
+  }
+
+  export function openedEarlyAdoptersClub() {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.openedEarlyAdoptersClub, {});
     }
   }
 }
