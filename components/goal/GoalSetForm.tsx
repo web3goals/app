@@ -25,7 +25,7 @@ import useDebounce from "hooks/useDebounce";
 import useToasts from "hooks/useToast";
 import { useState } from "react";
 import { palette } from "theme/palette";
-import { handleSetGoalEvent } from "utils/analytics";
+import { Analytics } from "utils/analytics";
 import {
   getChainId,
   getChainNativeCurrencySymbol,
@@ -137,7 +137,7 @@ export default function GoalSetForm(props: {
     eventName: "Transfer",
     listener(from, to, tokenId) {
       if (from === ethers.constants.AddressZero && to === address) {
-        handleSetGoalEvent(tokenId.toString(), chain?.id);
+        Analytics.setGoal(tokenId.toString(), chain?.id);
         props.onSuccessSet(tokenId.toString());
       }
     },

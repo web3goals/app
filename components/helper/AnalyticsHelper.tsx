@@ -1,8 +1,5 @@
 import { useEffect } from "react";
-import {
-  handleConnectedAccountEvent,
-  handleDefineAccountAddressEvent,
-} from "utils/analytics";
+import { Analytics } from "utils/analytics";
 import { useAccount } from "wagmi";
 
 /**
@@ -13,13 +10,13 @@ export default function AnalyticsHelper() {
 
   useEffect(() => {
     if (address) {
-      handleDefineAccountAddressEvent(address);
+      Analytics.identifyAccountAddress(address);
     }
   }, [address]);
 
   useEffect(() => {
     if (isConnected) {
-      handleConnectedAccountEvent(address);
+      Analytics.connectedAccount(address);
     }
   }, [isConnected]);
 

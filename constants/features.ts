@@ -1,1 +1,1 @@
-export const IS_LOCALHOST_ANALYTICS_ENABLED = true; // TODO: Make false
+export const IS_LOCALHOST_ANALYTICS_ENABLED = false;

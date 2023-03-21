@@ -19,7 +19,7 @@ import { SnackbarProvider } from "notistack";
 import { useEffect, useState } from "react";
 import { CookiesProvider } from "react-cookie";
 import { theme } from "theme";
-import { handlePageViewEvent, initAnalytics } from "utils/analytics";
+import { Analytics } from "utils/analytics";
 import { getSupportedChains } from "utils/chains";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -70,7 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
    * Init analytics.
    */
   useEffect(() => {
-    initAnalytics();
+    Analytics.init();
   }, []);
 
   /**
@@ -78,7 +78,7 @@ export default function App({ Component, pageProps }: AppProps) {
    */
   useEffect(() => {
     const handleRouteChange = function () {
-      handlePageViewEvent();
+      Analytics.pageView();
     };
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {

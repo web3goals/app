@@ -1,4 +1,4 @@
-import { handleCatchErrorEvent } from "utils/analytics";
+import { Analytics } from "utils/analytics";
 import { useNetwork } from "wagmi";
 import useToast from "./useToast";
 
@@ -11,7 +11,7 @@ export default function useError() {
 
   let handleError = function (error: Error, isErrorToastRequired: boolean) {
     console.error(error);
-    handleCatchErrorEvent(error, chain?.id);
+    Analytics.caughtError(error, chain?.id);
     if (isErrorToastRequired) {
       showToastError(error);
     }

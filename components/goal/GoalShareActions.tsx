@@ -10,10 +10,7 @@ import { Stack } from "@mui/system";
 import { XlLoadingButton } from "components/styled";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
-import {
-  handleClickedShareGoalToSocialEvent,
-  handleCopiedGoalLinkEvent,
-} from "utils/analytics";
+import { Analytics } from "utils/analytics";
 import { useNetwork } from "wagmi";
 
 /**
@@ -57,7 +54,7 @@ export default function GoalShareActions(props: {
             color="primary"
             sx={{ border: 4, p: 3 }}
             onClick={() =>
-              handleClickedShareGoalToSocialEvent(
+              Analytics.clickedShareGoalToSocial(
                 props.id,
                 twitterLink,
                 chain?.id
@@ -72,7 +69,7 @@ export default function GoalShareActions(props: {
             color="primary"
             sx={{ border: 4, p: 3 }}
             onClick={() =>
-              handleClickedShareGoalToSocialEvent(
+              Analytics.clickedShareGoalToSocial(
                 props.id,
                 telegramLink,
                 chain?.id
@@ -115,7 +112,7 @@ export default function GoalShareActions(props: {
             onClick={() => {
               navigator.clipboard.writeText(goalLink);
               showToastSuccess("Link copied");
-              handleCopiedGoalLinkEvent(props.id, chain?.id);
+              Analytics.copiedGoalLink(props.id, chain?.id);
             }}
           >
             Copy
