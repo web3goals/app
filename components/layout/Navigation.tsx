@@ -18,6 +18,7 @@ import { Logo } from "graphics";
 import Link from "next/link";
 import packageJson from "package.json";
 import { useState } from "react";
+import isDev from "utils/environment";
 import { useAccount } from "wagmi";
 
 /**
@@ -64,7 +65,7 @@ export default function Navigation() {
               variant="body2"
               sx={{ ml: { md: 1 } }}
             >
-              {packageJson.version}-dev
+              {packageJson.version}-{isDev() ? "dev" : "beta"}
             </Typography>
           </Box>
           {/* Set goal button */}
