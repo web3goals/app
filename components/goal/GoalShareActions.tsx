@@ -14,7 +14,11 @@ import Link from "next/link";
 /**
  * A component with buttons to share a goal.
  */
-export default function GoalShareActions(props: { id: string; sx?: SxProps }) {
+export default function GoalShareActions(props: {
+  id: string;
+  text?: string;
+  sx?: SxProps;
+}) {
   const { showToastSuccess } = useToasts();
   const goalLink = `${global.window.location.origin}/goals/${props.id}`;
 
@@ -30,14 +34,14 @@ export default function GoalShareActions(props: { id: string; sx?: SxProps }) {
         }}
       >
         <Typography variant="h6" textAlign="center">
-          🗣️ Share this goal with your friends and followers
+          {props.text || "🗣️ Share the goal with your friends and followers"}
         </Typography>
         {/* Buttons to share via social networks */}
         <Stack
           direction="row"
           spacing={2}
           justifyContent="center"
-          sx={{ mt: 2 }}
+          sx={{ mt: 4 }}
         >
           <IconButton
             href={`https://twitter.com/intent/tweet?url=${goalLink}`}
@@ -69,7 +73,7 @@ export default function GoalShareActions(props: { id: string; sx?: SxProps }) {
             borderRadius: 5,
             px: { xs: 1, md: 2 },
             py: { xs: 2, md: 1 },
-            mt: 2,
+            mt: 4,
           }}
         >
           <Link href={goalLink} legacyBehavior passHref>

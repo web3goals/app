@@ -12,7 +12,11 @@ export default function GoalSetMessage(props: { id: string }) {
         🤟 Congrats, you set a goal!
       </Typography>
       <ThickDivider sx={{ mt: 5 }} />
-      <GoalShareActions id={props.id} sx={{ mt: 6 }} />
+      <GoalShareActions
+        id={props.id}
+        text="🗣️ Share the link with your friends and followers, they may want to be your motivators"
+        sx={{ mt: 6 }}
+      />
     </CentralizedBox>
   );
 }

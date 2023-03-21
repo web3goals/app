@@ -60,7 +60,7 @@ export default function GoalSetForm(props: {
     "✈️ Go to Spain with family...",
     "✨ Reach 1,000 followers on…",
     "🎸 Go to the festival…",
-    "🏆 Win the championship",
+    "🏆 Win the championship…",
     "🏔️ Conquer the peak of…",
     "👟 Run a half marathon…",
     "👨‍💼 Find a job as…",
