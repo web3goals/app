@@ -90,7 +90,7 @@ export default function GoalAcceptMotivatorDialog(props: {
           🙏 Accepting
         </Typography>
         <WidgetSeparatorText mb={3}>
-          the motivator who motivates you
+          the motivator who inspire you
         </WidgetSeparatorText>
         <XxlLoadingButton
           variant="contained"

@@ -44,7 +44,7 @@ export default function GoalPostMessageDialog(props: {
 
   // Form states
   const [formValues, setFormValues] = useState({
-    message: "How's it going...",
+    message: "How's it going…",
   });
   const formValidationSchema = yup.object({
     message: yup.string().required(),

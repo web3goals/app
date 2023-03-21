@@ -227,7 +227,7 @@ export default function GoalAddProofDocumentDialog(props: {
                 <WidgetInputTextField
                   id="description"
                   name="description"
-                  placeholder="Photo from..."
+                  placeholder="Photo from…"
                   value={values.description}
                   onChange={handleChange}
                   error={touched.description && Boolean(errors.description)}

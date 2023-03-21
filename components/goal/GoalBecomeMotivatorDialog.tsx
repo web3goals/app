@@ -45,7 +45,7 @@ export default function GoalBecomeMotivatorDialog(props: {
 
   // Form states
   const [formValues, setFormValues] = useState({
-    message: "Your goal is great...",
+    message: "Your goal is great…",
   });
   const formValidationSchema = yup.object({
     message: yup.string().required(),

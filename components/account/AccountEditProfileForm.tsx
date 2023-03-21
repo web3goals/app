@@ -240,7 +240,7 @@ export default function AccountEditProfileForm(props: {
             id="about"
             name="about"
             label="About"
-            placeholder="crypto enthusiast..."
+            placeholder="crypto enthusiast…"
             multiline={true}
             rows={3}
             value={values.about}

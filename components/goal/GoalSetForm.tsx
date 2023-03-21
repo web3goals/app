@@ -57,7 +57,7 @@ export default function GoalSetForm(props: {
 
   const goalExamples = [
     "⌨️ Code every day for 14 days…",
-    "✈️ Go to Spain with family...",
+    "✈️ Go to Spain with family…",
     "✨ Reach 1,000 followers on…",
     "🎸 Go to the festival…",
     "🏆 Win the championship…",
@@ -180,7 +180,7 @@ export default function GoalSetForm(props: {
                     {...params}
                     id="description"
                     name="description"
-                    placeholder="Train every week..."
+                    placeholder="Train every week…"
                     error={touched.description && Boolean(errors.description)}
                     helperText={touched.description && errors.description}
                     multiline
