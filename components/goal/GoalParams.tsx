@@ -1,4 +1,4 @@
-import { Stack, SxProps, Typography, Link as MuiLink } from "@mui/material";
+import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import {
   WidgetBox,
@@ -10,7 +10,6 @@ import {
 } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
-import Link from "next/link";
 import { useContext } from "react";
 import { palette } from "theme/palette";
 import { getChainNativeCurrencySymbol } from "utils/chains";
@@ -20,6 +19,7 @@ import {
 } from "utils/converters";
 import { useNetwork } from "wagmi";
 import GoalShareDialog from "./GoalShareDialog";
+import GoalStakeSharingTooltip from "./GoalStakeSharingTooltip";
 
 /**
  * A component with goal parameters.
@@ -96,12 +96,38 @@ export default function GoalParams(props: {
       <WidgetSeparatorText mt={3}>
         {props.isClosed ? (
           props.isAchieved ? (
-            "was be returned to the author of this goal"
+            <>was returned to the author of this goal</>
           ) : (
-            <>will be shared between accepted motivators and this application</>
+            <>
+              was{" "}
+              <GoalStakeSharingTooltip>
+                <Typography
+                  component="span"
+                  color="primary.main"
+                  fontWeight={700}
+                  sx={{ cursor: "help" }}
+                >
+                  shared
+                </Typography>
+              </GoalStakeSharingTooltip>{" "}
+              between accepted motivators and this application
+            </>
           )
         ) : (
-          <>will be shared between accepted motivators and this application</>
+          <>
+            will be{" "}
+            <GoalStakeSharingTooltip>
+              <Typography
+                component="span"
+                color="primary.main"
+                fontWeight={700}
+                sx={{ cursor: "help" }}
+              >
+                shared
+              </Typography>
+            </GoalStakeSharingTooltip>{" "}
+            between accepted motivators and this application
+          </>
         )}
       </WidgetSeparatorText>
       {/* Share button */}

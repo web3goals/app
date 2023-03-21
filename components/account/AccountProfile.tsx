@@ -208,7 +208,7 @@ export default function AccountProfile(props: { address: string }) {
                   <Typography
                     fontWeight={700}
                     color={palette.green}
-                    sx={{ mr: 1.5 }}
+                    sx={{ mr: 1.5, cursor: "help" }}
                   >
                     ✅ {accountData.achievedGoals}
                   </Typography>
@@ -217,7 +217,7 @@ export default function AccountProfile(props: { address: string }) {
                   <Typography
                     fontWeight={700}
                     color={palette.red}
-                    sx={{ mr: 1.5 }}
+                    sx={{ mr: 1.5, cursor: "help" }}
                   >
                     ❌ {accountData.failedGoals}
                   </Typography>
@@ -226,13 +226,17 @@ export default function AccountProfile(props: { address: string }) {
                   <Typography
                     fontWeight={700}
                     color={palette.yellow}
-                    sx={{ mr: 1.5 }}
+                    sx={{ mr: 1.5, cursor: "help" }}
                   >
                     ✨ {accountData.motivatedGoals}
                   </Typography>
                 </Tooltip>
                 <Tooltip title="Goals motivated by the account unsuccessfully">
-                  <Typography fontWeight={700} color={palette.red}>
+                  <Typography
+                    fontWeight={700}
+                    color={palette.red}
+                    sx={{ cursor: "help" }}
+                  >
                     💔 {accountData.notMotivatedGoals}
                   </Typography>
                 </Tooltip>

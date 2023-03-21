@@ -43,6 +43,7 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import * as yup from "yup";
+import GoalStakeSharingTooltip from "./GoalStakeSharingTooltip";
 
 /**
  * A component with form to set a goal.
@@ -237,8 +238,18 @@ export default function GoalSetForm(props: {
               />
             </WidgetBox>
             <WidgetSeparatorText mb={4}>
-              otherwise the stake will be shared between motivators and
-              application
+              otherwise the stake will be{" "}
+              <GoalStakeSharingTooltip>
+                <Typography
+                  component="span"
+                  color="primary.main"
+                  fontWeight={700}
+                  sx={{ cursor: "help" }}
+                >
+                  shared
+                </Typography>
+              </GoalStakeSharingTooltip>{" "}
+              between motivators and application
             </WidgetSeparatorText>
             {/* Submit button */}
             <Box
