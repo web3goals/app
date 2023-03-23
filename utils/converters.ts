@@ -81,10 +81,11 @@ export function errorToPrettyError(error: any): {
     message = "You are not the goal's author";
   }
   if (message === "NotAuthorNotAcceptedMotivator()") {
-    message = "You are not the goal's author or a motivator";
+    message = "You are not the goal's author or an accepted motivator";
   }
   if (message === "ProfileNotExists()") {
-    message = "You need to have a profile to set a goal";
+    message = "First you need to create a profile on your account page ";
+    severity = "info";
   }
   if (message === "StakeInvalid()") {
     message = "Stake is invalid";
