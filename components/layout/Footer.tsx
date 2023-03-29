@@ -134,8 +134,9 @@ function EarlyAdoptersClubDialog(props: {
           around them ✨
         </Typography>
         <Typography mt={2}>
-          The first step toward that goal is this app, which is in beta. That
-          means you can do anything you want 😅
+          The first step toward that mission is this app, which is in beta. This
+          means you can do whatever you want: set and close goals, post
+          messages, become motivators...
         </Typography>
         <Typography mt={2}>
           Just share with us, your opinion on the idea and features of the
@@ -158,7 +159,8 @@ function EarlyAdoptersClubDialog(props: {
           .
         </Typography>
         <Typography fontWeight={700} mt={2}>
-          May the force be with you!
+          Shhh... 🤫 Every person who creates a profile will receive an Early
+          Adopter NFT, which will provide some benefits after release.
         </Typography>
       </DialogContent>
     </Dialog>
