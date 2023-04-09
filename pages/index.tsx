@@ -1,4 +1,10 @@
-import { Container, Stack, SxProps, Typography } from "@mui/material";
+import {
+  Container,
+  Stack,
+  SxProps,
+  Typography,
+  Link as MuiLink,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import GoalList from "components/goal/GoalList";
 import Layout from "components/layout";
@@ -19,6 +25,7 @@ export default function Landing() {
       />
       <HowItWorks sx={{ mt: { xs: 6, md: 12 } }} />
       <Goals sx={{ mt: 8 }} />
+      <Faq sx={{ mt: 8, mb: 6 }} />
     </Layout>
   );
 }
@@ -182,6 +189,130 @@ function Goals(props: { sx?: SxProps }) {
       <XxlLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
         Explore All
       </XxlLoadingButton>
+    </Container>
+  );
+}
+
+function Faq(props: { sx?: SxProps }) {
+  return (
+    <Container
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        ...props.sx,
+      }}
+    >
+      <ThickDivider />
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        textAlign="center"
+        sx={{ mt: 8 }}
+      >
+        👌 Frequently asked questions
+      </Typography>
+      <Typography color="text.secondary" textAlign="center" mt={1}>
+        or what to do if I'm confused.
+      </Typography>
+      {/* Question 1 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        What do I need to set a goal?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        Crypto wallet and the desire to achieve something important. For the
+        beta, you can use{" "}
+        <MuiLink href="https://metamask.io/" target="_blank">
+          MetaMask
+        </MuiLink>{" "}
+        wallet and get free tokens for Polygon Mumbai chain on{" "}
+        <MuiLink href="https://mumbaifaucet.com/" target="_blank">
+          this site
+        </MuiLink>
+        .
+      </Typography>
+      {/* Question 2 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        What if I achieved my goal?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        Then you need to post a proof (image, video or any other file), after
+        that your stake will be returned and your reputation will be increased.
+      </Typography>
+      {/* Question 3 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        What if I didn't achieve my goal?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        Then your reputation will be decreased and all staked tokens will be
+        shared between accepted motivators and this application.
+      </Typography>
+      {/* Question 4 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        Who is an accepted motivator?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        This is a person who sent an inspiring message for you on the goal page,
+        and you accepted it.
+      </Typography>
+      {/* Question 5 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        Which chains are supported?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        Polygon Mumbai while the application is in beta.
+      </Typography>
+      {/* Question 6 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        When is the release?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        When all your <MuiLink href="/feedback">feedback</MuiLink> is heard and
+        this application becomes the perfect space for our goals.
+      </Typography>
+      {/* Question 7 */}
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        What if I have another question?
+      </Typography>
+      <Typography
+        textAlign="center"
+        color="text.secondary"
+        maxWidth={580}
+        mt={0.5}
+      >
+        <MuiLink href="/feedback">Ask us</MuiLink>, we'll be glad to help you ❤️
+      </Typography>
     </Container>
   );
 }
