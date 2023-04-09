@@ -1,11 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  Link as MuiLink,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Autocomplete, MenuItem, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
@@ -22,7 +15,6 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
-import useToasts from "hooks/useToast";
 import { useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
@@ -33,6 +25,7 @@ import {
 } from "utils/chains";
 import {
   dateStringToBigNumberTimestamp,
+  errorToPrettyError,
   numberToBigNumberEthers,
 } from "utils/converters";
 import {
@@ -44,7 +37,6 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import * as yup from "yup";
-import GoalStakeSharingTooltip from "./GoalStakeSharingTooltip";
 
 /**
  * A component with form to set a goal.
@@ -54,7 +46,6 @@ export default function GoalSetForm(props: {
 }) {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { showToastError } = useToasts();
 
   const goalExamples = [
     "⌨️ Code every day for 14 days…",
@@ -74,10 +65,10 @@ export default function GoalSetForm(props: {
     "🧘 Meditate for 30 days…",
   ];
 
-  // Form states
+  // Form value states
   const [formValues, setFormValues] = useState({
     description: "",
-    stake: 0.01,
+    stake: 0.05,
     stakeCurrency: "native",
     deadline: "2023-06-01",
     verificationRequirement: VERIFICATION_REQUIREMENTS.anyProofUri,
@@ -92,27 +83,27 @@ export default function GoalSetForm(props: {
   const debouncedFormValues = useDebounce(formValues);
 
   // Contract states
-  const { config: contractPrepareConfig, isError: isContractPrepareError } =
-    usePrepareContractWrite({
-      address: getGoalContractAddress(chain),
-      abi: goalContractAbi,
-      functionName: "set",
-      args: [
-        debouncedFormValues.description,
-        numberToBigNumberEthers(debouncedFormValues.stake),
-        dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
-        debouncedFormValues.verificationRequirement,
-        [],
-        [],
-      ],
-      overrides: {
-        value: numberToBigNumberEthers(debouncedFormValues.stake),
-      },
-      chainId: getChainId(chain),
-      onError(error: any) {
-        showToastError(error);
-      },
-    });
+  const {
+    config: contractPrepareConfig,
+    isError: isContractPrepareError,
+    error: contractPrepareError,
+  } = usePrepareContractWrite({
+    address: getGoalContractAddress(chain),
+    abi: goalContractAbi,
+    functionName: "set",
+    args: [
+      debouncedFormValues.description,
+      numberToBigNumberEthers(debouncedFormValues.stake),
+      dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
+      debouncedFormValues.verificationRequirement,
+      [],
+      [],
+    ],
+    overrides: {
+      value: numberToBigNumberEthers(debouncedFormValues.stake),
+    },
+    chainId: getChainId(chain),
+  });
   const {
     data: contractWriteData,
     isLoading: isContractWriteLoading,
@@ -123,10 +114,9 @@ export default function GoalSetForm(props: {
       hash: contractWriteData?.hash,
     });
 
+  // Form states
   const isFormLoading = isContractWriteLoading || isTransactionLoading;
   const isFormDisabled = isFormLoading || isTransactionSuccess;
-  const isFormSubmitButtonDisabled =
-    isFormDisabled || isContractPrepareError || !contractWrite;
 
   /**
    * Listen contract events to get id of set goal.
@@ -145,7 +135,7 @@ export default function GoalSetForm(props: {
 
   return (
     <CentralizedBox>
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 3 }}>
+      <Typography variant="h4" fontWeight={700}>
         🤝 Dear Web3,
       </Typography>
       <Formik
@@ -154,10 +144,16 @@ export default function GoalSetForm(props: {
         onSubmit={() => contractWrite?.()}
       >
         {({ values, errors, touched, handleChange, setValues }) => (
-          <Form style={{ width: "100%" }}>
+          <Form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <FormikHelper onChange={(values: any) => setFormValues(values)} />
             {/* Description input */}
-            <WidgetBox bgcolor={palette.blue} mb={3}>
+            <WidgetBox bgcolor={palette.blue} mt={3} width={1}>
               <WidgetTitle>My goal is</WidgetTitle>
               <Autocomplete
                 onChange={(_, value: string) => {
@@ -193,9 +189,9 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            <WidgetSeparatorText mb={3}>and</WidgetSeparatorText>
+            <WidgetSeparatorText mt={2}>and</WidgetSeparatorText>
             {/* Stake input */}
-            <WidgetBox bgcolor={palette.red} mb={3}>
+            <WidgetBox bgcolor={palette.red} mt={2}>
               <WidgetTitle>I stake</WidgetTitle>
               <Stack direction="row" spacing={1} sx={{ width: 1 }}>
                 <WidgetInputTextField
@@ -223,9 +219,9 @@ export default function GoalSetForm(props: {
                 </WidgetInputSelect>
               </Stack>
             </WidgetBox>
-            <WidgetSeparatorText mb={3}>on achieving it</WidgetSeparatorText>
+            <WidgetSeparatorText mt={2}>on achieving it</WidgetSeparatorText>
             {/* Deadline input */}
-            <WidgetBox bgcolor={palette.purpleDark} mb={3}>
+            <WidgetBox bgcolor={palette.purpleDark} mt={2}>
               <WidgetTitle>By</WidgetTitle>
               <WidgetInputTextField
                 id="deadline"
@@ -239,42 +235,31 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            <WidgetSeparatorText mb={4}>
-              otherwise the stake will be{" "}
-              <GoalStakeSharingTooltip>
-                <Typography
-                  component="span"
-                  color="primary.main"
-                  fontWeight={700}
-                  sx={{ cursor: "help" }}
-                >
-                  shared
-                </Typography>
-              </GoalStakeSharingTooltip>{" "}
-              between motivators and application
+            <WidgetSeparatorText mt={2}>
+              otherwise, the stake will be shared between the people who tried
+              to motivate me in this space
             </WidgetSeparatorText>
             {/* Submit button */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
+            <XxlLoadingButton
+              loading={isFormLoading}
+              variant="contained"
+              type="submit"
+              disabled={
+                isFormDisabled || isContractPrepareError || !contractWrite
+              }
+              sx={{ mt: 3 }}
             >
-              <XxlLoadingButton
-                loading={isFormLoading}
-                variant="contained"
-                type="submit"
-                disabled={isFormSubmitButtonDisabled}
-              >
-                Set Goal
-              </XxlLoadingButton>
-            </Box>
-            {address && (
-              <WidgetSeparatorText color={grey[600]} mt={4}>
-                🔮 you need to have a{" "}
-                <MuiLink href={`/accounts/${address}`}>profile</MuiLink> to set
-                a goal
+              Submit
+            </XxlLoadingButton>
+            {/* Errors */}
+            {!chain?.id && (
+              <WidgetSeparatorText mt={3} color="red">
+                ⛔ Please connect your wallet to continue
+              </WidgetSeparatorText>
+            )}
+            {isContractPrepareError && (
+              <WidgetSeparatorText mt={3} color="red">
+                ⛔ {errorToPrettyError(contractPrepareError).message}
               </WidgetSeparatorText>
             )}
           </Form>

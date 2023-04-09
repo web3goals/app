@@ -19,7 +19,6 @@ import {
 } from "utils/converters";
 import { useNetwork } from "wagmi";
 import GoalShareDialog from "./GoalShareDialog";
-import GoalStakeSharingTooltip from "./GoalStakeSharingTooltip";
 
 /**
  * A component with goal parameters.
@@ -98,36 +97,10 @@ export default function GoalParams(props: {
           props.isAchieved ? (
             <>was returned to the author of this goal</>
           ) : (
-            <>
-              was{" "}
-              <GoalStakeSharingTooltip>
-                <Typography
-                  component="span"
-                  color="primary.main"
-                  fontWeight={700}
-                  sx={{ cursor: "help" }}
-                >
-                  shared
-                </Typography>
-              </GoalStakeSharingTooltip>{" "}
-              between accepted motivators and this application
-            </>
+            <>was shared between accepted motivators and this application</>
           )
         ) : (
-          <>
-            will be{" "}
-            <GoalStakeSharingTooltip>
-              <Typography
-                component="span"
-                color="primary.main"
-                fontWeight={700}
-                sx={{ cursor: "help" }}
-              >
-                shared
-              </Typography>
-            </GoalStakeSharingTooltip>{" "}
-            between accepted motivators and this application
-          </>
+          <>will be shared between accepted motivators and this application</>
         )}
       </WidgetSeparatorText>
       {/* Share button */}

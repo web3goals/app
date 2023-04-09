@@ -96,6 +96,7 @@ export const CardBox = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 export const WidgetBox = styled(Box)<BoxProps>(({ theme }) => ({
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -169,6 +170,7 @@ export const WidgetSeparatorText = styled(Typography)<TypographyProps>(
   ({ theme }) => ({
     fontWeight: 700,
     textAlign: "center",
+    padding: "0 18px",
   })
 );
 
