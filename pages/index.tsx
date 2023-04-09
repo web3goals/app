@@ -1,21 +1,8 @@
-import {
-  Timeline,
-  TimelineConnector,
-  TimelineContent,
-  TimelineItem,
-  TimelineOppositeContent,
-  TimelineSeparator,
-} from "@mui/lab";
-import { Container, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Container, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
-import {
-  CentralizedBox,
-  LandingTimelineDot,
-  XxlLoadingButton,
-} from "components/styled";
+import { CentralizedBox, XxlLoadingButton } from "components/styled";
 import Image from "next/image";
 
 /**
@@ -73,198 +60,101 @@ export default function Landing() {
         />
         {/* Content */}
         <Container
+          maxWidth="md"
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            maxWidth: "md",
           }}
         >
           {/* How it works */}
           <Typography
             variant="h4"
             fontWeight={700}
-            sx={{ mt: 12, mb: 3 }}
             textAlign="center"
+            mt={{ xs: 6, md: 12 }}
           >
-            How does the space work?
+            ⚡ How does the space work?
           </Typography>
-          <Timeline
-            position="alternate"
-            onResize={undefined}
-            onResizeCapture={undefined}
-            sx={{ width: 1, mt: 2 }}
-          >
-            {/* Step one */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Set a goal
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "blue" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>🏔️</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "12px", px: 2 }}>
-                <Typography color={grey[600]} gutterBottom>
-                  code every day for 100 days
-                </Typography>
-                <Typography color={grey[500]} gutterBottom>
-                  pass a Spanish test
-                </Typography>
-                <Typography color={grey[400]}>
-                  go to the Himalayas this summer
-                </Typography>
-              </TimelineContent>
-            </TimelineItem>
-            {/* Step two */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Stake funds
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "purpleDark" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>💰</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "32px", px: 2 }}>
-                <Typography color={grey[600]} gutterBottom>
-                  5 ethers
-                </Typography>
-                <Typography color={grey[500]}>100 matic</Typography>
-              </TimelineContent>
-            </TimelineItem>
-            {/* Step three */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Share the link
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "purpleLight" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>🔗</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "48px", px: 2 }}>
-                <Typography color={grey[600]} gutterBottom>
-                  friends, who wants to be my motivator?
-                </Typography>
-              </TimelineContent>
-            </TimelineItem>
-            {/* Step four */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Accept motivators who inspire
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "yellow" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>✨</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "48px", px: 2 }}>
-                <Typography color={grey[600]} gutterBottom>
-                  alice, your goal is great, hope you can do it!
-                </Typography>
-              </TimelineContent>
-            </TimelineItem>
-            {/* Step five */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Achieve the goal, attach a proof, earn a reputation
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "green" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>🎯</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "48px", px: 2 }}>
-                <Typography color={grey[600]}>photo</Typography>
-                <Typography color={grey[500]}>document</Typography>
-                <Typography color={grey[400]}>video</Typography>
-              </TimelineContent>
-            </TimelineItem>
-            {/* Step six */}
-            <TimelineItem>
-              <TimelineOppositeContent
-                sx={{ m: "auto 0" }}
-                align="right"
-                variant="h6"
-                fontWeight={700}
-              >
-                Or your stake will be shared between motivators and reputation
-                will be lost
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineConnector sx={{ height: 12 }} />
-                <LandingTimelineDot
-                  sx={{ borderColor: "red" }}
-                  variant="outlined"
-                >
-                  <Typography fontSize={32}>💸</Typography>
-                </LandingTimelineDot>
-                <TimelineConnector sx={{ height: 12 }} />
-              </TimelineSeparator>
-              <TimelineContent sx={{ py: "12px", px: 2 }}></TimelineContent>
-            </TimelineItem>
-          </Timeline>
+          <Typography color="text.secondary" textAlign="center" mt={1}>
+            Or what to do to become a more successful achiever.
+          </Typography>
+          <HowItWorksStep
+            title="Set a goal with a deadline and stake funds"
+            description="You can choose any goal that is very important to you. It can be a task for the week, or a commitment for this year."
+            image="/images/how-it-works-1.png"
+            sx={{ mt: 6 }}
+          />
+          <HowItWorksStep
+            title="Share with a link"
+            description="Tell your friends and followers about the goal. That way, they can become your motivators and send you inspiring messages."
+            image="/images/how-it-works-2.png"
+            reverse
+            sx={{ mt: 6 }}
+          />
+          <HowItWorksStep
+            title="Achieve the goal, attach a proof, and earn a reputation"
+            description="Or your staked funds will be shared between motivators, and reputation will be lost."
+            image="/images/how-it-works-3.png"
+            sx={{ mt: 6 }}
+          />
           <XxlLoadingButton
             variant="contained"
             href="/goals/set"
-            sx={{ mt: 2 }}
+            sx={{ mt: 6 }}
           >
             Set Goal
           </XxlLoadingButton>
         </Container>
       </CentralizedBox>
     </Layout>
+  );
+}
+
+function HowItWorksStep(props: {
+  title: string;
+  description: string;
+  image: string;
+  reverse?: boolean;
+  sx?: SxProps;
+}) {
+  return (
+    <Stack
+      width={1}
+      direction={{ xs: "column", md: props.reverse ? "row-reverse" : "row" }}
+      spacing={{ xs: 2, md: 8 }}
+      alignItems="center"
+      sx={{ ...props.sx }}
+    >
+      <Box width={1} flex={1}>
+        <Image
+          src={props.image}
+          alt="How it works, step one"
+          width="100"
+          height="100"
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto",
+          }}
+        />
+      </Box>
+      <Box flex={1}>
+        <Typography
+          variant="h6"
+          textAlign={{ xs: "center", md: "start" }}
+          fontWeight={700}
+        >
+          {props.title}
+        </Typography>
+        <Typography
+          textAlign={{ xs: "center", md: "start" }}
+          color="text.secondary"
+          mt={0.5}
+        >
+          {props.description}
+        </Typography>
+      </Box>
+    </Stack>
   );
 }
