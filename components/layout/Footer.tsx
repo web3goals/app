@@ -88,7 +88,7 @@ function Banner() {
         onClose={() => {
           setOpen(false);
           setCookie("web3goals_hide_banner", true, {
-            maxAge: 60 * 60,
+            maxAge: 24 * 60 * 60,
             path: "/",
           });
         }}
