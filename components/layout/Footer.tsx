@@ -42,7 +42,7 @@ export default function Footer(props: { sx?: SxProps }) {
 
 function Copyright(props: { sx?: SxProps }) {
   return (
-    <Container sx={{ maxWidth: "md", my: 4, ...props.sx }}>
+    <Container maxWidth="md" sx={{ my: 4, ...props.sx }}>
       <Typography color="text.secondary" variant="body2" textAlign="center">
         Web3 Goals — A social space that helps any person or community to
         achieve their goals! © 2023
