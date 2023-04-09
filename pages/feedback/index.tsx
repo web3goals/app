@@ -146,16 +146,15 @@ export default function Feedback() {
         </Formik>
         {/* Message with email */}
         <Typography textAlign="center" mt={6}>
-          📩 Or write to us
+          You can also email us at{" "}
+          <MuiLink href={`mailto:${CONTACTS.email}`} target="_blank">
+            {CONTACTS.email}
+          </MuiLink>{" "}
+          or send message on{" "}
+          <MuiLink href={CONTACTS.twitter} target="_blank">
+            Twitter
+          </MuiLink>
         </Typography>
-        <MuiLink
-          href={`mailto:${CONTACTS.email}`}
-          target="_blank"
-          fontWeight={700}
-          mt={2}
-        >
-          {CONTACTS.email}
-        </MuiLink>
       </CentralizedBox>
     </Layout>
   );
