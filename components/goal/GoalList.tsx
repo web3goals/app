@@ -20,6 +20,7 @@ export default function GoalList(props: {
   isClosed?: boolean;
   isAchieved?: boolean;
   motivatorAddress?: string;
+  hideLoadMoreButton?: boolean;
   sx?: SxProps;
 }) {
   const { chain } = useNetwork();
@@ -66,13 +67,13 @@ export default function GoalList(props: {
             <GoalCard key={index} goal={goal} />
           ))}
           {/* Actions */}
-          <Stack
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-            sx={{ mt: 4 }}
-          >
-            {isMoreGoalsExist && (
+          {!props.hideLoadMoreButton && isMoreGoalsExist && (
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt={4}
+            >
               <XxlLoadingButton
                 variant="outlined"
                 onClick={() => {
@@ -81,8 +82,8 @@ export default function GoalList(props: {
               >
                 Load More
               </XxlLoadingButton>
-            )}
-          </Stack>
+            </Box>
+          )}
         </Stack>
       )}
       {/* Empty list */}

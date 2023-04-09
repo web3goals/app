@@ -1,8 +1,9 @@
 import { Container, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import GoalList from "components/goal/GoalList";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
-import { XxlLoadingButton } from "components/styled";
+import { ThickDivider, XxlLoadingButton } from "components/styled";
 import Image from "next/image";
 
 /**
@@ -17,6 +18,7 @@ export default function Landing() {
         author="Karen Lamb"
       />
       <HowItWorks sx={{ mt: { xs: 6, md: 12 } }} />
+      <Goals sx={{ mt: 8 }} />
     </Layout>
   );
 }
@@ -150,5 +152,36 @@ function HowItWorksStep(props: {
         </Typography>
       </Box>
     </Stack>
+  );
+}
+
+function Goals(props: { sx?: SxProps }) {
+  return (
+    <Container
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        ...props.sx,
+      }}
+    >
+      <ThickDivider />
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        textAlign="center"
+        sx={{ mt: 8 }}
+      >
+        ✨ Space for ambitious goals
+      </Typography>
+      <Typography color="text.secondary" textAlign="center" mt={1}>
+        that inspire us and everyone around us.
+      </Typography>
+      <GoalList hideLoadMoreButton sx={{ mt: 4 }} />
+      <XxlLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
+        Explore All
+      </XxlLoadingButton>
+    </Container>
   );
 }
