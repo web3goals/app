@@ -10,6 +10,7 @@ import { Container, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Box } from "@mui/system";
 import Layout from "components/layout";
+import Quote from "components/layout/Quote";
 import {
   CentralizedBox,
   LandingTimelineDot,
@@ -66,21 +67,10 @@ export default function Landing() {
           </Box>
         </Container>
         {/* Quote */}
-        <Box
-          width={1}
-          py={{ xs: 6, md: 8 }}
-          sx={{ backgroundColor: "purpleDark" }}
-        >
-          <Container maxWidth="md" sx={{ color: "white", textAlign: "center" }}>
-            <Typography variant="h4">💬</Typography>
-            <Typography variant="h4" fontWeight={700} mt={4}>
-              “A year from now you may wish you had started today“
-            </Typography>
-            <Typography fontWeight={700} mt={4}>
-              — Karen Lamb
-            </Typography>
-          </Container>
-        </Box>
+        <Quote
+          text="A year from now you may wish you had started today"
+          author="Karen Lamb"
+        />
         {/* Content */}
         <Container
           sx={{

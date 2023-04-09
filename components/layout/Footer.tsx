@@ -11,12 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import { ThickDivider, XlLoadingButton } from "components/styled";
+import { XlLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { DialogContext } from "context/dialog";
 import { useContext, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Analytics } from "utils/analytics";
+import Quote from "./Quote";
 
 /**
  * Component with a footer.
@@ -28,9 +29,11 @@ export default function Footer(props: { sx?: SxProps }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        ...props.sx,
       }}
     >
-      <Copyright sx={{ mt: 0, mb: 4 }} />
+      <Quote />
+      <Copyright />
       <FloatingActionButton />
       <Banner />
     </Box>
@@ -39,8 +42,7 @@ export default function Footer(props: { sx?: SxProps }) {
 
 function Copyright(props: { sx?: SxProps }) {
   return (
-    <Container sx={{ maxWidth: "md", ...props.sx }}>
-      <ThickDivider sx={{ mb: 4 }} />
+    <Container sx={{ maxWidth: "md", my: 4, ...props.sx }}>
       <Typography color="text.secondary" variant="body2" textAlign="center">
         Web3 Goals — A social space that helps any person or community to
         achieve their goals! © 2023
