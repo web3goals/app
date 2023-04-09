@@ -25,9 +25,9 @@ import {
 } from "utils/chains";
 import {
   dateStringToBigNumberTimestamp,
-  errorToPrettyError,
   numberToBigNumberEthers,
 } from "utils/converters";
+import { errorToPrettyError } from "utils/errors";
 import {
   useAccount,
   useContractEvent,

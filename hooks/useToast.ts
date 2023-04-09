@@ -1,6 +1,6 @@
 import { truncate } from "lodash";
 import { useSnackbar } from "notistack";
-import { errorToPrettyError } from "utils/converters";
+import { errorToPrettyError } from "utils/errors";
 
 /**
  * Hook for work with toasts.
