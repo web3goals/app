@@ -15,96 +15,70 @@ import {
   LandingTimelineDot,
   XxlLoadingButton,
 } from "components/styled";
+import Image from "next/image";
 
 /**
  * Landing page.
  */
 export default function Landing() {
   return (
-    <Layout
-      maxWidth={false}
-      disableGutters={true}
-      hideToolbar={true}
-      sx={{ pt: 0 }}
-    >
-      <CentralizedBox sx={{ mt: 0 }}>
+    <Layout maxWidth={false} disableGutters={true} sx={{ pt: 0 }}>
+      <CentralizedBox>
         {/* Header */}
-        <Box
+        <Container
+          maxWidth="md"
           sx={{
-            backgroundImage: `url(/images/header.png)`,
-            backgroundSize: "cover",
-            minHeight: "100vh",
-            width: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mt: { xs: 4, md: 8 },
           }}
         >
-          {/* Header content */}
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              maxWidth: "md",
-              color: "#FFFFFF",
-            }}
+          <Typography variant="h1" textAlign="center">
+            A <strong>social space</strong> that helps any person or community
+            to <strong>achieve their goals!</strong>
+          </Typography>
+          <XxlLoadingButton
+            variant="contained"
+            href="/goals/set"
+            sx={{ mt: 4 }}
           >
-            <Typography
-              variant="h1"
-              fontWeight={700}
-              textAlign="center"
-              sx={{ mt: 22, mb: 4 }}
-            >
-              A social space that helps any person or community to achieve their
-              goals!
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={300}
-              textAlign="center"
-              color="rgba(255, 255, 255, 1.0);"
-              gutterBottom
-            >
-              💻 Become a more skilled developer
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={300}
-              textAlign="center"
-              color="rgba(255, 255, 255, 0.85);"
-              gutterBottom
-            >
-              🎨 Become a greater artist
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={300}
-              textAlign="center"
-              color="rgba(255, 255, 255, 0.7);"
-              gutterBottom
-            >
-              👟 Become a stronger athlete
-            </Typography>
-            <Typography
-              variant="h6"
-              fontWeight={300}
-              textAlign="center"
-              color="rgba(255, 255, 255, 0.55);"
-              gutterBottom
-            >
-              ❤️ Become a more beloved community
-            </Typography>
-            <XxlLoadingButton
-              variant="contained"
-              href="/goals/set"
-              sx={{
-                color: "primary.main",
-                background: "#FFFFFF",
-                ":hover": { background: "#FFFFFF" },
-                mt: 4,
-                mb: 12,
+            Start Achieve
+          </XxlLoadingButton>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            width={{ xs: "100%", md: "65%" }}
+            mt={{ xs: 4, md: 8 }}
+          >
+            <Image
+              src="/images/thoughts.png"
+              alt="Thoughts"
+              width="100"
+              height="100"
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
               }}
-            >
-              Start Achieve
-            </XxlLoadingButton>
+            />
+          </Box>
+        </Container>
+        {/* Quote */}
+        <Box
+          width={1}
+          py={{ xs: 6, md: 8 }}
+          sx={{ backgroundColor: "purpleDark" }}
+        >
+          <Container maxWidth="md" sx={{ color: "white", textAlign: "center" }}>
+            <Typography variant="h4">💬</Typography>
+            <Typography variant="h4" fontWeight={700} mt={4}>
+              “A year from now you may wish you had started today“
+            </Typography>
+            <Typography fontWeight={700} mt={4}>
+              — Karen Lamb
+            </Typography>
           </Container>
         </Box>
         {/* Content */}
