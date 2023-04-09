@@ -20,6 +20,7 @@ export const POST_HOG_EVENT = {
 };
 
 export const POST_HOG_PROPERTY = {
+  appVersion: "app version",
   errorMessage: "error message",
   errorStack: "error stack",
   chain: "chain",

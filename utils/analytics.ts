@@ -1,5 +1,6 @@
 import { POST_HOG_EVENT, POST_HOG_PROPERTY } from "constants/analytics";
 import { IS_LOCALHOST_ANALYTICS_ENABLED } from "constants/features";
+import packageJson from "package.json";
 import posthog from "posthog-js";
 
 export namespace Analytics {
@@ -17,6 +18,11 @@ export namespace Analytics {
       posthog.init(process.env.NEXT_PUBLIC_POST_HOG_KEY, {
         api_host: "https://app.posthog.com",
         debug: false,
+        loaded: () => {
+          posthog.register({
+            [POST_HOG_PROPERTY.appVersion]: packageJson.version,
+          });
+        },
       });
     }
   }
