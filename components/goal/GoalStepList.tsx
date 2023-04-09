@@ -27,32 +27,31 @@ export default function GoalStepList(props: {
   const [goalSteps, setGoalSteps] = useState<
     Array<GoalStepEntity> | undefined
   >();
-  const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(true);
+  const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 5;
 
-  async function loadMoreGoals(pageNumber: number) {
+  async function loadMoreGoalSteps(
+    pageNumber: number,
+    existingGoalSteps: Array<GoalStepEntity>
+  ) {
     try {
-      const loadedGoals = await findGoalSteps({
+      const loadedGoalSteps = await findGoalSteps({
         chain: chain,
         goal: props.id,
         first: pageSize,
         skip: pageNumber * pageSize,
       });
-      setGoalSteps(goalSteps ? [...goalSteps, ...loadedGoals] : loadedGoals);
+      setGoalSteps([...existingGoalSteps, ...loadedGoalSteps]);
+      setIsMoreGoalsExist(loadedGoalSteps.length === pageSize);
       setPageNumber(pageNumber);
-      if (loadedGoals.length === 0) {
-        setIsMoreGoalsExist(false);
-      }
     } catch (error: any) {
       handleError(error, true);
     }
   }
 
   useEffect(() => {
-    setGoalSteps(undefined);
-    setIsMoreGoalsExist(true);
-    loadMoreGoals(0);
+    loadMoreGoalSteps(0, []);
   }, [chain, props]);
 
   return (
@@ -82,7 +81,7 @@ export default function GoalStepList(props: {
               <XxlLoadingButton
                 variant="outlined"
                 onClick={() => {
-                  loadMoreGoals(pageNumber + 1);
+                  loadMoreGoalSteps(pageNumber + 1, goalSteps);
                 }}
               >
                 Load More

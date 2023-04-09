@@ -27,11 +27,14 @@ export default function GoalList(props: {
   const { handleError } = useError();
   const { findGoals } = useSubgraph();
   const [goals, setGoals] = useState<Array<GoalEntity> | undefined>();
-  const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(true);
+  const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 3;
 
-  async function loadMoreGoals(pageNumber: number) {
+  async function loadMoreGoals(
+    pageNumber: number,
+    existingGoals: Array<GoalEntity>
+  ) {
     try {
       const loadedGoals = await findGoals({
         chain: chain,
@@ -42,20 +45,16 @@ export default function GoalList(props: {
         first: pageSize,
         skip: pageNumber * pageSize,
       });
-      setGoals(goals ? [...goals, ...loadedGoals] : loadedGoals);
+      setGoals([...existingGoals, ...loadedGoals]);
+      setIsMoreGoalsExist(loadedGoals.length === pageSize);
       setPageNumber(pageNumber);
-      if (loadedGoals.length === 0) {
-        setIsMoreGoalsExist(false);
-      }
     } catch (error: any) {
       handleError(error, true);
     }
   }
 
   useEffect(() => {
-    setGoals(undefined);
-    setIsMoreGoalsExist(true);
-    loadMoreGoals(0);
+    loadMoreGoals(0, []);
   }, [chain, props]);
 
   return (
@@ -77,7 +76,7 @@ export default function GoalList(props: {
               <XxlLoadingButton
                 variant="outlined"
                 onClick={() => {
-                  loadMoreGoals(pageNumber + 1);
+                  loadMoreGoals(pageNumber + 1, goals);
                 }}
               >
                 Load More
