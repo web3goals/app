@@ -195,7 +195,7 @@ function Goals(props: { sx?: SxProps }) {
       <Typography color="text.secondary" textAlign="center" mt={1}>
         that inspire us and everyone around us.
       </Typography>
-      <GoalList hideLoadMoreButton sx={{ mt: 4 }} />
+      <GoalList pageSize={3} hideLoadMoreButton sx={{ mt: 4 }} />
       <XxlLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
         Explore All
       </XxlLoadingButton>

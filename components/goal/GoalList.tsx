@@ -20,6 +20,7 @@ export default function GoalList(props: {
   isClosed?: boolean;
   isAchieved?: boolean;
   motivatorAddress?: string;
+  pageSize?: number;
   hideLoadMoreButton?: boolean;
   sx?: SxProps;
 }) {
@@ -29,7 +30,7 @@ export default function GoalList(props: {
   const [goals, setGoals] = useState<Array<GoalEntity> | undefined>();
   const [isMoreGoalsExist, setIsMoreGoalsExist] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
-  const pageSize = 3;
+  const pageSize = props.pageSize || 10;
 
   async function loadMoreGoals(
     pageNumber: number,
