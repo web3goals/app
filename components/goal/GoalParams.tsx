@@ -40,11 +40,37 @@ export default function GoalParams(props: {
   return (
     <Box sx={{ width: 1, ...props.sx }}>
       {/* Id */}
-      <Typography variant="h4" fontWeight={700} textAlign="center">
-        {!props.isClosed ? "🔥" : props.isAchieved ? "✅" : "❌"} Goal #
-        {props.id}
-      </Typography>
-      <WidgetSeparatorText mt={2}>was set</WidgetSeparatorText>
+      {!props.isClosed && (
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          color="yellow"
+        >
+          🔥 Goal #{props.id}
+        </Typography>
+      )}
+      {props.isClosed && props.isAchieved && (
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          color="green"
+        >
+          ✅ Goal #{props.id}
+        </Typography>
+      )}
+      {props.isClosed && !props.isAchieved && (
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          textAlign="center"
+          color="red"
+        >
+          ❌ Goal #{props.id}
+        </Typography>
+      )}
+      <WidgetSeparatorText mt={1}>was set</WidgetSeparatorText>
       {/* Author address */}
       <WidgetBox bgcolor={palette.greyDark} mt={3}>
         <WidgetTitle>By</WidgetTitle>
