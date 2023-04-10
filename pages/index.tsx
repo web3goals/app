@@ -82,6 +82,16 @@ function HowItWorks(props: { sx?: SxProps }) {
         ...props.sx,
       }}
     >
+      <Box
+        id="how-it-works"
+        component="a"
+        sx={{
+          display: "block",
+          position: "relative",
+          top: "-98px",
+          visibility: "hidden",
+        }}
+      />
       <Typography variant="h4" fontWeight={700} textAlign="center">
         ⚡ How does the space work?
       </Typography>
@@ -204,6 +214,16 @@ function Faq(props: { sx?: SxProps }) {
         ...props.sx,
       }}
     >
+      <Box
+        id="faq"
+        component="a"
+        sx={{
+          display: "block",
+          position: "relative",
+          top: "-32px",
+          visibility: "hidden",
+        }}
+      />
       <ThickDivider />
       <Typography
         variant="h4"

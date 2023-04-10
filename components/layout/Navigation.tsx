@@ -94,7 +94,7 @@ function NavigationDesktop(props: { sx?: SxProps }) {
   return (
     <Box
       sx={{
-        display: { xs: "none", md: "flex" },
+        display: { xs: "none", lg: "flex" },
         alignItems: "center",
         ...props.sx,
       }}
@@ -112,6 +112,21 @@ function NavigationDesktop(props: { sx?: SxProps }) {
       <Link href="/goals" passHref legacyBehavior>
         <MuiLink fontWeight={700} color="inherit" ml={3.5}>
           Explore
+        </MuiLink>
+      </Link>
+      <Link href="/#how-it-works" passHref legacyBehavior>
+        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
+          How it works
+        </MuiLink>
+      </Link>
+      <Link href="/#faq" passHref legacyBehavior>
+        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
+          FAQ
+        </MuiLink>
+      </Link>
+      <Link href="/feedback" passHref legacyBehavior>
+        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
+          Feedback
         </MuiLink>
       </Link>
       <Box ml={3.5}>
@@ -152,7 +167,7 @@ function NavigationMobile(props: { sx?: SxProps }) {
   return (
     <Box
       sx={{
-        display: { xs: "flex", md: "none" },
+        display: { xs: "flex", lg: "none" },
         alignItems: "center",
         ...props.sx,
       }}
@@ -161,7 +176,7 @@ function NavigationMobile(props: { sx?: SxProps }) {
       <IconButton
         onClick={handleClick}
         size="small"
-        sx={{ display: { xs: "block", md: "none" }, ml: 1.5 }}
+        sx={{ ml: 1.5 }}
         aria-controls={open ? "mobile-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
@@ -215,6 +230,15 @@ function NavigationMobile(props: { sx?: SxProps }) {
         )}
         <Link href="/goals" passHref legacyBehavior>
           <MenuItem>Explore</MenuItem>
+        </Link>
+        <Link href="/#how-it-works" passHref legacyBehavior>
+          <MenuItem>How it works</MenuItem>
+        </Link>
+        <Link href="/#faq" passHref legacyBehavior>
+          <MenuItem>FAQ</MenuItem>
+        </Link>
+        <Link href="/feedback" passHref legacyBehavior>
+          <MenuItem>Feedback</MenuItem>
         </Link>
         <Divider />
         <MenuItem component="a" target="_blank" href={CONTACTS.github}>
