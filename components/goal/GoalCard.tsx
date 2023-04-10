@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Link as MuiLink,
   Stack,
   SxProps,
@@ -14,91 +15,108 @@ import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
 } from "utils/converters";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 /**
  * A component with a goal card.
  */
 export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
   const { chain } = useNetwork();
+  const { address } = useAccount();
 
   return (
     <CardBox
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: "row",
         borderColor: !props.goal.isClosed
-          ? "divider"
+          ? "yellow"
           : props.goal.isAchieved
-          ? "success.main"
-          : "error.main",
+          ? "green"
+          : "red",
         ...props.sx,
       }}
     >
-      {/* Link, author */}
-      <Stack sx={{ justifyContent: "center" }}>
-        <Typography>
-          {!props.goal.isClosed ? "🔥" : props.goal.isAchieved ? "✅" : "❌"}{" "}
-          <MuiLink href={`/goals/${props.goal.id}`}>
-            <strong>#{props.goal.id}</strong>
-          </MuiLink>
-        </Typography>
-        <Stack direction="row" spacing={1} alignItems="center" mt={1}>
-          <Avatar
-            sx={{
-              width: 24,
-              height: 24,
-              borderRadius: 24,
-              background: emojiAvatarForAddress(props.goal.authorAddress).color,
-            }}
-          >
-            <Typography>
-              {emojiAvatarForAddress(props.goal.authorAddress).emoji}
-            </Typography>
-          </Avatar>
+      {/* Left part */}
+      <Box>
+        {/* Avatar */}
+        <Avatar
+          sx={{
+            width: 36,
+            height: 36,
+            borderRadius: 36,
+            background: emojiAvatarForAddress(props.goal.authorAddress).color,
+          }}
+        >
+          <Typography>
+            {emojiAvatarForAddress(props.goal.authorAddress).emoji}
+          </Typography>
+        </Avatar>
+      </Box>
+      {/* Right part */}
+      <Box width={1} ml={1.5} display="flex" flexDirection="column">
+        {/* Account */}
+        <Stack direction="row" spacing={1} alignItems="center">
           <MuiLink
             href={`/accounts/${props.goal.authorAddress}`}
             fontWeight={700}
+            variant="body2"
           >
             {addressToShortAddress(props.goal.authorAddress)}
           </MuiLink>
-        </Stack>
-      </Stack>
-      {/* Description */}
-      <Stack
-        sx={{
-          flex: 1,
-          justifyContent: "center",
-          ml: { md: 8 },
-          my: { xs: 2, md: 0 },
-        }}
-      >
-        <Typography variant="h6" fontWeight={700}>
-          {props.goal.description}
-        </Typography>
-      </Stack>
-      {/* Motivators, stake, deadline */}
-      <Stack
-        sx={{
-          alignItems: { md: "flex-end" },
-          justifyContent: "center",
-          ml: { md: 6 },
-          minWidth: { md: 120 },
-        }}
-      >
-        <Typography fontWeight={700}>
-          {props.goal.motivatorsNumber} 👥
-        </Typography>
-        <Typography fontWeight={700}>
-          {ethers.utils.formatEther(BigNumber.from(props.goal.authorStake))}{" "}
-          {getChainNativeCurrencySymbol(chain)}
-        </Typography>
-        <Typography fontWeight={700}>
-          {bigNumberTimestampToLocaleDateString(
-            BigNumber.from(props.goal.deadlineTimestamp)
+          {address?.toLowerCase() ===
+            props.goal.authorAddress.toLowerCase() && (
+            <Typography color="text.secondary" fontWeight={700} variant="body2">
+              (you)
+            </Typography>
           )}
-        </Typography>
-      </Stack>
+        </Stack>
+        {/* Description */}
+        <MuiLink href={`/goals/${props.goal.id}`} fontWeight={700} mt={1.5}>
+          {props.goal.description}
+        </MuiLink>
+        {/* Details */}
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={{ xs: 0.5, md: 2 }}
+          alignItems={{ md: "center" }}
+          mt={1.5}
+        >
+          <Typography variant="body2" color="text.secondary">
+            #{props.goal.id}
+          </Typography>
+          <Typography
+            variant="body2"
+            color={
+              !props.goal.isClosed
+                ? "yellow"
+                : props.goal.isAchieved
+                ? "green"
+                : "red"
+            }
+          >
+            {!props.goal.isClosed
+              ? "Active"
+              : props.goal.isAchieved
+              ? "Achieved"
+              : "Failed"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            By{" "}
+            {bigNumberTimestampToLocaleDateString(
+              BigNumber.from(props.goal.deadlineTimestamp)
+            )}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Staked{" "}
+            {ethers.utils.formatEther(BigNumber.from(props.goal.authorStake))}{" "}
+            {getChainNativeCurrencySymbol(chain)}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {props.goal.motivatorsNumber} Motivators
+          </Typography>
+        </Stack>
+      </Box>
     </CardBox>
   );
 }
