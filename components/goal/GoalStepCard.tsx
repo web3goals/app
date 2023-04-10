@@ -130,6 +130,7 @@ export default function GoalStepCard(props: {
         borderColor: cardParams.borderColor,
       }}
     >
+      {/* Left part */}
       <Box>
         {/* Avatar */}
         <Avatar
@@ -145,6 +146,7 @@ export default function GoalStepCard(props: {
           </Typography>
         </Avatar>
       </Box>
+      {/* Right part */}
       <Box width={1} ml={1.5}>
         {/* Account */}
         <Stack direction="row" spacing={1} alignItems="center">
