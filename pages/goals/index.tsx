@@ -10,15 +10,13 @@ export default function Goals() {
   return (
     <Layout>
       <CentralizedBox>
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          sx={{ mb: 4 }}
-        >
-          🎯 Last goals
+        <Typography variant="h4" fontWeight={700} textAlign="center">
+          ✨ Goals
         </Typography>
-        <GoalList />
+        <Typography color="text.secondary" textAlign="center" mt={1}>
+          that inspire us and everyone around us.
+        </Typography>
+        <GoalList sx={{ mt: 4 }} />
       </CentralizedBox>
     </Layout>
   );
