@@ -164,7 +164,7 @@ function GoalVerifyForm(props: {
       {/* Proof file input */}
       {props.verificationRequirement ===
         VERIFICATION_REQUIREMENTS.anyProofUri && (
-        <WidgetSeparatorText color={grey[600]}>
+        <WidgetSeparatorText color="text.secondary">
           🔮 don't forget to add proofs before verification
         </WidgetSeparatorText>
       )}
@@ -234,7 +234,7 @@ function GoalCloseForm(props: {
       >
         Close
       </XxlLoadingButton>
-      <WidgetSeparatorText color={grey[600]}>
+      <WidgetSeparatorText color="text.secondary">
         {props.isVerificationStatusAchieved
           ? "🔮 the stake will be returned after closing"
           : "🔮 the stake will be shared between motivators and application after closing"}

@@ -163,7 +163,7 @@ export default function GoalStepCard(props: {
           {address?.toLowerCase() ===
             props.step.authorAddress.toLowerCase() && (
             <Typography
-              color={cardParams.isBackgroundDark ? grey[300] : grey[600]}
+              color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
               fontWeight={700}
               variant="body2"
             >
@@ -173,7 +173,7 @@ export default function GoalStepCard(props: {
         </Stack>
         {/* Date */}
         <Typography
-          color={cardParams.isBackgroundDark ? grey[300] : grey[600]}
+          color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
           variant="body2"
         >
           {stringTimestampToLocaleString(props.step.createdTimestamp)}
@@ -352,7 +352,7 @@ function ContentVerificationDataSetAnyProofUri(props: {
             <Stack spacing={0.5}>
               <Typography variant="body2">📃 {document.description}</Typography>
               {document.addedData && (
-                <Typography variant="body2" color={grey[600]}>
+                <Typography variant="body2" color="text.secondary">
                   {timestampToLocaleString(document.addedData, true)}
                 </Typography>
               )}

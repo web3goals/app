@@ -187,7 +187,7 @@ export default function GoalBecomeMotivatorDialog(props: {
                   Post
                 </XxlLoadingButton>
               </Box>
-              <WidgetSeparatorText px={{ md: 12 }} color={grey[600]}>
+              <WidgetSeparatorText px={{ md: 12 }} color="text.secondary">
                 🔮 once published, the author will be able to accept your
                 candidacy
               </WidgetSeparatorText>
