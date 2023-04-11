@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useEffect, useState } from "react";
-import { getProfileContractAddress } from "utils/chains";
+import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 
 /**
@@ -28,7 +28,7 @@ export default function EditAccount() {
     error: contractReadError,
     data: contractReadData,
   } = useContractRead({
-    address: getProfileContractAddress(chain),
+    address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(address || ethers.constants.AddressZero)],

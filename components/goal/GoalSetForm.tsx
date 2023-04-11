@@ -19,9 +19,9 @@ import { useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
 import {
-  getChainId,
-  getChainNativeCurrencySymbol,
-  getGoalContractAddress,
+  chainToSupportedChainId,
+  chainToSupportedChainNativeCurrencySymbol,
+  chainToSupportedChainGoalContractAddress,
 } from "utils/chains";
 import {
   dateStringToBigNumberTimestamp,
@@ -88,7 +88,7 @@ export default function GoalSetForm(props: {
     isError: isContractPrepareError,
     error: contractPrepareError,
   } = usePrepareContractWrite({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "set",
     args: [
@@ -102,7 +102,7 @@ export default function GoalSetForm(props: {
     overrides: {
       value: numberToBigNumberEthers(debouncedFormValues.stake),
     },
-    chainId: getChainId(chain),
+    chainId: chainToSupportedChainId(chain),
   });
   const {
     data: contractWriteData,
@@ -122,7 +122,7 @@ export default function GoalSetForm(props: {
    * Listen contract events to get id of set goal.
    */
   useContractEvent({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     eventName: "Transfer",
     listener(from, to, tokenId) {
@@ -214,7 +214,7 @@ export default function GoalSetForm(props: {
                   sx={{ flex: 1 }}
                 >
                   <MenuItem value="native">
-                    {getChainNativeCurrencySymbol(chain)}
+                    {chainToSupportedChainNativeCurrencySymbol(chain)}
                   </MenuItem>
                 </WidgetInputSelect>
               </Stack>

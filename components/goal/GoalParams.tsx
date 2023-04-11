@@ -12,7 +12,7 @@ import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
 import { useContext } from "react";
 import { palette } from "theme/palette";
-import { getChainNativeCurrencySymbol } from "utils/chains";
+import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
@@ -94,7 +94,9 @@ export default function GoalParams(props: {
         <WidgetTitle>Stake</WidgetTitle>
         <Stack direction="row" spacing={1}>
           <WidgetText>{ethers.utils.formatEther(props.authorStake)}</WidgetText>
-          <WidgetText>{getChainNativeCurrencySymbol(chain)}</WidgetText>
+          <WidgetText>
+            {chainToSupportedChainNativeCurrencySymbol(chain)}
+          </WidgetText>
         </Stack>
       </WidgetBox>
       <WidgetSeparatorText mt={3}>

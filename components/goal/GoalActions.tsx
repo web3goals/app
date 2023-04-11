@@ -12,7 +12,7 @@ import { BigNumber } from "ethers";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
-import { getGoalContractAddress } from "utils/chains";
+import { chainToSupportedChainGoalContractAddress } from "utils/chains";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import GoalAddProofDocumentDialog from "./GoalAddProofDocumentDialog";
 import GoalBecomeMotivatorDialog from "./GoalBecomeMotivatorDialog";
@@ -129,7 +129,7 @@ function ProofAddButton(props: {
     refetch: refetchGoalVerificationData,
     isFetching: isGoalVerificationDataFetching,
   } = useContractRead({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getVerificationDataList",
     args: [BigNumber.from(props.id), [VERIFICATION_DATA_KEYS.anyProofUri]],

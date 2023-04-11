@@ -26,7 +26,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { emojiAvatarForAddress } from "utils/avatars";
-import { getProfileContractAddress } from "utils/chains";
+import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 
@@ -46,7 +46,7 @@ export default function AccountProfile(props: { address: string }) {
 
   // Contract states
   const { status, error, data } = useContractRead({
-    address: getProfileContractAddress(chain),
+    address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(props.address)],

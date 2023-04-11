@@ -22,7 +22,10 @@ import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
-import { getChainId, getGoalContractAddress } from "utils/chains";
+import {
+  chainToSupportedChainId,
+  chainToSupportedChainGoalContractAddress,
+} from "utils/chains";
 import {
   useContractWrite,
   useNetwork,
@@ -71,7 +74,7 @@ export default function GoalAddProofDocumentDialog(props: {
 
   // Contract states
   const { config: contractPrepareConfig } = usePrepareContractWrite({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "addVerificationData",
     args: [
@@ -83,7 +86,7 @@ export default function GoalAddProofDocumentDialog(props: {
       ],
       [updatedProofDocumentsDataUri],
     ],
-    chainId: getChainId(chain),
+    chainId: chainToSupportedChainId(chain),
     onError(error: any) {
       showToastError(error);
     },

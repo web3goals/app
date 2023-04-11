@@ -10,7 +10,7 @@ import { CardBox } from "components/styled";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import { BigNumber, ethers } from "ethers";
 import { emojiAvatarForAddress } from "utils/avatars";
-import { getChainNativeCurrencySymbol } from "utils/chains";
+import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
 import {
   addressToShortAddress,
   bigNumberTimestampToLocaleDateString,
@@ -110,7 +110,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           <Typography variant="body2" color="text.secondary">
             Staked{" "}
             {ethers.utils.formatEther(BigNumber.from(props.goal.authorStake))}{" "}
-            {getChainNativeCurrencySymbol(chain)}
+            {chainToSupportedChainNativeCurrencySymbol(chain)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {props.goal.motivatorsNumber} Motivators

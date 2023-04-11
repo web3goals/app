@@ -10,7 +10,7 @@ import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getGoalContractAddress } from "utils/chains";
+import { chainToSupportedChainGoalContractAddress } from "utils/chains";
 import { useContractRead, useNetwork } from "wagmi";
 
 /**
@@ -27,7 +27,7 @@ export default function Goal() {
     refetch: refetchGoalParams,
     isFetching: isGoalParamsFetching,
   } = useContractRead({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getParams",
     args: goalId ? [BigNumber.from(goalId)] : undefined,

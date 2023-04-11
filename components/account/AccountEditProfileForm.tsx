@@ -15,7 +15,10 @@ import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { Analytics } from "utils/analytics";
 import { emojiAvatarForAddress } from "utils/avatars";
-import { getProfileContractAddress, getChainId } from "utils/chains";
+import {
+  chainToSupportedChainProfileContractAddress,
+  chainToSupportedChainId,
+} from "utils/chains";
 import { ipfsUriToHttpUri } from "utils/converters";
 import {
   useAccount,
@@ -69,11 +72,11 @@ export default function AccountEditProfileForm(props: {
 
   // Contract states
   const { config: contractConfig } = usePrepareContractWrite({
-    address: getProfileContractAddress(chain),
+    address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
     functionName: "setURI",
     args: [updatedProfileDataUri],
-    chainId: getChainId(chain),
+    chainId: chainToSupportedChainId(chain),
   });
   const {
     data: contractWriteData,

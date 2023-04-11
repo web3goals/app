@@ -18,7 +18,10 @@ import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
-import { getChainId, getGoalContractAddress } from "utils/chains";
+import {
+  chainToSupportedChainId,
+  chainToSupportedChainGoalContractAddress,
+} from "utils/chains";
 import {
   useContractWrite,
   useNetwork,
@@ -59,11 +62,11 @@ export default function GoalBecomeMotivatorDialog(props: {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: getGoalContractAddress(chain),
+      address: chainToSupportedChainGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "becomeMotivator",
       args: [BigNumber.from(props.id), uploadedMotivatorDataUri],
-      chainId: getChainId(chain),
+      chainId: chainToSupportedChainId(chain),
       onError(error: any) {
         showToastError(error);
       },

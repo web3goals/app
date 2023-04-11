@@ -6,143 +6,146 @@ import {
 } from "wagmi/chains";
 import { stringToAddress } from "./converters";
 
-/**
- * Help variables
- */
-const mumbaiGoalContractAddress =
-  process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS;
-const mumbaiProfileContractAddress =
-  process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS;
-const mumbaiSubgraphApiUrl = process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL;
-
-const hyperspaceGoalContractAddress =
-  process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS;
-const hyperspaceProfileContractAddress =
-  process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS;
-const hyperspaceSubgraphApiUrl =
-  process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL;
-
-const filecoinGoalContractAddress =
-  process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS;
-const filecoinProfileContractAddress =
-  process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS;
-const filecoinSubgraphApiUrl =
-  process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL;
-
-/**
- * Get the first chain from supported chains.
- */
-export function getDefaultChain(): Chain | undefined {
-  const chains = getSupportedChains();
-  if (chains.length !== 0) {
-    return chains[0];
-  } else {
-    return undefined;
-  }
+interface ChainConfig {
+  chain: Chain;
+  contractAddresses: {
+    goal: string;
+    profile: string;
+  };
+  subgraphApiUrl: string;
 }
 
 /**
- * Get chains that defined in environment variables.
+ * Get chain configs defined by environment variables.
+ */
+export function getSupportedChainConfigs(): Array<ChainConfig> {
+  const chainConfigs: Array<ChainConfig> = [];
+  // Add mumbai
+  if (
+    process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL
+  ) {
+    chainConfigs.push({
+      chain: polygonMumbai,
+      contractAddresses: {
+        goal: process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS,
+        profile: process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS,
+      },
+      subgraphApiUrl: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL,
+    });
+  }
+  // Add hyperspace
+  if (
+    process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL
+  ) {
+    chainConfigs.push({
+      chain: filecoinHyperspace,
+      contractAddresses: {
+        goal: process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS,
+        profile: process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS,
+      },
+      subgraphApiUrl: process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL,
+    });
+  }
+  // Add filecoin
+  if (
+    process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL
+  ) {
+    chainConfigs.push({
+      chain: filecoin,
+      contractAddresses: {
+        goal: process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS,
+        profile: process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS,
+      },
+      subgraphApiUrl: process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL,
+    });
+  }
+  return chainConfigs;
+}
+
+/**
+ * Get chains using supported chain configs.
  */
 export function getSupportedChains(): Array<Chain> {
-  const chains: Array<Chain> = [];
-  if (mumbaiGoalContractAddress && mumbaiProfileContractAddress) {
-    chains.push(polygonMumbai);
-  }
-  if (hyperspaceGoalContractAddress && hyperspaceProfileContractAddress) {
-    chains.push(filecoinHyperspace);
-  }
-  if (filecoinGoalContractAddress && filecoinProfileContractAddress) {
-    chains.push(filecoin);
-  }
-  if (chains.length === 0) {
-    console.error("Not found supported chains");
-  }
-  return chains;
+  return getSupportedChainConfigs().map((chainConfig) => chainConfig.chain);
 }
 
 /**
- * Get id of specified or default chain.
+ * Get the first chain config from supported chains.
  */
-export function getChainId(chain: Chain | undefined): number | undefined {
-  if (chain === undefined) {
-    chain = getDefaultChain();
+export function getDefaultSupportedChainConfig(): ChainConfig {
+  const chainConfigs = getSupportedChainConfigs();
+  if (chainConfigs.length === 0) {
+    throw new Error("Supported chain config is not found");
+  } else {
+    return chainConfigs[0];
   }
-  return chain?.id;
 }
 
 /**
- * Get native currency symbol of specified or default chain.
+ * Return config of specified chain if it supported, otherwise return config of default supported chain.
  */
-export function getChainNativeCurrencySymbol(
+export function chainToSupportedChainConfig(
+  chain: Chain | undefined
+): ChainConfig {
+  for (const config of getSupportedChainConfigs()) {
+    if (config.chain.id === chain?.id) {
+      return config;
+    }
+  }
+  return getDefaultSupportedChainConfig();
+}
+
+/**
+ * Return id of specified chain if it supported, otherwise return value from default supported chain.
+ */
+export function chainToSupportedChainId(
+  chain: Chain | undefined
+): number | undefined {
+  return chainToSupportedChainConfig(chain).chain.id;
+}
+
+/**
+ * Return native currency symbol of specified chain if it supported, otherwise return value from default supported chain.
+ */
+export function chainToSupportedChainNativeCurrencySymbol(
   chain: Chain | undefined
 ): string | undefined {
-  if (chain === undefined) {
-    chain = getDefaultChain();
-  }
-  return chain?.nativeCurrency?.symbol;
+  return chainToSupportedChainConfig(chain).chain.nativeCurrency.symbol;
 }
 
 /**
- * Get address that defined in environment variables.
+ * Return goal contract address of specified chain if it supported, otherwise return value from default supported chain.
  */
-export function getGoalContractAddress(
+export function chainToSupportedChainGoalContractAddress(
   chain: Chain | undefined
 ): `0x${string}` | undefined {
-  if (chain === undefined) {
-    chain = getDefaultChain();
-  }
-  if (chain?.id === polygonMumbai.id && mumbaiGoalContractAddress) {
-    return stringToAddress(mumbaiGoalContractAddress);
-  }
-  if (chain?.id === filecoinHyperspace.id && hyperspaceGoalContractAddress) {
-    return stringToAddress(hyperspaceGoalContractAddress);
-  }
-  if (chain?.id === filecoin.id && filecoinGoalContractAddress) {
-    return stringToAddress(filecoinGoalContractAddress);
-  }
-  console.error(`Not found goal contract address for chain: ${chain?.name}`);
-  return undefined;
+  return stringToAddress(
+    chainToSupportedChainConfig(chain).contractAddresses.goal
+  );
 }
 
 /**
- * Get address that defined in environment variables.
+ * Return profile contract address of specified chain if it supported, otherwise return value from default supported chain.
  */
-export function getProfileContractAddress(
+export function chainToSupportedChainProfileContractAddress(
   chain: Chain | undefined
 ): `0x${string}` | undefined {
-  if (chain === undefined) {
-    chain = getDefaultChain();
-  }
-  if (chain?.id === polygonMumbai.id && mumbaiProfileContractAddress) {
-    return stringToAddress(mumbaiProfileContractAddress);
-  }
-  if (chain?.id === filecoinHyperspace.id && hyperspaceProfileContractAddress) {
-    return stringToAddress(hyperspaceProfileContractAddress);
-  }
-  if (chain?.id === filecoin.id && filecoinProfileContractAddress) {
-    return stringToAddress(filecoinProfileContractAddress);
-  }
-  console.error(`Not found profile contract address for chain: ${chain?.name}`);
-  return undefined;
+  return stringToAddress(
+    chainToSupportedChainConfig(chain).contractAddresses.profile
+  );
 }
 
 /**
- * Get subgraph api url defined in environment variables.
+ * Return subgraph api url of specified chain if it supported, otherwise return value from default supported chain.
  */
-export function getSubgraphApiUrl(chain: Chain | undefined) {
-  if (chain === undefined) {
-    chain = getDefaultChain();
-  }
-  if (chain?.id === polygonMumbai.id && mumbaiSubgraphApiUrl) {
-    return mumbaiSubgraphApiUrl;
-  }
-  if (chain?.id === filecoinHyperspace.id && hyperspaceSubgraphApiUrl) {
-    return hyperspaceSubgraphApiUrl;
-  }
-  if (chain?.id === filecoin.id && filecoinSubgraphApiUrl) {
-    return filecoinSubgraphApiUrl;
-  }
-  console.error(`Not found subgraph api url for chain: ${chain?.name}`);
-  return undefined;
+export function chainToSupportedChainSubgraphApiUrl(
+  chain: Chain | undefined
+): string {
+  return chainToSupportedChainConfig(chain).subgraphApiUrl;
 }

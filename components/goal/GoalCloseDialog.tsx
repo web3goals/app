@@ -11,7 +11,10 @@ import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { Analytics } from "utils/analytics";
-import { getChainId, getGoalContractAddress } from "utils/chains";
+import {
+  chainToSupportedChainId,
+  chainToSupportedChainGoalContractAddress,
+} from "utils/chains";
 import { dateToBigNumberTimestamp } from "utils/converters";
 import {
   useContractRead,
@@ -42,7 +45,7 @@ export default function GoalCloseDialog(props: {
     data: goalVerificationStatus,
     isFetching: isGoalVerificationStatusFetching,
   } = useContractRead({
-    address: getGoalContractAddress(chain),
+    address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getVerificationStatus",
     args: [BigNumber.from(props.id)],
@@ -114,11 +117,11 @@ function GoalVerifyForm(props: {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: getGoalContractAddress(chain),
+      address: chainToSupportedChainGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "verify",
       args: [BigNumber.from(props.id)],
-      chainId: getChainId(chain),
+      chainId: chainToSupportedChainId(chain),
       onError(error: any) {
         showToastError(error);
       },
@@ -183,11 +186,11 @@ function GoalCloseForm(props: {
   // Contract states
   const { config: contractPrepareConfig, isError: isContractPrepareError } =
     usePrepareContractWrite({
-      address: getGoalContractAddress(chain),
+      address: chainToSupportedChainGoalContractAddress(chain),
       abi: goalContractAbi,
       functionName: "close",
       args: [BigNumber.from(props.id)],
-      chainId: getChainId(chain),
+      chainId: chainToSupportedChainId(chain),
       onError(error: any) {
         showToastError(error);
       },

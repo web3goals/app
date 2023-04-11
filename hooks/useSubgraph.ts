@@ -2,7 +2,7 @@ import axios from "axios";
 import AccountEntity from "entities/subgraph/AccountEntity";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
-import { getSubgraphApiUrl } from "utils/chains";
+import { chainToSupportedChainSubgraphApiUrl } from "utils/chains";
 import { Chain } from "wagmi";
 
 /**
@@ -159,13 +159,12 @@ export default function useSubgraph() {
 
 async function makeSubgraphQuery(chain: Chain | undefined, query: string) {
   try {
-    const chainSubgraphApiUrl = getSubgraphApiUrl(chain);
-    if (!chainSubgraphApiUrl) {
-      throw new Error(`Chain '${chain?.name}' does not support a subgraph`);
-    }
-    const response = await axios.post(chainSubgraphApiUrl, {
-      query: query,
-    });
+    const response = await axios.post(
+      chainToSupportedChainSubgraphApiUrl(chain),
+      {
+        query: query,
+      }
+    );
     if (response.data.errors) {
       throw new Error(JSON.stringify(response.data.errors));
     }
