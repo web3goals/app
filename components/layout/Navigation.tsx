@@ -20,8 +20,9 @@ import { Logo } from "graphics";
 import Link from "next/link";
 import packageJson from "package.json";
 import { useState } from "react";
+import { chainToSupportedChainConfig } from "utils/chains";
 import isDev from "utils/environment";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 /**
  * Component with navigation.
@@ -48,10 +49,13 @@ export default function Navigation() {
 }
 
 function LogoDesktop(props: { sx?: SxProps }) {
+  const { chain } = useNetwork();
+
   return (
     <Box
       sx={{
         display: { xs: "none", md: "flex" },
+        alignItems: "center",
         ...props.sx,
       }}
     >
@@ -60,9 +64,14 @@ function LogoDesktop(props: { sx?: SxProps }) {
           <Logo width="153" height="25" />
         </Box>
       </Link>
-      <Typography color="text.secondary" variant="caption" ml={1}>
-        {packageJson.version}-{isDev() ? "dev" : "beta"}
-      </Typography>
+      <Box display="flex" flexDirection="column">
+        <Typography color="text.secondary" variant="caption" ml={1}>
+          {packageJson.version}-{isDev() ? "dev" : "beta"}
+        </Typography>
+        <Typography color="text.secondary" variant="caption" ml={1}>
+          {chainToSupportedChainConfig(chain).chain.name}
+        </Typography>
+      </Box>
     </Box>
   );
 }
