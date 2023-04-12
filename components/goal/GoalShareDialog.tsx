@@ -1,5 +1,6 @@
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog } from "@mui/material";
 import GoalShareActions from "components/goal/GoalShareActions";
+import { DialogCenterContent } from "components/styled";
 import { useState } from "react";
 
 /**
@@ -19,9 +20,9 @@ export default function GoalShareDialog(props: {
 
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
-      <DialogContent sx={{ my: 2 }}>
+      <DialogCenterContent>
         <GoalShareActions id={props.id} />
-      </DialogContent>
+      </DialogCenterContent>
     </Dialog>
   );
 }

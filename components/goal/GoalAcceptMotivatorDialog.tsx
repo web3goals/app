@@ -1,13 +1,17 @@
-import { Dialog, DialogContent, Typography } from "@mui/material";
-import { CenterBoldText, ExtraLargeLoadingButton } from "components/styled";
+import { Dialog, Typography } from "@mui/material";
+import {
+  CenterBoldText,
+  DialogCenterContent,
+  ExtraLargeLoadingButton,
+} from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { Analytics } from "utils/analytics";
 import {
-  chainToSupportedChainId,
   chainToSupportedChainGoalContractAddress,
+  chainToSupportedChainId,
 } from "utils/chains";
 import { stringToAddress } from "utils/converters";
 import {
@@ -78,14 +82,7 @@ export default function GoalAcceptMotivatorDialog(props: {
 
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          my: 2,
-        }}
-      >
+      <DialogCenterContent>
         <Typography
           variant="h4"
           fontWeight={700}
@@ -104,7 +101,7 @@ export default function GoalAcceptMotivatorDialog(props: {
         >
           Accept
         </ExtraLargeLoadingButton>
-      </DialogContent>
+      </DialogCenterContent>
     </Dialog>
   );
 }

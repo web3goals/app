@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Dialog, Typography } from "@mui/material";
 import {
-  FullWidthSkeleton,
   CenterBoldText,
+  DialogCenterContent,
   ExtraLargeLoadingButton,
+  FullWidthSkeleton,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -12,8 +12,8 @@ import useToasts from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { Analytics } from "utils/analytics";
 import {
-  chainToSupportedChainId,
   chainToSupportedChainGoalContractAddress,
+  chainToSupportedChainId,
 } from "utils/chains";
 import { dateToBigNumberTimestamp } from "utils/converters";
 import {
@@ -62,14 +62,7 @@ export default function GoalCloseDialog(props: {
 
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          my: 2,
-        }}
-      >
+      <DialogCenterContent>
         <Typography
           variant="h4"
           fontWeight={700}
@@ -101,7 +94,7 @@ export default function GoalCloseDialog(props: {
         ) : (
           <FullWidthSkeleton />
         )}
-      </DialogContent>
+      </DialogCenterContent>
     </Dialog>
   );
 }

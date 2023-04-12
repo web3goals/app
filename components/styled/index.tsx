@@ -2,6 +2,7 @@ import { LoadingButton, LoadingButtonProps } from "@mui/lab";
 import {
   Box,
   BoxProps,
+  DialogContent,
   Divider,
   DividerProps,
   Link,
@@ -14,6 +15,7 @@ import {
   TextFieldProps,
   Typography,
   TypographyProps,
+  DialogContentProps,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -160,3 +162,12 @@ export const WidgetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
     border: "4px solid #000000",
   },
 }));
+
+export const DialogCenterContent = styled(DialogContent)<DialogContentProps>(
+  ({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: "14px 0px",
+  })
+);

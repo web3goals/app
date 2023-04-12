@@ -1,11 +1,12 @@
-import { Box, Dialog, DialogContent, Typography } from "@mui/material";
+import { Box, Dialog, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import {
+  CenterBoldText,
+  DialogCenterContent,
+  ExtraLargeLoadingButton,
   WidgetBox,
   WidgetInputTextField,
-  CenterBoldText,
   WidgetTitle,
-  ExtraLargeLoadingButton,
 } from "components/styled";
 import {
   VERIFICATION_DATA_KEYS,
@@ -23,8 +24,8 @@ import Dropzone from "react-dropzone";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
 import {
-  chainToSupportedChainId,
   chainToSupportedChainGoalContractAddress,
+  chainToSupportedChainId,
 } from "utils/chains";
 import {
   useContractWrite,
@@ -202,14 +203,7 @@ export default function GoalAddProofDocumentDialog(props: {
 
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          my: 2,
-        }}
-      >
+      <DialogCenterContent>
         {/* Title */}
         <Typography variant="h4" fontWeight={700} textAlign="center">
           📃 Add proof
@@ -298,7 +292,7 @@ export default function GoalAddProofDocumentDialog(props: {
             </Form>
           )}
         </Formik>
-      </DialogContent>
+      </DialogCenterContent>
     </Dialog>
   );
 }

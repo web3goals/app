@@ -3,7 +3,6 @@ import {
   AlertTitle,
   Box,
   Dialog,
-  DialogContent,
   Fab,
   Link as MuiLink,
   Snackbar,
@@ -11,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import { LargeLoadingButton } from "components/styled";
+import { DialogCenterContent, LargeLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { DialogContext } from "context/dialog";
 import { useContext, useState } from "react";
@@ -115,15 +114,7 @@ function EarlyAdoptersClubDialog(props: {
 
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
-      <DialogContent
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          my: 2,
-        }}
-      >
+      <DialogCenterContent sx={{ textAlign: "center" }}>
         <Typography variant="h4" fontWeight={700}>
           🧑‍🚀 Dear early adopter,
         </Typography>
@@ -164,7 +155,7 @@ function EarlyAdoptersClubDialog(props: {
           Shhh... 🤫 Every person who creates a profile will receive an Early
           Adopter NFT, which will provide some benefits after release.
         </Typography>
-      </DialogContent>
+      </DialogCenterContent>
     </Dialog>
   );
 }
