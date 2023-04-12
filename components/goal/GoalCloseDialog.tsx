@@ -2,7 +2,7 @@ import { Dialog, DialogContent, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import {
   FullWidthSkeleton,
-  WidgetSeparatorText,
+  CenterBoldText,
   ExtraLargeLoadingButton,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
@@ -151,9 +151,9 @@ function GoalVerifyForm(props: {
 
   return (
     <>
-      <WidgetSeparatorText mb={3}>
+      <CenterBoldText mb={3}>
         verify the achievement to close the goal
-      </WidgetSeparatorText>
+      </CenterBoldText>
       <ExtraLargeLoadingButton
         variant="contained"
         type="submit"
@@ -167,9 +167,9 @@ function GoalVerifyForm(props: {
       {/* Proof file input */}
       {props.verificationRequirement ===
         VERIFICATION_REQUIREMENTS.anyProofUri && (
-        <WidgetSeparatorText color="text.secondary">
+        <CenterBoldText color="text.secondary">
           🔮 don't forget to add proofs before verification
-        </WidgetSeparatorText>
+        </CenterBoldText>
       )}
     </>
   );
@@ -222,11 +222,11 @@ function GoalCloseForm(props: {
 
   return (
     <>
-      <WidgetSeparatorText mb={3}>
+      <CenterBoldText mb={3}>
         {props.isVerificationStatusAchieved
           ? "the goal is verified as achieved, now it can be closed"
           : "the goal is not achieved by the deadline, so it can only be closed as a failed"}
-      </WidgetSeparatorText>
+      </CenterBoldText>
       <ExtraLargeLoadingButton
         variant="contained"
         type="submit"
@@ -237,11 +237,11 @@ function GoalCloseForm(props: {
       >
         Close
       </ExtraLargeLoadingButton>
-      <WidgetSeparatorText color="text.secondary">
+      <CenterBoldText color="text.secondary">
         {props.isVerificationStatusAchieved
           ? "🔮 the stake will be returned after closing"
           : "🔮 the stake will be shared between motivators and application after closing"}
-      </WidgetSeparatorText>
+      </CenterBoldText>
     </>
   );
 }

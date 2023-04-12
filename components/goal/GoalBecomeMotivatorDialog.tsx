@@ -4,7 +4,7 @@ import FormikHelper from "components/helper/FormikHelper";
 import {
   WidgetBox,
   WidgetInputTextField,
-  WidgetSeparatorText,
+  CenterBoldText,
   WidgetTitle,
   ExtraLargeLoadingButton,
 } from "components/styled";
@@ -153,9 +153,9 @@ export default function GoalBecomeMotivatorDialog(props: {
           {({ values, errors, touched, handleChange }) => (
             <Form style={{ width: "100%" }}>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              <WidgetSeparatorText mb={3} px={{ md: 12 }}>
+              <CenterBoldText mb={3} px={{ md: 12 }}>
                 you should post a message that motivates the author of the goal
-              </WidgetSeparatorText>
+              </CenterBoldText>
               {/* Message input */}
               <WidgetBox bgcolor={palette.blue} mb={2}>
                 <WidgetTitle>Message</WidgetTitle>
@@ -190,10 +190,10 @@ export default function GoalBecomeMotivatorDialog(props: {
                   Post
                 </ExtraLargeLoadingButton>
               </Box>
-              <WidgetSeparatorText px={{ md: 12 }} color="text.secondary">
+              <CenterBoldText px={{ md: 12 }} color="text.secondary">
                 🔮 once published, the author will be able to accept your
                 candidacy
-              </WidgetSeparatorText>
+              </CenterBoldText>
             </Form>
           )}
         </Formik>

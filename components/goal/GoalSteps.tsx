@@ -1,5 +1,5 @@
 import { Box, SxProps, Typography } from "@mui/material";
-import { WidgetSeparatorText } from "components/styled";
+import { CenterBoldText } from "components/styled";
 import { BigNumber } from "ethers";
 import GoalActions from "./GoalActions";
 import GoalStepList from "./GoalStepList";
@@ -30,9 +30,9 @@ export default function GoalSteps(props: {
       <Typography variant="h4" fontWeight={700} textAlign="center">
         ⚡️ Steps to achieving the goal
       </Typography>
-      <WidgetSeparatorText mt={2}>
+      <CenterBoldText mt={2}>
         updates, discussions, proofs and result
-      </WidgetSeparatorText>
+      </CenterBoldText>
       {/* Actions */}
       <GoalActions
         id={props.id}

@@ -1,8 +1,5 @@
 import { Dialog, DialogContent, Typography } from "@mui/material";
-import {
-  WidgetSeparatorText,
-  ExtraLargeLoadingButton,
-} from "components/styled";
+import { CenterBoldText, ExtraLargeLoadingButton } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";
@@ -97,9 +94,7 @@ export default function GoalAcceptMotivatorDialog(props: {
         >
           🙏 Accepting
         </Typography>
-        <WidgetSeparatorText mb={3}>
-          the motivator who inspire you
-        </WidgetSeparatorText>
+        <CenterBoldText mb={3}>the motivator who inspire you</CenterBoldText>
         <ExtraLargeLoadingButton
           variant="contained"
           type="submit"

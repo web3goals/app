@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import {
   WidgetBox,
   WidgetLink,
-  WidgetSeparatorText,
+  CenterBoldText,
   WidgetText,
   WidgetTitle,
   LargeLoadingButton,
@@ -49,7 +49,7 @@ export default function GoalParams(props: {
         {!props.isClosed ? "🔥" : props.isAchieved ? "✅" : "❌"} Goal #
         {props.id}
       </Typography>
-      <WidgetSeparatorText mt={1}>was set</WidgetSeparatorText>
+      <CenterBoldText mt={1}>was set</CenterBoldText>
       {/* Author address */}
       <WidgetBox bgcolor={palette.greyDark} mt={3}>
         <WidgetTitle>By</WidgetTitle>
@@ -64,17 +64,17 @@ export default function GoalParams(props: {
           {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
         </WidgetText>
       </WidgetBox>
-      <WidgetSeparatorText mt={3}>with</WidgetSeparatorText>
+      <CenterBoldText mt={3}>with</CenterBoldText>
       {/* Description */}
       <WidgetBox bgcolor={palette.blue} mt={3}>
         <WidgetTitle>Description</WidgetTitle>
         <WidgetText>{props.description}</WidgetText>
       </WidgetBox>
-      <WidgetSeparatorText mt={3}>
+      <CenterBoldText mt={3}>
         {props.isClosed
           ? "and this goal must have been achieved"
           : "and this goal must be achieved"}
-      </WidgetSeparatorText>
+      </CenterBoldText>
       {/* Deadline timestamp */}
       <WidgetBox bgcolor={palette.purpleDark} mt={3}>
         <WidgetTitle>By</WidgetTitle>
@@ -82,13 +82,13 @@ export default function GoalParams(props: {
           {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
         </WidgetText>
       </WidgetBox>
-      <WidgetSeparatorText mt={2}>
+      <CenterBoldText mt={2}>
         {props.isClosed
           ? props.isAchieved
             ? "and it was achieved, so"
             : "but it was failed, so"
           : "otherwise"}
-      </WidgetSeparatorText>
+      </CenterBoldText>
       {/* Stake */}
       <WidgetBox bgcolor={palette.red} mt={2}>
         <WidgetTitle>Stake</WidgetTitle>
@@ -99,7 +99,7 @@ export default function GoalParams(props: {
           </WidgetText>
         </Stack>
       </WidgetBox>
-      <WidgetSeparatorText mt={3}>
+      <CenterBoldText mt={3}>
         {props.isClosed ? (
           props.isAchieved ? (
             <>was returned to the author of this goal</>
@@ -109,7 +109,7 @@ export default function GoalParams(props: {
         ) : (
           <>will be shared between accepted motivators and this application</>
         )}
-      </WidgetSeparatorText>
+      </CenterBoldText>
       {/* Share button */}
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         <LargeLoadingButton

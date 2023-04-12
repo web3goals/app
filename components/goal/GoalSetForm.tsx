@@ -6,7 +6,7 @@ import {
   WidgetBox,
   WidgetInputSelect,
   WidgetInputTextField,
-  WidgetSeparatorText,
+  CenterBoldText,
   WidgetTitle,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
@@ -188,7 +188,7 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            <WidgetSeparatorText mt={2}>and</WidgetSeparatorText>
+            <CenterBoldText mt={2}>and</CenterBoldText>
             {/* Stake input */}
             <WidgetBox bgcolor={palette.red} mt={2}>
               <WidgetTitle>I stake</WidgetTitle>
@@ -218,7 +218,7 @@ export default function GoalSetForm(props: {
                 </WidgetInputSelect>
               </Stack>
             </WidgetBox>
-            <WidgetSeparatorText mt={2}>on achieving it</WidgetSeparatorText>
+            <CenterBoldText mt={2}>on achieving it</CenterBoldText>
             {/* Deadline input */}
             <WidgetBox bgcolor={palette.purpleDark} mt={2}>
               <WidgetTitle>By</WidgetTitle>
@@ -234,10 +234,10 @@ export default function GoalSetForm(props: {
                 sx={{ width: 1 }}
               />
             </WidgetBox>
-            <WidgetSeparatorText mt={2}>
+            <CenterBoldText mt={2}>
               otherwise, the stake will be shared between the people who tried
               to motivate me in this space
-            </WidgetSeparatorText>
+            </CenterBoldText>
             {/* Submit button */}
             <ExtraLargeLoadingButton
               loading={isFormLoading}
@@ -252,14 +252,14 @@ export default function GoalSetForm(props: {
             </ExtraLargeLoadingButton>
             {/* Errors */}
             {!chain?.id && (
-              <WidgetSeparatorText mt={3} color="red">
+              <CenterBoldText mt={3} color="red">
                 ⛔ Please connect your wallet to continue
-              </WidgetSeparatorText>
+              </CenterBoldText>
             )}
             {isContractPrepareError && (
-              <WidgetSeparatorText mt={3} color="red">
+              <CenterBoldText mt={3} color="red">
                 ⛔ {errorToPrettyError(contractPrepareError).message}
-              </WidgetSeparatorText>
+              </CenterBoldText>
             )}
           </Form>
         )}

@@ -3,7 +3,7 @@ import FormikHelper from "components/helper/FormikHelper";
 import {
   WidgetBox,
   WidgetInputTextField,
-  WidgetSeparatorText,
+  CenterBoldText,
   WidgetTitle,
   ExtraLargeLoadingButton,
 } from "components/styled";
@@ -152,9 +152,9 @@ export default function GoalPostMessageDialog(props: {
           {({ values, errors, touched, handleChange }) => (
             <Form style={{ width: "100%" }}>
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              <WidgetSeparatorText mb={3} px={{ md: 12 }}>
+              <CenterBoldText mb={3} px={{ md: 12 }}>
                 on the way to achieving the goal
-              </WidgetSeparatorText>
+              </CenterBoldText>
               {/* Message input */}
               <WidgetBox bgcolor={palette.blue} mb={2}>
                 <WidgetTitle>Message</WidgetTitle>

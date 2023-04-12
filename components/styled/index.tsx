@@ -29,6 +29,14 @@ export const FullWidthSkeleton = styled(Skeleton)<SkeletonProps>(
   })
 );
 
+export const CenterBoldText = styled(Typography)<TypographyProps>(
+  ({ theme }) => ({
+    textAlign: "center",
+    fontWeight: 700,
+    padding: "0 18px",
+  })
+);
+
 export const ExtraLargeLoadingButton = styled(
   LoadingButton
 )<LoadingButtonProps>(({ theme, variant }) => ({
@@ -152,11 +160,3 @@ export const WidgetInputSelect = styled(Select)<SelectProps>(({ theme }) => ({
     border: "4px solid #000000",
   },
 }));
-
-export const WidgetSeparatorText = styled(Typography)<TypographyProps>(
-  ({ theme }) => ({
-    fontWeight: 700,
-    textAlign: "center",
-    padding: "0 18px",
-  })
-);

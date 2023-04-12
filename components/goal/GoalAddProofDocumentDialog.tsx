@@ -3,7 +3,7 @@ import FormikHelper from "components/helper/FormikHelper";
 import {
   WidgetBox,
   WidgetInputTextField,
-  WidgetSeparatorText,
+  CenterBoldText,
   WidgetTitle,
   ExtraLargeLoadingButton,
 } from "components/styled";
@@ -214,9 +214,9 @@ export default function GoalAddProofDocumentDialog(props: {
         <Typography variant="h4" fontWeight={700} textAlign="center">
           📃 Add proof
         </Typography>
-        <WidgetSeparatorText mt={2} mb={4}>
+        <CenterBoldText mt={2} mb={4}>
           it can be a screenshot, photo, video or any other file
-        </WidgetSeparatorText>
+        </CenterBoldText>
         {/* Name input */}
         <Formik
           initialValues={formValues}
