@@ -14,10 +14,10 @@ import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
 import { chainToSupportedChainGoalContractAddress } from "utils/chains";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
-import GoalAddProofDocumentDialog from "./GoalAddProofDocumentDialog";
-import GoalBecomeMotivatorDialog from "./GoalBecomeMotivatorDialog";
-import GoalCloseDialog from "./GoalCloseDialog";
-import GoalPostMessageDialog from "./GoalPostMessageDialog";
+import GoalAddProofDocumentDialog from "./dialog/GoalAddProofDocumentDialog";
+import GoalBecomeMotivatorDialog from "./dialog/GoalBecomeMotivatorDialog";
+import GoalCloseDialog from "./dialog/GoalCloseDialog";
+import GoalPostMessageDialog from "./dialog/GoalPostMessageDialog";
 
 /**
  * A component with goal actions.

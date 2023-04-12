@@ -31,7 +31,7 @@ import {
   timestampToLocaleString,
 } from "utils/converters";
 import { useAccount } from "wagmi";
-import GoalAcceptMotivatorDialog from "./GoalAcceptMotivatorDialog";
+import GoalAcceptMotivatorDialog from "./dialog/GoalAcceptMotivatorDialog";
 
 interface CardParams {
   readonly backgoundColor?: string;

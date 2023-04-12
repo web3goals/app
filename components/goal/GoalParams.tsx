@@ -18,7 +18,7 @@ import {
   bigNumberTimestampToLocaleDateString,
 } from "utils/converters";
 import { useNetwork } from "wagmi";
-import GoalShareDialog from "./GoalShareDialog";
+import GoalShareDialog from "./dialog/GoalShareDialog";
 
 /**
  * A component with goal parameters.
