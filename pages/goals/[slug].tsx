@@ -1,7 +1,7 @@
 import GoalParams from "components/goal/GoalParams";
 import GoalSteps from "components/goal/GoalSteps";
 import Layout from "components/layout";
-import { CenterBox, FullWidthSkeleton, ThickDivider } from "components/styled";
+import { FullWidthSkeleton, ThickDivider } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
@@ -38,36 +38,34 @@ export default function Goal() {
 
   return (
     <Layout maxWidth="sm">
-      <CenterBox>
-        {isDataReady ? (
-          <>
-            <GoalParams
-              id={goalId}
-              createdTimestamp={goalParams.createdTimestamp}
-              description={goalParams.description}
-              authorAddress={goalParams.authorAddress}
-              authorStake={goalParams.authorStake}
-              deadlineTimestamp={goalParams.deadlineTimestamp}
-              isClosed={goalParams.isClosed}
-              isAchieved={goalParams.isAchieved}
-            />
-            <ThickDivider sx={{ mt: 8 }} />
-            <GoalSteps
-              id={goalId}
-              authorAddress={goalParams.authorAddress}
-              deadlineTimestamp={goalParams.deadlineTimestamp}
-              isClosed={goalParams.isClosed}
-              verificationRequirement={goalParams.verificationRequirement}
-              onUpdate={() => {
-                refetchGoalParams();
-              }}
-              sx={{ mt: 8 }}
-            />
-          </>
-        ) : (
-          <FullWidthSkeleton />
-        )}
-      </CenterBox>
+      {isDataReady ? (
+        <>
+          <GoalParams
+            id={goalId}
+            createdTimestamp={goalParams.createdTimestamp}
+            description={goalParams.description}
+            authorAddress={goalParams.authorAddress}
+            authorStake={goalParams.authorStake}
+            deadlineTimestamp={goalParams.deadlineTimestamp}
+            isClosed={goalParams.isClosed}
+            isAchieved={goalParams.isAchieved}
+          />
+          <ThickDivider sx={{ mt: 8 }} />
+          <GoalSteps
+            id={goalId}
+            authorAddress={goalParams.authorAddress}
+            deadlineTimestamp={goalParams.deadlineTimestamp}
+            isClosed={goalParams.isClosed}
+            verificationRequirement={goalParams.verificationRequirement}
+            onUpdate={() => {
+              refetchGoalParams();
+            }}
+            sx={{ mt: 8 }}
+          />
+        </>
+      ) : (
+        <FullWidthSkeleton />
+      )}
     </Layout>
   );
 }

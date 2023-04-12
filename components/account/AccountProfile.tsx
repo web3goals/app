@@ -84,7 +84,7 @@ export default function AccountProfile(props: { address: string }) {
 
   if (profileData !== undefined) {
     return (
-      <>
+      <Box display="flex" flexDirection="column" alignItems="center">
         {/* Image */}
         <Box sx={{ mb: 3 }}>
           <Avatar
@@ -255,7 +255,7 @@ export default function AccountProfile(props: { address: string }) {
             </Link>
           </Stack>
         )}
-      </>
+      </Box>
     );
   }
 

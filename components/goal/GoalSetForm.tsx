@@ -2,13 +2,12 @@ import { Autocomplete, MenuItem, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
-  CenterBox,
+  ExtraLargeLoadingButton,
   WidgetBox,
   WidgetInputSelect,
   WidgetInputTextField,
   WidgetSeparatorText,
   WidgetTitle,
-  ExtraLargeLoadingButton,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -19,9 +18,9 @@ import { useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
 import {
+  chainToSupportedChainGoalContractAddress,
   chainToSupportedChainId,
   chainToSupportedChainNativeCurrencySymbol,
-  chainToSupportedChainGoalContractAddress,
 } from "utils/chains";
 import {
   dateStringToBigNumberTimestamp,
@@ -134,8 +133,8 @@ export default function GoalSetForm(props: {
   });
 
   return (
-    <CenterBox>
-      <Typography variant="h4" fontWeight={700}>
+    <>
+      <Typography variant="h4" fontWeight={700} textAlign="center">
         🤝 Dear Web3,
       </Typography>
       <Formik
@@ -265,6 +264,6 @@ export default function GoalSetForm(props: {
           </Form>
         )}
       </Formik>
-    </CenterBox>
+    </>
   );
 }

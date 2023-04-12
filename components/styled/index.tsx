@@ -74,14 +74,6 @@ export const MediumLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 ) as typeof LoadingButton;
 
-export const CenterBox = styled(Box)<BoxProps>(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  marginTop: "24px",
-  marginBottom: "24px",
-}));
-
 export const CardBox = styled(Box)<BoxProps>(({ theme }) => ({
   border: "solid",
   borderColor: theme.palette.divider,

@@ -12,7 +12,6 @@ export default function Layout(props: {
   maxWidth?: Breakpoint | false;
   hideToolbar?: boolean;
   disableGutters?: boolean;
-  sx?: SxProps;
   children: any;
 }) {
   return (
@@ -31,7 +30,7 @@ export default function Layout(props: {
         disableGutters={props.disableGutters || false}
         sx={{ minHeight: "100vh" }}
       >
-        <Box sx={{ py: 4, ...props.sx }}>
+        <Box sx={{ py: 6 }}>
           {!props.hideToolbar && <Toolbar />}
           {props.children}
         </Box>

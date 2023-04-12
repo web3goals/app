@@ -1,7 +1,7 @@
 import { Box, Link as MuiLink, TextField, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
-import { CenterBox, ExtraLargeLoadingButton } from "components/styled";
+import { ExtraLargeLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { FORMS } from "constants/forms";
 import { Form, Formik } from "formik";
@@ -52,110 +52,108 @@ export default function Feedback() {
 
   return (
     <Layout maxWidth="xs">
-      <CenterBox>
-        {/* Title */}
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          sx={{ mb: 1.5 }}
-        >
-          ✍️ Feedback
-        </Typography>
-        {/* Description */}
-        <Typography textAlign="center">
-          Do you have a question or suggestion? Fill the form
-        </Typography>
-        {/* Form */}
-        <Formik
-          initialValues={formValues}
-          validationSchema={formValidationSchema}
-          onSubmit={submit}
-        >
-          {({ values, errors, touched, handleChange }) => (
-            <Form style={{ width: "100%" }}>
-              <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              {/* Name */}
-              <Box mt={4}>
-                <TextField
-                  fullWidth
-                  id="name"
-                  name="name"
-                  label="Your name or pseudonym (optional)"
-                  placeholder="Alice"
-                  type="string"
-                  value={values.name}
-                  onChange={handleChange}
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
-                  disabled={isFormDisabled}
-                />
-              </Box>
-              {/* Contact */}
-              <Box mt={2}>
-                <TextField
-                  fullWidth
-                  id="contact"
-                  name="contact"
-                  label="Your email, twitter, lens, telegram *"
-                  placeholder="alice@web3goals.space"
-                  type="string"
-                  value={values.contact}
-                  onChange={handleChange}
-                  error={touched.contact && Boolean(errors.contact)}
-                  helperText={touched.contact && errors.contact}
-                  disabled={isFormDisabled}
-                />
-              </Box>
-              {/* Message */}
-              <Box mt={2}>
-                <TextField
-                  fullWidth
-                  id="message"
-                  name="message"
-                  label="Your message *"
-                  placeholder="I think that…"
-                  type="string"
-                  multiline={true}
-                  rows={3}
-                  value={values.message}
-                  onChange={handleChange}
-                  error={touched.message && Boolean(errors.message)}
-                  helperText={touched.message && errors.message}
-                  disabled={isFormDisabled}
-                />
-              </Box>
-              {/* Submit button */}
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                mt={2}
+      {/* Title */}
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        textAlign="center"
+        sx={{ mb: 1.5 }}
+      >
+        ✍️ Feedback
+      </Typography>
+      {/* Description */}
+      <Typography textAlign="center">
+        Do you have a question or suggestion? Fill the form
+      </Typography>
+      {/* Form */}
+      <Formik
+        initialValues={formValues}
+        validationSchema={formValidationSchema}
+        onSubmit={submit}
+      >
+        {({ values, errors, touched, handleChange }) => (
+          <Form style={{ width: "100%" }}>
+            <FormikHelper onChange={(values: any) => setFormValues(values)} />
+            {/* Name */}
+            <Box mt={4}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="Your name or pseudonym (optional)"
+                placeholder="Alice"
+                type="string"
+                value={values.name}
+                onChange={handleChange}
+                error={touched.name && Boolean(errors.name)}
+                helperText={touched.name && errors.name}
+                disabled={isFormDisabled}
+              />
+            </Box>
+            {/* Contact */}
+            <Box mt={2}>
+              <TextField
+                fullWidth
+                id="contact"
+                name="contact"
+                label="Your email, twitter, lens, telegram *"
+                placeholder="alice@web3goals.space"
+                type="string"
+                value={values.contact}
+                onChange={handleChange}
+                error={touched.contact && Boolean(errors.contact)}
+                helperText={touched.contact && errors.contact}
+                disabled={isFormDisabled}
+              />
+            </Box>
+            {/* Message */}
+            <Box mt={2}>
+              <TextField
+                fullWidth
+                id="message"
+                name="message"
+                label="Your message *"
+                placeholder="I think that…"
+                type="string"
+                multiline={true}
+                rows={3}
+                value={values.message}
+                onChange={handleChange}
+                error={touched.message && Boolean(errors.message)}
+                helperText={touched.message && errors.message}
+                disabled={isFormDisabled}
+              />
+            </Box>
+            {/* Submit button */}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt={2}
+            >
+              <ExtraLargeLoadingButton
+                loading={isFormSubmitting}
+                variant="contained"
+                type="submit"
+                disabled={isFormDisabled}
               >
-                <ExtraLargeLoadingButton
-                  loading={isFormSubmitting}
-                  variant="contained"
-                  type="submit"
-                  disabled={isFormDisabled}
-                >
-                  Send
-                </ExtraLargeLoadingButton>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-        {/* Message with email */}
-        <Typography textAlign="center" mt={6}>
-          You can also email us at{" "}
-          <MuiLink href={`mailto:${CONTACTS.email}`} target="_blank">
-            {CONTACTS.email}
-          </MuiLink>{" "}
-          or send message on{" "}
-          <MuiLink href={CONTACTS.twitter} target="_blank">
-            Twitter
-          </MuiLink>
-        </Typography>
-      </CenterBox>
+                Send
+              </ExtraLargeLoadingButton>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+      {/* Message with email */}
+      <Typography textAlign="center" mt={6}>
+        You can also email us at{" "}
+        <MuiLink href={`mailto:${CONTACTS.email}`} target="_blank">
+          {CONTACTS.email}
+        </MuiLink>{" "}
+        or send message on{" "}
+        <MuiLink href={CONTACTS.twitter} target="_blank">
+          Twitter
+        </MuiLink>
+      </Typography>
     </Layout>
   );
 }
