@@ -1,5 +1,13 @@
-import { Person } from "@mui/icons-material";
-import { Avatar, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  FormControl,
+  FormHelperText,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import { XxlLoadingButton } from "components/styled";
@@ -16,8 +24,8 @@ import Dropzone from "react-dropzone";
 import { Analytics } from "utils/analytics";
 import { emojiAvatarForAddress } from "utils/avatars";
 import {
-  chainToSupportedChainProfileContractAddress,
   chainToSupportedChainId,
+  chainToSupportedChainProfileContractAddress,
 } from "utils/chains";
 import { ipfsUriToHttpUri } from "utils/converters";
 import {
@@ -61,9 +69,24 @@ export default function AccountEditProfileForm(props: {
     about: yup.string(),
     email: yup.string().email(),
     website: yup.string().url(),
-    twitter: yup.string(),
-    telegram: yup.string(),
-    instagram: yup.string(),
+    twitter: yup
+      .string()
+      .matches(
+        /^[a-zA-Z0-9_]*$/,
+        "Your Twitter can only contain letters, numbers and '_'"
+      ),
+    telegram: yup
+      .string()
+      .matches(
+        /^[a-zA-Z0-9_]*$/,
+        "Your Telegram can only contain letters, numbers and '_'"
+      ),
+    instagram: yup
+      .string()
+      .matches(
+        /^[a-zA-Z0-9_]*$/,
+        "Your Instagram can only contain letters, numbers and '_'"
+      ),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
@@ -187,7 +210,14 @@ export default function AccountEditProfileForm(props: {
       onSubmit={submit}
     >
       {({ values, errors, touched, handleChange }) => (
-        <Form style={{ width: "100%" }}>
+        <Form
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <FormikHelper onChange={(values: any) => setFormValues(values)} />
           {/* Image */}
           <Dropzone
@@ -288,62 +318,84 @@ export default function AccountEditProfileForm(props: {
             sx={{ mt: 2 }}
           />
           {/* Twitter */}
-          <TextField
-            fullWidth
-            id="twitter"
-            name="twitter"
-            label="Twitter"
-            placeholder="alice"
-            value={values.twitter}
-            onChange={handleChange}
-            error={touched.twitter && Boolean(errors.twitter)}
-            helperText={touched.twitter && errors.twitter}
-            disabled={isFormDisabled}
-            sx={{ mt: 2 }}
-          />
-          {/* Telegram */}
-          <TextField
-            fullWidth
-            id="telegram"
-            name="telegram"
-            label="Telegram"
-            placeholder="alice"
-            value={values.telegram}
-            onChange={handleChange}
-            error={touched.telegram && Boolean(errors.telegram)}
-            helperText={touched.telegram && errors.telegram}
-            disabled={isFormDisabled}
-            sx={{ mt: 2 }}
-          />
-          {/* Instagram */}
-          <TextField
-            fullWidth
-            id="instagram"
-            name="instagram"
-            label="Instagram"
-            placeholder="alice"
-            value={values.instagram}
-            onChange={handleChange}
-            error={touched.instagram && Boolean(errors.instagram)}
-            helperText={touched.instagram && errors.instagram}
-            disabled={isFormDisabled}
-            sx={{ mt: 2 }}
-          />
-          {/* Submit button */}
-          <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-            <XxlLoadingButton
-              loading={
-                isFormSubmitting ||
-                isContractWriteLoading ||
-                isTransactionLoading
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="twitter">Twitter</InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="twitter"
+              name="twitter"
+              label="Twitter"
+              placeholder="alice"
+              startAdornment={
+                <InputAdornment position="start">@</InputAdornment>
               }
-              variant="contained"
-              type="submit"
-              disabled={isFormDisabled || !contractWrite}
+              value={values.twitter}
+              onChange={handleChange}
+              error={touched.twitter && Boolean(errors.twitter)}
+              disabled={isFormDisabled}
+            />
+            <FormHelperText error={touched.twitter && Boolean(errors.twitter)}>
+              {touched.twitter && errors.twitter}
+            </FormHelperText>
+          </FormControl>
+          {/* Telegram */}
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="telegram">Telegram</InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="telegram"
+              name="telegram"
+              label="Telegram"
+              placeholder="alice"
+              startAdornment={
+                <InputAdornment position="start">@</InputAdornment>
+              }
+              value={values.telegram}
+              onChange={handleChange}
+              error={touched.telegram && Boolean(errors.telegram)}
+              disabled={isFormDisabled}
+            />
+            <FormHelperText
+              error={touched.telegram && Boolean(errors.telegram)}
             >
-              Save
-            </XxlLoadingButton>
-          </Box>
+              {touched.telegram && errors.telegram}
+            </FormHelperText>
+          </FormControl>
+          {/* Instagram */}
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="instagram">Instagram</InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="instagram"
+              name="instagram"
+              label="Instagram"
+              placeholder="alice"
+              startAdornment={
+                <InputAdornment position="start">@</InputAdornment>
+              }
+              value={values.instagram}
+              onChange={handleChange}
+              error={touched.instagram && Boolean(errors.instagram)}
+              disabled={isFormDisabled}
+            />
+            <FormHelperText
+              error={touched.instagram && Boolean(errors.instagram)}
+            >
+              {touched.instagram && errors.instagram}
+            </FormHelperText>
+          </FormControl>
+          {/* Submit button */}
+          <XxlLoadingButton
+            loading={
+              isFormSubmitting || isContractWriteLoading || isTransactionLoading
+            }
+            variant="contained"
+            type="submit"
+            disabled={isFormDisabled || !contractWrite}
+            sx={{ mt: 4 }}
+          >
+            Save
+          </XxlLoadingButton>
         </Form>
       )}
     </Formik>
