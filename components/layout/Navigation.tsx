@@ -109,7 +109,7 @@ function NavigationDesktop(props: { sx?: SxProps }) {
       }}
     >
       <Link href="/goals/set" legacyBehavior>
-        <Button variant="contained">Set Goal</Button>
+        <Button variant="contained">Achieve Goal</Button>
       </Link>
       {isConnected && (
         <Link href={`/accounts/${address}`} passHref legacyBehavior>
@@ -229,7 +229,7 @@ function NavigationMobile(props: { sx?: SxProps }) {
       >
         <Link href="/goals/set" legacyBehavior>
           <MenuItem>
-            <Button variant="contained">Set Goal</Button>
+            <Button variant="contained">Achieve Goal</Button>
           </MenuItem>
         </Link>
         {isConnected && (
