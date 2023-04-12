@@ -59,8 +59,8 @@ export default function AccountEditProfileForm(props: {
   const formValidationSchema = yup.object({
     name: yup.string(),
     about: yup.string(),
-    email: yup.string(),
-    website: yup.string(),
+    email: yup.string().email(),
+    website: yup.string().url(),
     twitter: yup.string(),
     telegram: yup.string(),
     instagram: yup.string(),
