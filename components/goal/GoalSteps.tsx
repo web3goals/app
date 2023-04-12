@@ -1,5 +1,4 @@
 import { Box, SxProps, Typography } from "@mui/material";
-import { CenterBoldText } from "components/styled";
 import { BigNumber } from "ethers";
 import GoalActions from "./GoalActions";
 import GoalStepList from "./GoalStepList";
@@ -26,13 +25,13 @@ export default function GoalSteps(props: {
         ...props.sx,
       }}
     >
-      {/* Title */}
+      {/* Title and subtitle*/}
       <Typography variant="h4" fontWeight={700} textAlign="center">
         ⚡️ Steps to achieving the goal
       </Typography>
-      <CenterBoldText mt={2}>
+      <Typography textAlign="center" mt={1}>
         updates, discussions, proofs and result
-      </CenterBoldText>
+      </Typography>
       {/* Actions */}
       <GoalActions
         id={props.id}
