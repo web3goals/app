@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
-import { XxlLoadingButton } from "components/styled";
+import { ExtraLargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
@@ -385,7 +385,7 @@ export default function AccountEditProfileForm(props: {
             </FormHelperText>
           </FormControl>
           {/* Submit button */}
-          <XxlLoadingButton
+          <ExtraLargeLoadingButton
             loading={
               isFormSubmitting || isContractWriteLoading || isTransactionLoading
             }
@@ -395,7 +395,7 @@ export default function AccountEditProfileForm(props: {
             sx={{ mt: 4 }}
           >
             Save
-          </XxlLoadingButton>
+          </ExtraLargeLoadingButton>
         </Form>
       )}
     </Formik>

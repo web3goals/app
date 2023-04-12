@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { CentralizedBox, ThickDivider } from "components/styled";
+import { CenterBox, ThickDivider } from "components/styled";
 import GoalShareActions from "./GoalShareActions";
 
 /**
@@ -7,7 +7,7 @@ import GoalShareActions from "./GoalShareActions";
  */
 export default function GoalSetMessage(props: { id: string }) {
   return (
-    <CentralizedBox>
+    <CenterBox>
       <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you set a goal!
       </Typography>
@@ -17,6 +17,6 @@ export default function GoalSetMessage(props: { id: string }) {
         text="🗣️ Share the link with your friends and followers, they may want to be your motivators"
         sx={{ mt: 6 }}
       />
-    </CentralizedBox>
+    </CenterBox>
   );
 }

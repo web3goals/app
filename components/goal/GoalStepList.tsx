@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/system";
 import {
   CardBox,
   FullWidthSkeleton,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
 import useError from "hooks/useError";
@@ -78,14 +78,14 @@ export default function GoalStepList(props: {
             sx={{ mt: 4 }}
           >
             {isMoreGoalsExist && (
-              <XxlLoadingButton
+              <ExtraLargeLoadingButton
                 variant="outlined"
                 onClick={() => {
                   loadMoreGoalSteps(pageNumber + 1, goalSteps);
                 }}
               >
                 Load More
-              </XxlLoadingButton>
+              </ExtraLargeLoadingButton>
             )}
           </Stack>
         </Stack>

@@ -2,13 +2,13 @@ import { Autocomplete, MenuItem, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
-  CentralizedBox,
+  CenterBox,
   WidgetBox,
   WidgetInputSelect,
   WidgetInputTextField,
   WidgetSeparatorText,
   WidgetTitle,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -134,7 +134,7 @@ export default function GoalSetForm(props: {
   });
 
   return (
-    <CentralizedBox>
+    <CenterBox>
       <Typography variant="h4" fontWeight={700}>
         🤝 Dear Web3,
       </Typography>
@@ -240,7 +240,7 @@ export default function GoalSetForm(props: {
               to motivate me in this space
             </WidgetSeparatorText>
             {/* Submit button */}
-            <XxlLoadingButton
+            <ExtraLargeLoadingButton
               loading={isFormLoading}
               variant="contained"
               type="submit"
@@ -250,7 +250,7 @@ export default function GoalSetForm(props: {
               sx={{ mt: 3 }}
             >
               Submit
-            </XxlLoadingButton>
+            </ExtraLargeLoadingButton>
             {/* Errors */}
             {!chain?.id && (
               <WidgetSeparatorText mt={3} color="red">
@@ -265,6 +265,6 @@ export default function GoalSetForm(props: {
           </Form>
         )}
       </Formik>
-    </CentralizedBox>
+    </CenterBox>
   );
 }

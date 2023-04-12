@@ -9,7 +9,7 @@ import { Box } from "@mui/system";
 import GoalList from "components/goal/GoalList";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
-import { ThickDivider, XxlLoadingButton } from "components/styled";
+import { ThickDivider, ExtraLargeLoadingButton } from "components/styled";
 import Image from "next/image";
 
 /**
@@ -45,9 +45,13 @@ function Header(props: { sx?: SxProps }) {
         A <strong>social space</strong> that helps any person or community to{" "}
         <strong>achieve their goals!</strong>
       </Typography>
-      <XxlLoadingButton variant="contained" href="/goals/set" sx={{ mt: 4 }}>
+      <ExtraLargeLoadingButton
+        variant="contained"
+        href="/goals/set"
+        sx={{ mt: 4 }}
+      >
         Start Achieve
-      </XxlLoadingButton>
+      </ExtraLargeLoadingButton>
       <Box
         display="flex"
         flexDirection="column"
@@ -117,9 +121,13 @@ function HowItWorks(props: { sx?: SxProps }) {
         image="/images/how-it-works-3.png"
         sx={{ mt: 6 }}
       />
-      <XxlLoadingButton variant="contained" href="/goals/set" sx={{ mt: 6 }}>
+      <ExtraLargeLoadingButton
+        variant="contained"
+        href="/goals/set"
+        sx={{ mt: 6 }}
+      >
         Set Goal
-      </XxlLoadingButton>
+      </ExtraLargeLoadingButton>
     </Container>
   );
 }
@@ -196,9 +204,9 @@ function Goals(props: { sx?: SxProps }) {
         that inspire us and everyone around us.
       </Typography>
       <GoalList pageSize={3} hideLoadMoreButton sx={{ mt: 4 }} />
-      <XxlLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
+      <ExtraLargeLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
         Explore All
-      </XxlLoadingButton>
+      </ExtraLargeLoadingButton>
     </Container>
   );
 }

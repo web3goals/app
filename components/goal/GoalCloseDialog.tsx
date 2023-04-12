@@ -3,7 +3,7 @@ import { grey } from "@mui/material/colors";
 import {
   FullWidthSkeleton,
   WidgetSeparatorText,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -154,7 +154,7 @@ function GoalVerifyForm(props: {
       <WidgetSeparatorText mb={3}>
         verify the achievement to close the goal
       </WidgetSeparatorText>
-      <XxlLoadingButton
+      <ExtraLargeLoadingButton
         variant="contained"
         type="submit"
         disabled={isContractPrepareError || !contractWrite}
@@ -163,7 +163,7 @@ function GoalVerifyForm(props: {
         sx={{ mb: 3 }}
       >
         Verify
-      </XxlLoadingButton>
+      </ExtraLargeLoadingButton>
       {/* Proof file input */}
       {props.verificationRequirement ===
         VERIFICATION_REQUIREMENTS.anyProofUri && (
@@ -227,7 +227,7 @@ function GoalCloseForm(props: {
           ? "the goal is verified as achieved, now it can be closed"
           : "the goal is not achieved by the deadline, so it can only be closed as a failed"}
       </WidgetSeparatorText>
-      <XxlLoadingButton
+      <ExtraLargeLoadingButton
         variant="contained"
         type="submit"
         disabled={isContractPrepareError || !contractWrite}
@@ -236,7 +236,7 @@ function GoalCloseForm(props: {
         sx={{ mb: 3 }}
       >
         Close
-      </XxlLoadingButton>
+      </ExtraLargeLoadingButton>
       <WidgetSeparatorText color="text.secondary">
         {props.isVerificationStatusAchieved
           ? "🔮 the stake will be returned after closing"

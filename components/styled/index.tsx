@@ -1,9 +1,4 @@
-import {
-  LoadingButton,
-  LoadingButtonProps,
-  TimelineDot,
-  TimelineDotProps,
-} from "@mui/lab";
+import { LoadingButton, LoadingButtonProps } from "@mui/lab";
 import {
   Box,
   BoxProps,
@@ -34,22 +29,22 @@ export const FullWidthSkeleton = styled(Skeleton)<SkeletonProps>(
   })
 );
 
-export const XxlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
-  ({ theme, variant }) => ({
-    fontSize: "24px",
-    fontWeight: 700,
-    borderRadius: "78px",
-    padding: "24px 78px",
-    ...(variant === "outlined" && {
+export const ExtraLargeLoadingButton = styled(
+  LoadingButton
+)<LoadingButtonProps>(({ theme, variant }) => ({
+  fontSize: "24px",
+  fontWeight: 700,
+  borderRadius: "78px",
+  padding: "24px 78px",
+  ...(variant === "outlined" && {
+    border: "5px solid",
+    "&:hover": {
       border: "5px solid",
-      "&:hover": {
-        border: "5px solid",
-      },
-    }),
-  })
-) as typeof LoadingButton;
+    },
+  }),
+})) as typeof LoadingButton;
 
-export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
+export const LargeLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({
     fontSize: "18px",
     fontWeight: 700,
@@ -64,7 +59,7 @@ export const XlLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 ) as typeof LoadingButton;
 
-export const LLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
+export const MediumLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   ({ theme, variant }) => ({
     fontSize: "14px",
     fontWeight: 700,
@@ -79,7 +74,7 @@ export const LLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
   })
 ) as typeof LoadingButton;
 
-export const CentralizedBox = styled(Box)<BoxProps>(({ theme }) => ({
+export const CenterBox = styled(Box)<BoxProps>(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -171,15 +166,5 @@ export const WidgetSeparatorText = styled(Typography)<TypographyProps>(
     fontWeight: 700,
     textAlign: "center",
     padding: "0 18px",
-  })
-);
-
-export const LandingTimelineDot = styled(TimelineDot)<TimelineDotProps>(
-  ({ theme }) => ({
-    width: "72px",
-    height: "72px",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: "4px",
   })
 );

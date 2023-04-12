@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/system";
 import {
   CardBox,
   FullWidthSkeleton,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import useError from "hooks/useError";
@@ -74,14 +74,14 @@ export default function GoalList(props: {
               alignItems="center"
               mt={4}
             >
-              <XxlLoadingButton
+              <ExtraLargeLoadingButton
                 variant="outlined"
                 onClick={() => {
                   loadMoreGoals(pageNumber + 1, goals);
                 }}
               >
                 Load More
-              </XxlLoadingButton>
+              </ExtraLargeLoadingButton>
             </Box>
           )}
         </Stack>

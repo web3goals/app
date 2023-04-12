@@ -5,7 +5,7 @@ import {
   WidgetInputTextField,
   WidgetSeparatorText,
   WidgetTitle,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
@@ -179,14 +179,14 @@ export default function GoalPostMessageDialog(props: {
                   alignItems: "center",
                 }}
               >
-                <XxlLoadingButton
+                <ExtraLargeLoadingButton
                   loading={isFormLoading}
                   variant="contained"
                   type="submit"
                   disabled={isFormSubmitButtonDisabled}
                 >
                   Post
-                </XxlLoadingButton>
+                </ExtraLargeLoadingButton>
               </Box>
             </Form>
           )}

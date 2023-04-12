@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import GoalList from "components/goal/GoalList";
 import Layout from "components/layout";
-import { CentralizedBox } from "components/styled";
+import { CenterBox } from "components/styled";
 
 /**
  * Page with goals.
@@ -9,7 +9,7 @@ import { CentralizedBox } from "components/styled";
 export default function Goals() {
   return (
     <Layout>
-      <CentralizedBox>
+      <CenterBox>
         <Typography variant="h4" fontWeight={700} textAlign="center">
           ✨ Goals
         </Typography>
@@ -17,7 +17,7 @@ export default function Goals() {
           that inspire us and everyone around us.
         </Typography>
         <GoalList sx={{ mt: 4 }} />
-      </CentralizedBox>
+      </CenterBox>
     </Layout>
   );
 }

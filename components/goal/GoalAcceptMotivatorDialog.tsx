@@ -1,5 +1,8 @@
 import { Dialog, DialogContent, Typography } from "@mui/material";
-import { WidgetSeparatorText, XxlLoadingButton } from "components/styled";
+import {
+  WidgetSeparatorText,
+  ExtraLargeLoadingButton,
+} from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber, ethers } from "ethers";
 import useToasts from "hooks/useToast";
@@ -97,7 +100,7 @@ export default function GoalAcceptMotivatorDialog(props: {
         <WidgetSeparatorText mb={3}>
           the motivator who inspire you
         </WidgetSeparatorText>
-        <XxlLoadingButton
+        <ExtraLargeLoadingButton
           variant="contained"
           type="submit"
           disabled={isContractPrepareError || !contractWrite}
@@ -105,7 +108,7 @@ export default function GoalAcceptMotivatorDialog(props: {
           onClick={() => contractWrite?.()}
         >
           Accept
-        </XxlLoadingButton>
+        </ExtraLargeLoadingButton>
       </DialogContent>
     </Dialog>
   );

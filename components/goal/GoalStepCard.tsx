@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
-import { CardBox, LLoadingButton } from "components/styled";
+import { CardBox, MediumLoadingButton } from "components/styled";
 import { GOAL_STEPS } from "constants/goalSteps";
 import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
 import { DialogContext } from "context/dialog";
@@ -227,7 +227,7 @@ function ContentMotivatorAdded(props: {
         {motivatorUriData?.message || "..."}
       </Typography>
       {!props.isClosed && address === props.authorAddress && (
-        <LLoadingButton
+        <MediumLoadingButton
           variant="outlined"
           onClick={() =>
             showDialog?.(
@@ -242,7 +242,7 @@ function ContentMotivatorAdded(props: {
           sx={{ mt: 2 }}
         >
           Accept
-        </LLoadingButton>
+        </MediumLoadingButton>
       )}
     </Box>
   );

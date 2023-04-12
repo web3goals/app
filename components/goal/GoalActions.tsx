@@ -1,6 +1,6 @@
 import { SxProps } from "@mui/material";
 import { Stack } from "@mui/system";
-import { XlLoadingButton } from "components/styled";
+import { LargeLoadingButton } from "components/styled";
 import {
   VERIFICATION_DATA_KEYS,
   VERIFICATION_REQUIREMENTS,
@@ -72,7 +72,7 @@ function MessagePostButton(props: { id: string; onSuccess?: Function }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
-    <XlLoadingButton
+    <LargeLoadingButton
       variant="contained"
       onClick={() =>
         showDialog?.(
@@ -85,7 +85,7 @@ function MessagePostButton(props: { id: string; onSuccess?: Function }) {
       }
     >
       Post Message
-    </XlLoadingButton>
+    </LargeLoadingButton>
   );
 }
 
@@ -93,7 +93,7 @@ function MotivatorBecomeButton(props: { id: string; onSuccess?: Function }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
-    <XlLoadingButton
+    <LargeLoadingButton
       variant="outlined"
       onClick={() =>
         showDialog?.(
@@ -106,7 +106,7 @@ function MotivatorBecomeButton(props: { id: string; onSuccess?: Function }) {
       }
     >
       Become Motivator
-    </XlLoadingButton>
+    </LargeLoadingButton>
   );
 }
 
@@ -166,7 +166,7 @@ function ProofAddButton(props: {
   }
 
   return (
-    <XlLoadingButton
+    <LargeLoadingButton
       variant="outlined"
       onClick={() =>
         showDialog?.(
@@ -184,7 +184,7 @@ function ProofAddButton(props: {
       }
     >
       Add Proof
-    </XlLoadingButton>
+    </LargeLoadingButton>
   );
 }
 
@@ -197,7 +197,7 @@ function GoalCloseButton(props: {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
-    <XlLoadingButton
+    <LargeLoadingButton
       variant="outlined"
       onClick={() =>
         showDialog?.(
@@ -212,6 +212,6 @@ function GoalCloseButton(props: {
       }
     >
       Close
-    </XlLoadingButton>
+    </LargeLoadingButton>
   );
 }

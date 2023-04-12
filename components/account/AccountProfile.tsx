@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { FullWidthSkeleton, XlLoadingButton } from "components/styled";
+import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import AccountEntity from "entities/subgraph/AccountEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
@@ -249,9 +249,9 @@ export default function AccountProfile(props: { address: string }) {
           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
             {/* Edit button */}
             <Link href="/accounts/edit" legacyBehavior>
-              <XlLoadingButton variant="contained">
+              <LargeLoadingButton variant="contained">
                 {profileData ? "Edit Profile" : "Create Profile"}
-              </XlLoadingButton>
+              </LargeLoadingButton>
             </Link>
           </Stack>
         )}

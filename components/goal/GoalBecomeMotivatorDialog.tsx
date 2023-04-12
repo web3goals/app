@@ -6,7 +6,7 @@ import {
   WidgetInputTextField,
   WidgetSeparatorText,
   WidgetTitle,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
@@ -181,14 +181,14 @@ export default function GoalBecomeMotivatorDialog(props: {
                   mb: 3,
                 }}
               >
-                <XxlLoadingButton
+                <ExtraLargeLoadingButton
                   loading={isFormLoading}
                   variant="contained"
                   type="submit"
                   disabled={isFormSubmitButtonDisabled}
                 >
                   Post
-                </XxlLoadingButton>
+                </ExtraLargeLoadingButton>
               </Box>
               <WidgetSeparatorText px={{ md: 12 }} color="text.secondary">
                 🔮 once published, the author will be able to accept your

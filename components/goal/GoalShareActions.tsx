@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import { XlLoadingButton } from "components/styled";
+import { LargeLoadingButton } from "components/styled";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
 import { Analytics } from "utils/analytics";
@@ -99,7 +99,7 @@ export default function GoalShareActions(props: {
               {goalLink}
             </MuiLink>
           </Link>
-          <XlLoadingButton
+          <LargeLoadingButton
             variant="outlined"
             onClick={() => {
               navigator.clipboard.writeText(goalLink);
@@ -108,7 +108,7 @@ export default function GoalShareActions(props: {
             }}
           >
             Copy
-          </XlLoadingButton>
+          </LargeLoadingButton>
         </Box>
       </Box>
     );

@@ -1,11 +1,7 @@
 import GoalParams from "components/goal/GoalParams";
 import GoalSteps from "components/goal/GoalSteps";
 import Layout from "components/layout";
-import {
-  CentralizedBox,
-  FullWidthSkeleton,
-  ThickDivider,
-} from "components/styled";
+import { CenterBox, FullWidthSkeleton, ThickDivider } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
@@ -42,7 +38,7 @@ export default function Goal() {
 
   return (
     <Layout maxWidth="sm">
-      <CentralizedBox>
+      <CenterBox>
         {isDataReady ? (
           <>
             <GoalParams
@@ -71,7 +67,7 @@ export default function Goal() {
         ) : (
           <FullWidthSkeleton />
         )}
-      </CentralizedBox>
+      </CenterBox>
     </Layout>
   );
 }

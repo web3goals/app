@@ -6,7 +6,7 @@ import {
   WidgetSeparatorText,
   WidgetText,
   WidgetTitle,
-  XlLoadingButton,
+  LargeLoadingButton,
 } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
@@ -112,7 +112,7 @@ export default function GoalParams(props: {
       </WidgetSeparatorText>
       {/* Share button */}
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-        <XlLoadingButton
+        <LargeLoadingButton
           variant="outlined"
           onClick={() =>
             showDialog?.(
@@ -121,7 +121,7 @@ export default function GoalParams(props: {
           }
         >
           Share
-        </XlLoadingButton>
+        </LargeLoadingButton>
       </Box>
     </Box>
   );

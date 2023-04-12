@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import { XlLoadingButton } from "components/styled";
+import { LargeLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { DialogContext } from "context/dialog";
 import { useContext, useState } from "react";
@@ -148,9 +148,9 @@ function EarlyAdoptersClubDialog(props: {
           Any feedback would be appreciated. This will help us make the perfect
           app for public release 🚀
         </Typography>
-        <XlLoadingButton href="/feedback" variant="contained" sx={{ mt: 4 }}>
+        <LargeLoadingButton href="/feedback" variant="contained" sx={{ mt: 4 }}>
           Post Feedback
-        </XlLoadingButton>
+        </LargeLoadingButton>
         <Typography mt={4}>
           Also, so that we do not lose each other in this big world, please
           leave your <MuiLink href="/connection">contacts</MuiLink>. Or follow

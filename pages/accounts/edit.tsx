@@ -1,6 +1,6 @@
 import AccountEditProfileForm from "components/account/AccountEditProfileForm";
 import Layout from "components/layout";
-import { CentralizedBox, FullWidthSkeleton } from "components/styled";
+import { CenterBox, FullWidthSkeleton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
@@ -51,13 +51,13 @@ export default function EditAccount() {
 
   return (
     <Layout maxWidth="xs">
-      <CentralizedBox>
+      <CenterBox>
         {profileData !== undefined ? (
           <AccountEditProfileForm profileData={profileData} />
         ) : (
           <FullWidthSkeleton />
         )}
-      </CentralizedBox>
+      </CenterBox>
     </Layout>
   );
 }

@@ -1,7 +1,7 @@
 import { Box, Link as MuiLink, TextField, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
-import { CentralizedBox, XxlLoadingButton } from "components/styled";
+import { CenterBox, ExtraLargeLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { FORMS } from "constants/forms";
 import { Form, Formik } from "formik";
@@ -50,7 +50,7 @@ export default function Connection() {
 
   return (
     <Layout maxWidth="xs">
-      <CentralizedBox>
+      <CenterBox>
         {/* Title */}
         <Typography variant="h4" fontWeight={700} textAlign="center">
           🤝️ Connection
@@ -107,14 +107,14 @@ export default function Connection() {
                 alignItems="center"
                 mt={2}
               >
-                <XxlLoadingButton
+                <ExtraLargeLoadingButton
                   loading={isFormSubmitting}
                   variant="contained"
                   type="submit"
                   disabled={isFormDisabled}
                 >
                   Send
-                </XxlLoadingButton>
+                </ExtraLargeLoadingButton>
               </Box>
             </Form>
           )}
@@ -126,7 +126,7 @@ export default function Connection() {
             Twitter
           </MuiLink>
         </Typography>
-      </CentralizedBox>
+      </CenterBox>
     </Layout>
   );
 }

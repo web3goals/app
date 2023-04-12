@@ -5,7 +5,7 @@ import {
   WidgetInputTextField,
   WidgetSeparatorText,
   WidgetTitle,
-  XxlLoadingButton,
+  ExtraLargeLoadingButton,
 } from "components/styled";
 import {
   VERIFICATION_DATA_KEYS,
@@ -282,7 +282,7 @@ export default function GoalAddProofDocumentDialog(props: {
                 alignItems="center"
                 mt={4}
               >
-                <XxlLoadingButton
+                <ExtraLargeLoadingButton
                   loading={
                     isFormSubmitting ||
                     isContractWriteLoading ||
@@ -293,7 +293,7 @@ export default function GoalAddProofDocumentDialog(props: {
                   disabled={isFormDisabled || !contractWrite}
                 >
                   Add
-                </XxlLoadingButton>
+                </ExtraLargeLoadingButton>
               </Box>
             </Form>
           )}
