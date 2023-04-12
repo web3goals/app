@@ -28,10 +28,10 @@ export default function GoalSteps(props: {
     >
       {/* Title */}
       <Typography variant="h4" fontWeight={700} textAlign="center">
-        🏔️ Way to achieve the goal
+        ⚡️ Steps to achieving the goal
       </Typography>
       <WidgetSeparatorText mt={2}>
-        steps, facts, emotions and result
+        updates, discussions, proofs and result
       </WidgetSeparatorText>
       {/* Actions */}
       <GoalActions
