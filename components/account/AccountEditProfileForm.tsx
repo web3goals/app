@@ -1,6 +1,8 @@
 import {
   Avatar,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   InputAdornment,
   InputLabel,
@@ -63,30 +65,47 @@ export default function AccountEditProfileForm(props: {
     twitter: props.profileData?.attributes?.[4]?.value || "",
     telegram: props.profileData?.attributes?.[5]?.value || "",
     instagram: props.profileData?.attributes?.[6]?.value || "",
+    isNotificationsEnabled:
+      props.profileData?.attributes?.[7]?.value !== undefined
+        ? props.profileData.attributes[7].value
+        : true,
   });
+
   const formValidationSchema = yup.object({
     name: yup.string(),
     about: yup.string(),
-    email: yup.string().email(),
+    email: yup
+      .string()
+      .email()
+      .test({
+        message: "email is required to receive notifications",
+        test: (value, context) => {
+          if (context.parent.isNotificationsEnabled) {
+            return value !== undefined && value !== "";
+          }
+          return true;
+        },
+      }),
     website: yup.string().url(),
     twitter: yup
       .string()
       .matches(
         /^[a-zA-Z0-9_]*$/,
-        "Your Twitter can only contain letters, numbers and '_'"
+        "your twitter can only contain letters, numbers and '_'"
       ),
     telegram: yup
       .string()
       .matches(
         /^[a-zA-Z0-9_]*$/,
-        "Your Telegram can only contain letters, numbers and '_'"
+        "your telegram can only contain letters, numbers and '_'"
       ),
     instagram: yup
       .string()
       .matches(
         /^[a-zA-Z0-9_]*$/,
-        "Your Instagram can only contain letters, numbers and '_'"
+        "your instagram can only contain letters, numbers and '_'"
       ),
+    isNotificationsEnabled: yup.bool(),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
@@ -167,6 +186,10 @@ export default function AccountEditProfileForm(props: {
           { trait_type: "twitter", value: values.twitter },
           { trait_type: "telegram", value: values.telegram },
           { trait_type: "instagram", value: values.instagram },
+          {
+            trait_type: "notifications enabled",
+            value: values.isNotificationsEnabled,
+          },
         ],
       };
       // Upload updated profile data to ipfs
@@ -302,6 +325,25 @@ export default function AccountEditProfileForm(props: {
             helperText={touched.email && errors.email}
             disabled={isFormDisabled}
             sx={{ mt: 2 }}
+          />
+          {/* Is notifications enabled */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                id="isNotificationsEnabled"
+                name="isNotificationsEnabled"
+                checked={values.isNotificationsEnabled}
+                onChange={handleChange}
+                disabled={isFormDisabled}
+              />
+            }
+            label={
+              <Typography variant="body2" color="text.secondary">
+                Receive email notifications about goal updates and app
+                improvements
+              </Typography>
+            }
+            sx={{ width: 1, mt: 2 }}
           />
           {/* Website */}
           <TextField
