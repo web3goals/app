@@ -5,13 +5,13 @@ import {
   Container,
   Divider,
   IconButton,
+  Link as MuiLink,
   ListItemIcon,
   Menu,
   MenuItem,
+  SxProps,
   Toolbar,
   Typography,
-  SxProps,
-  Link as MuiLink,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -38,10 +38,18 @@ export default function Navigation() {
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <LogoDesktop sx={{ flexGrow: 1 }} />
-          <LogoMobile sx={{ flexGrow: 1 }} />
-          <NavigationDesktop />
-          <NavigationMobile />
+          <LogoDesktop
+            sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}
+          />
+          <LogoMobile
+            sx={{ display: { xs: "flex", md: "none" }, flexGrow: 1 }}
+          />
+          <NavigationDesktop
+            sx={{ display: { xs: "none", md: "flex" }, ml: 1 }}
+          />
+          <NavigationMobile
+            sx={{ display: { xs: "flex", md: "none" }, ml: 1 }}
+          />
         </Toolbar>
       </Container>
     </AppBar>
@@ -52,24 +60,18 @@ function LogoDesktop(props: { sx?: SxProps }) {
   const { chain } = useNetwork();
 
   return (
-    <Box
-      sx={{
-        display: { xs: "none", md: "flex" },
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
+    <Box sx={{ alignItems: "center", ...props.sx }}>
       <Link href="/" passHref legacyBehavior>
         <Box component="a" display="flex">
           <Logo width="153" height="25" />
         </Box>
       </Link>
-      <Box display="flex" flexDirection="column" mx={1}>
+      <Box display="flex" flexDirection="column" ml={1}>
         <Typography color="text.secondary" variant="caption">
           {packageJson.version}-{isDev() ? "dev" : "beta"}
         </Typography>
         <Typography color="text.secondary" variant="caption">
-          {chainToSupportedChainConfig(chain).chain.name}
+          {chainToSupportedChainConfig(chain).chain.id}
         </Typography>
       </Box>
     </Box>
@@ -77,21 +79,18 @@ function LogoDesktop(props: { sx?: SxProps }) {
 }
 
 function LogoMobile(props: { sx?: SxProps }) {
+  const { chain } = useNetwork();
+
   return (
-    <Box
-      sx={{
-        display: { xs: "flex", md: "none" },
-        flexDirection: "column",
-        ...props.sx,
-      }}
-    >
+    <Box sx={{ flexDirection: "column", ...props.sx }}>
       <Link href="/" passHref legacyBehavior>
         <Box component="a" display="flex">
           <Logo width="122" height="20" />
         </Box>
       </Link>
       <Typography color="text.secondary" variant="caption">
-        {packageJson.version}-{isDev() ? "dev" : "beta"}
+        {packageJson.version}-{isDev() ? "dev" : "beta"} |{" "}
+        {chainToSupportedChainConfig(chain).chain.id}
       </Typography>
     </Box>
   );
@@ -101,13 +100,7 @@ function NavigationDesktop(props: { sx?: SxProps }) {
   const { isConnected, address } = useAccount();
 
   return (
-    <Box
-      sx={{
-        display: { xs: "none", lg: "flex" },
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
+    <Box sx={{ alignItems: "center", ...props.sx }}>
       <Link href="/goals/set" legacyBehavior>
         <Button variant="contained">Achieve Goal</Button>
       </Link>
@@ -123,45 +116,38 @@ function NavigationDesktop(props: { sx?: SxProps }) {
           Explore
         </MuiLink>
       </Link>
-      <Link href="/#how-it-works" passHref legacyBehavior>
-        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
-          How it works
-        </MuiLink>
-      </Link>
-      <Link href="/#faq" passHref legacyBehavior>
-        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
-          FAQ
-        </MuiLink>
-      </Link>
-      <Link href="/feedback" passHref legacyBehavior>
-        <MuiLink fontWeight={700} color="inherit" ml={3.5}>
-          Feedback
-        </MuiLink>
-      </Link>
       <Box ml={3.5}>
         <ConnectButton showBalance={false} accountStatus="full" />
       </Box>
-      <IconButton
-        component="a"
-        target="_blank"
-        href={CONTACTS.github}
-        sx={{ color: "black", ml: 1.5 }}
-      >
-        <GitHub />
-      </IconButton>
-      <IconButton
-        component="a"
-        target="_blank"
-        href={CONTACTS.twitter}
-        sx={{ color: "black" }}
-      >
-        <Twitter />
-      </IconButton>
+      <NavigationMenu sx={{ ml: 1.5 }} />
     </Box>
   );
 }
 
 function NavigationMobile(props: { sx?: SxProps }) {
+  return (
+    <Box sx={{ alignItems: "center", ...props.sx }}>
+      <ConnectButton
+        showBalance={false}
+        accountStatus="avatar"
+        chainStatus="icon"
+      />
+      <NavigationMenu
+        displaySetGoalButton
+        displayAccountLink
+        displayExploreLink
+        sx={{ ml: 1.5 }}
+      />
+    </Box>
+  );
+}
+
+function NavigationMenu(props: {
+  displaySetGoalButton?: boolean;
+  displayAccountLink?: boolean;
+  displayExploreLink?: boolean;
+  sx?: SxProps;
+}) {
   const { isConnected, address } = useAccount();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -174,27 +160,20 @@ function NavigationMobile(props: { sx?: SxProps }) {
   }
 
   return (
-    <Box
-      sx={{
-        display: { xs: "flex", lg: "none" },
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
-      <ConnectButton showBalance={false} accountStatus="address" />
+    <>
       <IconButton
         onClick={handleClick}
         size="small"
-        sx={{ ml: 1.5 }}
-        aria-controls={open ? "mobile-menu" : undefined}
+        aria-controls={open ? "navigation-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
+        sx={{ ...props.sx }}
       >
         <MenuRounded />
       </IconButton>
       <Menu
         anchorEl={anchorEl}
-        id="mobile-menu"
+        id="navigation-menu"
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -227,19 +206,23 @@ function NavigationMobile(props: { sx?: SxProps }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link href="/goals/set" legacyBehavior>
-          <MenuItem>
-            <Button variant="contained">Achieve Goal</Button>
-          </MenuItem>
-        </Link>
-        {isConnected && (
+        {props.displaySetGoalButton && (
+          <Link href="/goals/set" legacyBehavior>
+            <MenuItem>
+              <Button variant="contained">Achieve Goal</Button>
+            </MenuItem>
+          </Link>
+        )}
+        {props.displayAccountLink && isConnected && (
           <Link href={`/accounts/${address}`} passHref legacyBehavior>
             <MenuItem>Account</MenuItem>
           </Link>
         )}
-        <Link href="/goals" passHref legacyBehavior>
-          <MenuItem>Explore</MenuItem>
-        </Link>
+        {props.displayExploreLink && (
+          <Link href="/goals" passHref legacyBehavior>
+            <MenuItem>Explore</MenuItem>
+          </Link>
+        )}
         <Link href="/#how-it-works" passHref legacyBehavior>
           <MenuItem>How it works</MenuItem>
         </Link>
@@ -248,6 +231,9 @@ function NavigationMobile(props: { sx?: SxProps }) {
         </Link>
         <Link href="/feedback" passHref legacyBehavior>
           <MenuItem>Feedback</MenuItem>
+        </Link>
+        <Link href="/connection" passHref legacyBehavior>
+          <MenuItem>Connection</MenuItem>
         </Link>
         <Divider />
         <MenuItem component="a" target="_blank" href={CONTACTS.github}>
@@ -263,6 +249,6 @@ function NavigationMobile(props: { sx?: SxProps }) {
           Twitter
         </MenuItem>
       </Menu>
-    </Box>
+    </>
   );
 }
