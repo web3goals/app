@@ -64,11 +64,11 @@ function LogoDesktop(props: { sx?: SxProps }) {
           <Logo width="153" height="25" />
         </Box>
       </Link>
-      <Box display="flex" flexDirection="column">
-        <Typography color="text.secondary" variant="caption" ml={1}>
+      <Box display="flex" flexDirection="column" mx={1}>
+        <Typography color="text.secondary" variant="caption">
           {packageJson.version}-{isDev() ? "dev" : "beta"}
         </Typography>
-        <Typography color="text.secondary" variant="caption" ml={1}>
+        <Typography color="text.secondary" variant="caption">
           {chainToSupportedChainConfig(chain).chain.name}
         </Typography>
       </Box>
