@@ -5,14 +5,7 @@ import {
   Telegram,
   Twitter,
 } from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Divider,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
@@ -24,11 +17,11 @@ import useIpfs from "hooks/useIpfs";
 import useSubgraph from "hooks/useSubgraph";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { palette } from "theme/palette";
 import { emojiAvatarForAddress } from "utils/avatars";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
+import AccountReputation from "./AccountReputation";
 
 /**
  * A component with account profile.
@@ -193,7 +186,7 @@ export default function AccountProfile(props: { address: string }) {
               />
             )}
           </Stack>
-          {/* Address, goal counters */}
+          {/* Address, reputation */}
           <Stack
             direction="row"
             alignItems="center"
@@ -203,44 +196,12 @@ export default function AccountProfile(props: { address: string }) {
               {addressToShortAddress(props.address)}
             </Typography>
             {accountData && (
-              <>
-                <Tooltip title="Achieved goals">
-                  <Typography
-                    fontWeight={700}
-                    color={palette.green}
-                    sx={{ mr: 1.5, cursor: "help" }}
-                  >
-                    ✅ {accountData.achievedGoals}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Failed goals">
-                  <Typography
-                    fontWeight={700}
-                    color={palette.red}
-                    sx={{ mr: 1.5, cursor: "help" }}
-                  >
-                    ❌ {accountData.failedGoals}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Goals motivated by the account">
-                  <Typography
-                    fontWeight={700}
-                    color={palette.yellow}
-                    sx={{ mr: 1.5, cursor: "help" }}
-                  >
-                    ✨ {accountData.motivatedGoals}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Goals motivated by the account unsuccessfully">
-                  <Typography
-                    fontWeight={700}
-                    color={palette.red}
-                    sx={{ cursor: "help" }}
-                  >
-                    💔 {accountData.notMotivatedGoals}
-                  </Typography>
-                </Tooltip>
-              </>
+              <AccountReputation
+                achievedGoals={accountData.achievedGoals}
+                failedGoals={accountData.failedGoals}
+                motivatedGoals={accountData.motivatedGoals}
+                notMotivatedGoals={accountData.notMotivatedGoals}
+              />
             )}
           </Stack>
         </Stack>

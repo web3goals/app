@@ -21,11 +21,12 @@ export default function useSubgraph() {
     // Prepare query
     const idFilter = args.id ? `id: "${args.id.toLowerCase()}"` : "";
     const filterParams = `where: {${idFilter}}`;
+    const sortParams = `orderBy: profileId, orderDirection: desc`;
     const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
       args.skip || defaultSkip
     }`;
     const query = `{
-     accounts(${filterParams}, ${paginationParams}) {
+     accounts(${filterParams}, ${sortParams}, ${paginationParams}) {
        id
        achievedGoals
        failedGoals
