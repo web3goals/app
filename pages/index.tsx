@@ -1,15 +1,16 @@
 import {
   Container,
+  Link as MuiLink,
   Stack,
   SxProps,
   Typography,
-  Link as MuiLink,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import GoalList from "components/goal/GoalList";
+import AccountExplore from "components/account/AccountExplore";
+import GoalExplore from "components/goal/GoalExplore";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
-import { ThickDivider, ExtraLargeLoadingButton } from "components/styled";
+import { ExtraLargeLoadingButton, ThickDivider } from "components/styled";
 import Image from "next/image";
 
 /**
@@ -23,9 +24,7 @@ export default function Landing() {
         text="A year from now you may wish you had started today"
         author="Karen Lamb"
       />
-      <HowItWorks sx={{ mt: { xs: 6, md: 12 } }} />
-      <Goals sx={{ mt: 8 }} />
-      <Faq sx={{ mt: 8, mb: 6 }} />
+      <Content sx={{ mt: { xs: 6, md: 12 } }} />
     </Layout>
   );
 }
@@ -75,7 +74,7 @@ function Header(props: { sx?: SxProps }) {
   );
 }
 
-function HowItWorks(props: { sx?: SxProps }) {
+function Content(props: { sx?: SxProps }) {
   return (
     <Container
       maxWidth="md"
@@ -86,6 +85,20 @@ function HowItWorks(props: { sx?: SxProps }) {
         ...props.sx,
       }}
     >
+      <HowItWorks />
+      <ThickDivider sx={{ mt: 8, mb: 8 }} />
+      <GoalExplore title="✨ Space for ambitious goals" />
+      <ThickDivider sx={{ mt: 8, mb: 8 }} />
+      <AccountExplore title="🔆 Space for bright people" />
+      <ThickDivider sx={{ mt: 8, mb: 8 }} />
+      <Faq />
+    </Container>
+  );
+}
+
+function HowItWorks(props: { sx?: SxProps }) {
+  return (
+    <Box sx={{ ...props.sx }}>
       <Box
         id="how-it-works"
         component="a"
@@ -121,14 +134,12 @@ function HowItWorks(props: { sx?: SxProps }) {
         image="/images/how-it-works-3.png"
         sx={{ mt: 6 }}
       />
-      <ExtraLargeLoadingButton
-        variant="contained"
-        href="/goals/set"
-        sx={{ mt: 6 }}
-      >
-        Set Goal
-      </ExtraLargeLoadingButton>
-    </Container>
+      <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
+        <ExtraLargeLoadingButton variant="contained" href="/goals/set">
+          Set Goal
+        </ExtraLargeLoadingButton>
+      </Box>
+    </Box>
   );
 }
 
@@ -180,65 +191,20 @@ function HowItWorksStep(props: {
   );
 }
 
-function Goals(props: { sx?: SxProps }) {
-  return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
-      <ThickDivider />
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        textAlign="center"
-        sx={{ mt: 8 }}
-      >
-        ✨ Space for ambitious goals
-      </Typography>
-      <Typography color="text.secondary" textAlign="center" mt={1}>
-        that inspire us and everyone around us
-      </Typography>
-      <GoalList pageSize={3} hideLoadMoreButton sx={{ mt: 4 }} />
-      <ExtraLargeLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
-        Explore All
-      </ExtraLargeLoadingButton>
-    </Container>
-  );
-}
-
 function Faq(props: { sx?: SxProps }) {
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
+    <Box sx={{ ...props.sx }}>
       <Box
         id="faq"
         component="a"
         sx={{
           display: "block",
           position: "relative",
-          top: "-32px",
+          top: "-98px",
           visibility: "hidden",
         }}
       />
-      <ThickDivider />
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        textAlign="center"
-        sx={{ mt: 8 }}
-      >
+      <Typography variant="h4" fontWeight={700} textAlign="center">
         👌 Frequently asked questions
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
@@ -341,6 +307,6 @@ function Faq(props: { sx?: SxProps }) {
       >
         <MuiLink href="/feedback">Ask us</MuiLink>, we'll be glad to help you ❤️
       </Typography>
-    </Container>
+    </Box>
   );
 }

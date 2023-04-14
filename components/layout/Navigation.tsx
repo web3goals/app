@@ -111,7 +111,7 @@ function NavigationDesktop(props: { sx?: SxProps }) {
           </MuiLink>
         </Link>
       )}
-      <Link href="/goals" passHref legacyBehavior>
+      <Link href="/explore" passHref legacyBehavior>
         <MuiLink fontWeight={700} color="inherit" ml={3.5}>
           Explore
         </MuiLink>
@@ -219,7 +219,7 @@ function NavigationMenu(props: {
           </Link>
         )}
         {props.displayExploreLink && (
-          <Link href="/goals" passHref legacyBehavior>
+          <Link href="/explore" passHref legacyBehavior>
             <MenuItem>Explore</MenuItem>
           </Link>
         )}
