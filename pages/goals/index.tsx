@@ -12,7 +12,7 @@ export default function Goals() {
         ✨ Goals
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
-        that inspire us and everyone around us.
+        that inspire us and everyone around us
       </Typography>
       <GoalList sx={{ mt: 4 }} />
     </Layout>

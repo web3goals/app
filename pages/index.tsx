@@ -100,7 +100,7 @@ function HowItWorks(props: { sx?: SxProps }) {
         ⚡ How does the space work?
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
-        Or what to do to become a more successful achiever.
+        Or what to do to become a more successful achiever
       </Typography>
       <HowItWorksStep
         title="Set a goal with a deadline and stake funds"
@@ -201,7 +201,7 @@ function Goals(props: { sx?: SxProps }) {
         ✨ Space for ambitious goals
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
-        that inspire us and everyone around us.
+        that inspire us and everyone around us
       </Typography>
       <GoalList pageSize={3} hideLoadMoreButton sx={{ mt: 4 }} />
       <ExtraLargeLoadingButton variant="outlined" href="/goals" sx={{ mt: 4 }}>
@@ -242,7 +242,7 @@ function Faq(props: { sx?: SxProps }) {
         👌 Frequently asked questions
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
-        or what to do if I'm confused.
+        or what to do if I'm confused
       </Typography>
       {/* Question 1 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
