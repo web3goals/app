@@ -1,4 +1,4 @@
-import { ExpandMore, Person } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -16,8 +16,8 @@ import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
 import { DialogContext } from "context/dialog";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
-import GoalMotivatorUriDataEntity from "entities/uri/GoalMotivatorUriDataEntity";
 import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
+import useGoalMotivatorUriDataLoader from "hooks/uriData/useGoalMotivatorUriDataLoader";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
@@ -209,22 +209,12 @@ function ContentMotivatorAdded(props: {
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
   const { address } = useAccount();
-  const { loadJsonFromIpfs } = useIpfs();
-  const { handleError } = useError();
-  const [motivatorUriData, setMotivatorUriData] = useState<
-    GoalMotivatorUriDataEntity | undefined
-  >();
-
-  useEffect(() => {
-    loadJsonFromIpfs(props.step.extraDataUri)
-      .then((result) => setMotivatorUriData(result))
-      .catch((error) => handleError(error, true));
-  }, []);
+  const { data } = useGoalMotivatorUriDataLoader(props.step.extraDataUri);
 
   return (
     <Box>
       <Typography variant="body2" mt={1}>
-        {motivatorUriData?.message || "..."}
+        {data?.message || "..."}
       </Typography>
       {!props.isClosed && address === props.authorAddress && (
         <MediumLoadingButton

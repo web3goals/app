@@ -10,7 +10,7 @@ import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import { ethers } from "ethers";
-import useProfileUriDataLoader from "hooks/profile/useProfileDataLoader";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import Link from "next/link";
 import { emojiAvatarForAddress } from "utils/avatars";
