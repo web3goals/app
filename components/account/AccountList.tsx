@@ -1,9 +1,5 @@
-import { Box, Stack, SxProps, Typography } from "@mui/material";
-import {
-  CardBox,
-  ExtraLargeLoadingButton,
-  FullWidthSkeleton,
-} from "components/styled";
+import { SxProps } from "@mui/material";
+import EntityList from "components/entity/EntityList";
 import AccountEntity from "entities/subgraph/AccountEntity";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import { useEffect, useState } from "react";
@@ -39,40 +35,18 @@ export default function AccountList(props: {
   }, [pageAccounts]);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
+    <EntityList
+      entities={allAccounts}
+      renderEntityCard={(account, index) => (
+        <AccountCard key={index} account={account} />
+      )}
+      noEntitiesText="😐 no people"
+      displayLoadMoreButton={
+        !props.hideLoadMoreButton && pageAccounts?.length === pageSize
+      }
+      isMoreLoading={!pageAccounts}
+      onLoadMoreButtonClick={() => setPageNumber(pageNumber + 1)}
       sx={{ ...props.sx }}
-    >
-      {/* Not empty list */}
-      {allAccounts && allAccounts.length > 0 && (
-        <>
-          <Stack width={1} spacing={2}>
-            {allAccounts.map((account, index) => (
-              <AccountCard key={index} account={account} />
-            ))}
-          </Stack>
-          {!props.hideLoadMoreButton && pageAccounts?.length === pageSize && (
-            <ExtraLargeLoadingButton
-              variant="outlined"
-              loading={!pageAccounts}
-              onClick={() => setPageNumber(pageNumber + 1)}
-              sx={{ mt: 4 }}
-            >
-              Load More
-            </ExtraLargeLoadingButton>
-          )}
-        </>
-      )}
-      {/* Empty list */}
-      {allAccounts && allAccounts.length === 0 && (
-        <CardBox>
-          <Typography textAlign="center">😐 no people</Typography>
-        </CardBox>
-      )}
-      {/* Loading list */}
-      {!allAccounts && <FullWidthSkeleton />}
-    </Box>
+    />
   );
 }

@@ -15,7 +15,7 @@ export default function useAccountsFinder(args: {
   skip?: number;
 }): { data: AccountEntity[] | undefined } {
   const { handleError } = useError();
-  const [data, setData] = useState<Array<AccountEntity> | undefined>();
+  const [data, setData] = useState<AccountEntity[] | undefined>();
 
   useEffect(() => {
     // Clear data
