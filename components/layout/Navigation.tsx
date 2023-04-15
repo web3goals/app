@@ -21,7 +21,7 @@ import Link from "next/link";
 import packageJson from "package.json";
 import { useState } from "react";
 import { chainToSupportedChainConfig } from "utils/chains";
-import isDev from "utils/environment";
+import { isDev } from "utils/environment";
 import { useAccount, useNetwork } from "wagmi";
 
 /**
