@@ -1,12 +1,4 @@
-import { ExpandMore } from "@mui/icons-material";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Link as MuiLink,
-  Typography,
-} from "@mui/material";
+import { Box, Link as MuiLink, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
@@ -29,6 +21,7 @@ import { palette } from "theme/palette";
 import {
   ipfsUriToHttpUri,
   stringTimestampToLocaleString,
+  timestampToLocaleDateString,
   timestampToLocaleString,
 } from "utils/converters";
 import { useAccount, useNetwork } from "wagmi";
@@ -299,14 +292,15 @@ function ContentVerificationDataSetAnyProofUri(props: {
   const [proofDocuments, setProofDocuments] = useState<
     ProofDocumentsUriDataEntity | undefined
   >();
+  const [limit, setLimit] = useState(1);
 
   useEffect(() => {
     loadJsonFromIpfs(props.anyProofUriData)
       .then((result) =>
-        setProofDocuments({ documents: result.documents || [] })
+        setProofDocuments({ documents: result.documents?.reverse() || [] })
       )
       .catch((error) => handleError(error, true));
-  }, []);
+  }, [props.anyProofUriData]);
 
   if (!proofDocuments) {
     return <Typography>Loading...</Typography>;
@@ -314,34 +308,55 @@ function ContentVerificationDataSetAnyProofUri(props: {
 
   return (
     <Box>
-      {proofDocuments.documents.map((document, index) => (
-        <Accordion key={index} disableGutters elevation={0}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
-            <Stack spacing={0.5}>
-              <Typography variant="body2">📃 {document.description}</Typography>
-              {document.addedData && (
-                <Typography variant="body2" color="text.secondary">
-                  {timestampToLocaleString(document.addedData, true)}
-                </Typography>
-              )}
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack>
-              <MuiLink
-                href={ipfsUriToHttpUri(document.uri || "")}
-                target="_blank"
+      <Stack spacing={2}>
+        {proofDocuments.documents.slice(0, limit).map((document, index) => {
+          return (
+            <Box key={index}>
+              <Typography>{document.description} </Typography>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={{ xs: 0.5, md: 2 }}
                 mt={1}
               >
-                Link #1 (HTTP)
-              </MuiLink>
-              <MuiLink href={document.uri || ""} target="_blank" mt={1}>
-                Link #2 (IPFS)
-              </MuiLink>
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+                <MuiLink
+                  href={ipfsUriToHttpUri(document.uri || "")}
+                  target="_blank"
+                  variant="body2"
+                >
+                  🔗 HTTP LINK
+                </MuiLink>
+                <MuiLink
+                  href={document.uri || ""}
+                  target="_blank"
+                  variant="body2"
+                >
+                  🔗 IPFS LINK
+                </MuiLink>
+                <Tooltip
+                  title={timestampToLocaleString(document.addedData, true)}
+                >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ cursor: "help" }}
+                  >
+                    {timestampToLocaleDateString(document.addedData, true)}
+                  </Typography>
+                </Tooltip>
+              </Stack>
+            </Box>
+          );
+        })}
+      </Stack>
+      {proofDocuments.documents.length > limit && (
+        <MediumLoadingButton
+          variant="outlined"
+          onClick={() => setLimit(limit + 3)}
+          sx={{ mt: 2 }}
+        >
+          Load more
+        </MediumLoadingButton>
+      )}
     </Box>
   );
 }

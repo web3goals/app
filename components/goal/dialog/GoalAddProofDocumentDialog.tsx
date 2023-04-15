@@ -206,12 +206,11 @@ export default function GoalAddProofDocumentDialog(props: {
       <DialogCenterContent>
         {/* Title */}
         <Typography variant="h4" fontWeight={700} textAlign="center">
-          📃 Add proof
+          👀 Add proof
         </Typography>
         <CenterBoldText mt={2} mb={4}>
           it can be a screenshot, photo, video or any other file
         </CenterBoldText>
-        {/* Name input */}
         <Formik
           initialValues={formValues}
           validationSchema={formValidationSchema}

@@ -108,6 +108,22 @@ export function timestampToLocaleString(
 }
 
 /**
+ * Convert number like "1677628800" to string "3/14/2023".
+ */
+export function timestampToLocaleDateString(
+  timestamp?: number,
+  disableMsMultiplicator = false
+): string {
+  if (!timestamp) {
+    return "Unknown";
+  }
+  if (disableMsMultiplicator) {
+    return new Date(timestamp).toLocaleDateString();
+  }
+  return new Date(timestamp * 1000).toLocaleDateString();
+}
+
+/**
  * Convert string like "0x44EAe6f0C8E0714B8d8676eA803Dec04B492Ba16" to ethers address type.
  */
 export function stringToAddress(string?: string): `0x${string}` | undefined {
