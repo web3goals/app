@@ -85,6 +85,7 @@ export const MediumLoadingButton = styled(LoadingButton)<LoadingButtonProps>(
 ) as typeof LoadingButton;
 
 export const CardBox = styled(Box)<BoxProps>(({ theme }) => ({
+  width: "100%",
   border: "solid",
   borderColor: theme.palette.divider,
   borderWidth: "5px",
