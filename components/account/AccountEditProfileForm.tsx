@@ -136,7 +136,7 @@ export default function AccountEditProfileForm(props: {
     isTransactionLoading ||
     isTransactionSuccess;
 
-  async function onImageChange(files: Array<any>) {
+  async function onImageChange(files: any[]) {
     try {
       // Get file
       const file = files?.[0];

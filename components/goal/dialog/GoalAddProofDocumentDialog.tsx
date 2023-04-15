@@ -113,7 +113,7 @@ export default function GoalAddProofDocumentDialog(props: {
     props.onClose?.();
   }
 
-  async function onProofChange(files: Array<any>) {
+  async function onProofChange(files: any[]) {
     try {
       // Get file
       const file = files?.[0];

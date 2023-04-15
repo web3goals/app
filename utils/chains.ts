@@ -18,8 +18,8 @@ interface ChainConfig {
 /**
  * Get chain configs defined by environment variables.
  */
-export function getSupportedChainConfigs(): Array<ChainConfig> {
-  const chainConfigs: Array<ChainConfig> = [];
+export function getSupportedChainConfigs(): ChainConfig[] {
+  const chainConfigs: ChainConfig[] = [];
   // Add mumbai
   if (
     process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS &&
@@ -71,7 +71,7 @@ export function getSupportedChainConfigs(): Array<ChainConfig> {
 /**
  * Get chains using supported chain configs.
  */
-export function getSupportedChains(): Array<Chain> {
+export function getSupportedChains(): Chain[] {
   return getSupportedChainConfigs().map((chainConfig) => chainConfig.chain);
 }
 
