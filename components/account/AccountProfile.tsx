@@ -9,14 +9,10 @@ import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
-import AccountEntity from "entities/subgraph/AccountEntity";
-import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
-import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
-import useSubgraph from "hooks/useSubgraph";
+import useProfileUriDataLoader from "hooks/profile/useProfileDataLoader";
+import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { emojiAvatarForAddress } from "utils/avatars";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
@@ -27,55 +23,23 @@ import AccountReputation from "./AccountReputation";
  * A component with account profile.
  */
 export default function AccountProfile(props: { address: string }) {
-  const { handleError } = useError();
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { loadJsonFromIpfs } = useIpfs();
-  const { findAccounts } = useSubgraph();
-  const [profileData, setProfileData] = useState<
-    ProfileUriDataEntity | null | undefined
-  >();
-  const [accountData, setAccountData] = useState<AccountEntity | undefined>();
 
-  // Contract states
-  const { status, error, data } = useContractRead({
+  const { data: profileUri } = useContractRead({
     address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
     functionName: "getURI",
     args: [ethers.utils.getAddress(props.address)],
   });
 
-  /**
-   * Load profile data from ipfs when contract reading is successed.
-   */
-  useEffect(() => {
-    if (status === "success") {
-      if (data) {
-        loadJsonFromIpfs(data)
-          .then((result) => setProfileData(result))
-          .catch((error) => handleError(error, true));
-      } else {
-        setProfileData(null);
-      }
-    }
-    if (status === "error" && error) {
-      setProfileData(null);
-    }
-  }, [status, error, data]);
+  const { data: profileUriData } = useProfileUriDataLoader(profileUri);
+  const { data: accounts } = useAccountsFinder({
+    chain: chain,
+    id: props.address,
+  });
 
-  /**
-   * Load account data from subgraph.
-   */
-  useEffect(() => {
-    setAccountData(undefined);
-    findAccounts({ chain: chain, id: props.address })
-      .then((result) =>
-        setAccountData(result.length > 0 ? result[0] : undefined)
-      )
-      .catch((error) => handleError(error, true));
-  }, [props.address]);
-
-  if (profileData !== undefined) {
+  if (profileUri === "" || profileUriData) {
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         {/* Image */}
@@ -88,8 +52,8 @@ export default function AccountProfile(props: { address: string }) {
               background: emojiAvatarForAddress(props.address).color,
             }}
             src={
-              profileData?.image
-                ? ipfsUriToHttpUri(profileData.image)
+              profileUriData?.image
+                ? ipfsUriToHttpUri(profileUriData.image)
                 : undefined
             }
           >
@@ -99,15 +63,15 @@ export default function AccountProfile(props: { address: string }) {
           </Avatar>
         </Box>
         {/* Name */}
-        {profileData?.attributes?.[0]?.value && (
+        {profileUriData?.attributes?.[0]?.value && (
           <Typography variant="h4" fontWeight={700} textAlign="center">
-            {profileData.attributes[0].value}
+            {profileUriData.attributes[0].value}
           </Typography>
         )}
         {/* About */}
-        {profileData?.attributes?.[1]?.value && (
+        {profileUriData?.attributes?.[1]?.value && (
           <Typography textAlign="center" sx={{ maxWidth: 480, mt: 1 }}>
-            {profileData.attributes[1].value}
+            {profileUriData.attributes[1].value}
           </Typography>
         )}
         {/* Links and other data */}
@@ -118,9 +82,9 @@ export default function AccountProfile(props: { address: string }) {
         >
           {/* Email and links */}
           <Stack direction="row" alignItems="center">
-            {profileData?.attributes?.[2]?.value && (
+            {profileUriData?.attributes?.[2]?.value && (
               <IconButton
-                href={`mailto:${profileData.attributes[2].value}`}
+                href={`mailto:${profileUriData.attributes[2].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -128,9 +92,9 @@ export default function AccountProfile(props: { address: string }) {
                 <AlternateEmail />
               </IconButton>
             )}
-            {profileData?.attributes?.[3]?.value && (
+            {profileUriData?.attributes?.[3]?.value && (
               <IconButton
-                href={profileData.attributes[3].value}
+                href={profileUriData.attributes[3].value}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -138,9 +102,9 @@ export default function AccountProfile(props: { address: string }) {
                 <Language />
               </IconButton>
             )}
-            {profileData?.attributes?.[4]?.value && (
+            {profileUriData?.attributes?.[4]?.value && (
               <IconButton
-                href={`https://twitter.com/${profileData.attributes[4].value}`}
+                href={`https://twitter.com/${profileUriData.attributes[4].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -148,9 +112,9 @@ export default function AccountProfile(props: { address: string }) {
                 <Twitter />
               </IconButton>
             )}
-            {profileData?.attributes?.[5]?.value && (
+            {profileUriData?.attributes?.[5]?.value && (
               <IconButton
-                href={`https://t.me/${profileData.attributes[5].value}`}
+                href={`https://t.me/${profileUriData.attributes[5].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -158,9 +122,9 @@ export default function AccountProfile(props: { address: string }) {
                 <Telegram />
               </IconButton>
             )}
-            {profileData?.attributes?.[6]?.value && (
+            {profileUriData?.attributes?.[6]?.value && (
               <IconButton
-                href={`https://instagram.com/${profileData.attributes[6].value}`}
+                href={`https://instagram.com/${profileUriData.attributes[6].value}`}
                 target="_blank"
                 component="a"
                 color="primary"
@@ -168,11 +132,11 @@ export default function AccountProfile(props: { address: string }) {
                 <Instagram />
               </IconButton>
             )}
-            {(profileData?.attributes?.[2]?.value ||
-              profileData?.attributes?.[3]?.value ||
-              profileData?.attributes?.[4]?.value ||
-              profileData?.attributes?.[5]?.value ||
-              profileData?.attributes?.[6]?.value) && (
+            {(profileUriData?.attributes?.[2]?.value ||
+              profileUriData?.attributes?.[3]?.value ||
+              profileUriData?.attributes?.[4]?.value ||
+              profileUriData?.attributes?.[5]?.value ||
+              profileUriData?.attributes?.[6]?.value) && (
               <Divider
                 flexItem
                 orientation="vertical"
@@ -195,12 +159,12 @@ export default function AccountProfile(props: { address: string }) {
             <Typography fontWeight={700} sx={{ mr: 1.5 }}>
               {addressToShortAddress(props.address)}
             </Typography>
-            {accountData && (
+            {accounts?.length === 1 && (
               <AccountReputation
-                achievedGoals={accountData.achievedGoals}
-                failedGoals={accountData.failedGoals}
-                motivatedGoals={accountData.motivatedGoals}
-                notMotivatedGoals={accountData.notMotivatedGoals}
+                achievedGoals={accounts[0].achievedGoals}
+                failedGoals={accounts[0].failedGoals}
+                motivatedGoals={accounts[0].motivatedGoals}
+                notMotivatedGoals={accounts[0].notMotivatedGoals}
               />
             )}
           </Stack>
@@ -211,7 +175,7 @@ export default function AccountProfile(props: { address: string }) {
             {/* Edit button */}
             <Link href="/accounts/edit" legacyBehavior>
               <LargeLoadingButton variant="contained">
-                {profileData ? "Edit Profile" : "Create Profile"}
+                {profileUriData ? "Edit Profile" : "Create Profile"}
               </LargeLoadingButton>
             </Link>
           </Stack>

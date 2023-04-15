@@ -1,8 +1,6 @@
-import axios from "axios";
-import AccountEntity from "entities/subgraph/AccountEntity";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
-import { chainToSupportedChainSubgraphApiUrl } from "utils/chains";
+import { makeSubgraphQuery } from "utils/subgraph";
 import { Chain } from "wagmi";
 
 /**
@@ -11,43 +9,6 @@ import { Chain } from "wagmi";
 export default function useSubgraph() {
   const defaultFirst = 10;
   const defaultSkip = 0;
-
-  let findAccounts = async function (args: {
-    chain: Chain | undefined;
-    id?: string;
-    first?: number;
-    skip?: number;
-  }): Promise<Array<AccountEntity>> {
-    // Prepare query
-    const idFilter = args.id ? `id: "${args.id.toLowerCase()}"` : "";
-    const filterParams = `where: {${idFilter}}`;
-    const sortParams = `orderBy: profileId, orderDirection: desc`;
-    const paginationParams = `first: ${args.first || defaultFirst}, skip: ${
-      args.skip || defaultSkip
-    }`;
-    const query = `{
-     accounts(${filterParams}, ${sortParams}, ${paginationParams}) {
-       id
-       achievedGoals
-       failedGoals
-       motivatedGoals
-       notMotivatedGoals
-     }
-   }`;
-    // Make query and return result
-    const response = await makeSubgraphQuery(args.chain, query);
-    const accounts: Array<AccountEntity> = [];
-    response.accounts?.forEach((account: any) => {
-      accounts.push({
-        id: account.id,
-        achievedGoals: account.achievedGoals,
-        failedGoals: account.failedGoals,
-        motivatedGoals: account.motivatedGoals,
-        notMotivatedGoals: account.notMotivatedGoals,
-      });
-    });
-    return accounts;
-  };
 
   let findGoals = async function (args: {
     chain: Chain | undefined;
@@ -152,27 +113,7 @@ export default function useSubgraph() {
   };
 
   return {
-    findAccounts,
     findGoals,
     findGoalSteps,
   };
-}
-
-async function makeSubgraphQuery(chain: Chain | undefined, query: string) {
-  try {
-    const response = await axios.post(
-      chainToSupportedChainSubgraphApiUrl(chain),
-      {
-        query: query,
-      }
-    );
-    if (response.data.errors) {
-      throw new Error(JSON.stringify(response.data.errors));
-    }
-    return response.data.data;
-  } catch (error: any) {
-    throw new Error(
-      `Could not query the subgraph: ${JSON.stringify(error.message)}`
-    );
-  }
 }
