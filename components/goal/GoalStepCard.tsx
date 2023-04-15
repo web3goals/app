@@ -91,6 +91,7 @@ export default function GoalStepCard(props: {
       contentComponent: <ContentMessagePosted step={props.step} />,
     },
     [GOAL_STEPS.verificationDataSet]: {
+      borderColor: palette.blue,
       contentHeader: "Updated proofs:",
       contentComponent: <ContentCardVerificationDataSet step={props.step} />,
     },
