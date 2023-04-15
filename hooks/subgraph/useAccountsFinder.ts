@@ -30,6 +30,9 @@ export default function useAccountsFinder(args: {
     const query = `{
      accounts(${filterParams}, ${sortParams}, ${paginationParams}) {
        id
+       profileId
+       profileCreatedTimestamp
+       profileUri
        achievedGoals
        failedGoals
        motivatedGoals
@@ -43,6 +46,9 @@ export default function useAccountsFinder(args: {
           response.accounts?.map((responseAccount: any) => {
             const account: AccountEntity = {
               id: responseAccount.id,
+              profileId: responseAccount.profileId,
+              profileCreatedTimestamp: responseAccount.profileCreatedTimestamp,
+              profileUri: responseAccount.profileUri,
               achievedGoals: responseAccount.achievedGoals,
               failedGoals: responseAccount.failedGoals,
               motivatedGoals: responseAccount.motivatedGoals,

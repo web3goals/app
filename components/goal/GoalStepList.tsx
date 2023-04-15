@@ -46,8 +46,8 @@ export default function GoalStepList(props: {
       renderEntityCard={(goalStep, index) => (
         <GoalStepCard
           key={index}
-          authorAddress={props.authorAddress}
-          isClosed={props.isClosed}
+          goalAuthorAddress={props.authorAddress}
+          isGoalClosed={props.isClosed}
           step={goalStep}
           onUpdate={() => {
             // TODO: Update subgraph data

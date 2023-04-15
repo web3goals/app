@@ -1,5 +1,7 @@
 import { Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import AccountAvatar from "components/account/AccountAvatar";
+import AccountLink from "components/account/AccountLink";
 import {
   WidgetBox,
   WidgetLink,
@@ -7,9 +9,12 @@ import {
   WidgetText,
   WidgetTitle,
   LargeLoadingButton,
+  WidgetContentBox,
 } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
+import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import { useContext } from "react";
 import { palette } from "theme/palette";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
@@ -36,6 +41,13 @@ export default function GoalParams(props: {
 }) {
   const { chain } = useNetwork();
   const { showDialog, closeDialog } = useContext(DialogContext);
+  const { data: authorAccounts } = useAccountsFinder({
+    chain: chain,
+    id: props.authorAddress,
+  });
+  const { data: authorProfileUriData } = useProfileUriDataLoader(
+    authorAccounts?.[0]?.profileUri
+  );
 
   return (
     <Box sx={{ width: 1, ...props.sx }}>
@@ -53,9 +65,21 @@ export default function GoalParams(props: {
       {/* Author address */}
       <WidgetBox bgcolor={palette.greyDark} mt={3}>
         <WidgetTitle>By</WidgetTitle>
-        <WidgetLink href={`/accounts/${props.authorAddress.toString()}`}>
-          {addressToShortAddress(props.authorAddress.toString())}
-        </WidgetLink>
+        <WidgetContentBox
+          display="flex"
+          flexDirection="column"
+          alignItems={{ xs: "center", md: "flex-start" }}
+        >
+          <AccountAvatar
+            account={props.authorAddress}
+            accountProfileUriData={authorProfileUriData}
+          />
+          <AccountLink
+            account={props.authorAddress}
+            accountProfileUriData={authorProfileUriData}
+            sx={{ mt: 1 }}
+          />
+        </WidgetContentBox>
       </WidgetBox>
       {/* Created timestamp */}
       <WidgetBox bgcolor={palette.greyLight} mt={2}>

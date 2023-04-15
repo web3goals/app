@@ -3,13 +3,14 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Avatar,
   Box,
   Link as MuiLink,
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
+import AccountAvatar from "components/account/AccountAvatar";
+import AccountLink from "components/account/AccountLink";
 import { CardBox, MediumLoadingButton } from "components/styled";
 import { GOAL_STEPS } from "constants/goalSteps";
 import { VERIFICATION_DATA_KEYS } from "constants/verifiers";
@@ -17,20 +18,20 @@ import { DialogContext } from "context/dialog";
 import GoalStepEntity from "entities/subgraph/GoalStepEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
+import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useGoalMotivatorUriDataLoader from "hooks/uriData/useGoalMotivatorUriDataLoader";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import { useContext, useEffect, useState } from "react";
 import { theme } from "theme";
 import { palette } from "theme/palette";
-import { emojiAvatarForAddress } from "utils/avatars";
 import {
-  addressToShortAddress,
   ipfsUriToHttpUri,
   stringTimestampToLocaleString,
   timestampToLocaleString,
 } from "utils/converters";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import GoalAcceptMotivatorDialog from "./dialog/GoalAcceptMotivatorDialog";
 
 interface CardParams {
@@ -45,12 +46,19 @@ interface CardParams {
  * A component with a goal step card.
  */
 export default function GoalStepCard(props: {
-  authorAddress: string;
-  isClosed: boolean;
+  goalAuthorAddress: string;
+  isGoalClosed: boolean;
   step: GoalStepEntity;
   onUpdate: Function;
 }) {
-  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: authorAccounts } = useAccountsFinder({
+    chain: chain,
+    id: props.step.authorAddress,
+  });
+  const { data: authorProfileUriData } = useProfileUriDataLoader(
+    authorAccounts?.[0]?.profileUri
+  );
 
   const availableCardParams: { [key: string]: CardParams } = {
     [GOAL_STEPS.goalSet]: {
@@ -64,8 +72,8 @@ export default function GoalStepCard(props: {
       contentHeader: "Sent a motivational message:",
       contentComponent: (
         <ContentMotivatorAdded
-          authorAddress={props.authorAddress}
-          isClosed={props.isClosed}
+          authorAddress={props.goalAuthorAddress}
+          isClosed={props.isGoalClosed}
           step={props.step}
           onUpdate={props.onUpdate}
         />
@@ -132,47 +140,23 @@ export default function GoalStepCard(props: {
     >
       {/* Left part */}
       <Box>
-        {/* Avatar */}
-        <Avatar
-          sx={{
-            width: 36,
-            height: 36,
-            borderRadius: 36,
-            background: emojiAvatarForAddress(props.step.authorAddress).color,
-          }}
-        >
-          <Typography>
-            {emojiAvatarForAddress(props.step.authorAddress).emoji}
-          </Typography>
-        </Avatar>
+        <AccountAvatar
+          account={props.step.authorAddress}
+          accountProfileUriData={authorProfileUriData}
+        />
       </Box>
       {/* Right part */}
       <Box width={1} ml={1.5}>
         {/* Account */}
-        <Stack direction="row" spacing={1} alignItems="center">
-          <MuiLink
-            href={`/accounts/${props.step.authorAddress}`}
-            color={
-              cardParams.isBackgroundDark
-                ? theme.palette.primary.contrastText
-                : theme.palette.primary.main
-            }
-            fontWeight={700}
-            variant="body2"
-          >
-            {addressToShortAddress(props.step.authorAddress)}
-          </MuiLink>
-          {address?.toLowerCase() ===
-            props.step.authorAddress.toLowerCase() && (
-            <Typography
-              color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
-              fontWeight={700}
-              variant="body2"
-            >
-              (you)
-            </Typography>
-          )}
-        </Stack>
+        <AccountLink
+          account={props.step.authorAddress}
+          accountProfileUriData={authorProfileUriData}
+          color={
+            cardParams.isBackgroundDark
+              ? theme.palette.primary.contrastText
+              : theme.palette.primary.main
+          }
+        />
         {/* Date */}
         <Typography
           color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
@@ -239,37 +223,29 @@ function ContentMotivatorAdded(props: {
 }
 
 function ContentMotivatorAccepted(props: { step: GoalStepEntity }) {
-  const { address } = useAccount();
-
-  const motivatorAccountAddress = props.step.extraData.split("=")[1];
+  const { chain } = useNetwork();
+  const motivatorAddress = props.step.extraData.split("=")[1];
+  const { data: motivatorAccounts } = useAccountsFinder({
+    chain: chain,
+    id: motivatorAddress,
+  });
+  const { data: motivatorProfileUriData } = useProfileUriDataLoader(
+    motivatorAccounts?.[0]?.profileUri
+  );
 
   return (
     <Stack direction="row" spacing={1} alignItems="center" mt={1}>
-      <Avatar
-        sx={{
-          width: 24,
-          height: 24,
-          borderRadius: 24,
-          background: emojiAvatarForAddress(motivatorAccountAddress).color,
-        }}
-      >
-        <Typography>
-          {emojiAvatarForAddress(motivatorAccountAddress).emoji}
-        </Typography>
-      </Avatar>
-      <MuiLink
-        href={`/accounts/${motivatorAccountAddress}`}
+      <AccountAvatar
+        account={motivatorAddress}
+        accountProfileUriData={motivatorProfileUriData}
+        size={24}
+        emojiSize={14}
+      />
+      <AccountLink
+        account={motivatorAddress}
+        accountProfileUriData={motivatorProfileUriData}
         color={theme.palette.primary.contrastText}
-        fontWeight={700}
-        variant="body2"
-      >
-        {addressToShortAddress(motivatorAccountAddress)}
-      </MuiLink>
-      {address?.toLowerCase() === motivatorAccountAddress.toLowerCase() && (
-        <Typography color={grey[300]} fontWeight={700} variant="body2">
-          (you)
-        </Typography>
-      )}
+      />
     </Stack>
   );
 }

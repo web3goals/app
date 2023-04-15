@@ -5,18 +5,18 @@ import {
   Telegram,
   Twitter,
 } from "@mui/icons-material";
-import { Avatar, Box, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import { ethers } from "ethers";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import Link from "next/link";
-import { emojiAvatarForAddress } from "utils/avatars";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
-import { addressToShortAddress, ipfsUriToHttpUri } from "utils/converters";
+import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
+import AccountAvatar from "./AccountAvatar";
 import AccountReputation from "./AccountReputation";
 
 /**
@@ -43,25 +43,13 @@ export default function AccountProfile(props: { address: string }) {
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         {/* Image */}
-        <Box sx={{ mb: 3 }}>
-          <Avatar
-            sx={{
-              width: 164,
-              height: 164,
-              borderRadius: 164,
-              background: emojiAvatarForAddress(props.address).color,
-            }}
-            src={
-              profileUriData?.image
-                ? ipfsUriToHttpUri(profileUriData.image)
-                : undefined
-            }
-          >
-            <Typography fontSize={64}>
-              {emojiAvatarForAddress(props.address).emoji}
-            </Typography>
-          </Avatar>
-        </Box>
+        <AccountAvatar
+          account={props.address}
+          accountProfileUriData={profileUriData}
+          size={164}
+          emojiSize={64}
+          sx={{ mb: 3 }}
+        />
         {/* Name */}
         {profileUriData?.attributes?.[0]?.value && (
           <Typography variant="h4" fontWeight={700} textAlign="center">

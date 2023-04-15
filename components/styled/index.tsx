@@ -120,6 +120,12 @@ export const WidgetTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   },
 }));
 
+export const WidgetContentBox = styled(Box)<BoxProps>(({ theme }) => ({
+  backgroundColor: "#FFFFFF",
+  borderRadius: "12px",
+  padding: "14px 20px",
+}));
+
 export const WidgetLink = styled(Link)<LinkProps>(({ theme }) => ({
   backgroundColor: "#FFFFFF",
   borderRadius: "12px",

@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Link as MuiLink,
-  Stack,
-  SxProps,
-  Typography,
-} from "@mui/material";
+import { Box, SxProps, Typography } from "@mui/material";
 import { CardBox } from "components/styled";
 import AccountEntity from "entities/subgraph/AccountEntity";
-import { emojiAvatarForAddress } from "utils/avatars";
-import { addressToShortAddress } from "utils/converters";
-import { useAccount } from "wagmi";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import AccountAvatar from "./AccountAvatar";
+import AccountLink from "./AccountLink";
 import AccountReputation from "./AccountReputation";
 
 /**
@@ -20,44 +13,32 @@ export default function AccountCard(props: {
   account: AccountEntity;
   sx?: SxProps;
 }) {
-  const { address } = useAccount();
+  const { data: accountProfileUriData } = useProfileUriDataLoader(
+    props.account.profileUri
+  );
 
   return (
     <CardBox sx={{ display: "flex", flexDirection: "row", ...props.sx }}>
       {/* Left part */}
       <Box>
-        {/* Avatar */}
-        <Avatar
-          sx={{
-            width: 48,
-            height: 48,
-            borderRadius: 48,
-            background: emojiAvatarForAddress(props.account.id).color,
-          }}
-        >
-          <Typography fontSize={20}>
-            {emojiAvatarForAddress(props.account.id).emoji}
-          </Typography>
-        </Avatar>
+        <AccountAvatar
+          account={props.account.id}
+          accountProfileUriData={accountProfileUriData}
+          size={64}
+          emojiSize={28}
+        />
       </Box>
       {/* Right part */}
       <Box width={1} ml={1.5} display="flex" flexDirection="column">
-        {/* Account */}
-        <Stack direction="row" spacing={1} alignItems="center">
-          <MuiLink
-            href={`/accounts/${props.account.id}`}
-            fontWeight={700}
-            variant="body2"
-          >
-            {addressToShortAddress(props.account.id)}
-          </MuiLink>
-          {address?.toLowerCase() === props.account.id.toLowerCase() && (
-            <Typography color="text.secondary" fontWeight={700} variant="body2">
-              (you)
-            </Typography>
-          )}
-        </Stack>
-        {/* Reputation */}
+        <AccountLink
+          account={props.account.id}
+          accountProfileUriData={accountProfileUriData}
+        />
+        {accountProfileUriData?.attributes[1].value && (
+          <Typography variant="body2" color="text.secondary" mt={0.5}>
+            {accountProfileUriData?.attributes[1].value}
+          </Typography>
+        )}
         <AccountReputation
           achievedGoals={props.account.achievedGoals}
           failedGoals={props.account.failedGoals}

@@ -1,28 +1,33 @@
 import {
-  Avatar,
   Box,
   Link as MuiLink,
   Stack,
   SxProps,
   Typography,
 } from "@mui/material";
+import AccountAvatar from "components/account/AccountAvatar";
+import AccountLink from "components/account/AccountLink";
 import { CardBox } from "components/styled";
 import GoalEntity from "entities/subgraph/GoalEntity";
 import { BigNumber, ethers } from "ethers";
-import { emojiAvatarForAddress } from "utils/avatars";
+import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
+import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
-import {
-  addressToShortAddress,
-  bigNumberTimestampToLocaleDateString,
-} from "utils/converters";
-import { useAccount, useNetwork } from "wagmi";
+import { bigNumberTimestampToLocaleDateString } from "utils/converters";
+import { useNetwork } from "wagmi";
 
 /**
  * A component with a goal card.
  */
 export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
   const { chain } = useNetwork();
-  const { address } = useAccount();
+  const { data: authorAccounts } = useAccountsFinder({
+    chain: chain,
+    id: props.goal.authorAddress,
+  });
+  const { data: authorProfileUriData } = useProfileUriDataLoader(
+    authorAccounts?.[0]?.profileUri
+  );
 
   return (
     <CardBox
@@ -39,38 +44,17 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
     >
       {/* Left part */}
       <Box>
-        {/* Avatar */}
-        <Avatar
-          sx={{
-            width: 36,
-            height: 36,
-            borderRadius: 36,
-            background: emojiAvatarForAddress(props.goal.authorAddress).color,
-          }}
-        >
-          <Typography>
-            {emojiAvatarForAddress(props.goal.authorAddress).emoji}
-          </Typography>
-        </Avatar>
+        <AccountAvatar
+          account={props.goal.authorAddress}
+          accountProfileUriData={authorProfileUriData}
+        />
       </Box>
       {/* Right part */}
       <Box width={1} ml={1.5} display="flex" flexDirection="column">
-        {/* Account */}
-        <Stack direction="row" spacing={1} alignItems="center">
-          <MuiLink
-            href={`/accounts/${props.goal.authorAddress}`}
-            fontWeight={700}
-            variant="body2"
-          >
-            {addressToShortAddress(props.goal.authorAddress)}
-          </MuiLink>
-          {address?.toLowerCase() ===
-            props.goal.authorAddress.toLowerCase() && (
-            <Typography color="text.secondary" fontWeight={700} variant="body2">
-              (you)
-            </Typography>
-          )}
-        </Stack>
+        <AccountLink
+          account={props.goal.authorAddress}
+          accountProfileUriData={authorProfileUriData}
+        />
         {/* Description */}
         <MuiLink href={`/goals/${props.goal.id}`} fontWeight={700} mt={1.5}>
           {props.goal.description}
