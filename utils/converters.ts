@@ -16,7 +16,7 @@ export function addressToShortAddress(address: string): string {
 /**
  * Convert "ipfs://..." to "http://...".
  */
-export function ipfsUriToHttpUri(ipfsUri: string): string {
+export function ipfsUriToHttpUri(ipfsUri?: string): string {
   if (!ipfsUri || !ipfsUri.startsWith("ipfs://")) {
     throw new Error(`Fail to converting IPFS URI to HTTP URI: ${ipfsUri}`);
   }

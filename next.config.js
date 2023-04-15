@@ -24,6 +24,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ["w3s.link"],
+  },
 };
 
 module.exports = nextConfig;

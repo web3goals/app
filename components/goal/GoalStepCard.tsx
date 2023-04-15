@@ -1,4 +1,10 @@
-import { Box, Link as MuiLink, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Link as MuiLink,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
@@ -15,6 +21,8 @@ import useGoalMotivatorUriDataLoader from "hooks/uriData/useGoalMotivatorUriData
 import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
+import Image from "next/image";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { theme } from "theme";
 import { palette } from "theme/palette";
@@ -308,45 +316,63 @@ function ContentVerificationDataSetAnyProofUri(props: {
 
   return (
     <Box>
-      <Stack spacing={2}>
-        {proofDocuments.documents.slice(0, limit).map((document, index) => {
-          return (
-            <Box key={index}>
-              <Typography>{document.description} </Typography>
-              <Stack
-                direction={{ xs: "column", md: "row" }}
-                spacing={{ xs: 0.5, md: 2 }}
-                mt={1}
+      <Stack spacing={3} divider={<Divider />}>
+        {proofDocuments.documents.slice(0, limit).map((document, index) => (
+          <Box key={index}>
+            <Typography>{document.description} </Typography>
+            {document.type === "IMAGE" && (
+              <Box mt={1}>
+                <Link href={ipfsUriToHttpUri(document.uri)} target="_blank">
+                  <Image
+                    src={ipfsUriToHttpUri(document.uri)}
+                    alt="Proof"
+                    width="100"
+                    height="100"
+                    sizes="100vw"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      border: "5px solid",
+                      borderRadius: "12px ",
+                      borderColor: theme.palette.divider,
+                    }}
+                  />
+                </Link>
+              </Box>
+            )}
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={{ xs: 0.5, md: 2 }}
+              mt={1}
+            >
+              <MuiLink
+                href={ipfsUriToHttpUri(document.uri)}
+                target="_blank"
+                variant="body2"
               >
-                <MuiLink
-                  href={ipfsUriToHttpUri(document.uri || "")}
-                  target="_blank"
+                🔗 HTTP LINK
+              </MuiLink>
+              <MuiLink
+                href={document.uri || ""}
+                target="_blank"
+                variant="body2"
+              >
+                🔗 IPFS LINK
+              </MuiLink>
+              <Tooltip
+                title={timestampToLocaleString(document.addedData, true)}
+              >
+                <Typography
                   variant="body2"
+                  color="text.secondary"
+                  sx={{ cursor: "help" }}
                 >
-                  🔗 HTTP LINK
-                </MuiLink>
-                <MuiLink
-                  href={document.uri || ""}
-                  target="_blank"
-                  variant="body2"
-                >
-                  🔗 IPFS LINK
-                </MuiLink>
-                <Tooltip
-                  title={timestampToLocaleString(document.addedData, true)}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ cursor: "help" }}
-                  >
-                    {timestampToLocaleDateString(document.addedData, true)}
-                  </Typography>
-                </Tooltip>
-              </Stack>
-            </Box>
-          );
-        })}
+                  {timestampToLocaleDateString(document.addedData, true)}
+                </Typography>
+              </Tooltip>
+            </Stack>
+          </Box>
+        ))}
       </Stack>
       {proofDocuments.documents.length > limit && (
         <MediumLoadingButton
