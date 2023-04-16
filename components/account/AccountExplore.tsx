@@ -8,6 +8,9 @@ import AccountList from "./AccountList";
 export default function AccountExplore(props: {
   title?: string;
   subtitle?: string;
+  pageSize?: number;
+  displayLoadMoreButton?: boolean;
+  displayExploreAllButton?: boolean;
   sx?: SxProps;
 }) {
   return (
@@ -18,12 +21,18 @@ export default function AccountExplore(props: {
       <Typography color="text.secondary" textAlign="center" mt={1}>
         {props.subtitle || "who fill this space with energy"}
       </Typography>
-      <AccountList pageSize={3} hideLoadMoreButton sx={{ mt: 4 }} />
-      <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-        <ExtraLargeLoadingButton variant="outlined" href="/accounts">
-          Explore All
-        </ExtraLargeLoadingButton>
-      </Box>
+      <AccountList
+        pageSize={props.pageSize}
+        hideLoadMoreButton={!props.displayLoadMoreButton}
+        sx={{ mt: 4 }}
+      />
+      {props.displayExploreAllButton && (
+        <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+          <ExtraLargeLoadingButton variant="outlined" href="/accounts">
+            Explore All
+          </ExtraLargeLoadingButton>
+        </Box>
+      )}
     </Box>
   );
 }
