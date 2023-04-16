@@ -2,6 +2,9 @@ export default interface GoalStepEntity {
   readonly id: string;
   readonly goal: {
     id: string;
+    description: string;
+    authorAddress: string;
+    isClosed: boolean;
   };
   readonly createdTimestamp: string;
   readonly authorAddress: string;

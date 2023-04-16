@@ -32,6 +32,9 @@ export default function useGoalStepsFinder(args: {
         id
         goal {
           id
+          description
+          authorAddress
+          isClosed
         }
         createdTimestamp
         authorAddress
@@ -49,6 +52,9 @@ export default function useGoalStepsFinder(args: {
               id: responseGoalStep.id,
               goal: {
                 id: responseGoalStep.goal.id,
+                description: responseGoalStep.goal.description,
+                authorAddress: responseGoalStep.goal.authorAddress,
+                isClosed: responseGoalStep.goal.isClosed,
               },
               createdTimestamp: responseGoalStep.createdTimestamp,
               authorAddress: responseGoalStep.authorAddress,

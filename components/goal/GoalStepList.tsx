@@ -10,10 +10,9 @@ import GoalStepCard from "./GoalStepCard";
  * A component with goal step list.
  */
 export default function GoalStepList(props: {
-  id: string;
-  authorAddress: string;
-  isClosed: boolean;
+  id?: string;
   pageSize?: number;
+  displayGoalLink?: boolean;
   hideLoadMoreButton?: boolean;
   sx?: SxProps;
 }) {
@@ -46,9 +45,8 @@ export default function GoalStepList(props: {
       renderEntityCard={(goalStep, index) => (
         <GoalStepCard
           key={index}
-          goalAuthorAddress={props.authorAddress}
-          isGoalClosed={props.isClosed}
           step={goalStep}
+          displayGoalLink={props.displayGoalLink}
           onUpdate={() => {
             // TODO: Update subgraph data
           }}

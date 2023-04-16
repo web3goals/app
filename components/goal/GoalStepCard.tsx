@@ -47,9 +47,8 @@ interface CardParams {
  * A component with a goal step card.
  */
 export default function GoalStepCard(props: {
-  goalAuthorAddress: string;
-  isGoalClosed: boolean;
   step: GoalStepEntity;
+  displayGoalLink?: boolean;
   onUpdate: Function;
 }) {
   const { chain } = useNetwork();
@@ -72,12 +71,7 @@ export default function GoalStepCard(props: {
       borderColor: palette.purpleLight,
       contentHeader: "Sent a motivational message:",
       contentComponent: (
-        <ContentMotivatorAdded
-          authorAddress={props.goalAuthorAddress}
-          isClosed={props.isGoalClosed}
-          step={props.step}
-          onUpdate={props.onUpdate}
-        />
+        <ContentMotivatorAdded step={props.step} onUpdate={props.onUpdate} />
       ),
     },
     [GOAL_STEPS.motivatorAccepted]: {
@@ -134,62 +128,86 @@ export default function GoalStepCard(props: {
   return (
     <CardBox
       sx={{
-        display: "flex",
-        flexDirection: "row",
         background: cardParams.backgoundColor,
         borderColor: cardParams.borderColor,
       }}
     >
-      {/* Left part */}
-      <Box>
-        <AccountAvatar
-          account={props.step.authorAddress}
-          accountProfileUriData={authorProfileUriData}
-        />
-      </Box>
-      {/* Right part */}
-      <Box width={1} ml={1.5}>
-        {/* Account */}
-        <AccountLink
-          account={props.step.authorAddress}
-          accountProfileUriData={authorProfileUriData}
-          color={
-            cardParams.isBackgroundDark
-              ? theme.palette.primary.contrastText
-              : theme.palette.primary.main
-          }
-        />
-        {/* Date */}
-        <Typography
-          color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
-          variant="body2"
-        >
-          {stringTimestampToLocaleString(props.step.createdTimestamp)}
-        </Typography>
-        {/* Content header */}
-        {cardParams.contentHeader && (
+      {/* Goal link */}
+      {props.displayGoalLink && (
+        <>
           <Typography
+            variant="body2"
+            color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
+            mb={0.5}
+          >
+            🔥 Goal #{props.step.goal.id}
+          </Typography>
+          <Link href={`/goals/${props.step.goal.id}`} passHref legacyBehavior>
+            <MuiLink
+              fontWeight={700}
+              color={
+                cardParams.isBackgroundDark
+                  ? theme.palette.primary.contrastText
+                  : theme.palette.primary.main
+              }
+            >
+              {props.step.goal.description}
+            </MuiLink>
+          </Link>
+          <Divider sx={{ mt: 1, mb: 2 }} />
+        </>
+      )}
+      {/* Step params */}
+      <Box display="flex" flexDirection="row">
+        {/* Left part */}
+        <Box>
+          <AccountAvatar
+            account={props.step.authorAddress}
+            accountProfileUriData={authorProfileUriData}
+          />
+        </Box>
+        {/* Right part */}
+        <Box width={1} ml={1.5}>
+          {/* Account */}
+          <AccountLink
+            account={props.step.authorAddress}
+            accountProfileUriData={authorProfileUriData}
             color={
               cardParams.isBackgroundDark
                 ? theme.palette.primary.contrastText
-                : theme.palette.text.primary
+                : theme.palette.primary.main
             }
-            fontWeight={700}
-            mt={1}
+          />
+          {/* Date */}
+          <Typography
+            color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
+            variant="body2"
           >
-            {cardParams.contentHeader}
+            {stringTimestampToLocaleString(props.step.createdTimestamp)}
           </Typography>
-        )}
-        {/* Content component */}
-        {cardParams.contentComponent}
+          {/* Content header */}
+          {cardParams.contentHeader && (
+            <Typography
+              color={
+                cardParams.isBackgroundDark
+                  ? theme.palette.primary.contrastText
+                  : theme.palette.text.primary
+              }
+              fontWeight={700}
+              mt={1}
+            >
+              {cardParams.contentHeader}
+            </Typography>
+          )}
+          {/* Content component */}
+          {cardParams.contentComponent}
+        </Box>
       </Box>
     </CardBox>
   );
 }
 
 function ContentMotivatorAdded(props: {
-  authorAddress: string;
-  isClosed: boolean;
   step: GoalStepEntity;
   onUpdate: Function;
 }) {
@@ -202,24 +220,25 @@ function ContentMotivatorAdded(props: {
       <Typography variant="body2" mt={1}>
         {data?.message || "..."}
       </Typography>
-      {!props.isClosed && address === props.authorAddress && (
-        <MediumLoadingButton
-          variant="outlined"
-          onClick={() =>
-            showDialog?.(
-              <GoalAcceptMotivatorDialog
-                id={props.step.goal.id}
-                motivatorAccountAddress={props.step.authorAddress}
-                onSuccess={props.onUpdate}
-                onClose={closeDialog}
-              />
-            )
-          }
-          sx={{ mt: 2 }}
-        >
-          Accept
-        </MediumLoadingButton>
-      )}
+      {!props.step.goal.isClosed &&
+        address === props.step.goal.authorAddress && (
+          <MediumLoadingButton
+            variant="outlined"
+            onClick={() =>
+              showDialog?.(
+                <GoalAcceptMotivatorDialog
+                  id={props.step.goal.id}
+                  motivatorAccountAddress={props.step.authorAddress}
+                  onSuccess={props.onUpdate}
+                  onClose={closeDialog}
+                />
+              )
+            }
+            sx={{ mt: 2 }}
+          >
+            Accept
+          </MediumLoadingButton>
+        )}
     </Box>
   );
 }
