@@ -87,7 +87,7 @@ function Content(props: { sx?: SxProps }) {
     >
       <HowItWorks />
       <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <GoalExplore title="✨ Space for ambitious goals" />
+      <GoalExplore title="💎 Space for ambitious goals" />
       <ThickDivider sx={{ mt: 8, mb: 8 }} />
       <AccountExplore title="🔆 Space for bright people" />
       <ThickDivider sx={{ mt: 8, mb: 8 }} />

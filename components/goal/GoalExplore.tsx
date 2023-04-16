@@ -13,7 +13,7 @@ export default function GoalExplore(props: {
   return (
     <Box sx={{ width: 1, ...props.sx }}>
       <Typography variant="h4" fontWeight={700} textAlign="center">
-        {props.title || "✨ Goals"}
+        {props.title || "💎 Goals"}
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
         {props.subtitle || "that inspire us and everyone around us"}
