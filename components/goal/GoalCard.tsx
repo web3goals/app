@@ -66,9 +66,6 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
           alignItems={{ md: "center" }}
           mt={1.5}
         >
-          <Typography variant="body2" color="text.secondary">
-            #{props.goal.id}
-          </Typography>
           <Typography
             variant="body2"
             color={
@@ -79,11 +76,8 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
                 : "red"
             }
           >
-            {!props.goal.isClosed
-              ? "Active"
-              : props.goal.isAchieved
-              ? "Achieved"
-              : "Failed"}
+            {!props.goal.isClosed ? "🔥" : props.goal.isAchieved ? "✅" : "❌"}{" "}
+            Goal #{props.goal.id}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             By{" "}
