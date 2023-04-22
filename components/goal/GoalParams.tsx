@@ -1,27 +1,24 @@
-import { Stack, SxProps, Typography } from "@mui/material";
+import { Link as MuiLink, Stack, SxProps, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
 import AccountLink from "components/account/AccountLink";
 import {
-  WidgetBox,
-  WidgetLink,
   CenterBoldText,
+  LargeLoadingButton,
+  WidgetBox,
+  WidgetContentBox,
   WidgetText,
   WidgetTitle,
-  LargeLoadingButton,
-  WidgetContentBox,
 } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber, ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import Link from "next/link";
 import { useContext } from "react";
 import { palette } from "theme/palette";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
-import {
-  addressToShortAddress,
-  bigNumberTimestampToLocaleDateString,
-} from "utils/converters";
+import { bigNumberTimestampToLocaleDateString } from "utils/converters";
 import { useNetwork } from "wagmi";
 import GoalShareDialog from "./dialog/GoalShareDialog";
 
@@ -63,7 +60,7 @@ export default function GoalParams(props: {
       </Typography>
       <CenterBoldText mt={1}>was set</CenterBoldText>
       {/* Author address */}
-      <WidgetBox bgcolor={palette.greyDark} mt={3}>
+      <WidgetBox bgcolor={palette.greyDark} mt={2}>
         <WidgetTitle>By</WidgetTitle>
         <WidgetContentBox
           display="flex"
@@ -88,19 +85,19 @@ export default function GoalParams(props: {
           {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
         </WidgetText>
       </WidgetBox>
-      <CenterBoldText mt={3}>with</CenterBoldText>
+      <CenterBoldText mt={2}>with</CenterBoldText>
       {/* Description */}
-      <WidgetBox bgcolor={palette.blue} mt={3}>
+      <WidgetBox bgcolor={palette.blue} mt={2}>
         <WidgetTitle>Description</WidgetTitle>
         <WidgetText>{props.description}</WidgetText>
       </WidgetBox>
-      <CenterBoldText mt={3}>
+      <CenterBoldText mt={2}>
         {props.isClosed
-          ? "and this goal must have been achieved"
-          : "and this goal must be achieved"}
+          ? "and this goal must have been achieved and closed"
+          : "and this goal must be achieved and closed"}
       </CenterBoldText>
       {/* Deadline timestamp */}
-      <WidgetBox bgcolor={palette.purpleDark} mt={3}>
+      <WidgetBox bgcolor={palette.purpleDark} mt={2}>
         <WidgetTitle>By</WidgetTitle>
         <WidgetText>
           {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
@@ -123,15 +120,27 @@ export default function GoalParams(props: {
           </WidgetText>
         </Stack>
       </WidgetBox>
-      <CenterBoldText mt={3}>
+      <CenterBoldText mt={2}>
         {props.isClosed ? (
           props.isAchieved ? (
-            <>was returned to the author of this goal</>
+            <>was be returned to the author of this goal</>
           ) : (
-            <>was shared between accepted motivators and this application</>
+            <>
+              was be{" "}
+              <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
+                <MuiLink>shared</MuiLink>
+              </Link>{" "}
+              between motivators and this application
+            </>
           )
         ) : (
-          <>will be shared between accepted motivators and this application</>
+          <>
+            will be{" "}
+            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
+              <MuiLink>shared</MuiLink>
+            </Link>{" "}
+            between motivators and this application
+          </>
         )}
       </CenterBoldText>
       {/* Share button */}
