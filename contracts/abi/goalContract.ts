@@ -1,22 +1,7 @@
 export const goalContractAbi = [
   {
     inputs: [],
-    name: "AlreadyAccepted",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AlreadyMotivator",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ArraysLengthInvalid",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AuthorCannotBeMotivator",
+    name: "AuthorCannotEvaluateOwnMessage",
     type: "error",
   },
   {
@@ -26,7 +11,22 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
+    name: "EvaluationIncorrect",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "GoalClosed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MessageAlreadyEvaluated",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MessageNotExists",
     type: "error",
   },
   {
@@ -36,32 +36,17 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "MotivatorNotFound",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "NotAchieved",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "NotAuthor",
     type: "error",
   },
   {
     inputs: [],
-    name: "NotAuthorNotAcceptedMotivator",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ProfileAddressNotExists",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "ProfileNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProofsNotFound",
     type: "error",
   },
   {
@@ -93,52 +78,6 @@ export const goalContractAbi = [
     inputs: [],
     name: "TokenNotTransferable",
     type: "error",
-  },
-  {
-    inputs: [],
-    name: "VerifierAddressNotExists",
-    type: "error",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "accountAddress",
-        type: "address",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "achievedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "failedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "motivatedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "notMotivatedGoals",
-            type: "uint256",
-          },
-        ],
-        indexed: false,
-        internalType: "struct DataTypes.GoalAccountReputation",
-        name: "accountReputation",
-        type: "tuple",
-      },
-    ],
-    name: "AccountReputationSet",
-    type: "event",
   },
   {
     anonymous: false,
@@ -238,12 +177,12 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "verificationRequirement",
+            name: "extraDataURI",
             type: "string",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalParams",
+        internalType: "struct DataTypes.IndieGoalParams",
         name: "params",
         type: "tuple",
       },
@@ -299,12 +238,12 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "verificationRequirement",
+            name: "extraDataURI",
             type: "string",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalParams",
+        internalType: "struct DataTypes.IndieGoalParams",
         name: "params",
         type: "tuple",
       },
@@ -335,6 +274,12 @@ export const goalContractAbi = [
         type: "uint256",
       },
       {
+        indexed: true,
+        internalType: "uint256",
+        name: "messageId",
+        type: "uint256",
+      },
+      {
         components: [
           {
             internalType: "uint256",
@@ -347,13 +292,75 @@ export const goalContractAbi = [
             type: "address",
           },
           {
+            internalType: "bool",
+            name: "isMotivating",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isSuperMotivating",
+            type: "bool",
+          },
+          {
             internalType: "string",
             name: "extraDataURI",
             type: "string",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalMessage",
+        internalType: "struct DataTypes.IndieGoalMessage",
+        name: "message",
+        type: "tuple",
+      },
+    ],
+    name: "MessageEvaluated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "messageId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "authorAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isMotivating",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isSuperMotivating",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.IndieGoalMessage",
         name: "message",
         type: "tuple",
       },
@@ -379,33 +386,28 @@ export const goalContractAbi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "addedTimestamp",
-            type: "uint256",
-          },
-          {
             internalType: "address",
             name: "accountAddress",
             type: "address",
           },
           {
-            internalType: "bool",
-            name: "isAccepted",
-            type: "bool",
+            internalType: "uint256",
+            name: "motivations",
+            type: "uint256",
           },
           {
-            internalType: "string",
-            name: "extraDataURI",
-            type: "string",
+            internalType: "uint256",
+            name: "superMotivations",
+            type: "uint256",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalMotivator",
+        internalType: "struct DataTypes.IndieGoalMotivator",
         name: "motivator",
         type: "tuple",
       },
     ],
-    name: "MotivatorAccepted",
+    name: "MotivatorAdded",
     type: "event",
   },
   {
@@ -426,33 +428,28 @@ export const goalContractAbi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "addedTimestamp",
-            type: "uint256",
-          },
-          {
             internalType: "address",
             name: "accountAddress",
             type: "address",
           },
           {
-            internalType: "bool",
-            name: "isAccepted",
-            type: "bool",
+            internalType: "uint256",
+            name: "motivations",
+            type: "uint256",
           },
           {
-            internalType: "string",
-            name: "extraDataURI",
-            type: "string",
+            internalType: "uint256",
+            name: "superMotivations",
+            type: "uint256",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalMotivator",
+        internalType: "struct DataTypes.IndieGoalMotivator",
         name: "motivator",
         type: "tuple",
       },
     ],
-    name: "MotivatorAdded",
+    name: "MotivatorUpdated",
     type: "event",
   },
   {
@@ -496,8 +493,26 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypes.IndieGoalProof",
+        name: "proof",
+        type: "tuple",
+      },
     ],
-    name: "SentToVerifier",
+    name: "ProofPosted",
     type: "event",
   },
   {
@@ -548,12 +563,12 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "verificationRequirement",
+            name: "extraDataURI",
             type: "string",
           },
         ],
         indexed: false,
-        internalType: "struct DataTypes.GoalParams",
+        internalType: "struct DataTypes.IndieGoalParams",
         name: "params",
         type: "tuple",
       },
@@ -600,95 +615,6 @@ export const goalContractAbi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "key",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "value",
-        type: "string",
-      },
-    ],
-    name: "VerificationDataSet",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "motivatorAddress",
-        type: "address",
-      },
-    ],
-    name: "acceptMotivator",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataKeys",
-        type: "string[]",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataValues",
-        type: "string[]",
-      },
-    ],
-    name: "addVerificationData",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataKeys",
-        type: "string[]",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataValues",
-        type: "string[]",
-      },
-    ],
-    name: "addVerificationDataAndVerify",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -732,13 +658,8 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
-      {
-        internalType: "string",
-        name: "extraDataURI",
-        type: "string",
-      },
     ],
-    name: "becomeMotivator",
+    name: "close",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -750,51 +671,25 @@ export const goalContractAbi = [
         name: "tokenId",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "messageId",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isMotivating",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isSuperMotivating",
+        type: "bool",
+      },
     ],
-    name: "close",
+    name: "evaluateMessage",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "accountAddress",
-        type: "address",
-      },
-    ],
-    name: "getAccountReputation",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "achievedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "failedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "motivatedGoals",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "notMotivatedGoals",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct DataTypes.GoalAccountReputation",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -831,7 +726,20 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "getHubAddress",
+    name: "getImageSVG",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getKeeperAddress",
     outputs: [
       {
         internalType: "address",
@@ -843,13 +751,70 @@ export const goalContractAbi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getImageSVG",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getMessages",
     outputs: [
       {
-        internalType: "string",
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "authorAddress",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "isMotivating",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isSuperMotivating",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        internalType: "struct DataTypes.IndieGoalMessage[]",
         name: "",
-        type: "string",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    name: "getMotivatorReputation",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -868,27 +833,22 @@ export const goalContractAbi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "addedTimestamp",
-            type: "uint256",
-          },
-          {
             internalType: "address",
             name: "accountAddress",
             type: "address",
           },
           {
-            internalType: "bool",
-            name: "isAccepted",
-            type: "bool",
+            internalType: "uint256",
+            name: "motivations",
+            type: "uint256",
           },
           {
-            internalType: "string",
-            name: "extraDataURI",
-            type: "string",
+            internalType: "uint256",
+            name: "superMotivations",
+            type: "uint256",
           },
         ],
-        internalType: "struct DataTypes.GoalMotivator[]",
+        internalType: "struct DataTypes.IndieGoalMotivator[]",
         name: "",
         type: "tuple[]",
       },
@@ -945,13 +905,55 @@ export const goalContractAbi = [
           },
           {
             internalType: "string",
-            name: "verificationRequirement",
+            name: "extraDataURI",
             type: "string",
           },
         ],
-        internalType: "struct DataTypes.GoalParams",
+        internalType: "struct DataTypes.IndieGoalParams",
         name: "",
         type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getProfileAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+    ],
+    name: "getReputation",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -973,80 +975,13 @@ export const goalContractAbi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        internalType: "address",
+        name: "profileAddress",
+        type: "address",
       },
-      {
-        internalType: "string",
-        name: "key",
-        type: "string",
-      },
-    ],
-    name: "getVerificationData",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "string[]",
-        name: "keys",
-        type: "string[]",
-      },
-    ],
-    name: "getVerificationDataList",
-    outputs: [
-      {
-        internalType: "string[]",
-        name: "",
-        type: "string[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "getVerificationStatus",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "isAchieved",
-        type: "bool",
-      },
-      {
-        internalType: "bool",
-        name: "isFailed",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
       {
         internalType: "address",
-        name: "hubAddress",
+        name: "keeperAddress",
         type: "address",
       },
       {
@@ -1168,6 +1103,24 @@ export const goalContractAbi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "extraDataURI",
+        type: "string",
+      },
+    ],
+    name: "postProof",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "renounceOwnership",
     outputs: [],
@@ -1244,18 +1197,8 @@ export const goalContractAbi = [
       },
       {
         internalType: "string",
-        name: "verificationRequirement",
+        name: "extraDataURI",
         type: "string",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataKeys",
-        type: "string[]",
-      },
-      {
-        internalType: "string[]",
-        name: "verificationDataValues",
-        type: "string[]",
       },
     ],
     name: "set",
@@ -1290,12 +1233,12 @@ export const goalContractAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "hubAddress",
-        type: "address",
+        internalType: "string",
+        name: "imageSVG",
+        type: "string",
       },
     ],
-    name: "setHubAddress",
+    name: "setImageSVG",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1303,12 +1246,25 @@ export const goalContractAbi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "imageSVG",
-        type: "string",
+        internalType: "address",
+        name: "keeperAddress",
+        type: "address",
       },
     ],
-    name: "setImageSVG",
+    name: "setKeeperAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "profileAddress",
+        type: "address",
+      },
+    ],
+    name: "setProfileAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1416,19 +1372,6 @@ export const goalContractAbi = [
   {
     inputs: [],
     name: "unpause",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "verify",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

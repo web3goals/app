@@ -1,27 +1,7 @@
 export const errorsLibraryAbi = [
   {
     inputs: [],
-    name: "AlreadyAccepted",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AlreadyMotivator",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AnyProofURINotExists",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ArraysLengthInvalid",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "AuthorCannotBeMotivator",
+    name: "AuthorCannotEvaluateOwnMessage",
     type: "error",
   },
   {
@@ -31,12 +11,7 @@ export const errorsLibraryAbi = [
   },
   {
     inputs: [],
-    name: "GitHubUsernameOrActivityDaysNotExist",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "GoalAlreadyVerified",
+    name: "EvaluationIncorrect",
     type: "error",
   },
   {
@@ -46,17 +21,17 @@ export const errorsLibraryAbi = [
   },
   {
     inputs: [],
+    name: "MessageAlreadyEvaluated",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "MessageNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "MessageValueMismatch",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "MotivatorNotFound",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "NotAchieved",
     type: "error",
   },
   {
@@ -66,22 +41,12 @@ export const errorsLibraryAbi = [
   },
   {
     inputs: [],
-    name: "NotAuthorNotAcceptedMotivator",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "NotGoalContract",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ProfileAddressNotExists",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "ProfileNotExists",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ProofsNotFound",
     type: "error",
   },
   {
@@ -112,16 +77,6 @@ export const errorsLibraryAbi = [
   {
     inputs: [],
     name: "TokenNotTransferable",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "UnableTransfer",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "VerifierAddressNotExists",
     type: "error",
   },
 ] as const;
