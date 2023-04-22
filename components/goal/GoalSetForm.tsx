@@ -1,4 +1,9 @@
-import { Autocomplete, MenuItem, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  MenuItem,
+  Typography,
+  Link as MuiLink,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import FormikHelper from "components/helper/FormikHelper";
 import {
@@ -9,11 +14,11 @@ import {
   CenterBoldText,
   WidgetTitle,
 } from "components/styled";
-import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { ethers } from "ethers";
 import { Form, Formik } from "formik";
 import useDebounce from "hooks/useDebounce";
+import Link from "next/link";
 import { useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
@@ -70,14 +75,12 @@ export default function GoalSetForm(props: {
     stake: 0.05,
     stakeCurrency: "native",
     deadline: "2023-06-01",
-    verificationRequirement: VERIFICATION_REQUIREMENTS.anyProofUri,
   });
   const formValidationSchema = yup.object({
     description: yup.string().required(),
     stake: yup.number().required(),
     stakeCurrency: yup.string().required(),
     deadline: yup.string().required(),
-    verificationRequirement: yup.string().required(),
   });
   const debouncedFormValues = useDebounce(formValues);
 
@@ -94,9 +97,7 @@ export default function GoalSetForm(props: {
       debouncedFormValues.description,
       numberToBigNumberEthers(debouncedFormValues.stake),
       dateStringToBigNumberTimestamp(debouncedFormValues.deadline),
-      debouncedFormValues.verificationRequirement,
-      [],
-      [],
+      "",
     ],
     overrides: {
       value: numberToBigNumberEthers(debouncedFormValues.stake),
@@ -235,8 +236,11 @@ export default function GoalSetForm(props: {
               />
             </WidgetBox>
             <CenterBoldText mt={2}>
-              otherwise, the stake will be shared between the people who tried
-              to motivate me in this space
+              otherwise, the stake will be{" "}
+              <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
+                <MuiLink>shared</MuiLink>
+              </Link>{" "}
+              between the people who tried to motivate me in this space
             </CenterBoldText>
             {/* Submit button */}
             <ExtraLargeLoadingButton

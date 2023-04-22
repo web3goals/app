@@ -1,11 +1,5 @@
 import { Telegram, Twitter } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Link as MuiLink,
-  SxProps,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, Link as MuiLink, SxProps } from "@mui/material";
 import { Stack } from "@mui/system";
 import { LargeLoadingButton } from "components/styled";
 import useToasts from "hooks/useToast";
@@ -16,11 +10,7 @@ import { useNetwork } from "wagmi";
 /**
  * A component with buttons to share a goal.
  */
-export default function GoalShareActions(props: {
-  id: string;
-  text?: string;
-  sx?: SxProps;
-}) {
+export default function GoalShareActions(props: { id: string; sx?: SxProps }) {
   const { chain } = useNetwork();
   const { showToastSuccess } = useToasts();
   const goalLink = `${global.window.location.origin}/goals/${props.id}`;
@@ -38,16 +28,8 @@ export default function GoalShareActions(props: {
           ...props.sx,
         }}
       >
-        <Typography variant="h6" textAlign="center">
-          {props.text || "🗣️ Share the goal with your friends and followers"}
-        </Typography>
         {/* Buttons to share via social networks */}
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          sx={{ mt: 4 }}
-        >
+        <Stack direction="row" spacing={2} justifyContent="center">
           <IconButton
             href={twitterLink}
             target="_blank"
@@ -84,7 +66,7 @@ export default function GoalShareActions(props: {
             borderRadius: 5,
             px: { xs: 1, md: 2 },
             py: { xs: 2, md: 1 },
-            mt: 4,
+            mt: 3,
           }}
         >
           <Link href={goalLink} legacyBehavior passHref>

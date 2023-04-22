@@ -11,12 +11,14 @@ export default function GoalSetMessage(props: { id: string }) {
       <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you set a goal!
       </Typography>
-      <ThickDivider sx={{ mt: 5 }} />
-      <GoalShareActions
-        id={props.id}
-        text="🗣️ Share the link with your friends and followers, they may want to be your motivators"
-        sx={{ mt: 6 }}
-      />
+      <Typography textAlign="center" mt={1}>
+        Share the link with your friends and followers
+      </Typography>
+      <Typography textAlign="center" mt={1}>
+        That way they will be able to know about your goal and inspire you with
+        motivational messages
+      </Typography>
+      <GoalShareActions id={props.id} sx={{ mt: 3 }} />
     </>
   );
 }
