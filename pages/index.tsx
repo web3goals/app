@@ -124,22 +124,29 @@ function HowItWorks(props: { sx?: SxProps }) {
         Or what to do to become a more successful achiever
       </Typography>
       <HowItWorksStep
-        title="Set a goal with a deadline and stake funds"
-        description="You can choose any goal that is very important to you. It can be a task for the week, or a commitment for this year."
+        title="Set a goal with a deadline and stake funds on achieving it"
+        description="You can set any goal that is very important to you. It can be a task for the week, or a commitment for this year"
         image="/images/how-it-works-1.png"
         sx={{ mt: 6 }}
       />
       <HowItWorksStep
         title="Share with a link"
-        description="Tell your friends and followers about the goal. That way, they can become your motivators and send you inspiring messages."
+        description="That way your friends and followers will be able to know about your goal and inspire you with motivational messages"
         image="/images/how-it-works-2.png"
         reverse
         sx={{ mt: 6 }}
       />
       <HowItWorksStep
-        title="Achieve the goal, attach a proof, and earn a reputation"
-        description="Or your staked funds will be shared between motivators, and reputation will be lost."
+        title="Receive messages"
+        description="And boost the reputation of inspiring authors. Let everyone see who in this space motivates people to do great things"
         image="/images/how-it-works-3.png"
+        sx={{ mt: 6 }}
+      />
+      <HowItWorksStep
+        title="Achieve the goal, attach a proof, and earn a reputation"
+        description="Or your staked funds will be shared between motivators, and reputation will be lost"
+        image="/images/how-it-works-4.png"
+        reverse
         sx={{ mt: 6 }}
       />
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -201,7 +208,7 @@ function HowItWorksStep(props: {
 
 function Faq(props: { sx?: SxProps }) {
   return (
-    <Box sx={{ ...props.sx }}>
+    <Box sx={{ ...props.sx, maxWidth: 520 }}>
       <Box
         id="faq"
         component="a"
@@ -213,7 +220,7 @@ function Faq(props: { sx?: SxProps }) {
         }}
       />
       <Typography variant="h4" fontWeight={700} textAlign="center">
-        👌 Frequently asked questions
+        ⁉️ Frequently asked questions
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
         or what to do if I'm confused
@@ -222,12 +229,7 @@ function Faq(props: { sx?: SxProps }) {
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What do I need to set a goal?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
         Crypto wallet and the desire to achieve something important. For the
         beta, you can use{" "}
         <MuiLink href="https://metamask.io/" target="_blank">
@@ -237,82 +239,69 @@ function Faq(props: { sx?: SxProps }) {
         <MuiLink href="https://mumbaifaucet.com/" target="_blank">
           this site
         </MuiLink>
-        .
       </Typography>
       {/* Question 2 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I achieved my goal?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
         Then you need to post a proof (image, video or any other file), after
-        that your stake will be returned and your reputation will be increased.
+        that your stake will be returned and your reputation will be increased
       </Typography>
       {/* Question 3 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I didn't achieve my goal?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
         Then your reputation will be decreased and all staked tokens will be
-        shared between accepted motivators and this application.
+        shared between accepted motivators and this application
       </Typography>
       {/* Question 4 */}
+      <Box
+        id="faq-how-stake-is-shared"
+        component="a"
+        sx={{
+          display: "block",
+          position: "relative",
+          top: "-62px",
+          visibility: "hidden",
+        }}
+      />
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
-        Who is an accepted motivator?
+        How is the stake of the failed goal shared between motivators?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
-        This is a person who sent an inspiring message for you on the goal page,
-        and you accepted it.
+      <Typography textAlign="center" color="text.secondary" mt={1}>
+        To become a motivator, a person must post a message that must be
+        evaluated by the author of the goal
+      </Typography>
+      <Typography textAlign="center" color="text.secondary" mt={1}>
+        Each evaluation gives points that affect the portion of the stake that
+        the motivator will receive if the goal fails
+      </Typography>
+      <Typography textAlign="center" color="text.secondary" mt={1}>
+        Now, a message evaluated as "It’s motivating!" gives 1 point, and a
+        message evaluated as "It’s super motivating!" gives 3 points
       </Typography>
       {/* Question 5 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         Which chains are supported?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
-        Polygon Mumbai while the application is in beta.
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
+        Polygon Mumbai while the application is in beta
       </Typography>
       {/* Question 6 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         When is the release?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
         When all your <MuiLink href="/feedback">feedback</MuiLink> is heard and
-        this application becomes the perfect space for our goals.
+        this application becomes the perfect space for our goals
       </Typography>
       {/* Question 7 */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I have another question?
       </Typography>
-      <Typography
-        textAlign="center"
-        color="text.secondary"
-        maxWidth={580}
-        mt={0.5}
-      >
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
         <MuiLink href="/feedback">Ask us</MuiLink>, we'll be glad to help you ❤️
       </Typography>
     </Box>
