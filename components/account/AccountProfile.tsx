@@ -9,9 +9,10 @@ import { Box, Divider, IconButton, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
 import { profileContractAbi } from "contracts/abi/profileContract";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import useUriDataLoader from "hooks/useUriDataLoader";
 import Link from "next/link";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
@@ -33,7 +34,8 @@ export default function AccountProfile(props: { address: string }) {
     args: [ethers.utils.getAddress(props.address)],
   });
 
-  const { data: profileUriData } = useProfileUriDataLoader(profileUri);
+  const { data: profileUriData } =
+    useUriDataLoader<ProfileUriDataEntity>(profileUri);
   const { data: accounts } = useAccountsFinder({
     chain: chain,
     id: props.address,

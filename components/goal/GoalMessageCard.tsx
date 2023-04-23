@@ -13,8 +13,8 @@ import { CardBox } from "components/styled";
 import { GOAL_MESSAGES } from "constants/goal/messages";
 import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,7 +49,7 @@ export default function GoalMessageCard(props: {
     chain: chain,
     id: props.message.authorAddress,
   });
-  const { data: authorProfileUriData } = useProfileUriDataLoader(
+  const { data: authorProfileUriData } = useUriDataLoader<ProfileUriDataEntity>(
     authorAccounts?.[0]?.profileUri
   );
 

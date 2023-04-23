@@ -1,7 +1,8 @@
 import { Box, SxProps, Typography } from "@mui/material";
 import { CardBox } from "components/styled";
 import AccountEntity from "entities/subgraph/AccountEntity";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
+import useUriDataLoader from "hooks/useUriDataLoader";
 import AccountAvatar from "./AccountAvatar";
 import AccountLink from "./AccountLink";
 import AccountReputation from "./AccountReputation";
@@ -13,9 +14,8 @@ export default function AccountCard(props: {
   account: AccountEntity;
   sx?: SxProps;
 }) {
-  const { data: accountProfileUriData } = useProfileUriDataLoader(
-    props.account.profileUri
-  );
+  const { data: accountProfileUriData } =
+    useUriDataLoader<ProfileUriDataEntity>(props.account.profileUri);
 
   return (
     <CardBox sx={{ display: "flex", flexDirection: "row", ...props.sx }}>

@@ -11,9 +11,10 @@ import {
   WidgetTitle,
 } from "components/styled";
 import { DialogContext } from "context/dialog";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import useUriDataLoader from "hooks/useUriDataLoader";
 import Link from "next/link";
 import { useContext } from "react";
 import { palette } from "theme/palette";
@@ -42,7 +43,7 @@ export default function GoalParams(props: {
     chain: chain,
     id: props.authorAddress,
   });
-  const { data: authorProfileUriData } = useProfileUriDataLoader(
+  const { data: authorProfileUriData } = useUriDataLoader<ProfileUriDataEntity>(
     authorAccounts?.[0]?.profileUri
   );
 

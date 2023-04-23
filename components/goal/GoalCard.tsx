@@ -9,9 +9,10 @@ import AccountAvatar from "components/account/AccountAvatar";
 import AccountLink from "components/account/AccountLink";
 import { CardBox } from "components/styled";
 import GoalEntity from "entities/subgraph/GoalEntity";
+import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { BigNumber, ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
-import useProfileUriDataLoader from "hooks/uriData/useProfileUriDataLoader";
+import useUriDataLoader from "hooks/useUriDataLoader";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
 import { bigNumberTimestampToLocaleDateString } from "utils/converters";
 import { useNetwork } from "wagmi";
@@ -25,7 +26,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
     chain: chain,
     id: props.goal.authorAddress,
   });
-  const { data: authorProfileUriData } = useProfileUriDataLoader(
+  const { data: authorProfileUriData } = useUriDataLoader<ProfileUriDataEntity>(
     authorAccounts?.[0]?.profileUri
   );
 
