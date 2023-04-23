@@ -33,10 +33,11 @@ export default function useAccountsFinder(args: {
        profileId
        profileCreatedTimestamp
        profileUri
+       goals
        achievedGoals
        failedGoals
-       motivatedGoals
-       notMotivatedGoals
+       motivations
+       superMotivations
      }
    }`;
     // Make query
@@ -49,10 +50,11 @@ export default function useAccountsFinder(args: {
               profileId: responseAccount.profileId,
               profileCreatedTimestamp: responseAccount.profileCreatedTimestamp,
               profileUri: responseAccount.profileUri,
+              goals: responseAccount.goals,
               achievedGoals: responseAccount.achievedGoals,
               failedGoals: responseAccount.failedGoals,
-              motivatedGoals: responseAccount.motivatedGoals,
-              notMotivatedGoals: responseAccount.notMotivatedGoals,
+              motivations: responseAccount.motivations,
+              superMotivations: responseAccount.superMotivations,
             };
             return account;
           })

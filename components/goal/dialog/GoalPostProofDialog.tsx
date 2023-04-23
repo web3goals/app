@@ -1,19 +1,14 @@
 import { Box, Dialog, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import {
-  CenterBoldText,
   DialogCenterContent,
   ExtraLargeLoadingButton,
   WidgetBox,
   WidgetInputTextField,
   WidgetTitle,
 } from "components/styled";
-import {
-  VERIFICATION_DATA_KEYS,
-  VERIFICATION_REQUIREMENTS,
-} from "constants/verifiers";
 import { goalContractAbi } from "contracts/abi/goalContract";
-import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
+import ProofUriDataEntity from "entities/uri/ProofUriDataEntity";
 import { BigNumber } from "ethers";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
@@ -36,12 +31,10 @@ import {
 import * as yup from "yup";
 
 /**
- * Dialog to add document to proof documents.
+ * Dialog to post a proof to a goal.
  */
-export default function GoalAddProofDocumentDialog(props: {
+export default function GoalPostProofDialog(props: {
   id: string;
-  verificationRequirement: string;
-  proofDocuments: ProofDocumentsUriDataEntity;
   onSuccess?: Function;
   isClose?: boolean;
   onClose?: Function;
@@ -55,38 +48,29 @@ export default function GoalAddProofDocumentDialog(props: {
   const [isOpen, setIsOpen] = useState(!props.isClose);
 
   // Form values
-  const [formFileValue, setFormFileValue] = useState<{
+  const [formAttachmentValue, setFormAttachmentValue] = useState<{
     file: any;
     uri: any;
     isImage: boolean;
     isVideo: boolean;
   }>();
   const [formValues, setFormValues] = useState({
-    description: "",
+    text: "",
   });
   const formValidationSchema = yup.object({
-    description: yup.string().required(),
+    text: yup.string().required(),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
-  // Uri states
-  const [updatedProofDocumentsDataUri, setUpdatedProofDocumentsDataUri] =
-    useState("");
+  // Uploaded data states
+  const [uploadedProofDataUri, setUpdatedProofDataUri] = useState("");
 
   // Contract states
   const { config: contractPrepareConfig } = usePrepareContractWrite({
     address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
-    functionName: "addVerificationData",
-    args: [
-      BigNumber.from(props.id),
-      [
-        props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
-          ? VERIFICATION_DATA_KEYS.anyProofUri
-          : VERIFICATION_DATA_KEYS.undefined,
-      ],
-      [updatedProofDocumentsDataUri],
-    ],
+    functionName: "postProof",
+    args: [BigNumber.from(props.id), uploadedProofDataUri],
     chainId: chainToSupportedChainId(chain),
     onError(error: any) {
       showToastError(error);
@@ -124,7 +108,7 @@ export default function GoalAddProofDocumentDialog(props: {
       const fileReader = new FileReader();
       fileReader.onload = () => {
         if (fileReader.readyState === 2) {
-          setFormFileValue({
+          setFormAttachmentValue({
             file: file,
             uri: fileReader.result,
             isImage: file.type === "image/jpeg" || file.type === "image/png",
@@ -142,32 +126,28 @@ export default function GoalAddProofDocumentDialog(props: {
     try {
       setIsFormSubmitting(true);
       // Check file
-      if (!formFileValue?.file) {
+      if (!formAttachmentValue?.file) {
         throw new Error("File is not attached");
       }
-      // Upload file to ipfs
-      const { uri: fileUri } = await uploadFileToIpfs(formFileValue.file);
-      // Add file to proof documents
-      const proofDocumentsUriData: ProofDocumentsUriDataEntity = {
-        documents: [
-          ...props.proofDocuments.documents,
-          {
-            description: values.description,
-            type: formFileValue.isImage
-              ? "IMAGE"
-              : formFileValue.isVideo
-              ? "VIDEO"
-              : "FILE",
-            addedData: new Date().getTime(),
-            uri: fileUri,
-          },
-        ],
-      };
-      // Upload proof documents to ipfs
-      const { uri: proofDocumentsUri } = await uploadJsonToIpfs(
-        proofDocumentsUriData
+      // Upload attachment to ipfs
+      const { uri: attachmentUri } = await uploadFileToIpfs(
+        formAttachmentValue.file
       );
-      setUpdatedProofDocumentsDataUri(proofDocumentsUri);
+      // Upload proof to ipfs
+      const proofData: ProofUriDataEntity = {
+        text: values.text,
+        attachment: {
+          type: formAttachmentValue.isImage
+            ? "IMAGE"
+            : formAttachmentValue.isVideo
+            ? "VIDEO"
+            : "FILE",
+          addedData: new Date().getTime(),
+          uri: attachmentUri,
+        },
+      };
+      const { uri: proofDataUri } = await uploadJsonToIpfs(proofData);
+      setUpdatedProofDataUri(proofDataUri);
     } catch (error: any) {
       handleError(error, true);
       setIsFormSubmitting(false);
@@ -179,15 +159,15 @@ export default function GoalAddProofDocumentDialog(props: {
    */
   useEffect(() => {
     if (
-      updatedProofDocumentsDataUri !== "" &&
+      uploadedProofDataUri !== "" &&
       contractWrite &&
       !isContractWriteLoading
     ) {
       contractWrite?.();
-      setUpdatedProofDocumentsDataUri("");
+      setUpdatedProofDataUri("");
       setIsFormSubmitting(false);
     }
-  }, [updatedProofDocumentsDataUri, contractWrite, isContractWriteLoading]);
+  }, [uploadedProofDataUri, contractWrite, isContractWriteLoading]);
 
   /**
    * Handle transaction success to show success message.
@@ -204,40 +184,47 @@ export default function GoalAddProofDocumentDialog(props: {
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
       <DialogCenterContent>
-        {/* Title */}
         <Typography variant="h4" fontWeight={700} textAlign="center">
-          👀 Add proof
+          👀 Post proof
         </Typography>
-        <CenterBoldText mt={2} mb={4}>
-          it can be a screenshot, photo, video or any other file
-        </CenterBoldText>
+        <Typography textAlign="center" mt={1}>
+          that you have achieved your goal or are on your way to it. It can be a
+          screenshot, photo, video or any other file
+        </Typography>
         <Formik
           initialValues={formValues}
           validationSchema={formValidationSchema}
           onSubmit={submit}
         >
           {({ values, errors, touched, handleChange }) => (
-            <Form style={{ width: "100%" }}>
+            <Form
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              {/* Description */}
-              <WidgetBox bgcolor={palette.purpleLight}>
-                <WidgetTitle>Description</WidgetTitle>
+              {/* Text input */}
+              <WidgetBox bgcolor={palette.yellow} mt={4}>
+                <WidgetTitle>Text</WidgetTitle>
                 <WidgetInputTextField
-                  id="description"
-                  name="description"
-                  placeholder="Photo from…"
-                  value={values.description}
+                  id="text"
+                  name="text"
+                  placeholder="This video demonstrates how..."
+                  value={values.text}
                   onChange={handleChange}
-                  error={touched.description && Boolean(errors.description)}
-                  helperText={touched.description && errors.description}
+                  error={touched.text && Boolean(errors.text)}
+                  helperText={touched.text && errors.text}
                   disabled={isFormDisabled}
                   multiline
                   maxRows={4}
                   sx={{ width: 1 }}
                 />
               </WidgetBox>
-              {/* File */}
-              <WidgetBox bgcolor={palette.purpleDark} mt={2} sx={{ width: 1 }}>
+              {/* Attachment input */}
+              <WidgetBox bgcolor={palette.orange} mt={2} sx={{ width: 1 }}>
                 <WidgetTitle>File</WidgetTitle>
                 <Dropzone
                   multiple={false}
@@ -260,7 +247,7 @@ export default function GoalAddProofDocumentDialog(props: {
                           color="text.disabled"
                           sx={{ lineBreak: "anywhere" }}
                         >
-                          {formFileValue?.file?.name ||
+                          {formAttachmentValue?.file?.name ||
                             "Drag 'n' drop some files here, or click to select files"}
                         </Typography>
                       </Box>
@@ -269,25 +256,19 @@ export default function GoalAddProofDocumentDialog(props: {
                 </Dropzone>
               </WidgetBox>
               {/* Submit button */}
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                mt={4}
+              <ExtraLargeLoadingButton
+                loading={
+                  isFormSubmitting ||
+                  isContractWriteLoading ||
+                  isTransactionLoading
+                }
+                variant="outlined"
+                type="submit"
+                disabled={isFormDisabled || !contractWrite}
+                sx={{ mt: 2 }}
               >
-                <ExtraLargeLoadingButton
-                  loading={
-                    isFormSubmitting ||
-                    isContractWriteLoading ||
-                    isTransactionLoading
-                  }
-                  variant="contained"
-                  type="submit"
-                  disabled={isFormDisabled || !contractWrite}
-                >
-                  Add
-                </ExtraLargeLoadingButton>
-              </Box>
+                Submit
+              </ExtraLargeLoadingButton>
             </Form>
           )}
         </Formik>

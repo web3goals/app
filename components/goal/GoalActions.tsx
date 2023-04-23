@@ -1,23 +1,13 @@
 import { SxProps } from "@mui/material";
 import { Stack } from "@mui/system";
 import { LargeLoadingButton } from "components/styled";
-import {
-  VERIFICATION_DATA_KEYS,
-  VERIFICATION_REQUIREMENTS,
-} from "constants/verifiers";
 import { DialogContext } from "context/dialog";
-import { goalContractAbi } from "contracts/abi/goalContract";
-import ProofDocumentsUriDataEntity from "entities/uri/ProofDocumentsUriDataEntity";
 import { BigNumber } from "ethers";
-import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
-import { useContext, useEffect, useState } from "react";
-import { chainToSupportedChainGoalContractAddress } from "utils/chains";
-import { useAccount, useContractRead, useNetwork } from "wagmi";
-import GoalAddProofDocumentDialog from "./dialog/GoalAddProofDocumentDialog";
-import GoalBecomeMotivatorDialog from "./dialog/GoalBecomeMotivatorDialog";
+import { useContext } from "react";
+import { useAccount } from "wagmi";
 import GoalCloseDialog from "./dialog/GoalCloseDialog";
 import GoalPostMessageDialog from "./dialog/GoalPostMessageDialog";
+import GoalPostProofDialog from "./dialog/GoalPostProofDialog";
 
 /**
  * A component with goal actions.
@@ -26,7 +16,6 @@ export default function GoalActions(props: {
   id: string;
   authorAddress: string;
   deadlineTimestamp: BigNumber;
-  verificationRequirement: string;
   isClosed: boolean;
   onSuccess: Function;
   sx?: SxProps;
@@ -44,31 +33,29 @@ export default function GoalActions(props: {
       justifyContent="center"
       sx={{ ...props.sx }}
     >
-      <MessagePostButton id={props.id} onSuccess={() => props.onSuccess?.()} />
-      {address !== props.authorAddress && (
-        <MotivatorBecomeButton
-          id={props.id}
-          onSuccess={() => props.onSuccess?.()}
-        />
-      )}
+      <MessagePostButton
+        id={props.id}
+        authorAddress={props.authorAddress}
+        onSuccess={() => props.onSuccess?.()}
+      />
       {address === props.authorAddress && (
-        <ProofAddButton
-          id={props.id}
-          verificationRequirement={props.verificationRequirement}
-          onSuccess={() => props.onSuccess?.()}
-        />
+        <ProofPostButton id={props.id} onSuccess={() => props.onSuccess?.()} />
       )}
       <GoalCloseButton
         id={props.id}
+        authorAddress={props.authorAddress}
         deadlineTimestamp={props.deadlineTimestamp}
-        verificationRequirement={props.verificationRequirement}
         onSuccess={() => props.onSuccess?.()}
       />
     </Stack>
   );
 }
 
-function MessagePostButton(props: { id: string; onSuccess?: Function }) {
+function MessagePostButton(props: {
+  id: string;
+  authorAddress: string;
+  onSuccess?: Function;
+}) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
@@ -78,6 +65,7 @@ function MessagePostButton(props: { id: string; onSuccess?: Function }) {
         showDialog?.(
           <GoalPostMessageDialog
             id={props.id}
+            authorAddress={props.authorAddress}
             onSuccess={props.onSuccess}
             onClose={closeDialog}
           />
@@ -89,7 +77,7 @@ function MessagePostButton(props: { id: string; onSuccess?: Function }) {
   );
 }
 
-function MotivatorBecomeButton(props: { id: string; onSuccess?: Function }) {
+function ProofPostButton(props: { id: string; onSuccess?: Function }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
 
   return (
@@ -97,7 +85,7 @@ function MotivatorBecomeButton(props: { id: string; onSuccess?: Function }) {
       variant="outlined"
       onClick={() =>
         showDialog?.(
-          <GoalBecomeMotivatorDialog
+          <GoalPostProofDialog
             id={props.id}
             onSuccess={props.onSuccess}
             onClose={closeDialog}
@@ -105,93 +93,15 @@ function MotivatorBecomeButton(props: { id: string; onSuccess?: Function }) {
         )
       }
     >
-      Become Motivator
-    </LargeLoadingButton>
-  );
-}
-
-function ProofAddButton(props: {
-  id: string;
-  verificationRequirement: string;
-  onSuccess?: Function;
-}) {
-  const { showDialog, closeDialog } = useContext(DialogContext);
-  const { chain } = useNetwork();
-  const { handleError } = useError();
-  const { loadJsonFromIpfs } = useIpfs();
-  const [proofDocuments, setProofDocuments] = useState<
-    ProofDocumentsUriDataEntity | undefined
-  >();
-
-  // State of contract reading to get goal verification data
-  const {
-    data: goalVerificationData,
-    refetch: refetchGoalVerificationData,
-    isFetching: isGoalVerificationDataFetching,
-  } = useContractRead({
-    address: chainToSupportedChainGoalContractAddress(chain),
-    abi: goalContractAbi,
-    functionName: "getVerificationDataList",
-    args: [BigNumber.from(props.id), [VERIFICATION_DATA_KEYS.anyProofUri]],
-  });
-
-  /**
-   * Use loaded verification data to define proofs to edit.
-   */
-  useEffect(() => {
-    if (goalVerificationData && !isGoalVerificationDataFetching) {
-      if (
-        props.verificationRequirement === VERIFICATION_REQUIREMENTS.anyProofUri
-      ) {
-        const anyProofUri = goalVerificationData[0];
-        if (anyProofUri !== "") {
-          loadJsonFromIpfs(anyProofUri)
-            .then((result) =>
-              setProofDocuments({ documents: result.documents || [] })
-            )
-            .catch((error) => handleError(error, true));
-        } else {
-          setProofDocuments({ documents: [] });
-        }
-      }
-    }
-  }, [goalVerificationData, isGoalVerificationDataFetching]);
-
-  if (
-    isGoalVerificationDataFetching ||
-    !goalVerificationData ||
-    !proofDocuments
-  ) {
-    return <></>;
-  }
-
-  return (
-    <LargeLoadingButton
-      variant="outlined"
-      onClick={() =>
-        showDialog?.(
-          <GoalAddProofDocumentDialog
-            id={props.id}
-            verificationRequirement={props.verificationRequirement}
-            proofDocuments={proofDocuments}
-            onSuccess={() => {
-              refetchGoalVerificationData();
-              props.onSuccess?.();
-            }}
-            onClose={closeDialog}
-          />
-        )
-      }
-    >
-      Add Proof
+      Post Proof
     </LargeLoadingButton>
   );
 }
 
 function GoalCloseButton(props: {
   id: string;
+  authorAddress: string;
   deadlineTimestamp: BigNumber;
-  verificationRequirement: string;
   onSuccess?: Function;
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
@@ -203,8 +113,8 @@ function GoalCloseButton(props: {
         showDialog?.(
           <GoalCloseDialog
             id={props.id}
+            authorAddress={props.authorAddress}
             deadlineTimestamp={props.deadlineTimestamp}
-            verificationRequirement={props.verificationRequirement}
             onSuccess={props.onSuccess}
             onClose={closeDialog}
           />

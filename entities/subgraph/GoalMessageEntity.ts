@@ -1,4 +1,4 @@
-export default interface GoalStepEntity {
+export default interface GoalMessageEntity {
   readonly id: string;
   readonly goal: {
     id: string;
@@ -6,9 +6,10 @@ export default interface GoalStepEntity {
     authorAddress: string;
     isClosed: boolean;
   };
-  readonly createdTimestamp: string;
+  readonly addedTimestamp: string;
   readonly authorAddress: string;
   readonly type: string;
-  readonly extraData: string;
+  readonly isMotivating: boolean;
+  readonly isSuperMotivating: boolean;
   readonly extraDataUri: string;
 }

@@ -31,9 +31,11 @@ export default function useGoalsFinder(args: {
       args.isClosed !== undefined ? `isClosed: ${args.isClosed}` : "";
     const isAchievedFilter =
       args.isAchieved !== undefined ? `isAchieved: ${args.isAchieved}` : "";
-    const motivatorAddressFilter = args.motivatorAddress
-      ? `motivatorAddresses_contains: ["${args.motivatorAddress.toLowerCase()}"]`
-      : "";
+    // TODO: Rollback code when subgraph will support this filter
+    // const motivatorAddressFilter = args.motivatorAddress
+    //   ? `motivatorAddresses_contains: ["${args.motivatorAddress.toLowerCase()}"]`
+    //   : "";
+    const motivatorAddressFilter = "";
     const filterParams = `where: {${authorAddressFilter}, ${isClosedFilter}, ${isAchievedFilter}, ${motivatorAddressFilter}}`;
     const sortParams = `orderBy: createdTimestamp, orderDirection: desc`;
     const paginationParams = `first: ${
@@ -49,7 +51,7 @@ export default function useGoalsFinder(args: {
         deadlineTimestamp
         isClosed
         isAchieved
-        motivatorsNumber
+        extraDataURI
       }
     }`;
     // Make query
@@ -66,7 +68,8 @@ export default function useGoalsFinder(args: {
               deadlineTimestamp: responseGoal.deadlineTimestamp,
               isClosed: responseGoal.isClosed,
               isAchieved: responseGoal.isAchieved,
-              motivatorsNumber: responseGoal.motivatorsNumber,
+              extraDataURI: responseGoal.extraDataURI,
+              messagesNumber: 0, // TODO: Use real value from subgraph
             };
             return goal;
           })

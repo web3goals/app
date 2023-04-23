@@ -1,6 +1,6 @@
 import AccountExplore from "components/account/AccountExplore";
 import GoalExplore from "components/goal/GoalExplore";
-import GoalStepExplore from "components/goal/GoalStepExplore";
+import GoalMessageExplore from "components/goal/GoalMessageExplore";
 import Layout from "components/layout";
 import { ThickDivider } from "components/styled";
 
@@ -14,7 +14,7 @@ export default function Explore() {
       <ThickDivider sx={{ mt: 8, mb: 8 }} />
       <AccountExplore pageSize={3} displayExploreAllButton />
       <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <GoalStepExplore pageSize={3} displayExploreAllButton />
+      <GoalMessageExplore pageSize={3} displayExploreAllButton />
     </Layout>
   );
 }

@@ -42,8 +42,8 @@ export default function AccountCard(props: {
         <AccountReputation
           achievedGoals={props.account.achievedGoals}
           failedGoals={props.account.failedGoals}
-          motivatedGoals={props.account.motivatedGoals}
-          notMotivatedGoals={props.account.notMotivatedGoals}
+          motivations={props.account.motivations}
+          superMotivations={props.account.superMotivations}
           small
           sx={{ mt: 1 }}
         />

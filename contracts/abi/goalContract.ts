@@ -933,6 +933,37 @@ export const goalContractAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getProofs",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "addedTimestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "extraDataURI",
+            type: "string",
+          },
+        ],
+        internalType: "struct DataTypes.IndieGoalProof[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "accountAddress",
         type: "address",

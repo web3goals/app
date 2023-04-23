@@ -1,7 +1,6 @@
-import { Box, Dialog, Typography } from "@mui/material";
+import { Dialog, Typography, Link as MuiLink } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import {
-  CenterBoldText,
   DialogCenterContent,
   ExtraLargeLoadingButton,
   WidgetBox,
@@ -15,6 +14,7 @@ import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
 import { Analytics } from "utils/analytics";
@@ -23,6 +23,7 @@ import {
   chainToSupportedChainId,
 } from "utils/chains";
 import {
+  useAccount,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
@@ -32,14 +33,18 @@ import * as yup from "yup";
 
 /**
  * Dialog to post a message to a goal.
+ *
+ * TODO: Add input for attachment like in "GoalPostProofDialog" component
  */
 export default function GoalPostMessageDialog(props: {
   id: string;
+  authorAddress: string;
   onSuccess?: Function;
   isClose?: boolean;
   onClose?: Function;
 }) {
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const { handleError } = useError();
   const { showToastSuccess, showToastError } = useToasts();
   const { uploadJsonToIpfs } = useIpfs();
@@ -49,10 +54,10 @@ export default function GoalPostMessageDialog(props: {
 
   // Form states
   const [formValues, setFormValues] = useState({
-    message: "How's it going…",
+    text: "",
   });
   const formValidationSchema = yup.object({
-    message: yup.string().required(),
+    text: yup.string().required(),
   });
 
   // Uploaded data states
@@ -96,11 +101,11 @@ export default function GoalPostMessageDialog(props: {
   async function uploadData(values: any) {
     try {
       setIsDataUploading(true);
-      const motivatorData: GoalMessageUriDataEntity = {
-        message: values.message,
+      const messageData: GoalMessageUriDataEntity = {
+        text: values.text,
       };
-      const { uri: motivatorDataUri } = await uploadJsonToIpfs(motivatorData);
-      setUploadedMessageDataUri(motivatorDataUri);
+      const { uri: messageDataUri } = await uploadJsonToIpfs(messageData);
+      setUploadedMessageDataUri(messageDataUri);
     } catch (error: any) {
       handleError(error, true);
       setIsDataUploading(false);
@@ -137,35 +142,49 @@ export default function GoalPostMessageDialog(props: {
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
       <DialogCenterContent>
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          sx={{ mb: 2 }}
-        >
+        <Typography variant="h4" fontWeight={700} textAlign="center">
           ✍️ Post message
         </Typography>
+        {address !== props.authorAddress && (
+          <Typography textAlign="center" mt={1} mb={2}>
+            to motivate or help the author, earn a reputation as an
+            inspirational person, and participate in the{" "}
+            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
+              <MuiLink>sharing</MuiLink>
+            </Link>{" "}
+            of the stake if the goal fail
+          </Typography>
+        )}
         <Formik
           initialValues={formValues}
           validationSchema={formValidationSchema}
           onSubmit={uploadData}
         >
           {({ values, errors, touched, handleChange }) => (
-            <Form style={{ width: "100%" }}>
+            <Form
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <FormikHelper onChange={(values: any) => setFormValues(values)} />
-              <CenterBoldText mb={3} px={{ md: 12 }}>
-                on the way to achieving the goal
-              </CenterBoldText>
-              {/* Message input */}
-              <WidgetBox bgcolor={palette.blue} mb={2}>
-                <WidgetTitle>Message</WidgetTitle>
+              {/* Text input */}
+              <WidgetBox bgcolor={palette.blue} mt={2}>
+                <WidgetTitle>Text</WidgetTitle>
                 <WidgetInputTextField
-                  id="message"
-                  name="message"
-                  value={values.message}
+                  id="text"
+                  name="text"
+                  placeholder={
+                    address === props.authorAddress
+                      ? "Who can tell me how to..."
+                      : "Your goal is great..."
+                  }
+                  value={values.text}
                   onChange={handleChange}
-                  error={touched.message && Boolean(errors.message)}
-                  helperText={touched.message && errors.message}
+                  error={touched.text && Boolean(errors.text)}
+                  helperText={touched.text && errors.text}
                   disabled={isFormDisabled}
                   multiline
                   maxRows={4}
@@ -173,22 +192,15 @@ export default function GoalPostMessageDialog(props: {
                 />
               </WidgetBox>
               {/* Submit button */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+              <ExtraLargeLoadingButton
+                loading={isFormLoading}
+                variant="outlined"
+                type="submit"
+                disabled={isFormSubmitButtonDisabled}
+                sx={{ mt: 2 }}
               >
-                <ExtraLargeLoadingButton
-                  loading={isFormLoading}
-                  variant="contained"
-                  type="submit"
-                  disabled={isFormSubmitButtonDisabled}
-                >
-                  Post
-                </ExtraLargeLoadingButton>
-              </Box>
+                Submit
+              </ExtraLargeLoadingButton>
             </Form>
           )}
         </Formik>

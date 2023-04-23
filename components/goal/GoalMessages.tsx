@@ -1,16 +1,15 @@
 import { Box, SxProps, Typography } from "@mui/material";
 import { BigNumber } from "ethers";
 import GoalActions from "./GoalActions";
-import GoalStepList from "./GoalStepList";
+import GoalMessageList from "./GoalMessageList";
 
 /**
- * A component with goal steps,
+ * A component with goal messages,
  */
-export default function GoalSteps(props: {
+export default function GoalMessages(props: {
   id: string;
   authorAddress: string;
   deadlineTimestamp: BigNumber;
-  verificationRequirement: string;
   isClosed: boolean;
   onUpdate: Function;
   sx?: SxProps;
@@ -27,10 +26,10 @@ export default function GoalSteps(props: {
     >
       {/* Title and subtitle*/}
       <Typography variant="h4" fontWeight={700} textAlign="center">
-        ⚡️ Steps to achieving the goal
+        ✨ Goal messages
       </Typography>
-      <Typography textAlign="center" mt={1}>
-        updates, discussions, proofs and result
+      <Typography color="text.secondary" textAlign="center" mt={1}>
+        from beginning to end of the journey
       </Typography>
       {/* Actions */}
       <GoalActions
@@ -38,12 +37,11 @@ export default function GoalSteps(props: {
         authorAddress={props.authorAddress}
         deadlineTimestamp={props.deadlineTimestamp}
         isClosed={props.isClosed}
-        verificationRequirement={props.verificationRequirement}
         onSuccess={props.onUpdate}
         sx={{ mt: 4 }}
       />
       {/* List */}
-      <GoalStepList id={props.id} sx={{ mt: 4 }} />
+      <GoalMessageList id={props.id} sx={{ mt: 4 }} />
     </Box>
   );
 }

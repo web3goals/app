@@ -1,15 +1,15 @@
-import { Dialog, Typography } from "@mui/material";
+import { Dialog, Link as MuiLink, Typography } from "@mui/material";
 import {
-  CenterBoldText,
   DialogCenterContent,
   ExtraLargeLoadingButton,
   FullWidthSkeleton,
 } from "components/styled";
-import { VERIFICATION_REQUIREMENTS } from "constants/verifiers";
+import { DialogContext } from "context/dialog";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 import { Analytics } from "utils/analytics";
 import {
   chainToSupportedChainGoalContractAddress,
@@ -17,20 +17,22 @@ import {
 } from "utils/chains";
 import { dateToBigNumberTimestamp } from "utils/converters";
 import {
+  useAccount,
   useContractRead,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import GoalPostProofDialog from "./GoalPostProofDialog";
 
 /**
  * Dialog to close a goal.
  */
 export default function GoalCloseDialog(props: {
   id: string;
+  authorAddress: string;
   deadlineTimestamp: BigNumber;
-  verificationRequirement: string;
   onSuccess?: Function;
   isClose?: boolean;
   onClose?: Function;
@@ -40,16 +42,14 @@ export default function GoalCloseDialog(props: {
   // Dialog states
   const [isOpen, setIsOpen] = useState(!props.isClose);
 
-  // State of contract reading to get goal verification status
-  const {
-    data: goalVerificationStatus,
-    isFetching: isGoalVerificationStatusFetching,
-  } = useContractRead({
-    address: chainToSupportedChainGoalContractAddress(chain),
-    abi: goalContractAbi,
-    functionName: "getVerificationStatus",
-    args: [BigNumber.from(props.id)],
-  });
+  // State of contract reading to get goal proofs
+  const { data: goalProofs, isFetching: isGoalProofsFetching } =
+    useContractRead({
+      address: chainToSupportedChainGoalContractAddress(chain),
+      abi: goalContractAbi,
+      functionName: "getProofs",
+      args: [BigNumber.from(props.id)],
+    });
 
   const isDeadlinePassed = dateToBigNumberTimestamp(new Date()).gt(
     props.deadlineTimestamp
@@ -63,28 +63,20 @@ export default function GoalCloseDialog(props: {
   return (
     <Dialog open={isOpen} onClose={close} maxWidth="sm" fullWidth>
       <DialogCenterContent>
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          sx={{ mb: 2 }}
-        >
-          🏁 Closing
-        </Typography>
-        {goalVerificationStatus && !isGoalVerificationStatusFetching ? (
-          goalVerificationStatus.isAchieved || isDeadlinePassed ? (
-            <GoalCloseForm
+        {goalProofs && !isGoalProofsFetching ? (
+          goalProofs.length > 0 || isDeadlinePassed ? (
+            <GoalCanBeClosedDialogContent
               id={props.id}
-              isVerificationStatusAchieved={goalVerificationStatus.isAchieved}
+              isDeadlinePassed={isDeadlinePassed}
               onSuccess={() => {
                 close();
                 props.onSuccess?.();
               }}
             />
           ) : (
-            <GoalVerifyForm
+            <GoalRequireProofDialogContent
               id={props.id}
-              verificationRequirement={props.verificationRequirement}
+              authorAddress={props.authorAddress}
               onSuccess={() => {
                 close();
                 props.onSuccess?.();
@@ -99,78 +91,46 @@ export default function GoalCloseDialog(props: {
   );
 }
 
-function GoalVerifyForm(props: {
+function GoalRequireProofDialogContent(props: {
   id: string;
-  verificationRequirement: string;
+  authorAddress: string;
   onSuccess?: Function;
 }) {
-  const { chain } = useNetwork();
-  const { showToastSuccess, showToastError } = useToasts();
-
-  // Contract states
-  const { config: contractPrepareConfig, isError: isContractPrepareError } =
-    usePrepareContractWrite({
-      address: chainToSupportedChainGoalContractAddress(chain),
-      abi: goalContractAbi,
-      functionName: "verify",
-      args: [BigNumber.from(props.id)],
-      chainId: chainToSupportedChainId(chain),
-      onError(error: any) {
-        showToastError(error);
-      },
-    });
-  const {
-    data: contractWriteData,
-    isLoading: isContractWriteLoading,
-    write: contractWrite,
-  } = useContractWrite(contractPrepareConfig);
-  const { isLoading: isTransactionLoading, isSuccess: isTransactionSuccess } =
-    useWaitForTransaction({
-      hash: contractWriteData?.hash,
-    });
-
-  /**
-   * Handle transaction success to show success message.
-   */
-  useEffect(() => {
-    if (isTransactionSuccess) {
-      showToastSuccess(
-        "The verification will be completed soon, try to close the goal later"
-      );
-      Analytics.verifiedGoal(props.id, chain?.id);
-      props.onSuccess?.();
-    }
-  }, [isTransactionSuccess]);
+  const { showDialog, closeDialog } = useContext(DialogContext);
+  const { address } = useAccount();
 
   return (
     <>
-      <CenterBoldText mb={3}>
-        verify the achievement to close the goal
-      </CenterBoldText>
-      <ExtraLargeLoadingButton
-        variant="contained"
-        type="submit"
-        disabled={isContractPrepareError || !contractWrite}
-        loading={isContractWriteLoading || isTransactionLoading}
-        onClick={() => contractWrite?.()}
-        sx={{ mb: 3 }}
-      >
-        Verify
-      </ExtraLargeLoadingButton>
-      {/* Proof file input */}
-      {props.verificationRequirement ===
-        VERIFICATION_REQUIREMENTS.anyProofUri && (
-        <CenterBoldText color="text.secondary">
-          🔮 don't forget to add proofs before verification
-        </CenterBoldText>
+      <Typography variant="h4" fontWeight={700} textAlign="center">
+        🏁 Closing goal
+      </Typography>
+      <Typography textAlign="center" mt={1}>
+        is not available right now, proof of achievement must first be posted
+      </Typography>
+      {address === props.authorAddress && (
+        <ExtraLargeLoadingButton
+          variant="outlined"
+          onClick={() =>
+            showDialog?.(
+              <GoalPostProofDialog
+                id={props.id}
+                onSuccess={props.onSuccess}
+                onClose={closeDialog}
+              />
+            )
+          }
+          sx={{ mt: 4 }}
+        >
+          Post proof
+        </ExtraLargeLoadingButton>
       )}
     </>
   );
 }
 
-function GoalCloseForm(props: {
+function GoalCanBeClosedDialogContent(props: {
   id: string;
-  isVerificationStatusAchieved: boolean;
+  isDeadlinePassed: boolean;
   onSuccess?: Function;
 }) {
   const { chain } = useNetwork();
@@ -204,37 +164,39 @@ function GoalCloseForm(props: {
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Goal is closed!");
-      Analytics.closedGoal(
-        props.id,
-        props.isVerificationStatusAchieved,
-        chain?.id
-      );
+      Analytics.closedGoal(props.id, !props.isDeadlinePassed, chain?.id);
       props.onSuccess?.();
     }
   }, [isTransactionSuccess]);
 
   return (
     <>
-      <CenterBoldText mb={3}>
-        {props.isVerificationStatusAchieved
-          ? "the goal is verified as achieved, now it can be closed"
-          : "the goal is not achieved by the deadline, so it can only be closed as a failed"}
-      </CenterBoldText>
+      <Typography variant="h4" fontWeight={700} textAlign="center">
+        🏁 Close goal
+      </Typography>
+      <Typography textAlign="center" mt={1}>
+        {!props.isDeadlinePassed ? (
+          <>as achieved and return the stake to the author</>
+        ) : (
+          <>
+            as failed because the deadline has expired, and{" "}
+            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
+              <MuiLink>share</MuiLink>
+            </Link>{" "}
+            the stake between motivators and this application
+          </>
+        )}
+      </Typography>
       <ExtraLargeLoadingButton
-        variant="contained"
+        variant="outlined"
         type="submit"
         disabled={isContractPrepareError || !contractWrite}
         loading={isContractWriteLoading || isTransactionLoading}
         onClick={() => contractWrite?.()}
-        sx={{ mb: 3 }}
+        sx={{ mt: 4 }}
       >
-        Close
+        Submit
       </ExtraLargeLoadingButton>
-      <CenterBoldText color="text.secondary">
-        {props.isVerificationStatusAchieved
-          ? "🔮 the stake will be returned after closing"
-          : "🔮 the stake will be shared between motivators and application after closing"}
-      </CenterBoldText>
     </>
   );
 }

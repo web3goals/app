@@ -91,7 +91,7 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
             {chainToSupportedChainNativeCurrencySymbol(chain)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {props.goal.motivatorsNumber} Motivators
+            {props.goal.messagesNumber} Messages
           </Typography>
         </Stack>
       </Box>

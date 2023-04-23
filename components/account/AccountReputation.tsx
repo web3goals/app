@@ -7,8 +7,8 @@ import { palette } from "theme/palette";
 export default function AccountReputation(props: {
   achievedGoals: number;
   failedGoals: number;
-  motivatedGoals: number;
-  notMotivatedGoals: number;
+  motivations: number;
+  superMotivations: number;
   small?: boolean;
   sx?: SxProps;
 }) {
@@ -34,24 +34,24 @@ export default function AccountReputation(props: {
           ❌ {props.failedGoals}
         </Typography>
       </Tooltip>
-      <Tooltip title="Goals motivated by the account">
+      <Tooltip title="Messages that were evaluated as motivating">
         <Typography
           variant={props.small ? "body2" : "body1"}
           fontWeight={700}
           color={palette.yellow}
           sx={{ mr: 1.5, cursor: "help" }}
         >
-          ✨ {props.motivatedGoals}
+          ⭐ {props.motivations}
         </Typography>
       </Tooltip>
-      <Tooltip title="Goals motivated by the account unsuccessfully">
+      <Tooltip title="Messages that were evaluated as super motivating">
         <Typography
           variant={props.small ? "body2" : "body1"}
           fontWeight={700}
           color={palette.red}
           sx={{ cursor: "help" }}
         >
-          💔 {props.notMotivatedGoals}
+          🌟 {props.superMotivations}
         </Typography>
       </Tooltip>
     </Box>

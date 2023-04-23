@@ -151,8 +151,8 @@ export default function AccountProfile(props: { address: string }) {
               <AccountReputation
                 achievedGoals={accounts[0].achievedGoals}
                 failedGoals={accounts[0].failedGoals}
-                motivatedGoals={accounts[0].motivatedGoals}
-                notMotivatedGoals={accounts[0].notMotivatedGoals}
+                motivations={accounts[0].motivations}
+                superMotivations={accounts[0].superMotivations}
               />
             )}
           </Stack>

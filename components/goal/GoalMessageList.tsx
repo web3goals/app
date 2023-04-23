@@ -1,15 +1,15 @@
 import { SxProps } from "@mui/material";
 import EntityList from "components/entity/EntityList";
-import GoalStepEntity from "entities/subgraph/GoalStepEntity";
-import useGoalStepsFinder from "hooks/subgraph/useGoalStepsFinder";
+import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
+import useGoalMessagesFinder from "hooks/subgraph/useGoalMessagesFinder";
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
-import GoalStepCard from "./GoalStepCard";
+import GoalMessageCard from "./GoalMessageCard";
 
 /**
- * A component with goal step list.
+ * A component with goal messge list.
  */
-export default function GoalStepList(props: {
+export default function GoalMessageList(props: {
   id?: string;
   pageSize?: number;
   displayGoalLink?: boolean;
@@ -19,44 +19,44 @@ export default function GoalStepList(props: {
   const { chain } = useNetwork();
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = props.pageSize || 10;
-  const { data: pageGoalSteps } = useGoalStepsFinder({
+  const { data: pageGoalMessages } = useGoalMessagesFinder({
     chain: chain,
     goal: props.id,
     first: pageSize,
     skip: pageNumber * pageSize,
   });
-  const [allGoalSteps, setAllGoalSteps] = useState<
-    GoalStepEntity[] | undefined
+  const [allGoalMessages, setAllGoalMessages] = useState<
+    GoalMessageEntity[] | undefined
   >();
 
   useEffect(() => {
-    if (pageGoalSteps) {
-      setAllGoalSteps(
+    if (pageGoalMessages) {
+      setAllGoalMessages(
         pageNumber === 0
-          ? pageGoalSteps
-          : [...(allGoalSteps || []), ...pageGoalSteps]
+          ? pageGoalMessages
+          : [...(allGoalMessages || []), ...pageGoalMessages]
       );
     }
-  }, [pageGoalSteps]);
+  }, [pageGoalMessages]);
 
   return (
     <EntityList
-      entities={allGoalSteps}
-      renderEntityCard={(goalStep, index) => (
-        <GoalStepCard
+      entities={allGoalMessages}
+      renderEntityCard={(goalMessage, index) => (
+        <GoalMessageCard
           key={index}
-          step={goalStep}
+          message={goalMessage}
           displayGoalLink={props.displayGoalLink}
           onUpdate={() => {
             // TODO: Update subgraph data
           }}
         />
       )}
-      noEntitiesText="😐 no goal steps"
+      noEntitiesText="😐 no goal messages"
       displayLoadMoreButton={
-        !props.hideLoadMoreButton && pageGoalSteps?.length === pageSize
+        !props.hideLoadMoreButton && pageGoalMessages?.length === pageSize
       }
-      isMoreLoading={!pageGoalSteps}
+      isMoreLoading={!pageGoalMessages}
       onLoadMoreButtonClick={() => setPageNumber(pageNumber + 1)}
       sx={{ ...props.sx }}
     />

@@ -7,5 +7,6 @@ export default interface GoalEntity {
   readonly deadlineTimestamp: string;
   readonly isClosed: boolean;
   readonly isAchieved: boolean;
-  readonly motivatorsNumber: number;
+  readonly extraDataURI: boolean;
+  readonly messagesNumber: number;
 }

@@ -1,5 +1,5 @@
 import GoalParams from "components/goal/GoalParams";
-import GoalSteps from "components/goal/GoalSteps";
+import GoalMessages from "components/goal/GoalMessages";
 import Layout from "components/layout";
 import { FullWidthSkeleton, ThickDivider } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
@@ -51,12 +51,11 @@ export default function Goal() {
             isAchieved={goalParams.isAchieved}
           />
           <ThickDivider sx={{ mt: 8 }} />
-          <GoalSteps
+          <GoalMessages
             id={goalId}
             authorAddress={goalParams.authorAddress}
             deadlineTimestamp={goalParams.deadlineTimestamp}
             isClosed={goalParams.isClosed}
-            verificationRequirement={goalParams.verificationRequirement}
             onUpdate={() => {
               refetchGoalParams();
             }}
