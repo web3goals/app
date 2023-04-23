@@ -33,8 +33,6 @@ import * as yup from "yup";
 
 /**
  * Dialog to post a message to a goal.
- *
- * TODO: Add input for attachment like in "GoalPostProofDialog" component
  */
 export default function GoalPostMessageDialog(props: {
   id: string;

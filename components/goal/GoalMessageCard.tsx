@@ -68,7 +68,7 @@ export default function GoalMessageCard(props: {
       contentComponent: <ContentProofPosted message={props.message} />,
     },
     [GOAL_MESSAGES.messagePosted]: {
-      borderColor: palette.divider, // TODO: Color must depend on evaluation
+      borderColor: palette.divider,
       contentComponent: <ContentMessagePosted message={props.message} />,
     },
     [GOAL_MESSAGES.goalClosedAsAchieved]: {
