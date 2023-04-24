@@ -29,16 +29,12 @@ export function errorToPrettyError(error: any): {
   if (message.includes("insufficient funds for gas * price + value")) {
     message = "Insufficient funds to execute the transaction";
   }
-  if (message === "AlreadyAccepted()") {
-    message = "The motivator is already accepted";
+  if (message === "ProfileNotExists()") {
+    message = "You need to create a profile on your account page to continue";
     severity = "info";
   }
-  if (message === "AlreadyMotivator()") {
-    message = "You are already a motivator";
-    severity = "info";
-  }
-  if (message === "AnyProofURINotExists()") {
-    message = "You need to attach proofs before closing the goal";
+  if (message === "StakeInvalid()") {
+    message = "Stake is invalid";
   }
   if (message === "DeadlineMustBeAtLeast24HoursLater()") {
     message = "The deadline must not be less than 24 hours";
@@ -46,15 +42,8 @@ export function errorToPrettyError(error: any): {
   if (message === "NotAuthor()") {
     message = "You are not the goal's author";
   }
-  if (message === "NotAuthorNotAcceptedMotivator()") {
-    message = "You are not the goal's author or an accepted motivator";
-  }
-  if (message === "ProfileNotExists()") {
-    message = "You need to create a profile on your account page to continue";
-    severity = "info";
-  }
-  if (message === "StakeInvalid()") {
-    message = "Stake is invalid";
+  if (message === "MessageAlreadyEvaluated()") {
+    message = "Message already evaluated";
   }
   return {
     message: message,
