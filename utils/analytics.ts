@@ -102,6 +102,15 @@ export namespace Analytics {
     }
   }
 
+  export function evaluatedMessage(goalId: any, chainId: any) {
+    if (isEnabled()) {
+      posthog.capture(POST_HOG_EVENT.evaluatedMessage, {
+        [POST_HOG_PROPERTY.goal]: goalId,
+        [POST_HOG_PROPERTY.chain]: chainId,
+      });
+    }
+  }
+
   export function addedProof(goalId: any, chainId: any) {
     if (isEnabled()) {
       posthog.capture(POST_HOG_EVENT.addedProof, {

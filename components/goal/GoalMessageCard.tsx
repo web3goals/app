@@ -9,8 +9,9 @@ import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
 import AccountLink from "components/account/AccountLink";
-import { CardBox } from "components/styled";
+import { CardBox, MediumLoadingButton } from "components/styled";
 import { GOAL_MESSAGES } from "constants/goal/messages";
+import { DialogContext } from "context/dialog";
 import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
@@ -18,15 +19,18 @@ import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
 import { theme } from "theme";
 import { palette } from "theme/palette";
+import { isAddressesEqual } from "utils/addresses";
 import {
   ipfsUriToHttpUri,
   stringTimestampToLocaleString,
   timestampToLocaleDateString,
   timestampToLocaleString,
 } from "utils/converters";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
+import GoalEvaluateMessageDialog from "./dialog/GoalEvaluateMessageDialog";
 
 interface CardParams {
   readonly backgoundColor?: string;
@@ -69,7 +73,12 @@ export default function GoalMessageCard(props: {
     },
     [GOAL_MESSAGES.messagePosted]: {
       borderColor: palette.divider,
-      contentComponent: <ContentMessagePosted message={props.message} />,
+      contentComponent: (
+        <ContentMessagePosted
+          message={props.message}
+          onUpdate={props.onUpdate}
+        />
+      ),
     },
     [GOAL_MESSAGES.goalClosedAsAchieved]: {
       backgoundColor: palette.green,
@@ -265,11 +274,54 @@ function ContentProofPosted(props: { message: GoalMessageEntity }) {
   );
 }
 
-// TODO: Display button for goal author to evaluate message
-function ContentMessagePosted(props: { message: GoalMessageEntity }) {
+function ContentMessagePosted(props: {
+  message: GoalMessageEntity;
+  onUpdate: Function;
+}) {
+  const { showDialog, closeDialog } = useContext(DialogContext);
+  const { address } = useAccount();
   const { data: messageUriData } = useUriDataLoader<GoalMessageUriDataEntity>(
     props.message.extraDataUri
   );
 
-  return <Typography mt={1}>{messageUriData?.text || "..."}</Typography>;
+  return (
+    <Box mt={1}>
+      {/* Text */}
+      <Typography>{messageUriData?.text || "..."}</Typography>
+      {/* Evaluation */}
+      {props.message.isMotivating && (
+        <Typography variant="body2" color="yellow" mt={1}>
+          ⭐ It’s motivating!
+        </Typography>
+      )}
+      {props.message.isSuperMotivating && (
+        <Typography variant="body2" color="orange" mt={1}>
+          🌟 It’s super motivating!
+        </Typography>
+      )}
+      {/* Button for evaluation */}
+      {!props.message.goal.isClosed &&
+        !props.message.isMotivating &&
+        !props.message.isSuperMotivating &&
+        isAddressesEqual(address, props.message.goal.authorAddress) &&
+        !isAddressesEqual(address, props.message.authorAddress) && (
+          <MediumLoadingButton
+            variant="outlined"
+            onClick={() =>
+              showDialog?.(
+                <GoalEvaluateMessageDialog
+                  id={props.message.goal.id}
+                  messageId={props.message.messageId}
+                  onSuccess={props.onUpdate}
+                  onClose={closeDialog}
+                />
+              )
+            }
+            sx={{ mt: 2 }}
+          >
+            It’s motivating
+          </MediumLoadingButton>
+        )}
+    </Box>
+  );
 }

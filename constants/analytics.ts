@@ -7,6 +7,7 @@ export const POST_HOG_EVENT = {
   clickedShareGoalToTwitter: "clicked share goal to twitter",
   clickedShareGoalToTelegram: "clicked share goal to telegram",
   postedMessage: "posted message",
+  evaluatedMessage: "evaluated message",
   addedProof: "added proof",
   postedMotivationalMessage: "posted motivational message",
   acceptedMotivator: "accepted motivator",

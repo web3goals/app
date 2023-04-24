@@ -30,6 +30,7 @@ export default function useGoalMessagesFinder(args: {
     const query = `{
       goalMessages(${filterParams}, ${sortParams}, ${paginationParams}) {
         id
+        messageId
         goal {
           id
           description
@@ -51,6 +52,7 @@ export default function useGoalMessagesFinder(args: {
           response.goalMessages?.map((responseGoalMessage: any) => {
             const goalMessage: GoalMessageEntity = {
               id: responseGoalMessage.id,
+              messageId: responseGoalMessage.messageId,
               goal: {
                 id: responseGoalMessage.goal.id,
                 description: responseGoalMessage.goal.description,

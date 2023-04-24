@@ -1,5 +1,6 @@
 export default interface GoalMessageEntity {
   readonly id: string;
+  readonly messageId: string;
   readonly goal: {
     id: string;
     description: string;
