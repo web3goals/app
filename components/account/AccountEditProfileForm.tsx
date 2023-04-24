@@ -176,7 +176,7 @@ export default function AccountEditProfileForm(props: {
         imageIpfsUri = uri;
       }
       const profileUriData: ProfileUriDataEntity = {
-        name: "Web3 Goals Profile",
+        name: "Web3 Goals - Profile",
         image: imageIpfsUri || props.profileData?.image || "",
         attributes: [
           { trait_type: "name", value: values.name },
