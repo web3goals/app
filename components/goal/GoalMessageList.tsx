@@ -48,7 +48,7 @@ export default function GoalMessageList(props: {
           message={goalMessage}
           displayGoalLink={props.displayGoalLink}
           onUpdate={() => {
-            // TODO: Update subgraph data
+            // TODO: Update all goal messages
           }}
         />
       )}

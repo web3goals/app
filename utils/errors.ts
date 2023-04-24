@@ -3,8 +3,6 @@ import { errorsLibraryAbi } from "contracts/abi/errorsLibrary";
 
 /**
  * Convert error object to pretty object with error message and severity.
- *
- * TODO: Update messages for contract errors
  */
 export function errorToPrettyError(error: any): {
   message: string;
