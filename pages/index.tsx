@@ -254,7 +254,7 @@ function Faq(props: { sx?: SxProps }) {
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
         Then your reputation will be decreased and all staked tokens will be
-        shared between accepted motivators and this application
+        shared between motivators and this application
       </Typography>
       {/* Question 4 */}
       <Box

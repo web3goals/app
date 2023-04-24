@@ -72,6 +72,7 @@ export default function GoalCloseDialog(props: {
                 close();
                 props.onSuccess?.();
               }}
+              onClose={close}
             />
           ) : (
             <GoalRequireProofDialogContent
@@ -132,6 +133,7 @@ function GoalCanBeClosedDialogContent(props: {
   id: string;
   isDeadlinePassed: boolean;
   onSuccess?: Function;
+  onClose?: Function;
 }) {
   const { chain } = useNetwork();
   const { showToastSuccess, showToastError } = useToasts();
@@ -181,7 +183,7 @@ function GoalCanBeClosedDialogContent(props: {
           <>
             as failed because the deadline has expired, and{" "}
             <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-              <MuiLink>share</MuiLink>
+              <MuiLink onClick={() => props.onClose?.()}>share</MuiLink>
             </Link>{" "}
             the stake between motivators and this application
           </>

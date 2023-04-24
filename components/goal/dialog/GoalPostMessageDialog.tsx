@@ -148,7 +148,7 @@ export default function GoalPostMessageDialog(props: {
             to motivate or help the author, earn a reputation as an
             inspirational person, and participate in the{" "}
             <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-              <MuiLink>sharing</MuiLink>
+              <MuiLink onClick={close}>sharing</MuiLink>
             </Link>{" "}
             of the stake if the goal fail
           </Typography>
