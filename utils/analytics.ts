@@ -111,36 +111,9 @@ export namespace Analytics {
     }
   }
 
-  export function addedProof(goalId: any, chainId: any) {
+  export function postedProof(goalId: any, chainId: any) {
     if (isEnabled()) {
-      posthog.capture(POST_HOG_EVENT.addedProof, {
-        [POST_HOG_PROPERTY.goal]: goalId,
-        [POST_HOG_PROPERTY.chain]: chainId,
-      });
-    }
-  }
-
-  export function postedMotivationalMessage(goalId: any, chainId: any) {
-    if (isEnabled()) {
-      posthog.capture(POST_HOG_EVENT.postedMotivationalMessage, {
-        [POST_HOG_PROPERTY.goal]: goalId,
-        [POST_HOG_PROPERTY.chain]: chainId,
-      });
-    }
-  }
-
-  export function acceptedMotivator(goalId: any, chainId: any) {
-    if (isEnabled()) {
-      posthog.capture(POST_HOG_EVENT.acceptedMotivator, {
-        [POST_HOG_PROPERTY.goal]: goalId,
-        [POST_HOG_PROPERTY.chain]: chainId,
-      });
-    }
-  }
-
-  export function verifiedGoal(goalId: any, chainId: any) {
-    if (isEnabled()) {
-      posthog.capture(POST_HOG_EVENT.verifiedGoal, {
+      posthog.capture(POST_HOG_EVENT.postedProof, {
         [POST_HOG_PROPERTY.goal]: goalId,
         [POST_HOG_PROPERTY.chain]: chainId,
       });

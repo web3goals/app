@@ -174,8 +174,8 @@ export default function GoalPostProofDialog(props: {
    */
   useEffect(() => {
     if (isTransactionSuccess) {
-      showToastSuccess("Proof is added and will appear soon");
-      Analytics.addedProof(props.id, chain?.id);
+      showToastSuccess("Proof is posted and will appear soon");
+      Analytics.postedProof(props.id, chain?.id);
       props.onSuccess?.();
       close();
     }
