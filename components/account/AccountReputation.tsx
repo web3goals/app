@@ -48,7 +48,7 @@ export default function AccountReputation(props: {
         <Typography
           variant={props.small ? "body2" : "body1"}
           fontWeight={700}
-          color={palette.red}
+          color={palette.orange}
           sx={{ cursor: "help" }}
         >
           🌟 {props.superMotivations}
