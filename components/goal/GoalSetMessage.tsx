@@ -11,7 +11,8 @@ export default function GoalSetMessage(props: { id: string }) {
       <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you set a goal!
       </Typography>
-      <Typography textAlign="center" mt={1}>
+      <ThickDivider sx={{ mt: 4, mb: 4 }} />
+      <Typography textAlign="center">
         Share the link with your friends and followers
       </Typography>
       <Typography textAlign="center" mt={1}>
