@@ -127,20 +127,20 @@ export default function GoalParams(props: {
             <>was be returned to the author of this goal</>
           ) : (
             <>
-              was be{" "}
-              <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-                <MuiLink>shared</MuiLink>
+              was be sent to the{" "}
+              <Link href={"/#faq-what-is-treasury"} passHref legacyBehavior>
+                <MuiLink>treasury</MuiLink>
               </Link>{" "}
-              between motivators and this application
+              of space
             </>
           )
         ) : (
           <>
-            will be{" "}
-            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-              <MuiLink>shared</MuiLink>
+            will be sent to the{" "}
+            <Link href={"/#faq-what-is-treasury"} passHref legacyBehavior>
+              <MuiLink>treasury</MuiLink>
             </Link>{" "}
-            between motivators and this application
+            of space
           </>
         )}
       </CenterBoldText>

@@ -236,11 +236,11 @@ export default function GoalSetForm(props: {
               />
             </WidgetBox>
             <CenterBoldText mt={2}>
-              otherwise, the stake will be{" "}
-              <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-                <MuiLink>shared</MuiLink>
+              otherwise, the stake will be sent to the{" "}
+              <Link href={"/#faq-what-is-treasury"} passHref legacyBehavior>
+                <MuiLink>treasury</MuiLink>
               </Link>{" "}
-              between the people who tried to motivate me in this space
+              of space
             </CenterBoldText>
             {/* Submit button */}
             <ExtraLargeLoadingButton

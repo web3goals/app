@@ -121,7 +121,7 @@ function HowItWorks(props: { sx?: SxProps }) {
         ⚡ How does the space work?
       </Typography>
       <Typography color="text.secondary" textAlign="center" mt={1}>
-        Or what to do to become a more successful achiever
+        Or how successful achievers and inspiring people are born in this space
       </Typography>
       <HowItWorksStep
         title="Set a goal with a deadline and stake funds on achieving it"
@@ -138,15 +138,21 @@ function HowItWorks(props: { sx?: SxProps }) {
       />
       <HowItWorksStep
         title="Receive messages"
-        description="And boost the reputation of inspiring authors. Let everyone see who in this space motivates people to do great things"
+        description="And boost the reputation of motivating authors. Let everyone see who in this space inspires people to do great things"
         image="/images/how-it-works-3.png"
         sx={{ mt: 6 }}
       />
       <HowItWorksStep
         title="Achieve the goal, attach a proof, and earn a reputation"
-        description="Or your staked funds will be shared between motivators, and reputation will be lost"
+        description="Or your staked funds will be sent to the treasury of space, and reputation will be lost"
         image="/images/how-it-works-4.png"
         reverse
+        sx={{ mt: 6 }}
+      />
+      <HowItWorksStep
+        title="Don't stand still"
+        description="A space with a treasury replenished by failed goals and donations will seek to regularly reward achievers and motivators with a good reputation"
+        image="/images/how-it-works-5.png"
         sx={{ mt: 6 }}
       />
       <Box display="flex" flexDirection="column" alignItems="center" mt={6}>
@@ -225,7 +231,7 @@ function Faq(props: { sx?: SxProps }) {
       <Typography color="text.secondary" textAlign="center" mt={1}>
         or what to do if I'm confused
       </Typography>
-      {/* Question 1 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What do I need to set a goal?
       </Typography>
@@ -240,7 +246,7 @@ function Faq(props: { sx?: SxProps }) {
           this site
         </MuiLink>
       </Typography>
-      {/* Question 2 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I achieved my goal?
       </Typography>
@@ -248,17 +254,17 @@ function Faq(props: { sx?: SxProps }) {
         Then you need to post a proof (image, video or any other file), after
         that your stake will be returned and your reputation will be increased
       </Typography>
-      {/* Question 3 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I didn't achieve my goal?
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
-        Then your reputation will be decreased and all staked tokens will be
-        shared between motivators and this application
+        Then your reputation will be decreased and all staked funds will be sent
+        to the treasury of space
       </Typography>
-      {/* Question 4 */}
+      {/* Question */}
       <Box
-        id="faq-how-stake-is-shared"
+        id="faq-what-is-reputation"
         component="a"
         sx={{
           display: "block",
@@ -268,28 +274,40 @@ function Faq(props: { sx?: SxProps }) {
         }}
       />
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
-        How is the stake of the failed goal shared between motivators?
+        What is reputation?
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={1}>
-        To become a motivator, a person must post a message that must be
-        evaluated by the author of the goal
+        It's an indicator of how successful an achiever or inspirational
+        motivator you are. Every achieved or failed goal, every motivational
+        message will affect your reputation
       </Typography>
-      <Typography textAlign="center" color="text.secondary" mt={1}>
-        Each evaluation gives points that affect the portion of the stake that
-        the motivator will receive if the goal fails
+      {/* Question */}
+      <Box
+        id="faq-what-is-treasury"
+        component="a"
+        sx={{
+          display: "block",
+          position: "relative",
+          top: "-62px",
+          visibility: "hidden",
+        }}
+      />
+      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
+        What is the treasury of space?
       </Typography>
-      <Typography textAlign="center" color="text.secondary" mt={1}>
-        Now, a message evaluated as "It’s motivating!" gives 1 point, and a
-        message evaluated as "It’s super motivating!" gives 3 points
+      <Typography textAlign="center" color="text.secondary" mt={0.5}>
+        This is a fund, replenished by failed goals and donations, which will be
+        used regularly by the space to reward achievers and motivators with a
+        good reputation
       </Typography>
-      {/* Question 5 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         Which chains are supported?
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
         Polygon Mumbai while the application is in beta
       </Typography>
-      {/* Question 6 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         When is the release?
       </Typography>
@@ -297,7 +315,7 @@ function Faq(props: { sx?: SxProps }) {
         When all your <MuiLink href="/feedback">feedback</MuiLink> is heard and
         this application becomes the perfect space for our goals
       </Typography>
-      {/* Question 7 */}
+      {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
         What if I have another question?
       </Typography>

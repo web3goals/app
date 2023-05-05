@@ -145,12 +145,11 @@ export default function GoalPostMessageDialog(props: {
         </Typography>
         {address !== props.authorAddress && (
           <Typography textAlign="center" mt={1} mb={2}>
-            to motivate or help the author, earn a reputation as an
-            inspirational person, and participate in the{" "}
-            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-              <MuiLink onClick={close}>sharing</MuiLink>
+            to motivate or help the author and earn a{" "}
+            <Link href={"/#faq-what-is-reputation"} passHref legacyBehavior>
+              <MuiLink>reputation</MuiLink>
             </Link>{" "}
-            of the stake if the goal fail
+            as an inspirational person
           </Typography>
         )}
         <Formik

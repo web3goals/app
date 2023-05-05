@@ -181,11 +181,12 @@ function GoalCanBeClosedDialogContent(props: {
           <>as achieved and return the stake to the author</>
         ) : (
           <>
-            as failed because the deadline has expired, and{" "}
-            <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-              <MuiLink onClick={() => props.onClose?.()}>share</MuiLink>
+            as failed because the deadline has expired, and send the stake to
+            the{" "}
+            <Link href={"/#faq-what-is-treasury"} passHref legacyBehavior>
+              <MuiLink>treasury</MuiLink>
             </Link>{" "}
-            the stake between motivators and this application
+            of space
           </>
         )}
       </Typography>

@@ -117,11 +117,10 @@ export default function GoalEvaluateMessageDialog(props: {
         </Typography>
         <Typography textAlign="center" mt={1}>
           does the message motivate you? Your evaluation will affect the
-          person's reputation and how the stake will be{" "}
-          <Link href={"/#faq-how-stake-is-shared"} passHref legacyBehavior>
-            <MuiLink onClick={close}>shared</MuiLink>
-          </Link>{" "}
-          if the goal fails
+          person's{" "}
+          <Link href={"/#faq-what-is-reputation"} passHref legacyBehavior>
+            <MuiLink>reputation</MuiLink>
+          </Link>
         </Typography>
         <Formik
           initialValues={formValues}
