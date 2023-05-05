@@ -1,4 +1,5 @@
-import { Box, Link as MuiLink, SxProps, Typography } from "@mui/material";
+import { Box, SxProps, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { CardBox, FullWidthSkeleton } from "components/styled";
 import { palette } from "theme/palette";
 import {
@@ -38,18 +39,16 @@ export default function TreasuryExplore(props: {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          sx={{ background: palette.yellow, borderColor: palette.yellow }}
+          sx={{
+            background: palette.blue,
+            borderColor: palette.blue,
+          }}
         >
-          <MuiLink
-            href=""
-            variant="h4"
-            fontWeight={700}
-            sx={{ color: "white" }}
-          >
+          <Typography variant="h4" fontWeight={700} color="white">
             {balance?.formatted} {balance?.symbol}
-          </MuiLink>
-          <Typography variant="body2" color="white" mt={1}>
-            🔥 Active
+          </Typography>
+          <Typography color={grey[300]} mt={0.5}>
+            balance for today
           </Typography>
         </CardBox>
       )}
