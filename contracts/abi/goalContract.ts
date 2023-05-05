@@ -56,12 +56,7 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "SendingStakeToKeeperFailed",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "SendingStakeToMotivatorFailed",
+    name: "SendingStakeToTreasuryFailed",
     type: "error",
   },
   {
@@ -738,19 +733,6 @@ export const goalContractAbi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getKeeperAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -992,12 +974,12 @@ export const goalContractAbi = [
   },
   {
     inputs: [],
-    name: "getUsageFeePercent",
+    name: "getTreasuryAddress",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "address",
         name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -1012,13 +994,8 @@ export const goalContractAbi = [
       },
       {
         internalType: "address",
-        name: "keeperAddress",
+        name: "treasuryAddress",
         type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "usageFeePercent",
-        type: "uint256",
       },
     ],
     name: "initialize",
@@ -1278,19 +1255,6 @@ export const goalContractAbi = [
     inputs: [
       {
         internalType: "address",
-        name: "keeperAddress",
-        type: "address",
-      },
-    ],
-    name: "setKeeperAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "profileAddress",
         type: "address",
       },
@@ -1303,12 +1267,12 @@ export const goalContractAbi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "usageFeePercent",
-        type: "uint256",
+        internalType: "address",
+        name: "treasuryAddress",
+        type: "address",
       },
     ],
-    name: "setUsageFeePercent",
+    name: "setTreasuryAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

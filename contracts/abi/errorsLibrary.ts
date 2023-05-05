@@ -56,12 +56,7 @@ export const errorsLibraryAbi = [
   },
   {
     inputs: [],
-    name: "SendingStakeToKeeperFailed",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "SendingStakeToMotivatorFailed",
+    name: "SendingStakeToTreasuryFailed",
     type: "error",
   },
   {
