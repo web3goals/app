@@ -41,7 +41,7 @@ function Header(props: { sx?: SxProps }) {
       }}
     >
       <Typography variant="h1" textAlign="center">
-        A <strong>social space</strong> that helps any person or community to{" "}
+        A <strong>social space</strong> that helps people and communities to{" "}
         <strong>achieve their goals!</strong>
       </Typography>
       <ExtraLargeLoadingButton

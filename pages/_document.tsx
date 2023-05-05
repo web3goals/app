@@ -6,7 +6,7 @@ function Document() {
       <Head>
         <meta
           name="description"
-          content="Web3 Goals - A social space that helps any person or community to achieve their goals!"
+          content="Web3 Goals - A social space that helps people and  communities to achieve their goals!"
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
