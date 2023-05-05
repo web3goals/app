@@ -23,7 +23,7 @@ export default function useAccountsFinder(args: {
     // Prepare query
     const idFilter = args.id ? `id: "${args.id.toLowerCase()}"` : "";
     const filterParams = `where: {${idFilter}}`;
-    const sortParams = `orderBy: profileId, orderDirection: desc`;
+    const sortParams = `orderBy: profileCreatedTimestamp, orderDirection: desc`;
     const paginationParams = `first: ${
       args.first || SUBGRAPH.defaultFirst
     }, skip: ${args.skip || SUBGRAPH.defaultSkip}`;
