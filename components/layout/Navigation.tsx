@@ -16,6 +16,7 @@ import {
   MenuItem,
   SxProps,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -62,30 +63,19 @@ export default function Navigation() {
 }
 
 function LogoDesktop(props: { sx?: SxProps }) {
-  const { chain } = useNetwork();
-
   return (
-    <Box sx={{ alignItems: "center", ...props.sx }}>
+    <Box sx={{ ...props.sx }}>
       <Link href="/" passHref legacyBehavior>
         <Box component="a" display="flex">
           <Logo width="153" height="25" />
         </Box>
       </Link>
-      <Box display="flex" flexDirection="column" ml={1}>
-        <Typography color="text.secondary" variant="caption">
-          {packageJson.version}-{isDev() ? "dev" : "beta"}
-        </Typography>
-        <Typography color="text.secondary" variant="caption">
-          {chainToSupportedChainConfig(chain).chain.id}
-        </Typography>
-      </Box>
+      <LogoBetaLabel sx={{ ml: 1 }} />
     </Box>
   );
 }
 
 function LogoMobile(props: { sx?: SxProps }) {
-  const { chain } = useNetwork();
-
   return (
     <Box sx={{ flexDirection: "column", ...props.sx }}>
       <Link href="/" passHref legacyBehavior>
@@ -93,11 +83,32 @@ function LogoMobile(props: { sx?: SxProps }) {
           <Logo width="122" height="20" />
         </Box>
       </Link>
-      <Typography color="text.secondary" variant="caption">
-        {packageJson.version}-{isDev() ? "dev" : "beta"} |{" "}
-        {chainToSupportedChainConfig(chain).chain.id}
-      </Typography>
+      <LogoBetaLabel />
     </Box>
+  );
+}
+
+function LogoBetaLabel(props: { sx?: SxProps }) {
+  const { chain } = useNetwork();
+
+  return (
+    <Tooltip
+      title={
+        <>
+          Version: {packageJson.version}-{isDev() ? "dev" : "beta"}
+          <br />
+          Current chain: {chainToSupportedChainConfig(chain).chain.name}
+        </>
+      }
+    >
+      <Typography
+        color="text.secondary"
+        variant="body2"
+        sx={{ cursor: "help", ...props.sx }}
+      >
+        beta
+      </Typography>
+    </Tooltip>
   );
 }
 
