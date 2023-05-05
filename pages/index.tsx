@@ -11,6 +11,7 @@ import GoalExplore from "components/goal/GoalExplore";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
 import { ExtraLargeLoadingButton, ThickDivider } from "components/styled";
+import TreasuryExplore from "components/treasury/TreasuryExplore";
 import Image from "next/image";
 
 /**
@@ -19,17 +20,27 @@ import Image from "next/image";
 export default function Landing() {
   return (
     <Layout maxWidth={false} disableGutters={true}>
-      <Header sx={{ mt: { md: 4 } }} />
+      <HeaderSection sx={{ mt: { md: 4 } }} />
       <Quote
         text="A year from now you may wish you had started today"
         author="Karen Lamb"
       />
-      <Content sx={{ mt: { xs: 6, md: 12 } }} />
+      <HowItWorksSection sx={{ my: { xs: 6, md: 12 } }} />
+      <Quote
+        text="Your time is limited, so don't waste it living someone else's life"
+        author="Steve Jobs"
+      />
+      <ContentSection sx={{ my: { xs: 6, md: 12 } }} />
+      <Quote
+        text="You only live once, but if you do it right, once is enough"
+        author="Mae West"
+      />
+      <FaqSection sx={{ mt: { xs: 6, md: 12 } }} />
     </Layout>
   );
 }
 
-function Header(props: { sx?: SxProps }) {
+function HeaderSection(props: { sx?: SxProps }) {
   return (
     <Container
       maxWidth="lg"
@@ -74,39 +85,9 @@ function Header(props: { sx?: SxProps }) {
   );
 }
 
-function Content(props: { sx?: SxProps }) {
+function HowItWorksSection(props: { sx?: SxProps }) {
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        ...props.sx,
-      }}
-    >
-      <HowItWorks />
-      <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <GoalExplore
-        title="💎 Space for ambitious goals"
-        pageSize={3}
-        displayExploreAllButton
-      />
-      <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <AccountExplore
-        title="🔆 Space for bright people"
-        pageSize={3}
-        displayExploreAllButton
-      />
-      <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <Faq />
-    </Container>
-  );
-}
-
-function HowItWorks(props: { sx?: SxProps }) {
-  return (
-    <Box sx={{ ...props.sx }}>
+    <Container maxWidth="md" sx={{ ...props.sx }}>
       <Box
         id="how-it-works"
         component="a"
@@ -160,7 +141,7 @@ function HowItWorks(props: { sx?: SxProps }) {
           Set Goal
         </ExtraLargeLoadingButton>
       </Box>
-    </Box>
+    </Container>
   );
 }
 
@@ -212,9 +193,32 @@ function HowItWorksStep(props: {
   );
 }
 
-function Faq(props: { sx?: SxProps }) {
+function ContentSection(props: { sx?: SxProps }) {
   return (
-    <Box sx={{ ...props.sx, maxWidth: 520 }}>
+    <Container maxWidth="md" sx={{ ...props.sx }}>
+      <GoalExplore
+        title="💎 Space for ambitious goals"
+        pageSize={3}
+        displayExploreAllButton
+      />
+      <ThickDivider sx={{ mt: 8, mb: 8 }} />
+      <TreasuryExplore
+        title="🏦 Space with the treasury"
+        subtitle="which will be used to reward achievers and motivators with a good reputation"
+      />
+      <ThickDivider sx={{ mt: 8, mb: 8 }} />
+      <AccountExplore
+        title="🔆 Space for bright people"
+        pageSize={3}
+        displayExploreAllButton
+      />
+    </Container>
+  );
+}
+
+function FaqSection(props: { sx?: SxProps }) {
+  return (
+    <Container maxWidth="sm" sx={{ ...props.sx }}>
       <Box
         id="faq"
         component="a"
@@ -322,6 +326,6 @@ function Faq(props: { sx?: SxProps }) {
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
         <MuiLink href="/feedback">Ask us</MuiLink>, we'll be glad to help you ❤️
       </Typography>
-    </Box>
+    </Container>
   );
 }

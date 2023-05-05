@@ -11,6 +11,7 @@ interface ChainConfig {
   contractAddresses: {
     goal: string;
     profile: string;
+    treasury: string;
   };
   subgraphApiUrl: string;
 }
@@ -24,6 +25,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
   if (
     process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_MUMBAI_TREASURY_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL
   ) {
     chainConfigs.push({
@@ -31,6 +33,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
       contractAddresses: {
         goal: process.env.NEXT_PUBLIC_MUMBAI_GOAL_CONTRACT_ADDRESS,
         profile: process.env.NEXT_PUBLIC_MUMBAI_PROFILE_CONTRACT_ADDRESS,
+        treasury: process.env.NEXT_PUBLIC_MUMBAI_TREASURY_CONTRACT_ADDRESS,
       },
       subgraphApiUrl: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL,
     });
@@ -39,6 +42,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
   if (
     process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_HYPERSPACE_TREASURY_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL
   ) {
     chainConfigs.push({
@@ -46,6 +50,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
       contractAddresses: {
         goal: process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS,
         profile: process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS,
+        treasury: process.env.NEXT_PUBLIC_HYPERSPACE_TREASURY_CONTRACT_ADDRESS,
       },
       subgraphApiUrl: process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL,
     });
@@ -54,6 +59,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
   if (
     process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_FILECOIN_TREASURY_CONTRACT_ADDRESS &&
     process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL
   ) {
     chainConfigs.push({
@@ -61,6 +67,7 @@ export function getSupportedChainConfigs(): ChainConfig[] {
       contractAddresses: {
         goal: process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS,
         profile: process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS,
+        treasury: process.env.NEXT_PUBLIC_FILECOIN_TREASURY_CONTRACT_ADDRESS,
       },
       subgraphApiUrl: process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL,
     });
@@ -138,6 +145,17 @@ export function chainToSupportedChainProfileContractAddress(
 ): `0x${string}` | undefined {
   return stringToAddress(
     chainToSupportedChainConfig(chain).contractAddresses.profile
+  );
+}
+
+/**
+ * Return treasury contract address of specified chain if it supported, otherwise return value from default supported chain.
+ */
+export function chainToSupportedChainTreasuryContractAddress(
+  chain: Chain | undefined
+): `0x${string}` | undefined {
+  return stringToAddress(
+    chainToSupportedChainConfig(chain).contractAddresses.treasury
   );
 }
 
