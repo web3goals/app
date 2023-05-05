@@ -1,4 +1,9 @@
-import { GitHub, MenuRounded, Twitter } from "@mui/icons-material";
+import {
+  AlternateEmail,
+  GitHub,
+  MenuRounded,
+  Twitter,
+} from "@mui/icons-material";
 import {
   AppBar,
   Button,
@@ -247,6 +252,16 @@ function NavigationMenu(props: {
             <Twitter fontSize="small" />
           </ListItemIcon>
           Twitter
+        </MenuItem>
+        <MenuItem
+          component="a"
+          target="_blank"
+          href={`mailto:${CONTACTS.email}`}
+        >
+          <ListItemIcon>
+            <AlternateEmail fontSize="small" />
+          </ListItemIcon>
+          Email
         </MenuItem>
       </Menu>
     </>
