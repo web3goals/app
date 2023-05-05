@@ -4,6 +4,7 @@ import { LargeLoadingButton } from "components/styled";
 import { DialogContext } from "context/dialog";
 import { BigNumber } from "ethers";
 import { useContext } from "react";
+import { isAddressesEqual } from "utils/addresses";
 import { useAccount } from "wagmi";
 import GoalCloseDialog from "./dialog/GoalCloseDialog";
 import GoalPostMessageDialog from "./dialog/GoalPostMessageDialog";
@@ -38,7 +39,7 @@ export default function GoalActions(props: {
         authorAddress={props.authorAddress}
         onSuccess={() => props.onSuccess?.()}
       />
-      {address === props.authorAddress && (
+      {isAddressesEqual(address, props.authorAddress) && (
         <ProofPostButton id={props.id} onSuccess={() => props.onSuccess?.()} />
       )}
       <GoalCloseButton

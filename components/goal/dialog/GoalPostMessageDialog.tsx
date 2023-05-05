@@ -17,6 +17,7 @@ import useToasts from "hooks/useToast";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { palette } from "theme/palette";
+import { isAddressesEqual } from "utils/addresses";
 import { Analytics } from "utils/analytics";
 import {
   chainToSupportedChainGoalContractAddress,
@@ -174,7 +175,7 @@ export default function GoalPostMessageDialog(props: {
                   id="text"
                   name="text"
                   placeholder={
-                    address === props.authorAddress
+                    isAddressesEqual(address, props.authorAddress)
                       ? "Who can tell me how to..."
                       : "Your goal is great..."
                   }

@@ -10,6 +10,7 @@ import { BigNumber } from "ethers";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
+import { isAddressesEqual } from "utils/addresses";
 import { Analytics } from "utils/analytics";
 import {
   chainToSupportedChainGoalContractAddress,
@@ -108,7 +109,7 @@ function GoalRequireProofDialogContent(props: {
       <Typography textAlign="center" mt={1}>
         is not available right now, proof of achievement must first be posted
       </Typography>
-      {address === props.authorAddress && (
+      {isAddressesEqual(address, props.authorAddress) && (
         <ExtraLargeLoadingButton
           variant="outlined"
           onClick={() =>

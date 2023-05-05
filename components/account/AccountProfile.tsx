@@ -14,6 +14,7 @@ import { ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import Link from "next/link";
+import { isAddressesEqual } from "utils/addresses";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
@@ -160,7 +161,7 @@ export default function AccountProfile(props: { address: string }) {
           </Stack>
         </Stack>
         {/* Owner buttons */}
-        {address === props.address && (
+        {isAddressesEqual(address, props.address) && (
           <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
             {/* Edit button */}
             <Link href="/accounts/edit" legacyBehavior>
