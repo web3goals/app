@@ -1,3 +1,4 @@
+import { Player } from "@livepeer/react";
 import { Box, Divider, Link as MuiLink, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
@@ -205,6 +206,7 @@ function ContentProofPosted(props: { message: GoalMessageEntity }) {
       <Attachment
         type={proofUriData.attachment?.type}
         uri={proofUriData.attachment?.uri}
+        livepeerPlaybackId={proofUriData.attachment?.livepeerPlaybackId}
         isBackgroundDark={true}
       />
     </Box>
@@ -237,6 +239,7 @@ function ContentMessagePosted(props: {
       <Attachment
         type={messageUriData.attachment?.type}
         uri={messageUriData.attachment?.uri}
+        livepeerPlaybackId={messageUriData.attachment?.livepeerPlaybackId}
       />
       {/* Evaluation */}
       {props.message.isMotivating && (
@@ -277,18 +280,15 @@ function ContentMessagePosted(props: {
 }
 
 function Attachment(props: {
-  type: "FILE" | "IMAGE" | "VIDEO" | "LIVEPEER_VIDEO" | undefined;
-  uri: string | undefined;
+  type?: "FILE" | "IMAGE" | "VIDEO" | "LIVEPEER_VIDEO";
+  uri?: string;
+  livepeerPlaybackId?: string;
   isBackgroundDark?: boolean;
 }) {
-  if (!props.type || !props.uri) {
-    return <></>;
-  }
-
   return (
     <>
       {/* Image */}
-      {props.type === "IMAGE" && (
+      {props.type === "IMAGE" && props.uri && (
         <Box mt={1}>
           <Link href={ipfsUriToHttpUri(props.uri)} target="_blank">
             <Image
@@ -306,33 +306,44 @@ function Attachment(props: {
           </Link>
         </Box>
       )}
+      {/* Livepeer video */}
+      {props.type === "LIVEPEER_VIDEO" && props.livepeerPlaybackId && (
+        <Box mt={1} style={{ borderRadius: "8px" }}>
+          <Player
+            playbackId={props.livepeerPlaybackId}
+            theme={{ radii: { containerBorderRadius: "8px" } }}
+          />
+        </Box>
+      )}
       {/* Links */}
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        spacing={{ xs: 0.5, md: 2 }}
-        mt={1}
-      >
-        <MuiLink
-          href={ipfsUriToHttpUri(props.uri)}
-          target="_blank"
-          variant="body2"
-          color={
-            props.isBackgroundDark ? "primary.contrastText" : "primary.main"
-          }
+      {props.uri && (
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={{ xs: 0.5, md: 2 }}
+          mt={1}
         >
-          🔗 HTTP LINK
-        </MuiLink>
-        <MuiLink
-          href={props.uri || ""}
-          target="_blank"
-          variant="body2"
-          color={
-            props.isBackgroundDark ? "primary.contrastText" : "primary.main"
-          }
-        >
-          🔗 IPFS LINK
-        </MuiLink>
-      </Stack>
+          <MuiLink
+            href={ipfsUriToHttpUri(props.uri)}
+            target="_blank"
+            variant="body2"
+            color={
+              props.isBackgroundDark ? "primary.contrastText" : "primary.main"
+            }
+          >
+            🔗 HTTP LINK
+          </MuiLink>
+          <MuiLink
+            href={props.uri || ""}
+            target="_blank"
+            variant="body2"
+            color={
+              props.isBackgroundDark ? "primary.contrastText" : "primary.main"
+            }
+          >
+            🔗 IPFS LINK
+          </MuiLink>
+        </Stack>
+      )}
     </>
   );
 }

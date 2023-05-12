@@ -1,3 +1,4 @@
+import { useCreateAsset } from "@livepeer/react";
 import { Box, Dialog, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import {
@@ -32,6 +33,9 @@ import * as yup from "yup";
 
 /**
  * Dialog to post a proof to a goal.
+ *
+ * TODO: Create and use component AttachmentForm.tsx
+ * TODO: Display livepeer progress bar, example - https://docs.livepeer.org/guides/developing/upload-a-video-asset
  */
 export default function GoalPostProofDialog(props: {
   id: string;
@@ -47,13 +51,16 @@ export default function GoalPostProofDialog(props: {
   // Dialog states
   const [isOpen, setIsOpen] = useState(!props.isClose);
 
-  // Form values
-  const [formAttachmentValue, setFormAttachmentValue] = useState<{
-    file: any;
-    uri: any;
-    isImage: boolean;
-    isVideo: boolean;
-  }>();
+  // Form states
+  const [formAttachmentValue, setFormAttachmentValue] = useState<
+    | {
+        file: File;
+        uri: string;
+        isImage: boolean;
+        isVideo: boolean;
+      }
+    | undefined
+  >();
   const [formValues, setFormValues] = useState({
     text: "",
   });
@@ -62,7 +69,28 @@ export default function GoalPostProofDialog(props: {
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
+  // Livepeer states
+  const {
+    mutate: createLivepeerAsset,
+    data: livepeerAsset,
+    status: livepeerStatus,
+    progress: livepeerProgress,
+    error: livepeerError,
+  } = useCreateAsset(
+    formAttachmentValue?.file
+      ? {
+          sources: [
+            {
+              name: formAttachmentValue.file.name,
+              file: formAttachmentValue.file,
+            },
+          ] as const,
+        }
+      : null
+  );
+
   // Uploaded data states
+  const [uploadedAttachmentUri, setUploadedAttachmentUri] = useState("");
   const [uploadedProofDataUri, setUpdatedProofDataUri] = useState("");
 
   // Contract states
@@ -107,10 +135,10 @@ export default function GoalPostProofDialog(props: {
       // Read and save file
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        if (fileReader.readyState === 2) {
+        if (fileReader.readyState === 2 && fileReader.result) {
           setFormAttachmentValue({
             file: file,
-            uri: fileReader.result,
+            uri: fileReader.result.toString(),
             isImage: file.type === "image/jpeg" || file.type === "image/png",
             isVideo: file.type === "video/mp4",
           });
@@ -122,20 +150,34 @@ export default function GoalPostProofDialog(props: {
     }
   }
 
-  async function submit(values: any) {
+  // Process submitted form
+  async function submit() {
     try {
       setIsFormSubmitting(true);
       // Check file
-      if (!formAttachmentValue?.file) {
-        throw new Error("File is not attached");
+      if (!formAttachmentValue) {
+        throw new Error("Please attach your proof");
       }
-      // Upload attachment to ipfs
-      const { uri: attachmentUri } = await uploadFileToIpfs(
-        formAttachmentValue.file
-      );
-      // Upload proof to ipfs
-      const proofData: ProofUriDataEntity = {
-        text: values.text,
+      // Upload attachment to livepeer or to ipfs
+      if (formAttachmentValue.isVideo) {
+        createLivepeerAsset?.();
+      } else {
+        const { uri } = await uploadFileToIpfs(formAttachmentValue.file);
+        setUploadedAttachmentUri(uri);
+      }
+    } catch (error: any) {
+      handleError(error, true);
+      setIsFormSubmitting(false);
+    }
+  }
+
+  // Upload proof to ipfs when attachment is uploaded to ipfs or to livepeer
+  useEffect(() => {
+    let proofData: ProofUriDataEntity | undefined = undefined;
+    // Define proof data if attachment uploaded to ipfs
+    if (formAttachmentValue && uploadedAttachmentUri) {
+      proofData = {
+        text: formValues.text,
         attachment: {
           type: formAttachmentValue.isImage
             ? "IMAGE"
@@ -143,35 +185,44 @@ export default function GoalPostProofDialog(props: {
             ? "VIDEO"
             : "FILE",
           addedData: new Date().getTime(),
-          uri: attachmentUri,
+          uri: uploadedAttachmentUri,
         },
       };
-      const { uri: proofDataUri } = await uploadJsonToIpfs(proofData);
-      setUpdatedProofDataUri(proofDataUri);
-    } catch (error: any) {
-      handleError(error, true);
-      setIsFormSubmitting(false);
     }
-  }
+    // Define proof data if attachment uploaded to livepeer
+    if (formAttachmentValue && livepeerAsset) {
+      proofData = {
+        text: formValues.text,
+        attachment: {
+          type: "LIVEPEER_VIDEO",
+          addedData: new Date().getTime(),
+          livepeerPlaybackId: livepeerAsset[0].playbackId,
+        },
+      };
+    }
+    // Upload proof data to ipfs if defined
+    if (proofData) {
+      uploadJsonToIpfs(proofData)
+        .then((result) => {
+          setUpdatedProofDataUri(result.uri);
+        })
+        .catch((error) => {
+          handleError(error, true);
+          setIsFormSubmitting(false);
+        });
+    }
+  }, [formAttachmentValue, uploadedAttachmentUri, livepeerAsset]);
 
-  /**
-   * Write data to contract if form was submitted.
-   */
+  // Write data to contract if form was submitted.
   useEffect(() => {
-    if (
-      uploadedProofDataUri !== "" &&
-      contractWrite &&
-      !isContractWriteLoading
-    ) {
+    if (uploadedProofDataUri && contractWrite && !isContractWriteLoading) {
       contractWrite?.();
       setUpdatedProofDataUri("");
       setIsFormSubmitting(false);
     }
   }, [uploadedProofDataUri, contractWrite, isContractWriteLoading]);
 
-  /**
-   * Handle transaction success to show success message.
-   */
+  // Handle transaction success to show success message.
   useEffect(() => {
     if (isTransactionSuccess) {
       showToastSuccess("Proof is posted and will appear soon");
