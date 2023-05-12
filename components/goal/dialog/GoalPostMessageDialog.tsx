@@ -1,11 +1,11 @@
-import { Dialog, Typography, Link as MuiLink } from "@mui/material";
+import { Box, Dialog, Link as MuiLink, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import {
   DialogCenterContent,
   ExtraLargeLoadingButton,
   WidgetBox,
   WidgetInputTextField,
-  WidgetTitle,
+  WidgetTitle
 } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
@@ -16,19 +16,20 @@ import useIpfs from "hooks/useIpfs";
 import useToasts from "hooks/useToast";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Dropzone from "react-dropzone";
 import { palette } from "theme/palette";
 import { isAddressesEqual } from "utils/addresses";
 import { Analytics } from "utils/analytics";
 import {
   chainToSupportedChainGoalContractAddress,
-  chainToSupportedChainId,
+  chainToSupportedChainId
 } from "utils/chains";
 import {
   useAccount,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useWaitForTransaction,
+  useWaitForTransaction
 } from "wagmi";
 import * as yup from "yup";
 
@@ -46,35 +47,40 @@ export default function GoalPostMessageDialog(props: {
   const { address } = useAccount();
   const { handleError } = useError();
   const { showToastSuccess, showToastError } = useToasts();
-  const { uploadJsonToIpfs } = useIpfs();
+  const { uploadJsonToIpfs, uploadFileToIpfs } = useIpfs();
 
   // Dialog states
   const [isOpen, setIsOpen] = useState(!props.isClose);
 
   // Form states
+  const [formAttachmentValue, setFormAttachmentValue] = useState<{
+    file: any;
+    uri: any;
+    isImage: boolean;
+    isVideo: boolean;
+  }>();
   const [formValues, setFormValues] = useState({
     text: "",
   });
   const formValidationSchema = yup.object({
     text: yup.string().required(),
   });
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   // Uploaded data states
   const [uploadedMessageDataUri, setUploadedMessageDataUri] = useState("");
-  const [isDataUploading, setIsDataUploading] = useState(false);
 
   // Contract states
-  const { config: contractPrepareConfig, isError: isContractPrepareError } =
-    usePrepareContractWrite({
-      address: chainToSupportedChainGoalContractAddress(chain),
-      abi: goalContractAbi,
-      functionName: "postMessage",
-      args: [BigNumber.from(props.id), uploadedMessageDataUri],
-      chainId: chainToSupportedChainId(chain),
-      onError(error: any) {
-        showToastError(error);
-      },
-    });
+  const { config: contractPrepareConfig } = usePrepareContractWrite({
+    address: chainToSupportedChainGoalContractAddress(chain),
+    abi: goalContractAbi,
+    functionName: "postMessage",
+    args: [BigNumber.from(props.id), uploadedMessageDataUri],
+    chainId: chainToSupportedChainId(chain),
+    onError(error: any) {
+      showToastError(error);
+    },
+  });
   const {
     data: contractWriteData,
     isLoading: isContractWriteLoading,
@@ -85,29 +91,70 @@ export default function GoalPostMessageDialog(props: {
       hash: contractWriteData?.hash,
     });
 
-  // Form states
-  const isFormLoading =
-    isDataUploading || isContractWriteLoading || isTransactionLoading;
-  const isFormDisabled = isFormLoading || isTransactionSuccess;
-  const isFormSubmitButtonDisabled =
-    isFormDisabled || isContractPrepareError || !contractWrite;
+  const isFormDisabled =
+    isFormSubmitting ||
+    isContractWriteLoading ||
+    isTransactionLoading ||
+    isTransactionSuccess;
 
   async function close() {
     setIsOpen(false);
     props.onClose?.();
   }
 
+  async function onAttachmentChange(files: any[]) {
+    try {
+      // Get file
+      const file = files?.[0];
+      if (!file) {
+        return;
+      }
+      // Read and save file
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        if (fileReader.readyState === 2) {
+          setFormAttachmentValue({
+            file: file,
+            uri: fileReader.result,
+            isImage: file.type === "image/jpeg" || file.type === "image/png",
+            isVideo: file.type === "video/mp4",
+          });
+        }
+      };
+      fileReader.readAsDataURL(file);
+    } catch (error: any) {
+      handleError(error, true);
+    }
+  }
+
   async function uploadData(values: any) {
     try {
-      setIsDataUploading(true);
+      setIsFormSubmitting(true);
+      // Upload attachment to ipfs
+      let attachmentUri;
+      if (formAttachmentValue?.file) {
+        attachmentUri = (await uploadFileToIpfs(formAttachmentValue.file)).uri;
+      }
+      // Upload message to ipfs
       const messageData: GoalMessageUriDataEntity = {
         text: values.text,
+        ...(formAttachmentValue?.file && {
+          attachment: {
+            type: formAttachmentValue.isImage
+              ? "IMAGE"
+              : formAttachmentValue.isVideo
+              ? "VIDEO"
+              : "FILE",
+            addedData: new Date().getTime(),
+            uri: attachmentUri,
+          },
+        }),
       };
       const { uri: messageDataUri } = await uploadJsonToIpfs(messageData);
       setUploadedMessageDataUri(messageDataUri);
     } catch (error: any) {
       handleError(error, true);
-      setIsDataUploading(false);
+      setIsFormSubmitting(false);
     }
   }
 
@@ -122,7 +169,7 @@ export default function GoalPostMessageDialog(props: {
     ) {
       setUploadedMessageDataUri("");
       contractWrite?.();
-      setIsDataUploading(false);
+      setIsFormSubmitting(false);
     }
   }, [uploadedMessageDataUri, contractWrite, isContractWriteLoading]);
 
@@ -189,12 +236,48 @@ export default function GoalPostMessageDialog(props: {
                   sx={{ width: 1 }}
                 />
               </WidgetBox>
+              {/* Attachment input */}
+              <WidgetBox bgcolor={palette.orange} mt={2} sx={{ width: 1 }}>
+                <WidgetTitle>Attachment</WidgetTitle>
+                <Dropzone
+                  multiple={false}
+                  disabled={isFormDisabled}
+                  onDrop={(files) => onAttachmentChange(files)}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <Box
+                        sx={{
+                          cursor: !isFormDisabled ? "pointer" : undefined,
+                          bgcolor: "#FFFFFF",
+                          py: 2,
+                          px: 2,
+                          borderRadius: 3,
+                        }}
+                      >
+                        <Typography
+                          color="text.disabled"
+                          sx={{ lineBreak: "anywhere" }}
+                        >
+                          {formAttachmentValue?.file?.name ||
+                            "Drag 'n' drop some files here, or click to select files"}
+                        </Typography>
+                      </Box>
+                    </div>
+                  )}
+                </Dropzone>
+              </WidgetBox>
               {/* Submit button */}
               <ExtraLargeLoadingButton
-                loading={isFormLoading}
+                loading={
+                  isFormSubmitting ||
+                  isContractWriteLoading ||
+                  isTransactionLoading
+                }
                 variant="outlined"
                 type="submit"
-                disabled={isFormSubmitButtonDisabled}
+                disabled={isFormDisabled || !contractWrite}
                 sx={{ mt: 2 }}
               >
                 Submit

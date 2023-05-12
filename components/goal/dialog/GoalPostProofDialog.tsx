@@ -97,7 +97,7 @@ export default function GoalPostProofDialog(props: {
     props.onClose?.();
   }
 
-  async function onProofChange(files: any[]) {
+  async function onAttachmentChange(files: any[]) {
     try {
       // Get file
       const file = files?.[0];
@@ -225,11 +225,11 @@ export default function GoalPostProofDialog(props: {
               </WidgetBox>
               {/* Attachment input */}
               <WidgetBox bgcolor={palette.orange} mt={2} sx={{ width: 1 }}>
-                <WidgetTitle>File</WidgetTitle>
+                <WidgetTitle>Attachment</WidgetTitle>
                 <Dropzone
                   multiple={false}
                   disabled={isFormDisabled}
-                  onDrop={(files) => onProofChange(files)}
+                  onDrop={(files) => onAttachmentChange(files)}
                 >
                   {({ getRootProps, getInputProps }) => (
                     <div {...getRootProps()}>

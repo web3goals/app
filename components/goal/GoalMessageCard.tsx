@@ -1,10 +1,4 @@
-import {
-  Box,
-  Divider,
-  Link as MuiLink,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Link as MuiLink, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
@@ -26,8 +20,6 @@ import { isAddressesEqual } from "utils/addresses";
 import {
   ipfsUriToHttpUri,
   stringTimestampToLocaleString,
-  timestampToLocaleDateString,
-  timestampToLocaleString,
 } from "utils/converters";
 import { useAccount, useNetwork } from "wagmi";
 import GoalEvaluateMessageDialog from "./dialog/GoalEvaluateMessageDialog";
@@ -202,7 +194,7 @@ function ContentProofPosted(props: { message: GoalMessageEntity }) {
   if (!proofUriData) {
     return (
       <Typography variant="body2" mt={1}>
-        {"..."}
+        ...
       </Typography>
     );
   }
@@ -210,66 +202,11 @@ function ContentProofPosted(props: { message: GoalMessageEntity }) {
   return (
     <Box mt={1}>
       <Typography color="primary.contrastText">{proofUriData.text}</Typography>
-      {proofUriData.attachment?.type === "IMAGE" && (
-        <Box mt={1}>
-          <Link
-            href={ipfsUriToHttpUri(proofUriData.attachment?.uri)}
-            target="_blank"
-          >
-            <Image
-              src={ipfsUriToHttpUri(proofUriData.attachment?.uri)}
-              alt="Proof"
-              width="100"
-              height="100"
-              sizes="100vw"
-              style={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "8px ",
-              }}
-            />
-          </Link>
-        </Box>
-      )}
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        spacing={{ xs: 0.5, md: 2 }}
-        mt={1}
-      >
-        <MuiLink
-          href={ipfsUriToHttpUri(proofUriData.attachment?.uri)}
-          target="_blank"
-          variant="body2"
-          color="primary.contrastText"
-        >
-          🔗 HTTP LINK
-        </MuiLink>
-        <MuiLink
-          href={proofUriData.attachment?.uri || ""}
-          target="_blank"
-          variant="body2"
-          color="primary.contrastText"
-        >
-          🔗 IPFS LINK
-        </MuiLink>
-        <Tooltip
-          title={timestampToLocaleString(
-            proofUriData.attachment?.addedData,
-            true
-          )}
-        >
-          <Typography
-            variant="body2"
-            color="primary.contrastText"
-            sx={{ cursor: "help" }}
-          >
-            {timestampToLocaleDateString(
-              proofUriData.attachment?.addedData,
-              true
-            )}
-          </Typography>
-        </Tooltip>
-      </Stack>
+      <Attachment
+        type={proofUriData.attachment?.type}
+        uri={proofUriData.attachment?.uri}
+        isBackgroundDark={true}
+      />
     </Box>
   );
 }
@@ -284,10 +221,23 @@ function ContentMessagePosted(props: {
     props.message.extraDataUri
   );
 
+  if (!messageUriData) {
+    return (
+      <Typography variant="body2" mt={1}>
+        ...
+      </Typography>
+    );
+  }
+
   return (
     <Box mt={1}>
       {/* Text */}
-      <Typography>{messageUriData?.text || "..."}</Typography>
+      <Typography>{messageUriData.text || "..."}</Typography>
+      {/* Attachment */}
+      <Attachment
+        type={messageUriData.attachment?.type}
+        uri={messageUriData.attachment?.uri}
+      />
       {/* Evaluation */}
       {props.message.isMotivating && (
         <Typography variant="body2" color="yellow" mt={1}>
@@ -323,5 +273,66 @@ function ContentMessagePosted(props: {
           </MediumLoadingButton>
         )}
     </Box>
+  );
+}
+
+function Attachment(props: {
+  type: "FILE" | "IMAGE" | "VIDEO" | "LIVEPEER_VIDEO" | undefined;
+  uri: string | undefined;
+  isBackgroundDark?: boolean;
+}) {
+  if (!props.type || !props.uri) {
+    return <></>;
+  }
+
+  return (
+    <>
+      {/* Image */}
+      {props.type === "IMAGE" && (
+        <Box mt={1}>
+          <Link href={ipfsUriToHttpUri(props.uri)} target="_blank">
+            <Image
+              src={ipfsUriToHttpUri(props.uri)}
+              alt="Proof"
+              width="100"
+              height="100"
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+                borderRadius: "8px ",
+              }}
+            />
+          </Link>
+        </Box>
+      )}
+      {/* Links */}
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={{ xs: 0.5, md: 2 }}
+        mt={1}
+      >
+        <MuiLink
+          href={ipfsUriToHttpUri(props.uri)}
+          target="_blank"
+          variant="body2"
+          color={
+            props.isBackgroundDark ? "primary.contrastText" : "primary.main"
+          }
+        >
+          🔗 HTTP LINK
+        </MuiLink>
+        <MuiLink
+          href={props.uri || ""}
+          target="_blank"
+          variant="body2"
+          color={
+            props.isBackgroundDark ? "primary.contrastText" : "primary.main"
+          }
+        >
+          🔗 IPFS LINK
+        </MuiLink>
+      </Stack>
+    </>
   );
 }
