@@ -104,7 +104,11 @@ export default function GoalPostProofDialog(props: {
           screenshot, photo, video or any other file
         </Typography>
         <TextAttachmentForm
-          isLoading={isContractWriteLoading || isTransactionLoading}
+          isLoading={
+            Boolean(submittedFormDataUri) ||
+            isContractWriteLoading ||
+            isTransactionLoading
+          }
           isDisabled={
             Boolean(submittedFormDataUri) ||
             isContractWriteLoading ||

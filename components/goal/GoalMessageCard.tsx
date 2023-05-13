@@ -8,7 +8,6 @@ import { CardBox, MediumLoadingButton } from "components/styled";
 import { GOAL_MESSAGES } from "constants/goal/messages";
 import { DialogContext } from "context/dialog";
 import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
-import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import TextAttachmentUriDataEntity from "entities/uri/TextAttachmentUriDataEntity";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
@@ -220,9 +219,8 @@ function ContentMessagePosted(props: {
 }) {
   const { showDialog, closeDialog } = useContext(DialogContext);
   const { address } = useAccount();
-  const { data: messageUriData } = useUriDataLoader<GoalMessageUriDataEntity>(
-    props.message.extraDataUri
-  );
+  const { data: messageUriData } =
+    useUriDataLoader<TextAttachmentUriDataEntity>(props.message.extraDataUri);
 
   if (!messageUriData) {
     return (

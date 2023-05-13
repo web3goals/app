@@ -1,4 +1,3 @@
-import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import TextAttachmentUriDataEntity from "entities/uri/TextAttachmentUriDataEntity";
 import useError from "hooks/useError";
@@ -9,10 +8,7 @@ import { useEffect, useState } from "react";
  * Load uri data from ipfs.
  */
 export default function useUriDataLoader<
-  T extends
-    | ProfileUriDataEntity
-    | TextAttachmentUriDataEntity
-    | GoalMessageUriDataEntity
+  T extends ProfileUriDataEntity | TextAttachmentUriDataEntity
 >(
   uri?: string
 ): {
