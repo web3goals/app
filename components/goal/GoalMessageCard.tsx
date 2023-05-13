@@ -10,6 +10,7 @@ import { DialogContext } from "context/dialog";
 import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
 import GoalMessageUriDataEntity from "entities/uri/GoalMessageUriDataEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
+import TextAttachmentUriDataEntity from "entities/uri/TextAttachmentUriDataEntity";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import Image from "next/image";
@@ -188,7 +189,7 @@ export default function GoalMessageCard(props: {
 }
 
 function ContentProofPosted(props: { message: GoalMessageEntity }) {
-  const { data: proofUriData } = useUriDataLoader<GoalMessageUriDataEntity>(
+  const { data: proofUriData } = useUriDataLoader<TextAttachmentUriDataEntity>(
     props.message.extraDataUri
   );
 
