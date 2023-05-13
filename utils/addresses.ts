@@ -1,7 +1,5 @@
 /**
  * Check if the addresses are equal to each other.
- *
- * TODO: Use this function everywhere
  */
 export function isAddressesEqual(
   addressOne: string | undefined,
