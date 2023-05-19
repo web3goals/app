@@ -1,61 +1,66 @@
 import AccountEditProfileForm from "components/account/AccountEditProfileForm";
+import AccountEditProfileJoinMessage from "components/account/AccountEditProfileJoinMessage";
 import Layout from "components/layout";
 import { FullWidthSkeleton } from "components/styled";
+import { PROFILE_CONTRACT_ROLES } from "constants/profile";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
-import useError from "hooks/useError";
-import useIpfs from "hooks/useIpfs";
-import { useEffect, useState } from "react";
+import useUriDataLoader from "hooks/useUriDataLoader";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
+import { stringToAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 
 /**
  * Page to edit account.
  */
 export default function EditAccount() {
-  const { handleError } = useError();
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { loadJsonFromIpfs } = useIpfs();
-  const [profileData, setProfileData] = useState<
-    ProfileUriDataEntity | null | undefined
-  >();
 
-  // Contract states
-  const {
-    status: contractReadStatus,
-    error: contractReadError,
-    data: contractReadData,
-  } = useContractRead({
+  /**
+   * Define role
+   */
+  const { data: isHasRole, isFetching: isHasRoleFetching } = useContractRead({
     address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
-    functionName: "getURI",
-    args: [ethers.utils.getAddress(address || ethers.constants.AddressZero)],
+    functionName: "hasRole",
+    args: [
+      PROFILE_CONTRACT_ROLES.moderator,
+      stringToAddress(address) || ethers.constants.AddressZero,
+    ],
   });
 
-  useEffect(() => {
-    if (address && contractReadStatus === "success") {
-      if (contractReadData) {
-        loadJsonFromIpfs(contractReadData)
-          .then((result) => setProfileData(result))
-          .catch((error) => handleError(error, true));
-      } else {
-        setProfileData(null);
-      }
-    }
-    if (address && contractReadStatus === "error" && contractReadError) {
-      setProfileData(null);
-    }
-  }, [address, contractReadStatus, contractReadError, contractReadData]);
+  /**
+   * Define profile uri data
+   */
+  const { data: profileUri, isFetching: isProfileUriFetching } =
+    useContractRead({
+      address: chainToSupportedChainProfileContractAddress(chain),
+      abi: profileContractAbi,
+      functionName: "getURI",
+      args: [stringToAddress(address) || ethers.constants.AddressZero],
+    });
+  const { data: profileUriData } =
+    useUriDataLoader<ProfileUriDataEntity>(profileUri);
 
-  return (
-    <Layout maxWidth="xs">
-      {profileData !== undefined ? (
-        <AccountEditProfileForm profileData={profileData} />
-      ) : (
+  if (isHasRoleFetching || isProfileUriFetching) {
+    return (
+      <Layout maxWidth="sm">
         <FullWidthSkeleton />
-      )}
-    </Layout>
-  );
+      </Layout>
+    );
+  } else if (!isHasRole) {
+    return (
+      <Layout maxWidth="sm">
+        <AccountEditProfileJoinMessage />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout maxWidth="xs">
+        <AccountEditProfileForm profileData={profileUriData} />
+      </Layout>
+    );
+  }
 }

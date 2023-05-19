@@ -16,7 +16,7 @@ import useUriDataLoader from "hooks/useUriDataLoader";
 import Link from "next/link";
 import { isAddressesEqual } from "utils/addresses";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
-import { addressToShortAddress } from "utils/converters";
+import { addressToShortAddress, stringToAddress } from "utils/converters";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import AccountAvatar from "./AccountAvatar";
 import AccountReputation from "./AccountReputation";
@@ -28,15 +28,21 @@ export default function AccountProfile(props: { address: string }) {
   const { chain } = useNetwork();
   const { address } = useAccount();
 
+  /**
+   * Define profile uri
+   */
   const { data: profileUri } = useContractRead({
     address: chainToSupportedChainProfileContractAddress(chain),
     abi: profileContractAbi,
     functionName: "getURI",
-    args: [ethers.utils.getAddress(props.address)],
+    args: [stringToAddress(props.address) || ethers.constants.AddressZero],
   });
-
   const { data: profileUriData } =
     useUriDataLoader<ProfileUriDataEntity>(profileUri);
+
+  /**
+   * Define account entities
+   */
   const { data: accounts } = useAccountsFinder({
     chain: chain,
     id: props.address,

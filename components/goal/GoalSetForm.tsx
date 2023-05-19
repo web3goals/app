@@ -69,12 +69,14 @@ export default function GoalSetForm(props: {
     "🧘 Meditate for 30 days…",
   ];
 
-  // Form value states
+  /**
+   * Form states
+   */
   const [formValues, setFormValues] = useState({
     description: "",
     stake: 0.05,
     stakeCurrency: "native",
-    deadline: "2023-06-01",
+    deadline: "2023-07-01",
   });
   const formValidationSchema = yup.object({
     description: yup.string().required(),
@@ -84,7 +86,9 @@ export default function GoalSetForm(props: {
   });
   const debouncedFormValues = useDebounce(formValues);
 
-  // Contract states
+  /**
+   * Contract states
+   */
   const {
     config: contractPrepareConfig,
     isError: isContractPrepareError,
@@ -114,7 +118,9 @@ export default function GoalSetForm(props: {
       hash: contractWriteData?.hash,
     });
 
-  // Form states
+  /**
+   * Form states
+   */
   const isFormLoading = isContractWriteLoading || isTransactionLoading;
   const isFormDisabled = isFormLoading || isTransactionSuccess;
 
@@ -245,7 +251,7 @@ export default function GoalSetForm(props: {
             {/* Submit button */}
             <ExtraLargeLoadingButton
               loading={isFormLoading}
-              variant="contained"
+              variant="outlined"
               type="submit"
               disabled={
                 isFormDisabled || isContractPrepareError || !contractWrite
@@ -255,11 +261,6 @@ export default function GoalSetForm(props: {
               Submit
             </ExtraLargeLoadingButton>
             {/* Errors */}
-            {!chain?.id && (
-              <CenterBoldText mt={3} color="red">
-                ⛔ Please connect your wallet to continue
-              </CenterBoldText>
-            )}
             {isContractPrepareError && (
               <CenterBoldText mt={3} color="red">
                 ⛔ {errorToPrettyError(contractPrepareError).message}

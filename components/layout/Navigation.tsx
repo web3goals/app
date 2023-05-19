@@ -248,8 +248,8 @@ function NavigationMenu(props: {
         <Link href="/feedback" passHref legacyBehavior>
           <MenuItem>Feedback</MenuItem>
         </Link>
-        <Link href="/connection" passHref legacyBehavior>
-          <MenuItem>Connection</MenuItem>
+        <Link href="/club" passHref legacyBehavior>
+          <MenuItem>Club</MenuItem>
         </Link>
         <Divider />
         <MenuItem component="a" target="_blank" href={CONTACTS.github}>

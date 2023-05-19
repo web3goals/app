@@ -43,11 +43,11 @@ import * as yup from "yup";
  * A component with form to edit account profile.
  */
 export default function AccountEditProfileForm(props: {
-  profileData: ProfileUriDataEntity | null;
+  profileData: ProfileUriDataEntity | undefined;
 }) {
   const { handleError } = useError();
   const { uploadJsonToIpfs, uploadFileToIpfs } = useIpfs();
-  const { showToastSuccess } = useToasts();
+  const { showToastSuccess, showToastError } = useToasts();
   const router = useRouter();
   const { chain } = useNetwork();
   const { address } = useAccount();
@@ -119,6 +119,9 @@ export default function AccountEditProfileForm(props: {
     functionName: "setURI",
     args: [updatedProfileDataUri],
     chainId: chainToSupportedChainId(chain),
+    onError(error: any) {
+      showToastError(error);
+    },
   });
   const {
     data: contractWriteData,
@@ -326,7 +329,7 @@ export default function AccountEditProfileForm(props: {
             disabled={isFormDisabled}
             sx={{ mt: 2 }}
           />
-          {/* Is notifications enabled */}
+          {/* Enable notifications */}
           <FormControlLabel
             control={
               <Checkbox

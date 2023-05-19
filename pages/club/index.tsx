@@ -1,22 +1,23 @@
 import { Box, Link as MuiLink, TextField, Typography } from "@mui/material";
 import FormikHelper from "components/helper/FormikHelper";
 import Layout from "components/layout";
-import { ExtraLargeLoadingButton } from "components/styled";
+import { ExtraLargeLoadingButton, ThickDivider } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { FORMS } from "constants/forms";
 import { Form, Formik } from "formik";
 import useError from "hooks/useError";
 import useFormSubmit from "hooks/useFormSubmit";
 import useToasts from "hooks/useToast";
+import Image from "next/image";
 import { useState } from "react";
 import { Analytics } from "utils/analytics";
 import { useAccount } from "wagmi";
 import * as yup from "yup";
 
 /**
- * Connection page.
+ * Club page.
  */
-export default function Connection() {
+export default function Club() {
   const { address } = useAccount();
   const { handleError } = useError();
   const { submitForm } = useFormSubmit();
@@ -26,10 +27,12 @@ export default function Connection() {
   const [formValues, setFormValues] = useState({
     name: "",
     contact: "",
+    message: "",
   });
   const formValidationSchema = yup.object({
-    name: yup.string(),
+    name: yup.string().required(),
     contact: yup.string().required(),
+    message: yup.string().required(),
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const isFormDisabled = isFormSubmitting;
@@ -37,9 +40,9 @@ export default function Connection() {
   async function submit(values: any, actions: any) {
     try {
       setIsFormSubmitting(true);
-      await submitForm(FORMS.type.connection, values, address);
-      showToastSuccess("Thanks for connection!");
-      Analytics.postedContacts();
+      await submitForm(FORMS.type.joining, values, address);
+      showToastSuccess("Thanks! We'll get back soon");
+      Analytics.postedFeedback();
       actions?.resetForm();
     } catch (error: any) {
       handleError(error, true);
@@ -49,16 +52,46 @@ export default function Connection() {
   }
 
   return (
-    <Layout maxWidth="xs">
-      {/* Title */}
+    <Layout maxWidth="sm">
       <Typography variant="h4" fontWeight={700} textAlign="center">
-        🤝️ Connection
+        Meet the early adopters club!
       </Typography>
-      {/* Description */}
+      <Box mt={2}>
+        <Image
+          src="/images/astronaut.gif"
+          alt="Astronaut"
+          width="100"
+          height="100"
+          sizes="100vw"
+          style={{
+            width: "100%",
+            height: "auto",
+            borderRadius: "10px",
+          }}
+        />
+      </Box>
       <Typography textAlign="center" mt={2}>
-        Leave your contacts so we don't lose each other in this big world
+        It's a community of achievers and motivators who want to create a bright
+        future for themselves and everyone around them ✨
       </Typography>
-      {/* Form */}
+      <Typography textAlign="center" mt={2}>
+        We are the first users of this project! We are the early adopters 🧑‍🚀
+      </Typography>
+      <Typography textAlign="center" mt={2}>
+        We are the people who fill this space with a starting energy that will
+        be enough to energize everyone around us ⚡
+      </Typography>
+      <Typography textAlign="center" mt={2}>
+        That is why goal setting and other features are only available to club
+        members
+      </Typography>
+      <ThickDivider sx={{ mt: 6, mb: 6 }} />
+      <Typography fontWeight={700} textAlign="center">
+        If you are eager to join us, please fill out the following form 🚀
+      </Typography>
+      <Typography textAlign="center" mt={1}>
+        We will be glad to see everyone with sparkling eyes!
+      </Typography>
       <Formik
         initialValues={formValues}
         validationSchema={formValidationSchema}
@@ -73,7 +106,7 @@ export default function Connection() {
                 fullWidth
                 id="name"
                 name="name"
-                label="Your name or pseudonym (optional)"
+                label="Your name or pseudonym *"
                 placeholder="Alice"
                 type="string"
                 value={values.name}
@@ -99,6 +132,24 @@ export default function Connection() {
                 disabled={isFormDisabled}
               />
             </Box>
+            {/* Message */}
+            <Box mt={2}>
+              <TextField
+                fullWidth
+                id="message"
+                name="message"
+                label="Your message *"
+                placeholder="I'm not superman, but..."
+                type="string"
+                multiline={true}
+                rows={3}
+                value={values.message}
+                onChange={handleChange}
+                error={touched.message && Boolean(errors.message)}
+                helperText={touched.message && errors.message}
+                disabled={isFormDisabled}
+              />
+            </Box>
             {/* Submit button */}
             <Box
               display="flex"
@@ -112,15 +163,19 @@ export default function Connection() {
                 type="submit"
                 disabled={isFormDisabled}
               >
-                Send
+                Submit
               </ExtraLargeLoadingButton>
             </Box>
           </Form>
         )}
       </Formik>
-      {/* Message with twitter */}
-      <Typography textAlign="center" sx={{ mt: 4 }}>
-        Or follow us on{" "}
+      {/* Message with email */}
+      <Typography textAlign="center" mt={6}>
+        You can also email us at{" "}
+        <MuiLink href={`mailto:${CONTACTS.email}`} target="_blank">
+          {CONTACTS.email}
+        </MuiLink>{" "}
+        or send message on{" "}
         <MuiLink href={CONTACTS.twitter} target="_blank">
           Twitter
         </MuiLink>

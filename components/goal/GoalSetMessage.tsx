@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ThickDivider } from "components/styled";
 import GoalShareActions from "./GoalShareActions";
 
@@ -7,7 +7,7 @@ import GoalShareActions from "./GoalShareActions";
  */
 export default function GoalSetMessage(props: { id: string }) {
   return (
-    <>
+    <Box width={1} display="flex" flexDirection="column" alignItems="center">
       <Typography variant="h4" textAlign="center" fontWeight={700}>
         🤟 Congrats, you set a goal!
       </Typography>
@@ -20,6 +20,6 @@ export default function GoalSetMessage(props: { id: string }) {
         motivational messages
       </Typography>
       <GoalShareActions id={props.id} sx={{ mt: 3 }} />
-    </>
+    </Box>
   );
 }
