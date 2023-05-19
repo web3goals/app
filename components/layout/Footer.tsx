@@ -1,11 +1,8 @@
 import {
-  Alert,
-  AlertTitle,
   Box,
   Dialog,
   Fab,
   Link as MuiLink,
-  Snackbar,
   SxProps,
   Typography,
 } from "@mui/material";
@@ -14,7 +11,6 @@ import { DialogCenterContent, LargeLoadingButton } from "components/styled";
 import { CONTACTS } from "constants/contacts";
 import { DialogContext } from "context/dialog";
 import { useContext, useState } from "react";
-import { useCookies } from "react-cookie";
 import { Analytics } from "utils/analytics";
 import Quote from "./Quote";
 
@@ -34,7 +30,6 @@ export default function Footer(props: { sx?: SxProps }) {
       <Quote />
       <Copyright />
       <FloatingActionButton />
-      <Banner />
     </Box>
   );
 }
@@ -70,34 +65,6 @@ function FloatingActionButton() {
     >
       🧑‍🚀 Early Adopters Club
     </Fab>
-  );
-}
-
-function Banner() {
-  const [cookies, setCookie] = useCookies(["web3goals_hide_banner"]);
-  const [open, setOpen] = useState(!cookies.web3goals_hide_banner);
-
-  return (
-    <Snackbar
-      open={open}
-      sx={{ bottom: { xs: 80 }, width: { md: 1 / 4 } }}
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-    >
-      <Alert
-        icon={false}
-        severity="warning"
-        onClose={() => {
-          setOpen(false);
-          setCookie("web3goals_hide_banner", true, {
-            maxAge: 24 * 60 * 60,
-            path: "/",
-          });
-        }}
-      >
-        <AlertTitle>The app is in beta</AlertTitle>
-        Open the early adopters club to learn more 👇
-      </Alert>
-    </Snackbar>
   );
 }
 
