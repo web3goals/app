@@ -1,9 +1,4 @@
-import {
-  Chain,
-  filecoin,
-  filecoinHyperspace,
-  polygonMumbai,
-} from "wagmi/chains";
+import { Chain, polygonMumbai } from "wagmi/chains";
 import { stringToAddress } from "./converters";
 
 interface ChainConfig {
@@ -36,40 +31,6 @@ export function getSupportedChainConfigs(): ChainConfig[] {
         treasury: process.env.NEXT_PUBLIC_MUMBAI_TREASURY_CONTRACT_ADDRESS,
       },
       subgraphApiUrl: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL,
-    });
-  }
-  // Add hyperspace
-  if (
-    process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_HYPERSPACE_TREASURY_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL
-  ) {
-    chainConfigs.push({
-      chain: filecoinHyperspace,
-      contractAddresses: {
-        goal: process.env.NEXT_PUBLIC_HYPERSPACE_GOAL_CONTRACT_ADDRESS,
-        profile: process.env.NEXT_PUBLIC_HYPERSPACE_PROFILE_CONTRACT_ADDRESS,
-        treasury: process.env.NEXT_PUBLIC_HYPERSPACE_TREASURY_CONTRACT_ADDRESS,
-      },
-      subgraphApiUrl: process.env.NEXT_PUBLIC_HYPERSPACE_SUBGRAPH_API_URL,
-    });
-  }
-  // Add filecoin
-  if (
-    process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_FILECOIN_TREASURY_CONTRACT_ADDRESS &&
-    process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL
-  ) {
-    chainConfigs.push({
-      chain: filecoin,
-      contractAddresses: {
-        goal: process.env.NEXT_PUBLIC_FILECOIN_GOAL_CONTRACT_ADDRESS,
-        profile: process.env.NEXT_PUBLIC_FILECOIN_PROFILE_CONTRACT_ADDRESS,
-        treasury: process.env.NEXT_PUBLIC_FILECOIN_TREASURY_CONTRACT_ADDRESS,
-      },
-      subgraphApiUrl: process.env.NEXT_PUBLIC_FILECOIN_SUBGRAPH_API_URL,
     });
   }
   return chainConfigs;
