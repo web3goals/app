@@ -20,9 +20,11 @@ export function errorToPrettyError(error: any): {
     message = error.error.data.message.replace("execution reverted: ", "");
   }
   if (error?.error?.data?.data) {
-    message = new ethers.utils.Interface(errorsLibraryAbi).parseError(
-      error.error.data.data
-    ).signature;
+    try {
+      message = new ethers.utils.Interface(errorsLibraryAbi).parseError(
+        error.error.data.data
+      ).signature;
+    } catch {}
   }
   if (message.includes("insufficient funds for gas * price + value")) {
     message = "Insufficient funds to execute the transaction";
