@@ -14,7 +14,7 @@ import { useContractRead, useNetwork } from "wagmi";
  */
 export default function Goal() {
   const router = useRouter();
-  const { slug } = router.query;
+  const { slug } = router.query; // TODO: Rename to id
   const { chain } = useNetwork();
   const [goalId, setGoalId] = useState<string | undefined>();
 
