@@ -30,8 +30,6 @@ import * as yup from "yup";
 
 /**
  * Dialog to evaluate a goal message.
- *
- * TODO: Delete "isClose" prop in this and other dialogs?
  */
 export default function GoalEvaluateMessageDialog(props: {
   id: string;
