@@ -2,7 +2,7 @@ import AccountEditProfileForm from "components/account/AccountEditProfileForm";
 import AccountEditProfileJoinMessage from "components/account/AccountEditProfileJoinMessage";
 import Layout from "components/layout";
 import { FullWidthSkeleton } from "components/styled";
-import { PROFILE_CONTRACT_ROLES } from "constants/profile";
+import { PROFILE_CONTRACT_ROLE_ADOPTER } from "constants/profile";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
@@ -26,7 +26,7 @@ export default function EditAccount() {
     abi: profileContractAbi,
     functionName: "hasRole",
     args: [
-      PROFILE_CONTRACT_ROLES.moderator,
+      PROFILE_CONTRACT_ROLE_ADOPTER,
       stringToAddress(address) || ethers.constants.AddressZero,
     ],
   });

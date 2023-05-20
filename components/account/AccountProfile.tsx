@@ -5,15 +5,24 @@ import {
   Telegram,
   Twitter,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import { FullWidthSkeleton, LargeLoadingButton } from "components/styled";
+import { PROFILE_CONTRACT_ROLE_ADOPTER } from "constants/profile";
 import { profileContractAbi } from "contracts/abi/profileContract";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";
 import { ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import Link from "next/link";
+import { palette } from "theme/palette";
 import { isAddressesEqual } from "utils/addresses";
 import { chainToSupportedChainProfileContractAddress } from "utils/chains";
 import { addressToShortAddress, stringToAddress } from "utils/converters";
@@ -27,6 +36,19 @@ import AccountReputation from "./AccountReputation";
 export default function AccountProfile(props: { address: string }) {
   const { chain } = useNetwork();
   const { address } = useAccount();
+
+  /**
+   * Define role
+   */
+  const { data: isHasRole } = useContractRead({
+    address: chainToSupportedChainProfileContractAddress(chain),
+    abi: profileContractAbi,
+    functionName: "hasRole",
+    args: [
+      PROFILE_CONTRACT_ROLE_ADOPTER,
+      stringToAddress(address) || ethers.constants.AddressZero,
+    ],
+  });
 
   /**
    * Define profile uri
@@ -59,12 +81,30 @@ export default function AccountProfile(props: { address: string }) {
           emojiSize={64}
           sx={{ mb: 3 }}
         />
-        {/* Name */}
-        {profileUriData?.attributes?.[0]?.value && (
-          <Typography variant="h4" fontWeight={700} textAlign="center">
-            {profileUriData.attributes[0].value}
-          </Typography>
-        )}
+        {/* Name and badge */}
+        <Stack direction="row" spacing={2} alignItems="center">
+          {profileUriData?.attributes?.[0]?.value && (
+            <Typography variant="h4" fontWeight={700} textAlign="center">
+              {profileUriData.attributes[0].value}
+            </Typography>
+          )}
+          {isHasRole && (
+            <Link href="/club" legacyBehavior>
+              <Tooltip title="Member of Early Adopters Club">
+                <Avatar
+                  sx={{
+                    cursor: "pointer",
+                    width: 36,
+                    height: 36,
+                    background: palette.orange,
+                  }}
+                >
+                  <Typography fontSize={18}>🧑‍🚀</Typography>
+                </Avatar>
+              </Tooltip>
+            </Link>
+          )}
+        </Stack>
         {/* About */}
         {profileUriData?.attributes?.[1]?.value && (
           <Typography textAlign="center" sx={{ maxWidth: 480, mt: 1 }}>
