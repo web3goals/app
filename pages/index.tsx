@@ -240,15 +240,8 @@ function FaqSection(props: { sx?: SxProps }) {
         What do I need to set a goal?
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
-        Crypto wallet and the desire to achieve something important. For the
-        beta, you can use{" "}
-        <MuiLink href="https://metamask.io/" target="_blank">
-          MetaMask
-        </MuiLink>{" "}
-        wallet and get free tokens for Polygon Mumbai chain on{" "}
-        <MuiLink href="https://mumbaifaucet.com/" target="_blank">
-          this site
-        </MuiLink>
+        Crypto wallet like MetaMask, a little bit of tokens, and the desire to
+        achieve something important
       </Typography>
       {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
@@ -309,15 +302,10 @@ function FaqSection(props: { sx?: SxProps }) {
         Which chains are supported?
       </Typography>
       <Typography textAlign="center" color="text.secondary" mt={0.5}>
-        Polygon Mumbai while the application is in beta
-      </Typography>
-      {/* Question */}
-      <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
-        When is the release?
-      </Typography>
-      <Typography textAlign="center" color="text.secondary" mt={0.5}>
-        When all your <MuiLink href="/feedback">feedback</MuiLink> is heard and
-        this application becomes the perfect space for our goals
+        At present, only the{" "}
+        <MuiLink href="https://chainlist.org/chain/137" target="_blank">
+          Polygon
+        </MuiLink>
       </Typography>
       {/* Question */}
       <Typography variant="h6" textAlign="center" fontWeight={700} mt={4}>
