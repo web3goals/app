@@ -5,7 +5,7 @@ import { Stack } from "@mui/system";
 import AccountAvatar from "components/account/AccountAvatar";
 import AccountLink from "components/account/AccountLink";
 import { CardBox, MediumLoadingButton } from "components/styled";
-import { GOAL_MESSAGES } from "constants/goal/messages";
+import { GOAL_MESSAGES } from "constants/goal";
 import { DialogContext } from "context/dialog";
 import GoalMessageEntity from "entities/subgraph/GoalMessageEntity";
 import ProfileUriDataEntity from "entities/uri/ProfileUriDataEntity";

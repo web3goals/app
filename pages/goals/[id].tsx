@@ -1,11 +1,10 @@
-import GoalParams from "components/goal/GoalParams";
 import GoalMessages from "components/goal/GoalMessages";
+import GoalParams from "components/goal/GoalParams";
 import Layout from "components/layout";
 import { FullWidthSkeleton, ThickDivider } from "components/styled";
 import { goalContractAbi } from "contracts/abi/goalContract";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { chainToSupportedChainGoalContractAddress } from "utils/chains";
 import { useContractRead, useNetwork } from "wagmi";
 
@@ -14,9 +13,8 @@ import { useContractRead, useNetwork } from "wagmi";
  */
 export default function Goal() {
   const router = useRouter();
-  const { slug } = router.query; // TODO: Rename to id
+  const { id } = router.query;
   const { chain } = useNetwork();
-  const [goalId, setGoalId] = useState<string | undefined>();
 
   const {
     data: goalParams,
@@ -26,22 +24,16 @@ export default function Goal() {
     address: chainToSupportedChainGoalContractAddress(chain),
     abi: goalContractAbi,
     functionName: "getParams",
-    args: goalId ? [BigNumber.from(goalId)] : undefined,
-    enabled: goalId !== undefined,
+    args: id ? [BigNumber.from(id)] : undefined,
+    enabled: id !== undefined,
   });
-
-  useEffect(() => {
-    setGoalId(slug ? (slug as string) : undefined);
-  }, [slug]);
-
-  const isDataReady = goalId && goalParams && !isGoalParamsFetching;
 
   return (
     <Layout maxWidth="sm">
-      {isDataReady ? (
+      {id && goalParams && !isGoalParamsFetching ? (
         <>
           <GoalParams
-            id={goalId}
+            id={id.toString()}
             createdTimestamp={goalParams.createdTimestamp}
             description={goalParams.description}
             authorAddress={goalParams.authorAddress}
@@ -52,7 +44,7 @@ export default function Goal() {
           />
           <ThickDivider sx={{ mt: 8 }} />
           <GoalMessages
-            id={goalId}
+            id={id.toString()}
             authorAddress={goalParams.authorAddress}
             deadlineTimestamp={goalParams.deadlineTimestamp}
             isClosed={goalParams.isClosed}

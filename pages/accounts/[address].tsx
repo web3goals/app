@@ -1,6 +1,8 @@
 import AccountGoalTabs from "components/account/AccountGoalTabs";
 import AccountProfile from "components/account/AccountProfile";
 import Layout from "components/layout";
+import { FullWidthSkeleton } from "components/styled";
+import { ethers } from "ethers";
 import { useRouter } from "next/router";
 
 /**
@@ -8,15 +10,17 @@ import { useRouter } from "next/router";
  */
 export default function Account() {
   const router = useRouter();
-  const { slug } = router.query; // TODO: Rename to address
+  const { address } = router.query;
 
   return (
     <Layout>
-      {slug && (
+      {address && ethers.utils.isAddress(address.toString()) ? (
         <>
-          <AccountProfile address={slug as string} />
-          <AccountGoalTabs address={slug as string} sx={{ mt: 6 }} />
+          <AccountProfile address={address.toString()} />
+          <AccountGoalTabs address={address.toString()} sx={{ mt: 6 }} />
         </>
+      ) : (
+        <FullWidthSkeleton />
       )}
     </Layout>
   );

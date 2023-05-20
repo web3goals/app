@@ -81,8 +81,8 @@ export default function AccountProfile(props: { address: string }) {
           emojiSize={64}
           sx={{ mb: 3 }}
         />
-        {/* Name and badge */}
-        <Stack direction="row" spacing={2} alignItems="center">
+        {/* Name and adopter badge */}
+        <Stack direction="row" spacing={1.2} alignItems="center">
           {profileUriData?.attributes?.[0]?.value && (
             <Typography variant="h4" fontWeight={700} textAlign="center">
               {profileUriData.attributes[0].value}
