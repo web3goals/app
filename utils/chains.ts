@@ -1,4 +1,4 @@
-import { Chain, polygonMumbai } from "wagmi/chains";
+import { Chain, polygon, polygonMumbai } from "wagmi/chains";
 import { stringToAddress } from "./converters";
 
 interface ChainConfig {
@@ -31,6 +31,23 @@ export function getSupportedChainConfigs(): ChainConfig[] {
         treasury: process.env.NEXT_PUBLIC_MUMBAI_TREASURY_CONTRACT_ADDRESS,
       },
       subgraphApiUrl: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_API_URL,
+    });
+  }
+  // Add polygon
+  if (
+    process.env.NEXT_PUBLIC_POLYGON_GOAL_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_POLYGON_PROFILE_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_POLYGON_TREASURY_CONTRACT_ADDRESS &&
+    process.env.NEXT_PUBLIC_POLYGON_SUBGRAPH_API_URL
+  ) {
+    chainConfigs.push({
+      chain: polygon,
+      contractAddresses: {
+        goal: process.env.NEXT_PUBLIC_POLYGON_GOAL_CONTRACT_ADDRESS,
+        profile: process.env.NEXT_PUBLIC_POLYGON_PROFILE_CONTRACT_ADDRESS,
+        treasury: process.env.NEXT_PUBLIC_POLYGON_TREASURY_CONTRACT_ADDRESS,
+      },
+      subgraphApiUrl: process.env.NEXT_PUBLIC_POLYGON_SUBGRAPH_API_URL,
     });
   }
   return chainConfigs;
