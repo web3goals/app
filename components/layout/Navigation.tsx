@@ -16,19 +16,14 @@ import {
   MenuItem,
   SxProps,
   Toolbar,
-  Tooltip,
-  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { CONTACTS } from "constants/contacts";
 import { Logo } from "graphics";
 import Link from "next/link";
-import packageJson from "package.json";
 import { useState } from "react";
-import { chainToSupportedChainConfig } from "utils/chains";
-import { isDev } from "utils/environment";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
 /**
  * Component with navigation.
@@ -70,7 +65,6 @@ function LogoDesktop(props: { sx?: SxProps }) {
           <Logo width="153" height="25" />
         </Box>
       </Link>
-      <LogoBetaLabel sx={{ ml: 1 }} />
     </Box>
   );
 }
@@ -83,32 +77,7 @@ function LogoMobile(props: { sx?: SxProps }) {
           <Logo width="122" height="20" />
         </Box>
       </Link>
-      <LogoBetaLabel />
     </Box>
-  );
-}
-
-function LogoBetaLabel(props: { sx?: SxProps }) {
-  const { chain } = useNetwork();
-
-  return (
-    <Tooltip
-      title={
-        <>
-          Version: {packageJson.version}-{isDev() ? "dev" : "beta"}
-          <br />
-          Current chain: {chainToSupportedChainConfig(chain).chain.name}
-        </>
-      }
-    >
-      <Typography
-        color="text.secondary"
-        variant="body2"
-        sx={{ cursor: "help", ...props.sx }}
-      >
-        beta
-      </Typography>
-    </Tooltip>
   );
 }
 
