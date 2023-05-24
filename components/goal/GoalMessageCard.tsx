@@ -111,6 +111,7 @@ export default function GoalMessageCard(props: {
       {/* Goal link */}
       {props.displayGoalLink && (
         <>
+          {/* TODO: Display emoji depending on the goal state */}
           <Typography
             variant="body2"
             color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
