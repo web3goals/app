@@ -342,8 +342,8 @@ export default function AccountEditProfileForm(props: {
             }
             label={
               <Typography variant="body2" color="text.secondary">
-                Receive email notifications about goal updates and app
-                improvements
+                Receive email notifications, for example, if someone posted a
+                message on your goal page
               </Typography>
             }
             sx={{ width: 1, mt: 2 }}
