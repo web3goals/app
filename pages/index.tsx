@@ -6,7 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import AccountExplore from "components/account/AccountExplore";
 import GoalExplore from "components/goal/GoalExplore";
 import Layout from "components/layout";
 import Quote from "components/layout/Quote";
@@ -205,12 +204,6 @@ function ContentSection(props: { sx?: SxProps }) {
       <TreasuryExplore
         title="🏦 Space with the treasury"
         subtitle="which will be used to reward achievers and motivators with a good reputation"
-      />
-      <ThickDivider sx={{ mt: 8, mb: 8 }} />
-      <AccountExplore
-        title="🔆 Space for bright people"
-        pageSize={3}
-        displayExploreAllButton
       />
     </Container>
   );
