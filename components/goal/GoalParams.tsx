@@ -19,9 +19,10 @@ import Link from "next/link";
 import { useContext } from "react";
 import { palette } from "theme/palette";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
-import { bigNumberTimestampToLocaleDateString } from "utils/converters";
+import { timestampToDate } from "utils/converters";
 import { useNetwork } from "wagmi";
 import GoalShareDialog from "./dialog/GoalShareDialog";
+import GoalDeadlineText from "./GoalDeadlineText";
 
 /**
  * A component with goal parameters.
@@ -83,7 +84,8 @@ export default function GoalParams(props: {
       <WidgetBox bgcolor={palette.greyLight} mt={2}>
         <WidgetTitle>On</WidgetTitle>
         <WidgetText>
-          {bigNumberTimestampToLocaleDateString(props.createdTimestamp)}
+          {timestampToDate(props.createdTimestamp)?.toLocaleDateString() ||
+            "Unknown"}
         </WidgetText>
       </WidgetBox>
       <CenterBoldText mt={2}>with</CenterBoldText>
@@ -101,7 +103,10 @@ export default function GoalParams(props: {
       <WidgetBox bgcolor={palette.purpleDark} mt={2}>
         <WidgetTitle>By</WidgetTitle>
         <WidgetText>
-          {bigNumberTimestampToLocaleDateString(props.deadlineTimestamp)}
+          <GoalDeadlineText
+            deadlineTimestamp={props.deadlineTimestamp}
+            showRemainingTime={!props.isClosed}
+          />
         </WidgetText>
       </WidgetBox>
       <CenterBoldText mt={2}>

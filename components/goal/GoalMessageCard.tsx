@@ -18,10 +18,7 @@ import { useContext } from "react";
 import { theme } from "theme";
 import { palette } from "theme/palette";
 import { isAddressesEqual } from "utils/addresses";
-import {
-  ipfsUriToHttpUri,
-  stringTimestampToLocaleString,
-} from "utils/converters";
+import { ipfsUriToHttpUri, timestampToDate } from "utils/converters";
 import { useAccount, useNetwork } from "wagmi";
 import GoalEvaluateMessageDialog from "./dialog/GoalEvaluateMessageDialog";
 
@@ -164,7 +161,8 @@ export default function GoalMessageCard(props: {
             color={cardParams.isBackgroundDark ? grey[300] : "text.secondary"}
             variant="body2"
           >
-            {stringTimestampToLocaleString(props.message.addedTimestamp)}
+            {timestampToDate(props.message.addedTimestamp)?.toLocaleString() ||
+              "Unknown"}
           </Typography>
           {/* Content header */}
           {cardParams.contentHeader && (

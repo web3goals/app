@@ -47,6 +47,16 @@ export function numberToBigNumberEthers(number?: number): BigNumber {
 }
 
 /**
+ * Convert date like "2023-03-01" to big number "1677628800".
+ */
+export function dateStringToBigNumberTimestamp(date?: string): BigNumber {
+  if (!date) {
+    return ethers.constants.Zero;
+  }
+  return dateToBigNumberTimestamp(new Date(date));
+}
+
+/**
  * Convert date object to big number "1677628800".
  */
 export function dateToBigNumberTimestamp(date?: Date): BigNumber {
@@ -57,70 +67,22 @@ export function dateToBigNumberTimestamp(date?: Date): BigNumber {
 }
 
 /**
- * Convert date like "2023-03-01" to big number "1677628800".
+ * Convert timestamp like "1677628800" to string "3/1/2023".
  */
-export function dateStringToBigNumberTimestamp(date?: string): BigNumber {
-  if (!date) {
-    return ethers.constants.Zero;
+export function timestampToDate(
+  timestamp: number | string | BigNumber | undefined
+): Date | undefined {
+  let date;
+  if (typeof timestamp === "number") {
+    date = new Date(timestamp * 1000);
   }
-  return BigNumber.from(new Date(date).getTime() / 1000);
-}
-
-/**
- * Convert big number like "1677628800" to string "3/1/2023".
- */
-export function bigNumberTimestampToLocaleDateString(
-  timestamp?: BigNumber
-): string {
-  if (!timestamp) {
-    return "Unknown";
+  if (typeof timestamp === "string") {
+    date = new Date(Number(timestamp) * 1000);
   }
-  return new Date(timestamp.toNumber() * 1000).toLocaleDateString();
-}
-
-/**
- * Convert string like "1677628800" to string "3/14/2023, 5:33:26 PM".
- */
-export function stringTimestampToLocaleString(
-  timestamp?: string,
-  disableMsMultiplicator = false
-): string {
-  if (!timestamp) {
-    return "Unknown";
+  if (timestamp instanceof BigNumber) {
+    date = new Date(timestamp.toNumber() * 1000);
   }
-  return timestampToLocaleString(Number(timestamp), disableMsMultiplicator);
-}
-
-/**
- * Convert number like "1677628800" to string "3/14/2023, 5:33:26 PM".
- */
-export function timestampToLocaleString(
-  timestamp?: number,
-  disableMsMultiplicator = false
-): string {
-  if (!timestamp) {
-    return "Unknown";
-  }
-  if (disableMsMultiplicator) {
-    return new Date(timestamp).toLocaleString();
-  }
-  return new Date(timestamp * 1000).toLocaleString();
-}
-
-/**
- * Convert number like "1677628800" to string "3/14/2023".
- */
-export function timestampToLocaleDateString(
-  timestamp?: number,
-  disableMsMultiplicator = false
-): string {
-  if (!timestamp) {
-    return "Unknown";
-  }
-  if (disableMsMultiplicator) {
-    return new Date(timestamp).toLocaleDateString();
-  }
-  return new Date(timestamp * 1000).toLocaleDateString();
+  return date;
 }
 
 /**

@@ -14,8 +14,8 @@ import { BigNumber, ethers } from "ethers";
 import useAccountsFinder from "hooks/subgraph/useAccountsFinder";
 import useUriDataLoader from "hooks/useUriDataLoader";
 import { chainToSupportedChainNativeCurrencySymbol } from "utils/chains";
-import { bigNumberTimestampToLocaleDateString } from "utils/converters";
 import { useNetwork } from "wagmi";
+import GoalDeadlineText from "./GoalDeadlineText";
 
 /**
  * A component with a goal card.
@@ -81,10 +81,10 @@ export default function GoalCard(props: { goal: GoalEntity; sx?: SxProps }) {
             Goal #{props.goal.id}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            By{" "}
-            {bigNumberTimestampToLocaleDateString(
-              BigNumber.from(props.goal.deadlineTimestamp)
-            )}
+            <GoalDeadlineText
+              deadlineTimestamp={props.goal.deadlineTimestamp}
+              showRemainingTime={!props.goal.isClosed}
+            />
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Staked{" "}
