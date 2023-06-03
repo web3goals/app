@@ -67,7 +67,7 @@ export function dateToBigNumberTimestamp(date?: Date): BigNumber {
 }
 
 /**
- * Convert timestamp like "1677628800" to string "3/1/2023".
+ * Convert timestamp like "1677628800" to date object.
  */
 export function timestampToDate(
   timestamp: number | string | BigNumber | undefined
