@@ -29,13 +29,17 @@ export default function AccountGoalTabs(props: {
             mb: 1,
           }}
         >
-          <Tab label="Account goals" value="1" />
-          <Tab label="Commented goals" value="2" />
+          <Tab label="Active" value="1" />
+          <Tab label="Closed" value="2" />
+          <Tab label="Commented" value="3" />
         </TabList>
         <TabPanel value="1" sx={{ px: 0 }}>
-          <GoalList authorAddress={props.address} />
+          <GoalList authorAddress={props.address} isClosed={false} />
         </TabPanel>
         <TabPanel value="2" sx={{ px: 0 }}>
+          <GoalList authorAddress={props.address} isClosed={true} />
+        </TabPanel>
+        <TabPanel value="3" sx={{ px: 0 }}>
           <GoalList motivatorAddress={props.address} />
         </TabPanel>
       </TabContext>

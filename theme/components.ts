@@ -64,4 +64,11 @@ export const components: Components = {
       },
     },
   },
+  MuiTab: {
+    styleOverrides: {
+      root: {
+        textTransform: "initial",
+      },
+    },
+  },
 };
