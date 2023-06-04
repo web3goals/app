@@ -15,9 +15,10 @@ export default function AccountAvatar(props: {
   sx?: SxProps;
 }) {
   return (
-    <Link href={`/accounts/${props.account}`}>
+    <Link href={`/accounts/${props.account}`} legacyBehavior>
       <Avatar
         sx={{
+          cursor: "pointer",
           width: props.size || 48,
           height: props.size || 48,
           borderRadius: props.size || 48,
