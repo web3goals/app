@@ -46,7 +46,7 @@ export default function AccountProfile(props: { address: string }) {
     functionName: "hasRole",
     args: [
       PROFILE_CONTRACT_ROLE_ADOPTER,
-      stringToAddress(address) || ethers.constants.AddressZero,
+      stringToAddress(props.address) || ethers.constants.AddressZero,
     ],
   });
 
