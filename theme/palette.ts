@@ -16,6 +16,7 @@ declare module "@mui/material/styles" {
 }
 
 export const palette: PaletteOptions = {
+  background: { default: "#EEEEEE" },
   primary: {
     main: "#2B6EFD",
   },

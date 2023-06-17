@@ -33,6 +33,7 @@ export default function Navigation() {
     <AppBar
       color="inherit"
       position="fixed"
+      elevation={1}
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
